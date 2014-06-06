@@ -3,13 +3,14 @@ module Docile
 # package code goes here
 export generate, update, init, remove, patch!
 
+const CACHE_DIR = joinpath(Pkg.dir("Docile"), "cache")
+
 ## Parse documentation files ––––––––––––––––––––––––––––––––––––––––––––––––––
 
 generate(package::String) = cachedocs(package, getdocs(package))
 
+update() = update(readdir(CACHE_DIR)...)
 function update(packages::String...)
-    path = joinpath(Pkg.dir("Docile"), "cache")
-    packages = isempty(packages) ? readdir(path) : packages
     for package in packages
         generate(package)
     end
@@ -46,20 +47,19 @@ function getdocs(package::String)
 end
 
 function cachedocs(package::String, helpdb::Vector)
-    cache_dir = joinpath(Pkg.dir("Docile"), "cache")
-    if !isdir(cache_dir)
-        info("Initializing Docile helpdb cache...")
+    if !isdir(CACHE_DIR)
+        info("Creating Docile/cache.")
         mkdir(cache_dir)
     end
 
-    package_cache = joinpath(cache_dir, package)
+    package_cache = joinpath(CACHE_DIR, package)
     if !isdir(package_cache)
-        info("Initializing helpdb for $package...")
+        info("Initializing cache for $(package).")
         mkdir(package_cache)
     end
 
     open(joinpath(package_cache, "helpdb.jl"), "w") do f
-        info("Writing helpdb for $package...")
+        info("Writing helpdb.jl for $(package).")
         print(f, helpdb)
     end
 end
@@ -67,9 +67,28 @@ end
 ## Add and remove per-package doc directory –––––––––––––––––––––––––––––––––––
 
 function remove(package::String)
-    warn("Removing `doc` directory for $(package)...")
     path = joinpath(Pkg.dir(package), "doc")
-    _recursive_rm(path)
+    config = joinpath(path, "docile.jl")
+    isfile(config) || error("$(package) is not setup for Docile.")
+
+    # remove doc/help, doc/docile.jl, and doc (if empty)
+    warn("Removing Docile from $(package).")
+
+    rm(config)
+
+    helppath = joinpath(path, "help")
+    isdir(helppath) && _recursive_rm(helppath)
+
+    isempty(readdir(path)) && rmdir(path) # only remove doc/ if empty.
+
+    # remove cached helpdb.jl for package.
+    dbpath = joinpath(CACHE_DIR, package)
+    if isdir(dbpath)
+        warn("Removing cache for $(package).")
+        _recursive_rm(dbpath)
+    else
+        info("No cache found for $(package).")
+    end
 end
 
 function _recursive_rm(dir::String)
@@ -90,13 +109,13 @@ function init(package::String)
 
     docpath = joinpath(path, "doc")
     if !isdir(docpath)
-        info("Creating `doc` directory for $(package).jl...")
+        info("Creating $(package)/doc.")
         mkdir(docpath)
     end
 
     helppath = joinpath(docpath, "help")
     if !isdir(helppath)
-        info("Creating `help` subdirectory...")
+        info("Creating $(package)/doc/help.")
         mkdir(helppath)
     end
 
