@@ -19,27 +19,20 @@ Example:
 Docile function tests.
 """
 
-## Run Docile on itself -------------------------------------------------------
+## Run Docile on itself –––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 Docile.generate("Docile")
 
-## Errors ---------------------------------------------------------------------
+## Errors –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 @test_throws ErrorException Docile.generate(PACKAGE_NAME)
 @test_throws ErrorException Docile.update(PACKAGE_NAME)
 @test_throws ErrorException Docile.remove(PACKAGE_NAME)
 @test_throws ErrorException Docile.init(PACKAGE_NAME)
 
-## Package creation and documentation generation ------------------------------
+## Package creation and documentation generation ––––––––––––––––––––––––––––––
 
-try
-    Pkg.generate(PACKAGE_NAME, "MIT")
-catch err
-    # TODO: look into this.
-    run(`git config --global user.email "michaelhatherly@gmail.com"`)
-    run(`git config --global user.name "Michael Hatherly"`)
-    Pkg.generate(PACKAGE_NAME, "MIT")
-end
+Pkg.generate(PACKAGE_NAME, "MIT")
 atexit(() -> Pkg.rm(PACKAGE_NAME)) # Make sure package is removed.
 
 Docile.init(PACKAGE_NAME)
@@ -58,7 +51,7 @@ Docile.generate(PACKAGE_NAME)
 Docile.patch!()
 Base.Help.init_help()
 
-## Output checks --------------------------------------------------------------
+## Output checks ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Whitespace must not be removed.
 
 ## 1.
@@ -91,6 +84,6 @@ help(doc, "@test_macro_1")
 @test takebuf_string(doc) == expected
 ##
 
-## Clear test documentation ---------------------------------------------------
+## Clean up –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 Docile.remove(PACKAGE_NAME)

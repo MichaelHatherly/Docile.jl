@@ -5,7 +5,7 @@ export generate, update, init, remove, patch!
 
 const CACHE_DIR = joinpath(Pkg.dir("Docile"), "cache")
 
-## Parse documentation files --------------------------------------------------
+## Parse documentation files ––––––––––––––––––––––––––––––––––––––––––––––––––
 
 generate(package::String) = cachedocs(package, getdocs(package))
 
@@ -64,7 +64,7 @@ function cachedocs(package::String, helpdb::Vector)
     end
 end
 
-## Add and remove per-package doc directory -----------------------------------
+## Add and remove per-package doc directory –––––––––––––––––––––––––––––––––––
 
 function remove(package::String)
     path = joinpath(Pkg.dir(package), "doc")
@@ -127,7 +127,7 @@ function init(package::String)
     end
 end
 
-## Patch help system ----------------------------------------------------------
+## Patch help system ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 # TODO: Avoid this.
 function patch!()

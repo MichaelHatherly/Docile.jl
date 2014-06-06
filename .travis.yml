@@ -11,6 +11,8 @@ before_install:
   - sudo add-apt-repository ppa:staticfloat/${JULIAVERSION} -y
   - sudo apt-get update -qq -y
   - sudo apt-get install libpcre3-dev julia -y
+  - git config --global user.name "Travis User"
+  - git config --global user.email "travis@example.com"
 script:
   - julia -e 'Pkg.init(); Pkg.clone(pwd())'
   - julia --code-coverage test/runtests.jl
