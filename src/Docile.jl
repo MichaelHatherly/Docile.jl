@@ -49,7 +49,7 @@ end
 function cachedocs(package::String, helpdb::Vector)
     if !isdir(CACHE_DIR)
         info("Creating Docile/cache.")
-        mkdir(cache_dir)
+        mkdir(CACHE_DIR)
     end
 
     package_cache = joinpath(CACHE_DIR, package)
