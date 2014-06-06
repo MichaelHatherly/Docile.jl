@@ -19,6 +19,8 @@ Example:
 Docile function tests.
 """
 
+## Setup git for Pkg use ––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
 ## Run Docile on itself –––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 Docile.generate("Docile")
@@ -32,7 +34,14 @@ Docile.generate("Docile")
 
 ## Package creation and documentation generation ––––––––––––––––––––––––––––––
 
-Pkg.generate(PACKAGE_NAME, "MIT")
+try
+    Pkg.generate(PACKAGE_NAME, "MIT")
+catch err
+    # TODO: look into this.
+    run(`git config --global user.email "michaelhatherly@gmail.com"`)
+    run(`git config --global user.name "Michael Hatherly"`)
+    Pkg.generate(PACKAGE_NAME, "MIT")
+end
 atexit(() -> Pkg.rm(PACKAGE_NAME)) # Make sure package is removed.
 
 Docile.init(PACKAGE_NAME)
