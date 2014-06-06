@@ -26,7 +26,7 @@ function parsefile(filename::String)
     modulename = strip(parts[1][3:end])
 
     for part in parts[2:end]
-        name = split(part, "(", 2)[1]
+        name = split(part, r"(\(|{)", 2)[1] # split on { or (
         part = replace(part, "\n", "\n   ") # 3 space indent
         push!(helpdb, (modulename, name, part))
     end
