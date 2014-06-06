@@ -7,7 +7,9 @@ Create a default directory layout that Docile understands in
 markdown formatted documentation files. A `doc/docile.jl` file is
 created as well to make documentation generation easier.
 
-Examples:
+See the `.julia/v0.3/Docile/doc` folder for further details.
+
+### Examples
 
     # initialize documentation folders for Docile.jl use
     julia> Docile.init("Docile")
@@ -15,8 +17,6 @@ Examples:
     # make `cache/Docile/helpdb.jl` from commandline
     $ cd .julia/v0.3/Docile/doc
     $ julia docile.jl
-
-See the `.julia/v0.3/Docile/doc` folder for further details.
 
 ## generate(package::String)
 
