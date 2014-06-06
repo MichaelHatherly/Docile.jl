@@ -1,5 +1,7 @@
 # Docile
 
+[![Build Status](https://travis-ci.org/MichaelHatherly/Docile.jl.svg?branch=master)](https://travis-ci.org/MichaelHatherly/Docile.jl)
+
 ***Experimental*** [Julia](www.julialang.org) package documentation system.
 
 *Docile* hooks into `Base.Help.init_help()` to load custom `helpdb.jl`
@@ -113,5 +115,3 @@ Any thoughts, requests, clarifications, or PRs are very welcome.
 * [#4579](https://github.com/JuliaLang/julia/issues/4579)
 * [#5200](https://github.com/JuliaLang/julia/issues/5200)
 * and elsewhere on the mailing lists.
-
-[![Build Status](https://travis-ci.org/MichaelHatherly/Docile.jl.svg?branch=master)](https://travis-ci.org/MichaelHatherly/Docile.jl)
