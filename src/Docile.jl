@@ -10,8 +10,6 @@ include("interface.jl")
 
 ## Patch help system ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-import TextWrap
-
 # TODO: Avoid this.
 function patch!()
     info("Patching Base.Help.init_help()...")
