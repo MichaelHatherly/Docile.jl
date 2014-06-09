@@ -9,8 +9,6 @@ created as well to make documentation generation easier.
 
 See the `.julia/v0.3/Docile/doc` folder for further details.
 
-### Examples
-
     # initialize documentation folders for Docile.jl use
     julia> Docile.init("Docile")
 
@@ -25,8 +23,6 @@ generate a `helpdb.jl` in `Docile/cache/<package>/`. The generated file
 should be compatible with the official Julia version. The cached files
 can be loaded into help system for interactive use.
 
-Example:
-
     # Cache help files for Docile package.
     julia> Docile.generate("Docile")
 
@@ -35,10 +31,8 @@ Example:
 Run `generate` on all `packages`. If none are given then regenerate
 documentation for each package in `Docile/cache`.
 
-Examples:
-
-    # generate documentation for "Docile.jl" and "Other.jl"
-    julia> Docile.update("Docile", "Other")
+    # generate documentation for "Docile.jl"
+    julia> Docile.update("Docile")
 
     # update documentation for every cached package
     julia> Docile.update()
@@ -47,8 +41,6 @@ Examples:
 
 Delete `<package>/doc` folder from `package`. All subdirectories and
 files are deleted as well.
-
-Example:
 
     julia> Docile.remove("Docile")
 

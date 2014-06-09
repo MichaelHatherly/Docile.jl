@@ -33,7 +33,7 @@ Docile.generate("Docile")
 ## Package creation and documentation generation ––––––––––––––––––––––––––––––
 
 Pkg.generate(PACKAGE_NAME, "MIT")
-atexit(() -> Pkg.rm(PACKAGE_NAME)) # Make sure package is removed.
+atexit(() -> Pkg.rm(PACKAGE_NAME))
 
 Docile.init(PACKAGE_NAME)
 
@@ -50,39 +50,6 @@ Docile.generate(PACKAGE_NAME)
 
 Docile.patch!()
 Base.Help.init_help()
-
-## Output checks ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-# Whitespace must not be removed.
-
-## 1.
-expected = """
-$(PACKAGE_NAME).test_func_1{T <: Number}(a::Float64, b::Array{T,2})
-   
-   Docile function tests.
-   
-   Example:
-   
-       julia> test_func_1(1.0, [2 2; 3 1])
-"""
-
-doc = IOBuffer()
-help(doc, "test_func_1")
-
-@test takebuf_string(doc) == expected
-##
-
-## 2.
-expected = """
-$(PACKAGE_NAME).@test_macro_1(a, b, c)
-   
-   Docile function tests.
-"""
-
-doc = IOBuffer()
-help(doc, "@test_macro_1")
-
-@test takebuf_string(doc) == expected
-##
 
 ## Clean up –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
