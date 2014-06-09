@@ -1,70 +1,58 @@
 ## Docile Parser ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-# Generate a helpdb from file.
+import Markdown: Header, Block, terminal_print, parse_file, Paragraph, Plain
+
 function parsefile(file::String)
-    open(file) do fn
-        header = readline(fn)
-        beginswith(header, "# ") || stop("Missing #.", header, file, 1)
+    md = parse_file(file)
 
-        header = strip(header, Set("# \n"))
-        isempty(header) && stop("Emtpy header given.", header, file, 1)
+    head = shift!(md.content)
+    isa(head, Header{1}) || stop("Missing header.", head.text, file)
 
-        entries = {}
-        body    = IOBuffer()
+    header = strip(head.text)
+    isempty(header) && stop("Blank header.", head.text, file)
 
-        name = ""
-        sig  = ""
+    entries = {}
+    entry = Block()
+    name = ""
 
-        count = 0
+    for elem in md.content
+        isa(elem, Header{1}) && stop("Too many # lines.", elem.text, file)
 
-        for (num,line) in enumerate(eachline(fn))
-            if beginswith(line, "## ")
-                count > 0 && addentry!(entries, header, name, sig, body)
-                count += 1
+        if isa(elem, Header{2})
+            addentry!(entries, entry, header, name)
 
-                sig = strip(line, Set("# \n"))
-                isempty(sig) && stop("Empty signature.", line, file, num)
+            sig = strip(elem.text)
+            isempty(sig) && stop("Empty signature.", elem.text, file)
 
-                name = first(split(sig, r"(\(|{)", 2))
-                isempty(name) && stop("Invalid entry name.", line, file, num)
+            name = strip(first(split(sig, r"(\(|{)", 2)))
+            isempty(name) && stop("Invalid entry name.", elem.text, file)
 
-            else
-                write(body, line)
-            end
+            sig = (head.text == name) ? name : string(header, ".", sig)
+
+            # TODO: Style of signature? Match current style for now.
+            push!(entry.content, Paragraph(Plain(sig)))
+        else
+            push!(entry.content, elem)
         end
-        count > 0 && addentry!(entries, header, name, sig, body)
+    end
+    addentry!(entries, entry, header, name) # Don't forget the last one!
 
-        entries
+    return entries
+end
+
+function addentry!(entries, entry, header, name)
+    if !isempty(entry.content)
+        doc = sprint(io -> terminal_print(io, entry, columns = 80))
+        push!(entries, (header, name, doc))
+        empty!(entry.content)
     end
 end
 
-## Utils ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-# Formatted error message for parser.
-function stop(msg, line, file, num)
+function stop(msg, line, file)
     warn("Stopping:")
-    println("""
-    File location: $(file):$(num)
-    Line contents: $(line)
+    print("""
+    File: $(file)
+    Line: $(line)
     """)
     error(msg)
-end
-
-function indenttext(input::IOBuffer; indent::Int = 3, skipbang = true)
-    output = IOBuffer()
-    for line in split(strip(takebuf_string(input)), "\n")
-        if ismatch(r"\s*#!", line) && skipbang
-            continue
-        end
-        write(output, string(" " ^ indent, line, "\n"))
-    end
-    output
-end
-
-# TODO: save using Markdown.jl
-function addentry!(entries, header, name, sig, body)
-    desc = takebuf_string(indenttext(body))
-    sig = (header == name) ? header : string(header, ".", sig)
-    doc = "$(sig)\n\n$(desc)\n"
-    push!(entries, (header, name, doc))
 end
