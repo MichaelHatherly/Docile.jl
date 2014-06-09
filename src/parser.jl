@@ -1,7 +1,5 @@
 ## Docile Parser ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-import Markdown
-
 # Generate a helpdb from file.
 function parsefile(file::String)
     open(file) do fn
