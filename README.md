@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/MichaelHatherly/Docile.jl.svg?branch=master)](https://travis-ci.org/MichaelHatherly/Docile.jl)
 [![Coverage Status](https://coveralls.io/repos/MichaelHatherly/Docile.jl/badge.png)](https://coveralls.io/r/MichaelHatherly/Docile.jl)
 
-[Julia](www.julialang.org) package documentation system. [Mailing list discussion](https://groups.google.com/forum/#!topic/julia-users/k_SzJxcAoqA).
+[Julia](www.julialang.org) package documentation system (experimental). [Mailing list discussion](https://groups.google.com/forum/#!topic/julia-users/k_SzJxcAoqA).
 
      help> Docile
     Docile.Docile
