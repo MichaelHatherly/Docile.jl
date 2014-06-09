@@ -2,17 +2,17 @@
 
 ## Docile
 
-An experimental package to provide documentation support for 3rd-party
-packages in the Julia ecosystem.
+An *experimental* package to provide documentation support for 3rd-party
+packages in the [Julia](www.julialang.org) ecosystem.
 
 ## init(package::String)
 
 Create a default directory layout that Docile understands in
-`.julia/v0.3/<package>/doc`. A `doc/help` subdirectory stores all the
-markdown formatted documentation files. A `doc/docile.jl` file is
-created as well to make documentation generation easier.
+`.julia/v0.3/<package>/doc`.
 
-See the `.julia/v0.3/Docile/doc` folder for further details.
+A `doc/help` subdirectory stores all the markdown formatted
+documentation files. A `doc/docile.jl` file is created as well to make
+documentation generation easier from the commandline.
 
     # initialize documentation folders for Docile.jl use
     julia> Docile.init("Docile")
@@ -21,33 +21,38 @@ See the `.julia/v0.3/Docile/doc` folder for further details.
     $ cd .julia/v0.3/Docile/doc
     $ julia docile.jl
 
-## generate(package::String)
+See the `.julia/v0.3/Docile/doc` folder for further details.
 
-Parse all markdown files in `doc/help` directory of `package` and
-generate a `helpdb.jl` in `Docile/cache/<package>/`. The generated file
-should be compatible with the official Julia version. The cached files
-can be loaded into help system for interactive use.
+## build(packages::String...)
 
-    # Cache help files for Docile package.
-    julia> Docile.generate("Docile")
-
-## update(packages::String...)
-
-Run `generate` on all `packages`. If none are given then regenerate
+Build documentation for all `packages`. If none are given then rebuild
 documentation for each package in `Docile/cache`.
 
     # generate documentation for "Docile.jl"
-    julia> Docile.update("Docile")
+    julia> Docile.build("Docile")
 
     # update documentation for every cached package
-    julia> Docile.update()
+    julia> Docile.build()
+
+### Details
+
+The build process involves parsing all markdown files in
+`<package>/doc/help` and generating a `helpdb.jl` in
+`Docile/cache/<package>/`. The generated file should be compatible with
+the official Julia version. Cached files can then be loaded into help
+system for interactive use.
 
 ## remove(package::String)
 
-Delete `<package>/doc` folder from `package`. All subdirectories and
-files are deleted as well.
+Uninstall *Docile* from the given `package`.
 
     julia> Docile.remove("Docile")
+
+### Details
+
+`<package>/doc/help` and `docile.jl` are removed along with `doc` if
+nothing else is found there. The cache in `Docile/cache/<package>` is
+also removed.
 
 ## patch!()
 

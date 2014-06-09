@@ -1,7 +1,7 @@
 module Docile
 
 # package code goes here
-export generate, update, init, remove
+export build, init, remove
 
 const CACHE_DIR = joinpath(Pkg.dir("Docile"), "cache")
 

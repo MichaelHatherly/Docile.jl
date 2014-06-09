@@ -1,11 +1,9 @@
 ## User interface –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-generate(package::String) = cachedocs(package, getdocs(package))
-
-function update(packages::String...)
+function build(packages::String...)
     isempty(packages) && (packages = readdir(CACHE_DIR))
     for package in packages
-        generate(package)
+        cachedocs(package, getdocs(package))
     end
     Base.Help.clear_cache()
 end
