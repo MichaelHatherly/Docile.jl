@@ -64,6 +64,7 @@ end
 # TODO: save using Markdown.jl
 function addentry!(entries, header, name, sig, body)
     desc = takebuf_string(indenttext(body))
-    doc = "$(header).$(sig)\n\n$(desc)\n"
+    sig = (header == name) ? header : string(header, ".", sig)
+    doc = "$(sig)\n\n$(desc)\n"
     push!(entries, (header, name, doc))
 end

@@ -1,5 +1,10 @@
 # Docile
 
+## Docile
+
+An experimental package to provide documentation support for 3rd-party
+packages in the Julia ecosystem.
+
 ## init(package::String)
 
 Create a default directory layout that Docile understands in

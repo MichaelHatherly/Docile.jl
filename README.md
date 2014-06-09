@@ -3,50 +3,27 @@
 [![Build Status](https://travis-ci.org/MichaelHatherly/Docile.jl.svg?branch=master)](https://travis-ci.org/MichaelHatherly/Docile.jl)
 [![Coverage Status](https://coveralls.io/repos/MichaelHatherly/Docile.jl/badge.png)](https://coveralls.io/r/MichaelHatherly/Docile.jl)
 
-***Experimental*** [Julia](www.julialang.org) package documentation system.
+*Experimental* [Julia](www.julialang.org) package documentation system. [Mailing list discussion](https://groups.google.com/forum/#!topic/julia-users/k_SzJxcAoqA).
 
-*Docile* hooks into `Base.Help.init_help()` to load custom `helpdb.jl`
+     help> Docile
+    Docile.Docile
+
+       An experimental package to provide documentation support for 3rd-party
+       packages in the Julia ecosystem.
+
+*Docile* modifies `Base.Help.init_help()` to load custom `helpdb.jl`
 files into the help system that can then be viewed at the REPL or inline
-in LightTable using the [Jewel plugin](https://github.com/one-more-minute/Jewel). Possibly in [IJulia](https://github.com/JuliaLang/IJulia.jl) as well,
-but untested currently.
-
-This package is ***not*** meant for general use (at this stage),
-but was rather written as a proof of concept to generate further
-discussion on the Documentation Issue. See list at end.
+in LightTable using [Jewel](https://github.com/one-more-minute/Jewel).
 
 ## Install
 
-*Docile* is not in `METADATA` so clone it (at your own risk) via:
+*Docile* is not in `METADATA` so clone it via:
 
     julia> Pkg.clone("https://github.com/MichaelHatherly/Docile.jl")
 
 ## Usage
 
-The functions that *Docile* exports are documented in
-`doc/help/docile.md`. You can read them there since they are simple
-markdown files.
-
-The documentation format is as follows:
-
-* First line contains an H1 header `# ` with full module path. For example: `# Base.LinAlg` or `# Docile` or `# Really.Long.Module.Path`.
-* A blank line in left between each entry.
-* Entries begin with H2 headers `## ` for function or macro signatures. The same style used in `Base` may be used. Example: `## init(package::String)`
-* The content of each entry is completely free-form. Have a look at `doc/help/docile.md` for examples.
-
-You can have any number of markdown files in `doc/help`. Only files with
-`.md` extension are parsed by *Docile*. Different files can have the
-same first line header if you find that a single file is getting too
-long for the number of documented functions in the module.
-
-### Generating documentation
-
-To generate the documentation for the *Docile* package use:
-
-    julia> using Docile
-    julia> Docile.generate("Docile")
-
-To get Julia to load the custom `helpdb.jl` generated in the previous
-step add the following to your `.juliarc.jl` file.
+Add the following to your `.juliarc.jl` file:
 
     # top of .juliarc.jl
     import Docile
@@ -54,54 +31,42 @@ step add the following to your `.juliarc.jl` file.
 
     # rest of file.
 
-`patch!` re-evaluates the built-in `Base.Help.init_help` function, adding
-code to load all `helpdb.jl` files in `Docile/cache`. This isn't a great
-solution (or one that should be done at all).
-
-**The main purpose of this package is to discuss whether this
-functionality should be included in `Base.Help.init_help`.**
+`patch!` re-evaluates `Base.Help.init_help` function, adding code to
+load all `helpdb.jl` files in `Docile/cache`.
 
 After adding those lines when you start Julia again you should see
 
     INFO: Patching Base.Help.init_help()...
 
-appear on start-up. You can then search the built-in help for documentation
-related to *Docile*.
+*Docile* functions are documented in `doc/help/docile.md`. You can read them there
+or use the Julia help system to view them:
 
     julia> apropos("Docile")
-    INFO: Loading help data...
     Docile.remove(package::String)
     Docile.update(packages::String...)
     Docile.patch!()
     Docile.generate(package::String)
     Docile.init(package::String)
+    Docile.Docile
 
-and use the `?` help system:
+     help> Docile.update
+    Docile.update(packages::String...)
 
-     help> "patch!"
-    Docile.patch!()
+    Run `generate` on all `packages`. If none are given then regenerate
+    documentation for each package in `Docile/cache`.
 
-       Monkey-patch the help system in `Base.Help` to load custom `helpdb.jl`
-       files. This should be run at start-up by placing the following in
-       `.juliarc.jl` at the start of the file.
+        # generate documentation for "Docile.jl"
+        julia> Docile.update("Docile")
 
-           # start of .juliarc.jl
-           import Docile
-           Docile.patch!()
+        # update documentation for every cached package
+        julia> Docile.update()
 
-           # rest of file ...
+## Documentation
 
-This currently only works with strings as can be seen in the following:
-
-     help> patch!
-    ERROR: patch! not defined
-    julia> using Docile
-     help> patch!
-    ERROR: Docile not defined
-     in eval at no file
-     in help at help.jl:102
-     in help at help.jl:165
-     in help at help.jl:180
+*Docile* uses plain markdown files for documentation. A `#` on the first
+line of a file specifies the module being documented. Subsequent lines
+beginning with `##` specify entries to be documented. Text between `##`s
+is documentation.
 
 ## Feedback
 

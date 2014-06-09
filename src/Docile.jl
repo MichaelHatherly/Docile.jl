@@ -1,7 +1,7 @@
 module Docile
 
 # package code goes here
-export generate, update, init, remove, patch!
+export generate, update, init, remove
 
 const CACHE_DIR = joinpath(Pkg.dir("Docile"), "cache")
 
@@ -9,6 +9,8 @@ include("parser.jl")
 include("interface.jl")
 
 ## Patch help system ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+import TextWrap
 
 # TODO: Avoid this.
 function patch!()
@@ -58,7 +60,62 @@ function patch!()
                  end
              end
 
+             function help(io::IO, fname::String, obj=0)
+                 init_help()
+                 found = false
+                 if haskey(FUNCTION_DICT, fname)
+                     print_help_entries(io, FUNCTION_DICT[fname])
+                     found = true
+                 elseif haskey(MODULE_DICT, fname)
+                     allmods = MODULE_DICT[fname]
+                     alldesc = {}
+                     for mod in allmods
+                         mfname = isempty(mod) ? fname : mod * "." * fname
+                         if isgeneric(obj)
+                             #### patched with Main
+                             mf = eval(Main, func_expr_from_symbols(map(symbol, split(mfname, "."))))
+                             if mf === obj
+                                 append!(alldesc, FUNCTION_DICT[mfname])
+                                 found = true
+                             end
+                         else
+                             append!(alldesc, FUNCTION_DICT[mfname])
+                             found = true
+                         end
+                     end
+                     found && print_help_entries(io, alldesc)
+                 elseif haskey(FUNCTION_DICT, "Base." * fname)
+                     print_help_entries(io, FUNCTION_DICT["Base." * fname])
+                     found = true
+                 end
+                 if !found
+                     if isa(obj, DataType)
+                         print(io, "DataType : ")
+                         writemime(io, "text/plain", obj)
+                         println(io)
+                         println(io, " supertype: ", super(obj))
+                         if obj.abstract
+                             st = subtypes(obj)
+                             if length(st) > 0
+                                 print(io, " subtypes : ")
+                                 showcompact(io, st)
+                                 println(io)
+                             end
+                         end
+                         if length(obj.names) > 0
+                             println(io, " fields : ", obj.names)
+                         end
+                     elseif isgeneric(obj)
+                         writemime(io, "text/plain", obj); println()
+                     else
+                         println(io, "No help information found.")
+                     end
+                 end
+             end
+
          end)
 end
+
+
 
 end # module
