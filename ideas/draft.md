@@ -43,9 +43,26 @@ Example
 
     ... entries
 
+## Inline documentation
+
+Extract multiline comments from source files and create documentation
+entries in the same way as with external help files.
+
+Possible syntax using `!` to differentiate from standard multiline
+comments:
+
+    #=!
+
+    Formatted documentation goes here...
+
+    =#
+    function foo(bar, baz)
+        # ...
+    end
+
 ## Allow subdirectories in `doc/help`
 
-Just an oversight.
+Just an oversight. Search through subdirectories recursively.
 
 ## Useful filenames
 
