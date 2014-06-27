@@ -1,99 +1,62 @@
-## User interface –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-function build(packages::String...)
-    isempty(packages) && (packages = readdir(CACHE_DIR))
-    for package in packages
-        cachedocs(package, getdocs(package))
+"""
+Extract doc strings from all source files in `package`. Generate
+formatted documentation using the settings specified in `config`.
+"""
+function build(package::String, config::Dict)
+    package_exists(package)
+    source = joinpath(Pkg.dir(package), "src", package * ".jl")
+    isfile(source) || error("Cannot find starting file $(source). Stopping.")
+    docs = extract(source)
+    for output in config[:output]
+        output(package, docs)
     end
-    Base.Help.clear_cache()
+    info("Finished building documentation for $(package).")
 end
 
+"""
+Setup Docile for specified `package`. Creates a `docs/` folder if
+needed, as well as a default config file that can be used to run Docile
+for the `package`.
+"""
 function init(package::String)
-    path = Pkg.dir(package)
-    isdir(path) || error("Unknown package $(package).")
-
-    docpath = joinpath(path, "doc")
+    package_exists(package)
+    docpath = joinpath(Pkg.dir(package), "doc")
     if !isdir(docpath)
-        info("Creating $(package)/doc.")
+        info("Creating doc directory for $(package)")
         mkdir(docpath)
     end
-
-    helppath = joinpath(docpath, "help")
-    if !isdir(helppath)
-        info("Creating $(package)/doc/help.")
-        mkdir(helppath)
-    end
-
     open(joinpath(docpath, "docile.jl"), "w") do f
-        write(f, """
-        import Docile
-        Docile.generate("$(package)")
+        print(f, """
+        using Docile
+
+        config = [
+            :output => [plain, html, helpdb]
+        ]
+
+        Docile.build("$(package)", config)
         """)
     end
+    info("Finished initialising Docile for $(package).")
 end
 
+"""
+Remove Docile from `package`. The cache folder for the `package` and the
+config file are deleted.
+"""
 function remove(package::String)
-    path = joinpath(Pkg.dir(package), "doc")
-    config = joinpath(path, "docile.jl")
-    isfile(config) || error("$(package) is not setup for Docile.")
-
-    warn("Removing Docile from $(package).")
-
-    rm(config)
-
-    helppath = joinpath(path, "help")
-    isdir(helppath) && _recursive_rm(helppath)
-
-    isempty(readdir(path)) && rmdir(path)
-
-    dbpath = joinpath(CACHE_DIR, package)
-    if isdir(dbpath)
-        warn("Removing cache for $(package).")
-        _recursive_rm(dbpath)
-    else
-        info("No cache found for $(package).")
+    package_exists(package)
+    cachedir = joinpath(CACHE_DIR, package)
+    isdir(cachedir) && (info("Removing cache."); rm(cachedir; recursive=true))
+    docpath = joinpath(Pkg.dir("Docile"), "doc")
+    config_file = joinpath(docpath, "docile.jl")
+    isfile(config_file) && (info("Removing config."); rm(config_file))
+    if isdir(docpath) && isempty(readdir(docpath))
+        info("Removing empty doc/ folder from $(package).")
+        rm(docpath)
     end
+    info("Finished removing Docile from $(package).")
 end
 
-## Utils ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-function getdocs(package::String)
-    helpdb = {}
-    path = joinpath(Pkg.dir(package), "doc", "help")
-    isdir(path) || error("$(package) is not setup for Docile.")
-    for filename in readdir(path)
-        fn = joinpath(path, filename)
-        endswith(fn, ".md") && append!(helpdb, parsefile(fn))
-    end
-    helpdb
-end
-
-function cachedocs(package::String, helpdb::Vector)
-    if !isdir(CACHE_DIR)
-        info("Creating Docile/cache.")
-        mkdir(CACHE_DIR)
-    end
-
-    package_cache = joinpath(CACHE_DIR, package)
-    if !isdir(package_cache)
-        info("Initializing cache for $(package).")
-        mkdir(package_cache)
-    end
-
-    open(joinpath(package_cache, "helpdb.jl"), "w") do f
-        info("Writing helpdb.jl for $(package).")
-        print(f, helpdb)
-    end
-end
-
-function _recursive_rm(dir::String)
-    for f in readdir(dir)
-        f = joinpath(dir, f)
-        if isfile(f)
-            rm(f)
-        elseif isdir(f)
-            _recursive_rm(f) # subdirs
-        end
-    end
-    rmdir(dir) # empty dir
-end
+package_exists(package::String) =
+    (isdir(Pkg.dir(package)) || error("Cannot find package $(package)."))

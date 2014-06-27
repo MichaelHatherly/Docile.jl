@@ -1,51 +1,39 @@
 using Docile
 using Base.Test
 
-const PACKAGE_NAME = "DocileTests"
+PACKAGE_NAME = "Docile"
+PKG_DIR      = Pkg.dir(PACKAGE_NAME)
+DOC_DIR      = joinpath(PKG_DIR, "doc")
+CACHE_DIR    = joinpath(PKG_DIR, "cache")
 
-const DOCS = """
-# $(PACKAGE_NAME)
+# Clean up current Docile docs first.
+Docile.remove(PACKAGE_NAME)
 
-## test_func_1{T <: Number}(a::Float64, b::Array{T,2})
-
-Docile function tests.
-
-Example:
-
-    julia> test_func_1(1.0, [2 2; 3 1])
-
-## @test_macro_1(a, b, c)
-
-Docile function tests.
-"""
-
-## Run Docile on itself –––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-Docile.build("Docile")
-
-## Errors –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-@test_throws ErrorException Docile.build(PACKAGE_NAME)
-@test_throws ErrorException Docile.remove(PACKAGE_NAME)
-@test_throws ErrorException Docile.init(PACKAGE_NAME)
-
-## Package creation and documentation generation ––––––––––––––––––––––––––––––
-
-Pkg.generate(PACKAGE_NAME, "MIT")
-atexit(() -> Pkg.rm(PACKAGE_NAME))
-
+# Create a new docile setup.
 Docile.init(PACKAGE_NAME)
 
-Docile.build()
-Docile.build(PACKAGE_NAME)
+@test isdir(DOC_DIR)
+@test isfile(joinpath(DOC_DIR, "docile.jl"))
 
-open(joinpath(Pkg.dir(PACKAGE_NAME), "doc", "help", "docs.md"), "w") do f
-    write(f, DOCS)
-end
+# Create documentation.
+Docile.build(PACKAGE_NAME, [:output => [plain, html, helpdb]])
 
-Docile.patch!()
-Base.Help.init_help()
+@test isdir(CACHE_DIR)
+@test isdir(joinpath(CACHE_DIR, PACKAGE_NAME))
 
-## Clean up –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+@test isfile(joinpath(CACHE_DIR, PACKAGE_NAME, "docs.md"))
+@test isfile(joinpath(CACHE_DIR, PACKAGE_NAME, "docs.html"))
+@test isfile(joinpath(CACHE_DIR, PACKAGE_NAME, "helpdb.jl"))
 
+# Remove docile. The cache folder is *not* removed.
 Docile.remove(PACKAGE_NAME)
+
+@test !isfile(joinpath(CACHE_DIR, PACKAGE_NAME, "docs.md"))
+@test !isfile(joinpath(CACHE_DIR, PACKAGE_NAME, "docs.html"))
+@test !isfile(joinpath(CACHE_DIR, PACKAGE_NAME, "helpdb.jl"))
+
+@test !isdir(joinpath(CACHE_DIR, PACKAGE_NAME))
+
+# Rebuild the docs afterwards.
+Docile.init(PACKAGE_NAME)
+Docile.build(PACKAGE_NAME, [:output => [plain, html, helpdb]])
