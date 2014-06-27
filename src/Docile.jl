@@ -37,6 +37,8 @@ include("types.jl")
 include("extract.jl")
 include("render.jl")
 
+include("interactive.jl")
+
 include("interface.jl")
 
 include("patch.jl")
