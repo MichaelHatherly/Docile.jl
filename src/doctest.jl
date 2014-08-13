@@ -28,10 +28,14 @@ doctest(io::IO, m::Module, verbose) =
     println(io, "No docs found in module $(m).")
 
 @doc """
-Run documentation check on the given module `m`. Evaluates all markdown
-code blocks in docstrings. `verbose` option displays code blocks while
-testing.
+Test all code blocks in the docstrings in a module `m`.
+
+Run `doctest(Docile)` to see some sample output produced by this
+function.
 +++
 tags: [testing, code blocks]
+parameters:
+    m:       the module to try and test
+    verbose: optional switch to view verbose output of each test
 """ ..
 doctest(m::Module; verbose = false) = doctest(STDOUT, m, verbose)

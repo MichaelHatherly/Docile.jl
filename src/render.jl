@@ -10,9 +10,17 @@ function writemime(io, ::MIME"text/plain", entry::Entry)
     println(io, entry.docstring)
     # print metadata if any
     if !isempty(entry.metadata)
-        println(io, AnsiColor.colorize(:green, " • Metadata:\n"))
+        println(io, AnsiColor.colorize(:green, " • Details:\n"))
     end
     for (k, v) in entry.metadata
-        println(io, "\t ∘ ", k, ": ", v)
+        if isa(v, Dict) # special case nested dict (1 level)
+            println(io, "\t ∘ ", k, ":")
+            for (a, b) in v
+                println(io, "\t\t", AnsiColor.colorize(:cyan, string(a)), ": ", b)
+            end
+        else
+            println(io, "\t ∘ ", k, ": ", v)
+        end
+        println(io)
     end
 end
