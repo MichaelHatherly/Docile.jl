@@ -1,46 +1,22 @@
-
-"""
-A package documentation package for Julia.
-
-Docile can extract multiline strings from julia source files and
-associated metadata to create several different human readable
-documentation formats.
-"""
 module Docile
 
-## Package dependancies –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-import Markdown
-
-## Base imports –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+import AnsiColor, Markdown, YAML
 
 import Base: triplequoted, writemime
-import Base.Meta: isexpr
 
-## Exports ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+export query, doctest, (..), @query, @doc, @docstrings
 
-export
-    @doc_mstr,
-    build,
-    helpdb,
-    html,
-    init,
-    patch!,
-    plain,
-    remove
+const METADATA = :__METADATA__
 
-## Load files –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-include("utils.jl")
 include("types.jl")
+include("docstrings.jl")
 
-include("extract.jl")
+# Initialise docstrings for this module. Can't document previous files
+# since they define the docstring methods/macros.
+@docstrings
+
 include("render.jl")
-
-include("interactive.jl")
-
-include("interface.jl")
-
-include("patch.jl")
+include("doctest.jl")
+include("query.jl")
 
 end # module

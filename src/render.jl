@@ -1,27 +1,26 @@
-# builtin renderers for `Doc` subtypes
+function writemime(io::IO, mime::MIME"text/plain", entries::Vector{(Method,Entry)})
+    for (m, ent) in entries
+        println(io, ">>>")
+        println(io, AnsiColor.colorize(:blue, "\n • $(m)\n"; mode = "bold"))
+        writemime(io, mime, ent)
+    end
+end
 
-include("render/plain.jl")
-include("render/helpdb.jl")
-include("render/html.jl")
-
-## common renderer helpers ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-fullsig(doc::Doc) = join([modulepath(doc), sig(doc)], ".")
-
-sig(doc::Doc) = string(sig(code(doc)))
-sig(doc::Doc{:macro}) = "@$(sig(code(doc)))"
-sig(doc::Doc{:global}) = name(doc)
-
-sig(ex::Expr) = isa(ex.args[1], Bool) ? ex.args[2] : ex.args[1]
-
-name(doc::Doc) = string(name(code(doc)))
-name(doc::Doc{:macro}) = "@$(name(code(doc)))"
-name(doc::Doc{:global}) = stromg(name(code(doc)))
-
-name(ex::Expr)  = name(sig(ex))
-name(s::Symbol) = s
-
-indent(doc::String, indent::Int = 3) =
-    join([" "^indent * line for line in split(doc, "\n")], "\n")
-
-escape(str) = replace(str, "<", "&lt;")
+function writemime(io, ::MIME"text/plain", entry::Entry)
+    println(io, entry.docstring)
+    # print metadata if any
+    if !isempty(entry.metadata)
+        println(io, AnsiColor.colorize(:green, " • Details:\n"))
+    end
+    for (k, v) in entry.metadata
+        if isa(v, Dict) # special case nested dict (1 level)
+            println(io, "\t ∘ ", k, ":")
+            for (a, b) in v
+                println(io, "\t\t", AnsiColor.colorize(:cyan, string(a)), ": ", b)
+            end
+        else
+            println(io, "\t ∘ ", k, ": ", v)
+        end
+        println(io)
+    end
+end
