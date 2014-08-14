@@ -16,6 +16,7 @@ before_install:
   - git config --global user.email "travis@example.com"
 script:
   - julia -e 'Pkg.init(); Pkg.clone(pwd())'
-  - julia --code-coverage test/runtests.jl
+  - if [ $JULIAVERSION = "juliareleases" ]; then julia test/runtests.jl; fi
+  - if [ $JULIAVERSION = "julianightlies" ]; then julia --code-coverage test/runtests.jl; fi
 after_success:
   - if [ $JULIAVERSION = "julianightlies" ]; then julia -e 'cd(Pkg.dir("Docile")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'; fi
