@@ -7,10 +7,10 @@
 
 ## Install
 
-*Docile* is not registered in `METADATA` currently. Install it using:
+*Docile* is in `METADATA`, but not tagged yet. Install it using:
 
 ```julia
-Pkg.clone("https://github.com/MichaelHatherly/Docile.jl")
+Pkg.clone("Docile")
 
 ```
 
