@@ -10,90 +10,101 @@
 *Docile* is not registered in `METADATA` currently. Install it using:
 
 ```julia
-julia> Pkg.clone("https://github.com/MichaelHatherly/Docile.jl")
+Pkg.clone("https://github.com/MichaelHatherly/Docile.jl")
+
 ```
 
 ## Usage
 
-### Viewing Documentation
+### Viewing
 
 ```julia
-julia> using Docile
-julia> @query doctest(Docile)
-julia> query("Examples")
+using Docile
+query("Examples")      # full text search of all documentation
+@query doctest(Docile) # behaves similarly to `Base.@which`
+@query @query          # searching for macros
+doctest(Docile)        # test all code blocks in the Docile module
+
 ```
 
-`@query` works in a similar manner to `Base.@which`, but displays any
-documentation associated with the method that would have been called
-with the given arguments.
+### Documenting
 
-A set of `query` methods also exist and behave in a *similar* way to
-`Base.which`. The `query` method with a string argument does a full text
-search.
+*Docile* can document:
 
-```julia
-julia> query(Docile, doctest)
-julia> query(Docile, doctest, (Module,))
-```
+* functions
+* globals
+* macros
+* methods
+* modules
+* types
 
-### Documenting Methods
+The syntax of `@doc` is the same in all cases.
 
-Support for documenting methods is currently available. Macros, types,
-etc. can't be documented.
-
-Documenting methods in a package can be done as follows:
+**Example:**
 
 ```julia
 module PackageName
 
 using Docile
-@docstrings # Call before any `@doc` uses. Creates the module's `METADATA` object.
+@docstrings # Call before any `@doc` uses. Creates module's `__METADATA__` object.
 
 @doc """
-# Heading 1
-All text above the `+++` delimiter is parsed as markdown. Any legal
-markdown syntax should be available.
+Markdown formatted text appears here...
 
-## Subheading 1
-You'll need to escape `\\` and `\$` since this is still a Julia string.
-
-    fac(n::Integer) = n < 2 ? 1 : n * fac(n - 1)
-    @assert fac(5) == 120
-
-Blocks of code can be run using `Docile.doctest`.
-
-* lists
-* are
-* allowed
-* as
-* well
-
-Everything below the `+++` is parsed as YAML formatted text. Any legal
-YAML syntax *should* be available to use. This metadata section is
-stored as a Julia dictionary for later use.
-
-**Note the `..` after the closing triplequotes.**
-
-+++
-tags: [foo, bar, baz]
-""" ..
-function func1(x, y)
+""" [
+    # metadata section
+    :section => "Main section",
+    :tags    => ["foo", "bar", "baz"]
+    # ... other (Symbol => Any) pairs
+    ] ..
+function myfunc(x, y)
     # ...
 end
 
-@doc """
-Single line function declarations are also supported.
-
-The markdown and YAML sections of a docstring may be left empty if
-required, but the `+++` must always be included (this might change).
-+++
-""" ..
-func2(x, y, z) = x + y + z
-
-# more things ...
-
 end
+
 ```
+
+A `..` is required between the docstring/metadata and the object being
+documented. It **must** appear on the same line as the
+docstring/metadata.
+
+If no metadata is required for an object then the metadata section can
+be left out.
+
+External files containing documentation can be linked to by adding a
+`:file => "path"` to the metadata section of the `@doc` macro. The text
+section of the macro, `""" ... """`, is ignored in this case and can be
+left out. The file path is taken to be relative to the source file. This
+README file is linked into the documentation using:
+
+```julia
+@doc [ :file => "../README.md" ] .. Docile
+
+```
+
+The `@doc` macro requires at least a docstring or metadata section. The
+docstring section always appears first if both are provided. Bare
+`@doc`s are not permitted:
+
+```julia
+@doc .. illegal(x) = x
+
+```
+
+A `tex_mstr` string macro is provided to avoid having to escape LaTeX
+syntax in docstrings. Using standard multiline strings allows for
+interpolating data into the string from the surrounding module in the
+usual way.
+
+### Doctests
+
+Only fenced or indented code blocks are run through `doctest`. Inline
+code with single backticks isn't run. Placing an extra blank line at the
+end of a code block tells `doctest` to skip the block.
+
+`doctest` is currently very bare-bones and shouldn't be relied upon for anything
+more than sanity checks.
 
 ## Feedback
 

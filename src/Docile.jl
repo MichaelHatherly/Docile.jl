@@ -1,12 +1,11 @@
 module Docile
 
-import AnsiColor, Markdown, YAML
+import AnsiColor, Markdown
 
-import Base: triplequoted, writemime
+import Base: triplequoted, writemime, push!
+import Base.Meta: isexpr
 
-export query, doctest, (..), @query, @doc, @docstrings
-
-const METADATA = :__METADATA__
+export query, doctest, @query, @doc, @docstrings, @tex_mstr
 
 include("types.jl")
 include("docstrings.jl")
@@ -18,5 +17,8 @@ include("docstrings.jl")
 include("render.jl")
 include("doctest.jl")
 include("query.jl")
+
+# link the readme into the package docs
+@doc [ :file => "../README.md" ] .. Docile
 
 end # module
