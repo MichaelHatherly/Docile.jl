@@ -505,3 +505,7 @@ using .TestModule
 
 doctest(TestModule)
 doctest(TestModule; verbose = true)
+
+# fix reversed order in query macro
+@query doctest(Docile)
+

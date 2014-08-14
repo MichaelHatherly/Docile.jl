@@ -113,7 +113,7 @@ macro query(q)
             Expr(:call, query, Expr(:quote, symbol("$(q.args[1])")))
         else
             mt = Expr(:macrocall, symbol("@which"), q)
-            esc(:(query($(mt).func.code.module, $(mt))))
+            esc(:(query($(mt), $(mt).func.code.module, )))
         end
     end
 end
