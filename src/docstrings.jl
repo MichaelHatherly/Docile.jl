@@ -1,5 +1,5 @@
-
-isdictexpr(ex::Expr) = isa(ex.args[2], Expr) && ex.args[2].head == :dict
+# Check whether a given expression contains a dict.
+isdictexpr(ex::Expr) = isexpr((isexpr(ex, :(=)) ? ex.args[1] : ex).args[2], :dict)
 isdictexpr(other) = false
 
 #=
