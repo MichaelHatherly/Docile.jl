@@ -6,7 +6,7 @@ function writemime(io::IO, mime::MIME"text/plain", entries::Vector{(Any,Entry)})
     end
 end
 
-function writemime(io, ::MIME"text/plain", entry::Entry)
+function writemime(io::IO, ::MIME"text/plain", entry::Entry)
     println(io, entry.docs)
     # print metadata if any
     if !isempty(entry.meta)
@@ -27,4 +27,14 @@ function writemime(io, ::MIME"text/plain", entry::Entry)
         end
         println(io)
     end
+end
+
+## html –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+function writemime(io::IO, mime::MIME"text/html", entry::Vector{Any,Entry})
+
+end
+
+function writemime(io::IO, mime::MIME"text/html", entry::Entry)
+
 end
