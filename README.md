@@ -1,6 +1,7 @@
 # Docile
 
 [![Build Status](https://travis-ci.org/MichaelHatherly/Docile.jl.svg?branch=master)](https://travis-ci.org/MichaelHatherly/Docile.jl)
+[![Build status](https://ci.appveyor.com/api/projects/status/ttlbaxp6pgknfru5/branch/master)](https://ci.appveyor.com/project/MichaelHatherly/docile-jl/branch/master)
 [![Coverage Status](https://coveralls.io/repos/MichaelHatherly/Docile.jl/badge.png)](https://coveralls.io/r/MichaelHatherly/Docile.jl)
 
 [Julia](www.julialang.org) package documentation system. [Mailing list discussion](https://groups.google.com/forum/#!topic/julia-users/k_SzJxcAoqA).
