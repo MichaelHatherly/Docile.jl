@@ -31,7 +31,7 @@ end
 
 ## html –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-function writemime(io::IO, mime::MIME"text/html", entry::Vector{Any,Entry})
+function writemime(io::IO, mime::MIME"text/html", entry::Vector{(Any,Entry)})
 
 end
 
