@@ -19,3 +19,7 @@ function push!(d::Documentation, k, ent::Entry)
     haskey(d.docs, k) && warn("overwriting `$(k)`.")
     push!(d.docs, k, ent)
 end
+
+immutable MetaContainer{symb}
+    content
+end

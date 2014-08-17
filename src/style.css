@@ -1,0 +1,57 @@
+body {
+  padding: 10px;
+  margin: 0 auto;
+}
+
+code, pre {
+  font-family: monospace;
+}
+
+code {
+  font-weight: bold;
+}
+
+.entry, pre {
+  padding: 10px;
+}
+
+.header {
+  border-top: solid 2px #555;
+  border-bottom: solid 1px #999;
+  padding: 5px;
+  font-family: monospace;
+}
+
+.category {
+  display: inline;
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+table, th, td {
+  padding: 5px;
+}
+
+.key {
+  text-align: right;
+  font-weight: bold;
+}
+
+.key, .value {
+  vertical-align: baseline;
+}
+
+.metadata {
+  border-bottom: solid 1px #999;
+}
+
+.metadata ul {
+  margin-bottom: 0px;
+  margin-top: 0px;
+  list-style: none;
+  padding-left: 0px;
+}
