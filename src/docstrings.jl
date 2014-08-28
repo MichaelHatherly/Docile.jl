@@ -51,10 +51,12 @@ macro tex_mstr(text)
     triplequoted(text)
 end
 
+@docref () -> REF_DOCSTRINGS_MACRO
 macro docstrings()
     esc(:($METADATA = Docile.Documentation(current_module())))
 end
 
+@docref () -> REF_DOC_MACRO
 macro doc(args...)
     isexpr(last(args), :(->)) || error("@doc: use `->` to separate docs/object:\n$(args)")
 

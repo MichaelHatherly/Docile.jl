@@ -1,3 +1,4 @@
+@docref () -> REF_ENTRY_TYPE
 type Entry{category} # category::Symbol
     docs::Markdown.Block
     meta::Dict{Symbol, Any}
@@ -18,6 +19,7 @@ type Entry{category} # category::Symbol
     Entry(args...) = error("@doc: incorrect arguments given to docstring macro:\n$(args)")
 end
 
+@docref () -> REF_DOCUMENTATION_TYPE
 type Documentation
     modname::Module
     entries::Dict{Any, Entry}
