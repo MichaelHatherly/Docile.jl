@@ -5,6 +5,7 @@ notifications:
   email: false
 env:
   matrix:
+    - JULIAVERSION="juliareleases"
     - JULIAVERSION="julianightlies"
 before_install:
   - sudo add-apt-repository ppa:staticfloat/julia-deps -y
@@ -13,9 +14,9 @@ before_install:
   - sudo apt-get install libpcre3-dev julia -y
   - git config --global user.name "Travis User"
   - git config --global user.email "travis@example.com"
+  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
 script:
   - julia -e 'Pkg.init(); Pkg.clone(pwd())'
-  - if [ $JULIAVERSION = "juliareleases" ]; then julia test/runtests.jl; fi
-  - if [ $JULIAVERSION = "julianightlies" ]; then julia --code-coverage test/runtests.jl; fi
+  - julia -e 'Pkg.test("Docile", coverage=true)'
 after_success:
-  - if [ $JULIAVERSION = "julianightlies" ]; then julia -e 'cd(Pkg.dir("Docile")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'; fi
+  - julia -e 'cd(Pkg.dir("Docile")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
