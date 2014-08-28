@@ -1,4 +1,10 @@
+# For running tests in a "clean" environment.
+module Sandbox end
+
 function doctest(io::IO, document::Documentation, verbose::Bool)
+    # Import the module being tested into the sandbox.
+    eval(Sandbox, Expr(:toplevel, Expr(:using, symbol("$(document.modname)"))))
+
     print_with_color(:blue, io, "[DOCTEST] running on module $(document.modname).\n")
     for (obj, entry) in document.entries
         println(io, " • [ENTRY] $(obj)")
@@ -11,16 +17,16 @@ function doctest(io::IO, document::Documentation, verbose::Bool)
                         print_with_color(:blue, io, "  ~ [SKIPPED]\n")
                         continue
                     end
-                    eval(document.modname, parse("let\n$(block.code)\nend"))
+                    eval(Sandbox, parse("let\n$(block.code)\nend"))
                 catch err
                     success = false
                     print_with_color(:red, io, "  - [FAILURE]\n")
                     println(io, "\n", block.code, "\n")
-                    print_with_color(:red, io, string(err), "\n")
+                    print_with_color(:red, io, string(err), "\n\n")
                 end
                 if success
-                    verbose && print_with_color(:white, io, "\n", block.code, "\n\n")
                     print_with_color(:green, io, "  + [SUCCESS]\n")
+                    verbose && print_with_color(:white, io, "\n", block.code, "\n\n")
                 end
             end
         end
