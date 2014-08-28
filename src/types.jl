@@ -1,21 +1,30 @@
-type Entry{category} # category::Symbol allows for different formatting of object output.
+type Entry{category} # category::Symbol
     docs::Markdown.Block
     meta::Dict{Symbol, Any}
-    function Entry(docs, meta)
-        if haskey(meta, :file)
-            docs = readall(joinpath(dirname(docs), meta[:file]))
-        end
-        new(Markdown.parse(docs), meta)
+
+    function Entry(source, meta::Dict)
+        push!(meta, :source, source)
+        docs = haskey(meta, :file) ?
+            Markdown.parse_file(joinpath(dirname(source[2]), meta[:file])) :
+            Markdown.parse("")
+        new(docs, meta)
     end
+
+    function Entry(source, text::String, meta::Dict = Dict{Symbol, Any}())
+        push!(meta, :source, source)
+        new(Markdown.parse(text), meta)
+    end
+
+    Entry(args...) = error("@doc: incorrect arguments given to docstring macro:\n$(args)")
 end
 
 type Documentation
     modname::Module
-    docs::Dict{Any, Entry}
+    entries::Dict{Any, Entry}
     Documentation(m::Module) = new(m, Dict{Any, Entry}())
 end
 
-function push!(d::Documentation, k, ent::Entry)
-    haskey(d.docs, k) && warn("overwriting `$(k)`.")
-    push!(d.docs, k, ent)
+function push!(docs::Documentation, object, ent::Entry)
+    haskey(docs.entries, object) && warn("@doc: overwriting object $(object)")
+    docs.entries[object] = ent
 end

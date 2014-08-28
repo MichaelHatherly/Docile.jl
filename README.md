@@ -52,21 +52,24 @@ using Docile
 @doc """
 Markdown formatted text appears here...
 
-""" [
+""" {
     # metadata section
     :section => "Main section",
     :tags    => ["foo", "bar", "baz"]
     # ... other (Symbol => Any) pairs
-    ] ..
+    } ->
 function myfunc(x, y)
     # ...
 end
+
+@doc "A short docstring." ->
+foo(x) = x
 
 end
 
 ```
 
-A `..` is required between the docstring/metadata and the object being
+A `->` is required between the docstring/metadata and the object being
 documented. It **must** appear on the same line as the
 docstring/metadata.
 
@@ -80,7 +83,7 @@ left out. The file path is taken to be relative to the source file. This
 README file is linked into the documentation using:
 
 ```julia
-@doc [ :file => "../README.md" ] .. Docile
+@doc { :file => "../README.md" } -> Docile
 
 ```
 
@@ -89,7 +92,7 @@ docstring section always appears first if both are provided. Bare
 `@doc`s are not permitted:
 
 ```julia
-@doc .. illegal(x) = x
+@doc -> illegal(x) = x
 
 ```
 

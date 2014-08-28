@@ -4,10 +4,10 @@ module OldTests
 using Docile
 @docstrings
 
-@doc [
+@doc {
     :file    => "methoddoc.md",
     :section => "Tests"
-    ] ..
+    } ->
 function g(x)
 end
 
@@ -20,9 +20,9 @@ $$
 $$
 
 Some more text.
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 h(x) = x
 
 @doc """
@@ -34,9 +34,9 @@ a = 2
 b = 3
 a + b
 ```
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 function f(x::Int)
 end
 
@@ -60,11 +60,11 @@ A code block that fails:
 sqrt(-1)
 ```
 
-""" [
-    :parameters => [
+""" {
+    :parameters => {
         (:x, "the string argument")
-        ]
-    ] ..
+        }
+    } ->
 f(x::String) = x
 
 @doc """
@@ -80,7 +80,7 @@ ut massa in turpis dapibus convallis.
 * three
 * four
 
-""" ..
+""" ->
 function f(x::Float64)
 end
 
@@ -92,7 +92,7 @@ tristique elit urna et turpis.
 a = rand(5,5)
 @show @which f(a)
 ```
-""" ..
+""" ->
 f(x::Matrix) = x^2
 
 ## types ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -102,9 +102,9 @@ Suspendisse lectus leo, consectetur in tempor sit amet, placerat quis
 neque. Etiam luctus porttitor lorem, sed suscipit est rutrum non.
 Curabitur lobortis nisl a enim congue semper. Aenean commodo ultrices
 imperdiet.
-""" [
-    :tags => ["one", "two", "three"]
-    ] ..
+""" {
+    :tags => {"one", "two", "three"}
+    } ->
 abstract FooAbs1
 
 @doc """
@@ -112,7 +112,7 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut tristique
 vitae, sagittis vel odio. Maecenas convallis ullamcorper ultricies.
 Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis
 velit, id fringilla sem nunc vel mi.
-""" ..
+""" ->
 abstract FooAbs2
 
 @doc """
@@ -120,9 +120,9 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 abstract FooAbs3{S}
 
 @doc """
@@ -130,7 +130,7 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" ..
+""" ->
 abstract FooAbs4{S}
 
 @doc """
@@ -138,9 +138,9 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 abstract Foo1 <: FooAbs1
 
 @doc """
@@ -148,7 +148,7 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" ..
+""" ->
 abstract Foo2 <: FooAbs2
 
 @doc """
@@ -156,9 +156,9 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 typealias Foo3 Int
 
 @doc """
@@ -166,7 +166,7 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" ..
+""" ->
 typealias Foo4 Int
 
 @doc """
@@ -174,9 +174,9 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 immutable Foo5
 end
 
@@ -185,7 +185,7 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" ..
+""" ->
 immutable Foo6
 end
 
@@ -194,9 +194,9 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 immutable Foo7 <: FooAbs1
 end
 
@@ -205,7 +205,7 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" ..
+""" ->
 immutable Foo8 <: FooAbs2
 end
 
@@ -214,9 +214,9 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 immutable Foo9{T}
 end
 
@@ -225,7 +225,7 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" ..
+""" ->
 immutable Foo10{T}
 end
 
@@ -234,9 +234,9 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 immutable Foo11{T} <: FooAbs1
 end
 
@@ -245,7 +245,7 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" ..
+""" ->
 immutable Foo12{T} <: FooAbs2
 end
 
@@ -254,9 +254,9 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 immutable Foo13{T,S} <: FooAbs3{S}
 end
 
@@ -265,7 +265,7 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" ..
+""" ->
 immutable Foo14{T,S} <: FooAbs4{S}
 end
 
@@ -274,9 +274,9 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 type Foo15
 end
 
@@ -285,7 +285,7 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" ..
+""" ->
 type Foo16
 end
 
@@ -294,9 +294,9 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 type Foo17 <: FooAbs1
 end
 
@@ -305,7 +305,7 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" ..
+""" ->
 type Foo18 <: FooAbs2
 end
 
@@ -314,9 +314,9 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 type Foo19{T}
 end
 
@@ -325,7 +325,7 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" ..
+""" ->
 type Foo20{T}
 end
 
@@ -334,9 +334,9 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 type Foo21{T} <: FooAbs1
 end
 
@@ -345,7 +345,7 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" ..
+""" ->
 type Foo22{T} <: FooAbs2
 end
 
@@ -354,9 +354,9 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 type Foo23{T,S} <: FooAbs3{S}
 end
 
@@ -365,7 +365,7 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" ..
+""" ->
 type Foo24{T,S} <: FooAbs4{S}
 end
 
@@ -376,9 +376,9 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 macro foo(args)
 end
 
@@ -387,7 +387,7 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" ..
+""" ->
 macro foo(args)
 end
 
@@ -397,9 +397,9 @@ end
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 const FOO = "foo"
 
 @doc """
@@ -407,7 +407,7 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" ..
+""" ->
 const FOO = "foo"
 
 ## globals ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -417,9 +417,9 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 global FOO = "foo"
 
 @doc """
@@ -427,7 +427,7 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" ..
+""" ->
 global FOO = "foo"
 
 ## global constants –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -437,9 +437,9 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 global const FOO = "foo"
 
 @doc """
@@ -447,7 +447,7 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" ..
+""" ->
 global const FOO = "foo"
 
 ## non constants ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -457,9 +457,9 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 FOO = "foo"
 
 @doc """
@@ -467,7 +467,7 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" ..
+""" ->
 FOO = "foo"
 
 ## symbols (functions and modules) ––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -477,9 +477,9 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
+""" {
     :key => :value
-    ] ..
+    } ->
 f
 
 @doc """
@@ -487,53 +487,53 @@ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" ..
+""" ->
 g
 
 @doc """
 Documentation for the Module itself.
-""" [
-    :tags => ["One", "Two", "Three"]
-    ] ..
+""" {
+    :tags => {"One", "Two", "Three"}
+    } ->
 OldTests
 
 # fix for `@doc` with no docstring
-@doc [
+@doc {
     :file => "methoddoc.md"
-    ] ..
+    } ->
 function h(x, y, z)
 
 end
-@doc [
+@doc {
     :file => "methoddoc.md"
-    ] ..
+    } ->
 type FooBar30
 
 end
 
-@doc [
+@doc {
     :file => "methoddoc.md"
-    ] ..
+    } ->
 abstract FooBar31
 
-@doc [
+@doc {
     :file => "methoddoc.md"
-    ] ..
+    } ->
 global const FOOBAR1 = 4
 
-@doc [
+@doc {
     :file => "methoddoc.md"
-    ] ..
+    } ->
 const FOOBAR2 = 4
 
-@doc [
+@doc {
     :file => "methoddoc.md"
-    ] ..
+    } ->
 FOOBAR3 = 4
 
-@doc [
+@doc {
     :file => "methoddoc.md"
-    ] ..
+    } ->
 h(x, y, z) = x
 
 doctest(OldTests)

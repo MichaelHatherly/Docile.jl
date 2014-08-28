@@ -19,11 +19,11 @@ include("doctest.jl")
 include("query.jl")
 
 # link the readme into the package docs
-@doc [ :file => "../README.md" ] .. Docile
+@doc { :file => "../README.md" } -> Docile
 
 # Inject docs after the fact since we can't run @doc on itself. **Internal use only.**
-__METADATA__.docs[symbol("@doc")] =
-    Entry{:macro}("""
+__METADATA__.entries[symbol("@doc")] =
+    Entry{:macro}("", """
 
     Document objects in source code, namely:
 
@@ -46,11 +46,12 @@ __METADATA__.docs[symbol("@doc")] =
         :key => :value
         ] ..
     f(x) = x
-    ```
-    """, [ :section => "Documentation Macros" ])
 
-__METADATA__.docs[symbol("@docstrings")] =
-    Entry{:macro}("""
+    ```
+    """, { :section => "Documentation Macros" })
+
+__METADATA__.entries[symbol("@docstrings")] =
+    Entry{:macro}("", """
 
     Module documentation initialiser. Run this macro prior to any `@doc`
     uses in a module.
@@ -64,34 +65,35 @@ __METADATA__.docs[symbol("@docstrings")] =
     @docstrings
 
     # `@doc` uses appear after this.
-    ```
-    """, [ :section => "Documentation Macros" ])
 
-__METADATA__.docs[Entry] =
-    Entry{:type}("""
+    ```
+    """, { :section => "Documentation Macros" })
+
+__METADATA__.entries[Entry] =
+    Entry{:type}("", """
 
     Type representing an docstring and associated metadata in the
     module's `Documentation` object.
 
-    """, [:section => "Internals",
+    """, {:section => "Internals",
           :fields => [
               (:docs, "markdown AST representing the docstring"),
               (:meta, "key/value pairs of arbitary data related to object being documented")
               ]
-          ])
+          })
 
-__METADATA__.docs[Documentation] =
-    Entry{:type}("""
+__METADATA__.entries[Documentation] =
+    Entry{:type}("", """
 
     Stores the documentation generated for a module via `@doc`. The
     instance created in a module via `@docstrings` is called
     `__METADATA__`.
 
-    """, [:section => "Internals",
+    """, {:section => "Internals",
           :fields => [
               (:modname, "name of the module in which the Documentation is located"),
               (:docs, "dictionary containing the objects being documented and their related docstring/metadata")
               ]
-          ])
+          })
 
 end # module

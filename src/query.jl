@@ -16,17 +16,17 @@ Full text search of all docstrings curently available.
 ```julia
 query("query")
 ```
-""" [
+""" {
     :tags       => ["search", "fulltext"],
     :section    => "Queries and Searches",
     :parameters => [
         (:str, "text to search for in all available documentation")
         ]
-    ] ..
+    } ->
 function query(str::String)
     results = (Any,Entry)[]
     for md in documentedmodules()
-        for (obj, ent) in getfield(md, METADATA).docs
+        for (obj, ent) in getfield(md, METADATA).entries
             searchmarkdown(ent.docs, str) && push!(results, (obj, ent))
         end
     end
@@ -61,24 +61,24 @@ query(Docile)                     # docs for the module `Docile`
 query(query)                      # function and method docs for `query`
 query(query, Docile; all = false) # just the function docs in module `Docile`.
 ```
-""" [
+""" {
     :section => "Queries and Searches",
     :parameters => [
         (:m, "the target module to search through"),
         (:q, "optional object to search the module for"),
         (:all, "optional switch to show all methods associated with a function")
         ]
-    ] ..
+    } ->
 function query(q, ms = documentedmodules(); all = true)
     results = (Any,Entry)[]
     for m in [ms]
-        if haskey(getfield(m, METADATA).docs, q)
-            push!(results, (q, getfield(m, METADATA).docs[q]))
+        if haskey(getfield(m, METADATA).entries, q)
+            push!(results, (q, getfield(m, METADATA).entries[q]))
         end
         if isa(q, Function) && all
             for mt in q.env
-                if haskey(getfield(m, METADATA).docs, mt)
-                    push!(results, (mt, getfield(m, METADATA).docs[mt]))
+                if haskey(getfield(m, METADATA).entries, mt)
+                    push!(results, (mt, getfield(m, METADATA).entries[mt]))
                 end
             end
         end
@@ -86,7 +86,7 @@ function query(q, ms = documentedmodules(); all = true)
     results
 end
 
-@doc """Search for documentation in Docile-generated docstrings.""" .. query
+@doc "Search for documentation in Docile-generated docstrings." -> query
 
 @doc """
 Search for documentation related to the method that would be called if
@@ -99,12 +99,12 @@ the expression `q` was evaluated. Behavour is similar to that of
 @query doctest(Docile)
 @query @query
 ```
-""" [
+""" {
     :section    => "Queries and Searches",
     :parameters => [
         (:q, "the expression to query")
         ]
-    ] ..
+    } ->
 macro query(q)
     if isa(q, Symbol)
         Expr(:call, query, Expr(:quote, symbol(q)))
