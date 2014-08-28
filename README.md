@@ -101,6 +101,9 @@ syntax in docstrings. Using standard multiline strings allows for
 interpolating data into the string from the surrounding module in the
 usual way.
 
+Code generated via loops and `@eval` can also be documented. See the
+test directory file `loop-generated-docs.jl` for examples.
+
 ### Doctests
 
 Only fenced or indented code blocks are run through `doctest`. Inline
