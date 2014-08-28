@@ -6,31 +6,31 @@ using Base.Test
 using Docile
 @docstrings
 
-@doc """""" [ :sig => (String,) ] ..
+@doc """""" { :sig => (String,) } ->
 f(x::String) = x
 
-@doc """""" [ :sig => (Int,) ] ..
+@doc """""" { :sig => (Int,) } ->
 f(x::Int) = x
 
-@doc """""" [ :sig => (Vector, Int) ] ..
+@doc """""" { :sig => (Vector, Int) } ->
 f(x::Vector, y::Int) = x
 
-@doc """""" [ :sig => (Int, String) ] ..
+@doc """""" { :sig => (Int, String) } ->
 f(x::Int, y::String) = x
 
-@doc """""" [ :sig => (Char, Complex, String) ] ..
+@doc """""" { :sig => (Char, Complex, String) } ->
 f(x::Char, y::Complex, z::String) = x
 
-@doc """""" [ :sig => (Vector, Char, Real) ] ..
+@doc """""" { :sig => (Vector, Char, Real) } ->
 f(x::Vector, y::Char, z::Real) = x
 
-@doc """""" [ :sig => (String, Matrix{Int}) ] ..
+@doc """""" { :sig => (String, Matrix{Int}) } ->
 f(x::String, y::Matrix{Int}) = x
 
-@doc """Generic function docstring.""" .. f
+@doc """Generic function docstring.""" -> f
 
 @test isdefined(:__METADATA__)
-@test length(__METADATA__.docs) == 8
+@test length(__METADATA__.entries) == 8
 
 # Have the methods been added correctly to __METADATA__
 # with the right :sig associated with each?
@@ -52,6 +52,6 @@ results = query(f; all = false)
 @test length(results) == 1
 @test isa(results[1][1], Function)
 @test isa(results[1][2], Docile.Entry{:function})
-@test length(results[1][2].meta) == 0
+@test length(results[1][2].meta) == 1
 
 end

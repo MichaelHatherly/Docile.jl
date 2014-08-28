@@ -1,84 +1,28 @@
-# Check whether a given expression contains a dict.
-isdictexpr(ex::Expr) = isexpr((isexpr(ex, :(=)) ? ex.args[1] : ex).args[2], :dict)
-isdictexpr(other) = false
-
-#=
-Extract the mstr macro from an expression tuple. If the first argument
-is not a multiline string then return current file and assume that the
-docstring's metadata provides a file containing the docstring text
-itself.
-=#
-function docstring(args)
-    isdictexpr(args[1]) && return Expr(:macrocall, symbol("@__FILE__"))
-    docs =
-        if length(args) == 2
-            args[1]
-        else
-            arg = args[end]
-            arg.args[1] == :(..) ? arg.args[2] : arg.args[1].args[2]
-        end
-    @assert isa(docs, Expr)
-    @assert docs.head == :macrocall
-    @assert endswith(string(docs.args[1]), "mstr")
-    docs
-end
-
-#=
-Extract metadata from expression tuple and return it, or empty dict expression.
-=#
-function metadata(args)
-    meta =
-        if length(args) == 1 && !isdictexpr(args[1])
-            :((Symbol => Any)[])
-        else
-            arg = args[end].args[2]
-            arg.head == :dict ? arg : args[end].args[1].args[2]
-        end
-    @assert isa(meta, Expr)
-    @assert meta.head in (:typed_dict, :dict)
-    meta
-end
-
-#=
-Extract the object being documented.
-=#
-function object(args)
-    obj =
-        let ex = args[end]
-            if ex.args[1] == :(..)
-                ex.args[end]
-            else
-                # rebuild the expression since `..` association broke it up.
-                head = ex.args[1].args[end]
-                tail = ex.args[end]
-                Expr(:(=), head, tail)
-            end
-        end
-    @assert isa(obj, Union(Symbol, Expr))
-    obj
-end
-
-name(ex::Expr) = name(isa(ex.args[1], Bool) ? ex.args[2] : ex.args[1])
-name(s::Symbol) = s
-
-# Module indentifiers are handled directly in the @doc macro.
 category(ex) =
-    isfunction(ex) ? :function :
-    ismethod(ex)   ? :method :
-    isglobal(ex)   ? :global :
-    ismacro(ex)    ? :macro :
-    istype(ex)     ? :type :
-    error("Cannot document that kind of object.\n$(obj)")
+    ismethod(ex) ? :method :
+    ismacro(ex)  ? :macro  :
+    istype(ex)   ? :type   :
+    isglobal(ex) ? :global :
+    issymbol(ex) ? :symbol :
+    error("@doc: cannot document object:\n$(ex)")
 
 ismethod(ex) = isexpr(ex, [:function, :(=)]) && isexpr(ex.args[1], :call)
+isglobal(ex) = isexpr(ex, [:global, :const, :(=)]) && !isexpr(ex.args[1], :call)
+istype(ex)   = isexpr(ex, [:type, :abstract, :typealias])
+ismacro(ex)  = isexpr(ex, :macro)
 
-isfunction(ex) = false
-isfunction(s::Symbol) = true
+# handle module/function as symbols at later stage of execution
+issymbol(s::Symbol) = true
+issymbol(ex) = false
 
-isglobal(ex) = isexpr(ex, [:const, :global, :(=)]) && !isexpr(ex.args[1], :call)
+guess(f::Function) = :function
+guess(m::Module)   = :module
+guess(unknown)     = error("@doc: cannot document a $(unknown)")
 
-ismacro(ex) = isexpr(ex, :macro)
-istype(ex) = isexpr(ex, [:type, :abstract, :typealias])
+function lateguess(curmod, symb)
+    isdefined(curmod, symb) || error("@doc: undefined object: $(symb)")
+    guess(getfield(curmod, symb))
+end
 
 function lastmethod(fn)
     res = nothing
@@ -86,47 +30,51 @@ function lastmethod(fn)
     res
 end
 
+name(ex::Expr) = name(isa(ex.args[1], Bool) ? ex.args[2] : ex.args[1])
+name(s::Symbol) = s
+
+function separate(expr)
+    data, obj = expr.args
+    (data,), obj
+end
+
+function separate(docs, expr)
+    meta, obj = expr.args
+    (docs, meta), obj
+end
+
 const METADATA = :__METADATA__
 
 ## macros –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-macro docstrings()
-    esc(:($METADATA = Docile.Documentation(current_module())))
-end
 
 macro tex_mstr(text)
     triplequoted(text)
 end
 
+@docref () -> REF_DOCSTRINGS_MACRO
+macro docstrings()
+    esc(:($METADATA = Docile.Documentation(current_module())))
+end
+
+@docref () -> REF_DOC_MACRO
 macro doc(args...)
-    @assert 0 < length(args) < 3
+    isexpr(last(args), :(->)) || error("@doc: use `->` to separate docs/object:\n$(args)")
 
-    docs = docstring(args)
-    meta = metadata(args)
-    obj = object(args)
+    # Separate out the documentation and metadata from the object.
+    data, obj = separate(args...)
 
-    cat = category(obj)
-    qcat = Expr(:quote, cat)
+    # Find the category and name of an object. Build corresponding quoted expressions
+    # for use in the `quote` returned. Macros names are prefixed by `@` here.
+    c, n   = category(obj.args[2]), name(obj.args[2])
+    qc, qn = Expr(:quote, c), Expr(:quote, c == :macro ? symbol("@$(n)") : n)
 
-    n = name(obj)
+    # Capture the line and file.
+    loc    = obj.args[1].args
+    source = (loc[1], string(loc[2]))
 
-    var =
-        if cat == :method
-            :(Docile.lastmethod($obj))
-        elseif cat == :macro
-            t = Expr(:quote, symbol("@$n"))
-            :($obj; $t)
-        elseif cat == :global
-            t = Expr(:quote, n)
-            :($obj; $t)
-        else # function or type (or module)
-            :($obj; $n)
-        end
+    # Prebuilt expressions to avoid packing lines into the destination module.
+    cat = :($qc == :symbol ? Docile.lateguess(current_module(), $qn) : $qc)
+    var = :($qc == :method ? Docile.lastmethod($n) : $qc in (:type, :symbol) ? $n : $qn)
 
-    # better escaping needed
-    quote
-        res = $var
-        ismod = $qcat == :function && !isa(res, Function) # handle module docs
-        push!($METADATA, res, Docile.Entry{ismod ? :module : $qcat}($docs, $meta))
-    end |> esc
+    esc(:($obj; push!($METADATA, $var, Docile.Entry{$cat}($source, $(data...)))))
 end
