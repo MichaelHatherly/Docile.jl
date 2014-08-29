@@ -4,19 +4,13 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/ttlbaxp6pgknfru5/branch/master)](https://ci.appveyor.com/project/MichaelHatherly/docile-jl/branch/master)
 [![Coverage Status](https://coveralls.io/repos/MichaelHatherly/Docile.jl/badge.png)](https://coveralls.io/r/MichaelHatherly/Docile.jl)
 
-[Julia](www.julialang.org) package documentation system. [Mailing list discussion](https://groups.google.com/forum/#!topic/julia-users/k_SzJxcAoqA).
-
-*Docile* provides a docstring macro, `@doc`, for documenting and
-associating metadata with arbitrary Julia objects.
+*Docile* is a [Julia](www.julialang.org) package documentation system
+that provides a docstring macro, `@doc`, for documenting arbitrary
+Julia objects and associating metadata with them.
 
 ## Install
 
-*Docile* is in `METADATA`. Install it using:
-
-```julia
-Pkg.add("Docile")
-
-```
+*Docile* is in `METADATA` and can be installed via `Pkg.add("Docile")`.
 
 ## Usage
 
@@ -25,10 +19,10 @@ Pkg.add("Docile")
 ```julia
 using Docile
 query("Examples")      # full text search of all documentation
-@query doctest(Docile) # behaves similarly to `Base.@which`
+query(Docile)          # the docs associated with the module itself
+query(query)           # docs for generic function `query` and all it's methods
+@query doctest(Docile) # behaves similarly to `Base.@which`, but returns documentation
 @query @query          # searching for macros
-doctest(Docile)        # test all code blocks in the Docile module
-
 ```
 
 ### Documenting
@@ -42,7 +36,7 @@ doctest(Docile)        # test all code blocks in the Docile module
 * modules
 * types
 
-The syntax of `@doc` is the same in all cases.
+The syntax of `@doc` is the same for all cases.
 
 **Example:**
 
@@ -83,7 +77,7 @@ External files containing documentation can be linked to by adding a
 `:file => "path"` to the metadata section of the `@doc` macro. The text
 section of the macro, `""" ... """`, is ignored in this case and can be
 left out. The file path is taken to be relative to the source file. This
-README file is linked into the documentation using:
+README file is linked into the module documentation using:
 
 ```julia
 @doc { :file => "../README.md" } -> Docile
@@ -109,12 +103,12 @@ file `test/loop-generated-docs.jl` for an example of this.
 
 ### Doctests
 
+`doctest(PACKAGE_NAME)` can be used to run all the docstring code blocks
+in a module documented by *Docile*.
+
 Only fenced or indented code blocks are run through `doctest`. Inline
 code with single backticks isn't run. Placing an extra blank line at the
 end of a code block tells `doctest` to skip the block.
-
-`doctest` is currently very bare-bones and shouldn't be relied upon for anything
-more than sanity checks.
 
 ## Feedback
 

@@ -17,13 +17,14 @@ __METADATA__.entries[symbol("@doc")] =
 
     **Example:**
     ```julia
+    @docstrings
+
     @doc \"\"\"
     Markdown formatted text appears here...
-    \"\"\" [
+    \"\"\" {
         :key => :value
-        ] ..
+        } ->
     f(x) = x
-
     ```
     """, { :section => "Documentation Macros" })
 
@@ -42,7 +43,6 @@ __METADATA__.entries[symbol("@docstrings")] =
     @docstrings
 
     # `@doc` uses appear after this.
-
     ```
     """, { :section => "Documentation Macros" })
 
@@ -69,6 +69,6 @@ __METADATA__.entries[Documentation] =
     """, {:section => "Internals",
           :fields => [
               (:modname, "name of the module in which the Documentation is located"),
-              (:docs, "dictionary containing the objects being documented and their related docstring/metadata")
+              (:entries, "dictionary containing documented objects and their docstrings/metadatas")
               ]
           })

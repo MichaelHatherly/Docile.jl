@@ -331,6 +331,5 @@ OBJECT_COUNT += 1
 info("testing doctest")
 
 doctest(MacroSpecTests)
-doctest(MacroSpecTests; verbose = true)
 
 end

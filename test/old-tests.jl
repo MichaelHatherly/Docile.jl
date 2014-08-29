@@ -537,6 +537,5 @@ FOOBAR3 = 4
 h(x, y, z) = x
 
 doctest(OldTests)
-doctest(OldTests; verbose = true)
 
 end
