@@ -1,4 +1,4 @@
-@doc "Provides detailed results from a `doctest` run for later use." ->
+@doc "Stores detailed results from a `doctest` run." ->
 type Summary
     modname::Module
     total::Int
