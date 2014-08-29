@@ -4,6 +4,7 @@ using Base.Test
 include("macro-spec.jl")
 include("method-docs.jl")
 include("loop-generated-docs.jl")
+include("doctests.jl")
 include("old-tests.jl")
 
 # fix reversed order in query macro
