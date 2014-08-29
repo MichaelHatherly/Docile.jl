@@ -12,3 +12,7 @@ let results = @query doctest(Docile)
     @test isa(results[1][1], Method)
     @test isa(results[1][2], Docile.Entry{:method})
 end
+
+# doctest summary tests
+doctest_summary = doctest(Docile; verbose = true)
+writemime(STDOUT, "text/plain", doctest_summary)
