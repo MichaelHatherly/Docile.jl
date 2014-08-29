@@ -6,12 +6,15 @@
 
 [Julia](www.julialang.org) package documentation system. [Mailing list discussion](https://groups.google.com/forum/#!topic/julia-users/k_SzJxcAoqA).
 
+*Docile* provides a docstring macro, `@doc`, for documenting and
+associating metadata with arbitrary Julia objects.
+
 ## Install
 
-*Docile* is in `METADATA`, but not tagged yet. Install it using:
+*Docile* is in `METADATA`. Install it using:
 
 ```julia
-Pkg.clone("Docile")
+Pkg.add("Docile")
 
 ```
 
@@ -102,7 +105,7 @@ interpolating data into the string from the surrounding module in the
 usual way.
 
 Code generated via loops and `@eval` can also be documented. See the
-test directory file `loop-generated-docs.jl` for examples.
+file `test/loop-generated-docs.jl` for an example of this.
 
 ### Doctests
 
