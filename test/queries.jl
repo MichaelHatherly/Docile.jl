@@ -63,4 +63,7 @@ tester(@query(Queries.@mac), "Macro")
 tester(query(TestType), "TestType")
 tester(query(Queries.TestType), "TestType")
 
+# should raise an error with this kind of query
+@test_throws ErrorException Docile.parsequery(1)
+
 end
