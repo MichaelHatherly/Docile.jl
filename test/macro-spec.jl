@@ -237,17 +237,17 @@ $(TESTCASE)
     :key => :value
     } ->
 const DocsAndMetaConst = 1
-tester((@query DocsAndMetaConst;), Symbol, :docsmeta)
+tester((@query global DocsAndMetaConst;), Symbol, :docsmeta)
 
 @doc """
 $(TESTCASE)
 """ ->
 const DocsNoMetaConst = 1
-tester((@query DocsNoMetaConst;), Symbol, :docs)
+tester((@query global DocsNoMetaConst;), Symbol, :docs)
 
 @doc { :file => "test-case.md", :key => :value } ->
 const ExternDocsMetaConst = 1
-tester((@query ExternDocsMetaConst;),Symbol, :meta)
+tester((@query global ExternDocsMetaConst;),Symbol, :meta)
 
 OBJECT_COUNT += 3
 @test length(__METADATA__.entries) == OBJECT_COUNT
@@ -261,17 +261,17 @@ $(TESTCASE)
     :key => :value
     } ->
 DocsAndMetaGlobal = 1
-tester((@query DocsAndMetaGlobal;), Symbol, :docsmeta)
+tester((@query global DocsAndMetaGlobal;), Symbol, :docsmeta)
 
 @doc """
 $(TESTCASE)
 """ ->
 DocsNoMetaGlobal = 1
-tester((@query DocsNoMetaGlobal;), Symbol, :docs)
+tester((@query global DocsNoMetaGlobal;), Symbol, :docs)
 
 @doc { :file => "test-case.md", :key => :value } ->
 ExternDocsMetaGlobal = 1
-tester((@query ExternDocsMetaGlobal;), Symbol, :meta)
+tester((@query global ExternDocsMetaGlobal;), Symbol, :meta)
 
 OBJECT_COUNT += 3
 @test length(__METADATA__.entries) == OBJECT_COUNT
