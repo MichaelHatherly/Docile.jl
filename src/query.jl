@@ -1,36 +1,13 @@
-function documentedmodules(md = Main)
-    modules = Module[]
-    for obj in names(md)
-        if isa(getfield(md, obj), Module) && isdefined(md.(obj), METADATA)
-            push!(modules, md.(obj))
+function documented(md = Main)
+    modules = Set{Module}()
+    for name in names(md, true)
+        isdefined(md, name) || continue
+        if isa((obj = getfield(md, name);), Module) && isdefined(obj, METADATA)
+            push!(modules, obj)
+            md == obj || union!(modules, documented(obj))
         end
     end
     modules
-end
-
-@doc """
-Full text search of all docstrings curently available.
-
-**Example:**
-
-```julia
-query("query")
-```
-""" {
-    :tags       => ["search", "fulltext"],
-    :section    => "Queries and Searches",
-    :parameters => [
-        (:str, "text to search for in all available documentation")
-        ]
-    } ->
-function query(str::String)
-    results = (Any,Entry)[]
-    for md in documentedmodules()
-        for (obj, ent) in getfield(md, METADATA).entries
-            searchmarkdown(ent.docs, str) && push!(results, (obj, ent))
-        end
-    end
-    results
 end
 
 function searchmarkdown(md::Markdown.Content, str::String)
@@ -48,37 +25,65 @@ function searchmarkdown(md::Markdown.Content, str::String)
     found
 end
 
-@doc """
-Search the module `m` for documentation on object `q`.
+found(q, k, v)         = q == k
+found(q::String, k, v) = contains(string(k), q) || searchmarkdown(v.docs, q)
 
-If `q` is not provided search for documentation related to the module
-`m` itself.
+category(ent::Entry) = typeof(ent).parameters[1]
+
+@doc """
+
+Search through loaded documentation for the query term `q`. `q` can be a
+`String`, for full text searches, or an object such as a function or
+type. When searching for macros, methods, or globals use the provided
+`@query` macro instead.
+
+The search can be restricted to particular modules by listing them
+after the search term `q`.
 
 **Examples:**
 
+Display documentation for the `Docile` module.
+
 ```julia
-query(Docile)                     # docs for the module `Docile`
-query(query)                      # function and method docs for `query`
-query(query, Docile; all = false) # just the function docs in module `Docile`.
+query(Docile)
 ```
+
+To display the documentation for a function, but not the associated
+methods use `all = false` as a keyword to `query`.
+
+```julia
+query(query; all = false)
+```
+
+Querying can be narrowed down by providing a module or modules to
+search through (defaults to searching `Main`).
+
+`categories` further narrows down the types of results returned. Choices
+for this are `:method`, `:global`, `:function`, `:macro`, `:module`, and
+`:type`. These options are more useful when doing a text search rather
+than an object search.
+
+```julia
+query("Examples", Docile; categories = [:method, :macro])
+```
+
 """ {
-    :section => "Queries and Searches",
-    :parameters => [
-        (:m, "the target module to search through"),
-        (:q, "optional object to search the module for"),
-        (:all, "optional switch to show all methods associated with a function")
-        ]
+    :returns => (Vector{(Any, Entry)})
     } ->
-function query(q, ms = documentedmodules(); all = true)
-    results = (Any,Entry)[]
-    for m in [ms]
-        if haskey(getfield(m, METADATA).entries, q)
-            push!(results, (q, getfield(m, METADATA).entries[q]))
-        end
-        if isa(q, Function) && all
-            for mt in q.env
-                if haskey(getfield(m, METADATA).entries, mt)
-                    push!(results, (mt, getfield(m, METADATA).entries[mt]))
+function query(q, modules... = Main; categories = Symbol[], all = true)
+    results = (Any, Entry)[]
+    for m in union([documented(m) for m in modules]...)
+        for (k, v) in getfield(m, METADATA).entries
+            if (isempty(categories) || category(v) in categories) && found(q, k, v)
+                push!(results, (k, v))
+
+                # Show methods of a generic function. TODO: Optional?
+                if isa(q, Function) && all
+                    for mt in q.env
+                        if haskey(getfield(m, METADATA).entries, mt)
+                            push!(results, (mt, getfield(m, METADATA).entries[mt]))
+                        end
+                    end
                 end
             end
         end
@@ -86,34 +91,71 @@ function query(q, ms = documentedmodules(); all = true)
     results
 end
 
-@doc "Search for documentation in Docile-generated docstrings." -> query
+@doc "Search Docile-generated documentation." -> query
 
 @doc """
-Search for documentation related to the method that would be called if
-the expression `q` was evaluated. Behavour is similar to that of
-`Base.@which`, but returns the documentation as well.
+
+Search through documentation of a particular package or globally.
+`@query` supports every type of object that Docile can document with
+`@doc`.
+
+Qualifying searches with a module identifier narrows the searching to
+only the specified module. When no module is provided every loaded module
+containing docstrings is searched.
 
 **Examples:**
 
+In a similar way to `Base.@which` you can use `@query` to search for the
+documentation of a method that would be called with the given arguments.
+
 ```julia
-@query doctest(Docile)
-@query @query
+@query query("Examples", Main)
+@query Docile.doctest(Docile)
 ```
-""" {
-    :section    => "Queries and Searches",
-    :parameters => [
-        (:q, "the expression to query")
-        ]
-    } ->
+
+Full text searching is provided and looks through all text and code in
+docstrings, thus behaving in a similar way to `Base.apropos`. To specify
+the module(s) to search through rather use the `query` method directly.
+
+```julia
+@query "Examples"
+```
+
+Generic functions and types are supported directly by `@query`. As with
+method searches the module may be specified.
+
+```julia
+@query query
+@query Docile.query
+@query Docile.Summary
+```
+
+Globals require a prefix argument `global` to avoid conflicting with
+function/type queries as see above.
+
+```julia
+@query global Docile.METADATA # this won't show anything
+```
+
+""" ->
 macro query(q)
-    if isa(q, Symbol)
-        Expr(:call, query, Expr(:quote, symbol(q)))
-    elseif isa(q, Expr)
-        if q.head == :macrocall
-            Expr(:call, query, Expr(:quote, symbol("$(q.args[1])")))
+    Expr(:call, query, map(esc, parsequery(q))...)
+end
+
+function parsequery(q)
+    if isa(q, Union(String, Symbol))
+        (q,)
+    elseif isexpr(q, :(.))
+        (q, q.args[1])
+    elseif isexpr(q, [:macrocall, :global])
+        if isexpr((ex = q.args[1];), :(.))
+            (Expr(:quote, ex.args[end].args[end]), ex.args[1])
         else
-            mt = Expr(:macrocall, symbol("@which"), q)
-            esc(:(query($(mt), $(mt).func.code.module, )))
+            (Expr(:quote, ex),)
         end
+    elseif isexpr(q, :call)
+        (Expr(:macrocall, symbol("@which"), q),)
+    else
+        error("can't recognise input.")
     end
 end
