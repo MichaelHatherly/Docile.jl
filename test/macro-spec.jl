@@ -35,7 +35,7 @@ function tester(entries, typ, case; verbose = false)
 
     @test !isempty(ent.docs.content)
     @test isa(ent.docs.content[1], Markdown.Header{1})
-    @test isa(ent.docs.content[end], Markdown.Code)
+    @test isa(ent.docs.content[end], Markdown.BlockCode)
 
     if case == :docsmeta
         @test haskey(ent.meta, :key)
