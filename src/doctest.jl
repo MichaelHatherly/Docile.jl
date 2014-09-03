@@ -63,7 +63,7 @@ function doctest(modname::Module; verbose = false)
     for (obj, entry) in getfield(modname, METADATA).entries
         verbose && println(" • [ENTRY] $(obj)")
         for block in entry.docs.content
-            if isa(block, Markdown.Code) # block.language == :julia
+            if isa(block, Markdown.BlockCode) # block.language == :julia
                 total!(summ)
                 verbose && print_with_color(:purple, "  ∘ [EVAL]\n")
                 success = true
