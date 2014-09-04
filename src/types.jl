@@ -30,3 +30,7 @@ function push!(docs::Documentation, object, ent::Entry)
     haskey(docs.entries, object) && warn("@doc: overwriting object $(object)")
     docs.entries[object] = ent
 end
+
+immutable MetaContainer{symb}
+    content
+end
