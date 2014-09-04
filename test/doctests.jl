@@ -25,9 +25,11 @@ f(x) = sqrt(x)
 
 end
 
-let results = doctest(Doctests; verbose = true)
-    @test results.total == 3
-    @test results.pass == 1
-    @test results.fail == 1
-    @test results.skip == 1
+let results = doctest(Doctests)
+    @test length(passed(results)) == 1
+    @test length(failed(results)) == 1
+    @test length(skipped(results)) == 1
+    
+    buf = IOBuffer()
+    writemime(buf, "text/plain", results)
 end

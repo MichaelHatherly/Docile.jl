@@ -64,7 +64,6 @@ end
 foo(x) = x
 
 end
-
 ```
 
 A `->` is required between the docstring/metadata and the object being

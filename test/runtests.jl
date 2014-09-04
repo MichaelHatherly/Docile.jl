@@ -16,5 +16,5 @@ let results = @query doctest(Docile)
 end
 
 # doctest summary tests
-doctest_summary = doctest(Docile; verbose = true)
+doctest_summary = doctest(Docile)
 writemime(STDOUT, "text/plain", doctest_summary)
