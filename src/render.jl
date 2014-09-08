@@ -1,5 +1,5 @@
-function writemime(io::IO, mime::MIME"text/plain", entries::Vector{(Any,Entry)})
-    for (m, ent) in entries
+function writemime(io::IO, mime::MIME"text/plain", ents::Entries)
+    for (m, ent) in ents.entries
         println(io, ">>>")
         println(io, AnsiColor.colorize(:blue, "\n • $(m)\n"; mode = "bold"))
         writemime(io, mime, ent)

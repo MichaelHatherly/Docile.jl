@@ -11,8 +11,8 @@ include("old-tests.jl")
 # fix reversed order in query macro
 let results = @query doctest(Docile)
     @test length(results) == 1
-    @test isa(results[1][1], Method)
-    @test isa(results[1][2], Docile.Entry{:method})
+    @test isa(results.entries[1][1], Method)
+    @test isa(results.entries[1][2], Docile.Entry{:method})
 end
 
 # doctest summary tests

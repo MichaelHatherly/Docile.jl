@@ -19,6 +19,15 @@ type Entry{category} # category::Symbol
     Entry(args...) = error("@doc: incorrect arguments given to docstring macro:\n$(args)")
 end
 
+type Entries
+    entries::Vector{(Any, Entry)}
+    Entries() = new((Any, Entry)[])
+end
+
+push!(ents::Entries, obj, ent::Entry) = push!(ents.entries, (obj, ent))
+
+length(ents::Entries) = length(ents.entries)
+
 @docref () -> REF_DOCUMENTATION_TYPE
 type Documentation
     modname::Module

@@ -71,24 +71,24 @@ query("Examples", Docile; categories = [:method, :macro])
     :returns => (Vector{(Any, Entry)})
     } ->
 function query(q, modules... = Main; categories = Symbol[], all = true)
-    results = (Any, Entry)[]
+    ents = Entries()
     for m in union([documented(m) for m in modules]...)
         for (k, v) in getfield(m, METADATA).entries
             if (isempty(categories) || category(v) in categories) && found(q, k, v)
-                push!(results, (k, v))
+                push!(ents, k, v)
 
                 # Show methods of a generic function. TODO: Optional?
                 if isa(q, Function) && all
                     for mt in q.env
                         if haskey(getfield(m, METADATA).entries, mt)
-                            push!(results, (mt, getfield(m, METADATA).entries[mt]))
+                            push!(ents, mt, getfield(m, METADATA).entries[mt])
                         end
                     end
                 end
             end
         end
     end
-    results
+    ents
 end
 
 @doc "Search Docile-generated documentation." -> query
