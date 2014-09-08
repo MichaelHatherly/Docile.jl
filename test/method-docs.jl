@@ -35,7 +35,7 @@ f(x::String, y::Matrix{Int}) = x
 # Have the methods been added correctly to __METADATA__
 # with the right :sig associated with each?
 for mt in f.env
-    obj, ent = query(mt)[1]
+    obj, ent = query(mt).entries[1]
 
     @test mt === obj
     @test mt.sig === ent.meta[:sig]
@@ -50,8 +50,8 @@ results = query(f)
 results = query(f; all = false)
 
 @test length(results) == 1
-@test isa(results[1][1], Function)
-@test isa(results[1][2], Docile.Entry{:function})
-@test length(results[1][2].meta) == 1
+@test isa(results.entries[1][1], Function)
+@test isa(results.entries[1][2], Docile.Entry{:function})
+@test length(results.entries[1][2].meta) == 1
 
 end

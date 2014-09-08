@@ -20,15 +20,15 @@ symname(s::DataType) = s.name.name
 symname(s::Function) = symname(s.env.defs)
 symname(s::Module)   = symbol("$s")
 
-function tester(entries, typ, case; verbose = false)
+function tester(ents, typ, case; verbose = false)
 
     if verbose
-        xdump(entries)
-        @show entries typ case
-        @show typeof(entries[1])
+        xdump(ents)
+        @show ents typ case
+        @show typeof(ents[1])
     end
 
-    obj, ent = entries[1]
+    obj, ent = ents.entries[1]
 
     @test isa(obj, typ)
     @test isdefined(symname(obj))

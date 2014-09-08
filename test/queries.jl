@@ -37,7 +37,7 @@ using Docile
 
 function tester(result, name)
     @test length(result) == 1
-    @test result[1][2].meta[:name] == name
+    @test result.entries[1][2].meta[:name] == name
 end
 
 # macro versions
