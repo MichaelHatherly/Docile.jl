@@ -2,10 +2,13 @@ module Docile
 
 import AnsiColor, Markdown
 
-import Base: triplequoted, writemime, push!
+import Base: triplequoted, writemime, push!, length
 import Base.Meta: isexpr
 
-export query, doctest, @query, @doc, @docstrings, @tex_mstr
+export 
+    query, @query,
+    @doc, @docstrings, @tex_mstr,
+    doctest, passed, failed, skipped, Summary 
 
 # internal
 macro docref(ref)

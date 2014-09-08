@@ -41,8 +41,6 @@ __METADATA__.entries[symbol("@docstrings")] =
     ```julia
     using Docile
     @docstrings
-
-    # `@doc` uses appear after this.
     ```
     """, { :section => "Documentation Macros" })
 
