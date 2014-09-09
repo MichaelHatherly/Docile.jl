@@ -1,12 +1,40 @@
 # Docile
 
-[![Build Status](https://travis-ci.org/MichaelHatherly/Docile.jl.svg?branch=master)](https://travis-ci.org/MichaelHatherly/Docile.jl)
-[![Build status](https://ci.appveyor.com/api/projects/status/ttlbaxp6pgknfru5/branch/master)](https://ci.appveyor.com/project/MichaelHatherly/docile-jl/branch/master)
-[![Coverage Status](https://coveralls.io/repos/MichaelHatherly/Docile.jl/badge.png)](https://coveralls.io/r/MichaelHatherly/Docile.jl)
-[![Docile](http://pkg.julialang.org/badges/Docile_release.svg)](http://pkg.julialang.org/?pkg=Docile&ver=release)
+[![Build Status][travis-img]][travis-url]
+[![Build status][appveyor-img]][appveyor-url]
+[![Coverage Status][coveralls-img]][coveralls-url]
+[![Docile][pkgeval-img]][pkgeval-url]
 
 *Docile* is a [Julia](www.julialang.org) package documentation system
 that provides a docstring macro, `@doc`, for documenting arbitrary Julia
-objects and associating metadata with them. The documentation for
-*Docile* is available
-[here](https://MichaelHatherly.github.io/Docile.jl/).
+objects and associating metadata with them.
+
+### Installation
+
+*Docile* currently supports Julia `0.3/0.4` and is available from `METADATA` via:
+
+```julia
+Pkg.add("Docile")
+```
+
+### Documentation
+
+Self-generated documentation created from docstrings and external files in available [here](https://MichaelHatherly.github.io/Docile.jl/).
+
+### Issues and Support
+
+Please file any issues or feature requests you might have through the GitHub [issue tracker][issue-tracker].
+
+[travis-img]: https://travis-ci.org/MichaelHatherly/Docile.jl.svg?branch=master
+[travis-url]: https://travis-ci.org/MichaelHatherly/Docile.jl
+
+[appveyor-img]: https://ci.appveyor.com/api/projects/status/ttlbaxp6pgknfru5/branch/master
+[appveyor-url]: https://ci.appveyor.com/project/MichaelHatherly/docile-jl/branch/master
+
+[coveralls-img]: https://coveralls.io/repos/MichaelHatherly/Docile.jl/badge.png
+[coveralls-url]: https://coveralls.io/r/MichaelHatherly/Docile.jl
+
+[pkgeval-img]: http://pkg.julialang.org/badges/Docile_release.svg
+[pkgeval-url]: http://pkg.julialang.org/?pkg=Docile&ver=release
+
+[issue-tracker]: https://github.com/MichaelHatherly/Docile.jl/issues
