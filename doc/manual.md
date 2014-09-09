@@ -1,4 +1,4 @@
-*Docile* is a [Julia](www.julialang.org) package documentation system
+*Docile* is a [Julia](http://www.julialang.org) package documentation system
 that provides a docstring macro, `@doc`, for documenting arbitrary
 Julia objects and associating metadata with them.
 

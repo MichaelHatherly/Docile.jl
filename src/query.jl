@@ -68,7 +68,7 @@ query("Examples", Docile; categories = [:method, :macro])
 ```
 
 """ {
-    :returns => (Vector{(Any, Entry)})
+    :returns => (Entries,)
     } ->
 function query(q, modules... = Main; categories = Symbol[], all = true)
     ents = Entries()
