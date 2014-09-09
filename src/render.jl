@@ -30,6 +30,24 @@ function writemime(io, ::MIME"text/plain", entry::Entry)
     end
 end
 
+@doc "Display the contents of a module's manual pages." ->
+function manual(m::Module)
+    isdefined(m, METADATA) || error("module $(m) is not documented.")
+    getfield(m, METADATA).manual
+end
+
+function writemime(io::IO, mime::MIME"text/plain", manual::Manual)
+    for page in manual.manual
+        writemime(io, mime, page)
+    end
+end
+
+function writemime(io::IO, mime::MIME"text/html", manual::Manual)
+    for page in manual.manual
+        writemime(io, mime, page)
+    end
+end
+
 ## html TODO: tidy, avoid using wrap ––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 @doc """
@@ -40,7 +58,7 @@ Currently supported formats: `HTML`.
 """ ->
 function save(file::String, modulename::Module)
     isdefined(modulename, METADATA) || error("module $(modulename) is not documented.")
-    mime = MIME("text/$(strip(splitext(file), '.'))")
+    mime = MIME("text/$(strip(last(splitext(file)), '.'))")
     open(file, "w") do f
         writemime(f, mime, getfield(modulename, METADATA))
     end
@@ -72,7 +90,7 @@ function writemime(io::IO, mime::MIME"text/html", documentation::Documentation)
     end
 
     entries = Entries()
-    println(io, "<a name='API'><h1>Reference</h1></a>")
+    println(io, "<a name='Reference'><h1>Reference</h1></a>")
     wrap(io, "ul", "class='index'") do
         for k in CATEGORY_ORDER
             haskey(index, k) || continue

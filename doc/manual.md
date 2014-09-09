@@ -69,11 +69,12 @@ be left out.
 External files containing documentation can be linked to by adding a
 `:file => "path"` to the metadata section of the `@doc` macro. The text
 section of the macro, `""" ... """`, is ignored in this case and can be
-left out. The file path is taken to be relative to the source file. This
-README file is linked into the module documentation using:
+left out. The file path is taken to be relative to the source file.
+
+**Example:**
 
 ```julia
-@doc { :file => "../README.md" } -> Docile
+@doc { :file => "../doc/manual.md" } -> Docile
 
 ```
 

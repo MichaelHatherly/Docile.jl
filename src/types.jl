@@ -47,23 +47,6 @@ type Documentation
     end
 end
 
-function manual(m::Module)
-    isdefined(m, METADATA) || error("module $(m) is not documented.")
-    getfield(m, METADATA).manual
-end
-
-function writemime(io::IO, mime::MIME"text/plain", manual::Manual)
-    for page in manual.manual
-        writemime(io, mime, page)
-    end
-end
-
-function writemime(io::IO, mime::MIME"text/html", manual::Manual)
-    for page in manual.manual
-        writemime(io, mime, page)
-    end
-end
-
 function push!(docs::Documentation, object, ent::Entry)
     haskey(docs.entries, object) && warn("@doc: overwriting object $(object)")
     docs.entries[object] = ent

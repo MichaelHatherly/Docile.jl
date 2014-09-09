@@ -37,10 +37,19 @@ __METADATA__.entries[symbol("@docstrings")] =
     Creates the required `Documentation` object used to store a module's
     docstrings.
 
-    **Example:**
+    **Examples:**
     ```julia
     using Docile
     @docstrings
+    ```
+    
+    An optional list of file names may be provided for inclusion in the manual
+    section of the documentation, which is viewable using `manual`.
+    
+    ```julia
+    using Docile
+    @docstrings {"../doc/manual.md"}
+    
     ```
     """, { :section => "Documentation Macros" })
 
@@ -67,6 +76,7 @@ __METADATA__.entries[Documentation] =
     """, {:section => "Internals",
           :fields => [
               (:modname, "name of the module in which the Documentation is located"),
+              (:manual, "Markdown AST containing general information about the module"),
               (:entries, "dictionary containing documented objects and their docstrings/metadatas")
               ]
           })

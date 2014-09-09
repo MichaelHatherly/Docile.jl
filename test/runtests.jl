@@ -18,3 +18,9 @@ end
 # doctest summary tests
 doctest_summary = doctest(Docile)
 writemime(STDOUT, "text/plain", doctest_summary)
+
+# save html and cleanup after
+let filename = string(tempname(), ".html")
+    save(filename, Docile)
+    rm(filename)
+end

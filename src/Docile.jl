@@ -8,7 +8,7 @@ import Base.Meta: isexpr
 export 
     query, @query,
     @doc, @docstrings, @tex_mstr,
-    doctest, passed, failed, skipped, Summary 
+    doctest, passed, failed, skipped, Summary, save, manual
 
 # internal
 macro docref(ref)
@@ -26,9 +26,6 @@ include("docstrings.jl")
 include("render.jl")
 include("doctest.jl")
 include("query.jl")
-
-# link the readme into the package docs
-@doc { :file => "../README.md" } -> Docile
 
 include("docs.jl")
 
