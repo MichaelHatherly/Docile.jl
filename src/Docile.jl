@@ -21,7 +21,7 @@ include("docstrings.jl")
 
 # Initialise docstrings for this module. Can't document previous files
 # since they define the docstring methods/macros.
-@docstrings
+@docstrings {"../doc/manual.md"}
 
 include("render.jl")
 include("doctest.jl")

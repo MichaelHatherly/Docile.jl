@@ -52,8 +52,9 @@ macro tex_mstr(text)
 end
 
 @docref () -> REF_DOCSTRINGS_MACRO
-macro docstrings()
-    esc(:($METADATA = Docile.Documentation(current_module())))
+macro docstrings(files...)
+    files = isempty(files) ? :([]) : :(map(f -> joinpath(dirname(@__FILE__), f), $(files[1].args)))
+    esc(:($METADATA = Docile.Documentation(current_module(), $files)))
 end
 
 @docref () -> REF_DOC_MACRO

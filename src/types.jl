@@ -21,18 +21,47 @@ end
 
 type Entries
     entries::Vector{(Any, Entry)}
-    Entries() = new((Any, Entry)[])
 end
+Entries() = Entries((Any, Entry)[])
 
 push!(ents::Entries, obj, ent::Entry) = push!(ents.entries, (obj, ent))
 
 length(ents::Entries) = length(ents.entries)
 
+type Manual
+    manual::Vector{Markdown.Block}
+end
+
 @docref () -> REF_DOCUMENTATION_TYPE
 type Documentation
     modname::Module
+    manual::Manual
     entries::Dict{Any, Entry}
-    Documentation(m::Module) = new(m, Dict{Any, Entry}())
+    Documentation(m::Module) = new(m, Markdown.Block[], Dict{Any, Entry}())
+    function Documentation(m::Module, files)
+        manual = Markdown.Block[]
+        for file in files
+            push!(manual, Markdown.parse_file(file))
+        end
+        new(m, Manual(manual), Dict{Any, Entry}())
+    end
+end
+
+function manual(m::Module)
+    isdefined(m, METADATA) || error("module $(m) is not documented.")
+    getfield(m, METADATA).manual
+end
+
+function writemime(io::IO, mime::MIME"text/plain", manual::Manual)
+    for page in manual.manual
+        writemime(io, mime, page)
+    end
+end
+
+function writemime(io::IO, mime::MIME"text/html", manual::Manual)
+    for page in manual.manual
+        writemime(io, mime, page)
+    end
 end
 
 function push!(docs::Documentation, object, ent::Entry)
