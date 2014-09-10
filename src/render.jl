@@ -1,4 +1,27 @@
+@doc tex"""
+Write the documentation stored in `modulename` module to the specified file `file`
+in the format guessed from the file's extension.
+
+If MathJax support is required then the optional keyword argument
+`mathjax::Bool` may be given. MathJax uses `\(...\)` for in-line maths
+and `\[...\]` or `$$...$$` for display equations.
+
+Currently supported formats: `HTML`.
+""" ->
+function save(file::String, modulename::Module; mathjax = false)
+    isdefined(modulename, METADATA) || error("module $(modulename) is not documented.")
+    mime = MIME("text/$(strip(last(splitext(file)), '.'))")
+    save(file, mime, getfield(modulename, METADATA); mathjax = mathjax)
+end
+
+@doc "Display the contents of a module's manual pages." ->
+function manual(m::Module)
+    isdefined(m, METADATA) || error("module $(m) is not documented.")
+    getfield(m, METADATA).manual
+end
+
 ## plain ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
 function writemime(io::IO, mime::MIME"text/plain", ents::Entries)
     for (m, ent) in ents.entries
         println(io, ">>>")
@@ -30,15 +53,27 @@ function writemime(io, ::MIME"text/plain", entry::Entry)
     end
 end
 
-@doc "Display the contents of a module's manual pages." ->
-function manual(m::Module)
-    isdefined(m, METADATA) || error("module $(m) is not documented.")
-    getfield(m, METADATA).manual
-end
-
 function writemime(io::IO, mime::MIME"text/plain", manual::Manual)
     for page in manual.manual
         writemime(io, mime, page)
+    end
+end
+
+## html TODO: tidy, avoid using wrap ––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+function save(file::String, mime::MIME"text/html", documentation::Documentation; mathjax = false)
+    open(file, "w") do f
+        info("writing documentation to $(file)")
+        writemime(f, mime, documentation; mathjax = mathjax)
+    end
+    
+    # copy static files
+    src = joinpath(Pkg.dir("Docile"), "static")
+    dst = joinpath(dirname(file), "static")
+    isdir(dst) || mkpath(dst)
+    for file in readdir(src)
+        info("copying $(file) to $(dst)")
+        cp(joinpath(src, file), joinpath(dst, file))
     end
 end
 
@@ -48,72 +83,40 @@ function writemime(io::IO, mime::MIME"text/html", manual::Manual)
     end
 end
 
-## html TODO: tidy, avoid using wrap ––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-@doc """
-Write the documentation stored in `modulename` module to the specified file `file`
-in the format guessed from the file's extension.
-
-Currently supported formats: `HTML`.
-""" ->
-function save(file::String, modulename::Module)
-    isdefined(modulename, METADATA) || error("module $(modulename) is not documented.")
-    mime = MIME("text/$(strip(last(splitext(file)), '.'))")
-    open(file, "w") do f
-        writemime(f, mime, getfield(modulename, METADATA))
-    end
-end
-
-const STYLE = readall(joinpath(Pkg.dir("Docile"), "src", "style.css"))
 const CATEGORY_ORDER = [:module, :function, :method, :type, :macro, :global]
 
-function writemime(io::IO, mime::MIME"text/html", documentation::Documentation)
-    println(io, """
-    <!doctype html>
-    <html lang='en'>
-    <head>
-    <meta charset="utf-8">
-    <title>$(documentation.modname)</title>
-    <style>
-    $(STYLE)
-    </style>
-    </head>
-    <body>
-    <h1 class='package-header'>$(documentation.modname)</h1>
-    """)
-
-    writemime(io, "text/html", documentation.manual)
-
+function writemime(io::IO, mime::MIME"text/html", documentation::Documentation; mathjax = false)
+    header(io, mime, documentation)
+    writemime(io, mime, documentation.manual)
+    
     index = Dict{Symbol, Any}()
     for (obj, entry) in documentation.entries
         addentry!(index, obj, entry)
     end
-
+    
+    println(io, "<h1>Reference</h1>")
+    
     entries = Entries()
-    println(io, "<a name='Reference'><h1>Reference</h1></a>")
     wrap(io, "ul", "class='index'") do
         for k in CATEGORY_ORDER
             haskey(index, k) || continue
             wrap(io, "li") do
                 println(io, "<strong>$(k)s:</strong>")
             end
-            wrap(io, "ul") do
-                for (s, obj) in index[k]
-                    push!(entries, obj, documentation.entries[obj])
-                    wrap(io, "li") do
-                        print(io, "<a href='#$(s)'>", s, "</a>")
+            wrap(io, "li") do
+                wrap(io, "ul") do
+                    for (s, obj) in index[k]
+                        push!(entries, obj, documentation.entries[obj])
+                        wrap(io, "li") do
+                            print(io, "<a href='#$(s)'>", s, "</a>")
+                        end
                     end
                 end
             end
         end
     end
-
     writemime(io, mime, entries)
-
-    println(io, """
-    </body>
-    </html>
-    """)
+    footer(io, mime, documentation; mathjax = mathjax)
 end
 
 function writemime(io::IO, mime::MIME"text/html", ents::Entries)
@@ -127,8 +130,7 @@ end
 function writemime{category}(io::IO, mime::MIME"text/html", obj, ent::Entry{category})
     wrap(io, "div", "class='entry'") do
         objname = writeobj(obj)
-        print(io, "<a name='$(objname)'></a>")
-        wrap(io, "div", "class='entry-name category-$(category)'") do
+        wrap(io, "div", "id='$(objname)' class='entry-name category-$(category)'") do
             print(io, "<div class='category'>[$(category)] &mdash; </div> ")
             println(io, objname)
         end
@@ -168,6 +170,36 @@ end
 function writemime(io::IO, ::MIME"text/html", m::Meta{:source})
     path = last(split(m.content[2], r"v[\d\.]+(/|\\)"))
     print(io, "<code><a href='$(url(m))'>$(path):$(m.content[1])</a></code>")
+end
+
+function header(io::IO, ::MIME"text/html", doc::Documentation)
+    println(io, """
+    <!doctype html>
+    
+    <meta charset="utf-8">
+    
+    <title>$(doc.modname)</title>
+    
+    <link rel="stylesheet" type="text/css"
+          href="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.5.0/codemirror.min.css">
+    
+    <link rel="stylesheet" type="text/css" href="static/custom.css">
+    
+    <h1 class='package-header'>$(doc.modname)</h1>
+    """)
+end
+
+function footer(io::IO, ::MIME"text/html", doc::Documentation; mathjax = false)
+    println(io, """
+    
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.5.0/codemirror.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.5.0/mode/julia/julia.min.js"></script>
+    
+    $(mathjax ? "<script type='text/javascript' src='http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>" : "")
+    
+    <script type="text/javascript" src="static/custom.js"></script>
+    """)
 end
 
 ## utils ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
