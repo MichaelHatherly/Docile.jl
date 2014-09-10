@@ -1,6 +1,10 @@
-@doc """
+@doc tex"""
 Write the documentation stored in `modulename` module to the specified file `file`
 in the format guessed from the file's extension.
+
+If MathJax support is required then the optional keyword argument
+`mathjax::Bool` may be given. MathJax uses `\(...\)` for in-line maths
+and `\[...\]` or `$$...$$` for display equations.
 
 Currently supported formats: `HTML`.
 """ ->
