@@ -20,7 +20,15 @@ doctest_summary = doctest(Docile)
 writemime(STDOUT, "text/plain", doctest_summary)
 
 # save html and cleanup after
-let filename = string(tempname(), ".html")
-    save(filename, Docile)
-    rm(filename)
+let dir = mktempdir()
+    docs = joinpath(dir, "index.html")
+    save(docs, Docile)
+    rm(dir, recursive = true)
+end
+
+# build with mathjax support
+let dir = mktempdir()
+    docs = joinpath(dir, "index.html")
+    save(docs, Docile; mathjax = true)
+    rm(dir, recursive = true)
 end
