@@ -56,7 +56,7 @@ __METADATA__.entries[symbol("@docstrings")] =
 __METADATA__.entries[Entry] =
     Entry{:type}(REF_ENTRY_TYPE, """
 
-    Type representing an docstring and associated metadata in the
+    Type representing a docstring and associated metadata in the
     module's `Documentation` object.
 
     """, {:section => "Internals",

@@ -1,85 +1,14 @@
 <!doctype html>
-<html lang='en'>
-<head>
+
 <meta charset="utf-8">
+
 <title>Docile</title>
-<style>
-body {
-  padding: 1em 2em;
-  max-width: 800px;
-  margin: 0 auto;
-  font-family: sans-serif;
-}
 
-.package-header {
-  text-align: center;
-  background-color: #f2f2f2;
-  padding: 0.5em;
-  border: 1px solid #aaaaaa;
-}
+<link rel="stylesheet" type="text/css"
+      href="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.5.0/codemirror.min.css">
 
-.entry-name, .entry-body {
-  padding: 0.8em;
-}
-.entry-name {
-  background-color: #eeeeee;
-  font-family: monospace;
-  border-left: 4px solid;
-}
+<link rel="stylesheet" type="text/css" href="static/custom.css">
 
-table, th, td {
-  padding: 0.5em;
-  vertical-align: baseline;
-}
-
-.index li {
-  list-style: none;
-}
-
-.index a {
-  text-decoration: none;
-  font-family: monospace;
-}
-
-.category {
-  font-weight: bold;
-  display: inline-block;
-}
-.category-function {
-  border-left-color: #036564;
-}
-.category-method {
-  border-left-color: #00A0B0;
-}
-.category-type {
-  border-left-color: #8A9B0F;
-}
-.category-macro {
-  border-left-color: #CC333F;
-}
-.category-module {
-  border-left-color: #73626E;
-}
-.category-global {
-  border-left-color: #E97F02;
-}
-
-pre {
-  padding: 1em;
-  background-color: #f6f6f6;
-  border: 1px solid #aaaaaa;
-  overflow: auto;
-}
-p > code {
-  background-color: #f6f6f6;
-  padding: 2px 3px 2px 3px;
-  margin: 2px;
-  border-radius: 2px;
-}
-
-</style>
-</head>
-<body>
 <h1 class='package-header'>Docile</h1>
 
 <p><em>Docile</em> is a <a href="http://www.julialang.org">Julia</a> package documentation system that provides a docstring macro, <code>@doc</code>, for documenting arbitrary Julia objects and associating metadata with them.</p>
@@ -133,18 +62,21 @@ end</code></pre>
 <p>Code generated via loops and <code>@eval</code> can also be documented. See the file <code>test/loop-generated-docs.jl</code> for an example of this.</p>
 <h3>Doctests</h3>
 <p><code>doctest(PACKAGE_NAME)</code> can be used to run all the docstring code blocks in a module documented by <em>Docile</em>.</p>
-<p>Only fenced or indented code blocks are run through <code>doctest</code>. Inline code with single backticks isn't run. Placing an extra blank line at the end of a code block tells <code>doctest</code> to skip the block. </p><a name='Reference'><h1>Reference</h1></a>
+<p>Only fenced or indented code blocks are run through <code>doctest</code>. Inline code with single backticks isn't run. Placing an extra blank line at the end of a code block tells <code>doctest</code> to skip the block. </p><h1>Reference</h1>
 <ul class='index'>
 <li >
 <strong>functions:</strong>
 </li>
+<li >
 <ul >
 <li >
 <a href='#query'>query</a></li>
 </ul>
+</li>
 <li >
 <strong>methods:</strong>
 </li>
+<li >
 <ul >
 <li >
 <a href='#doctest(modname::Module)'>doctest(modname::Module)</a></li>
@@ -161,9 +93,11 @@ end</code></pre>
 <li >
 <a href='#skipped(s::Summary)'>skipped(s::Summary)</a></li>
 </ul>
+</li>
 <li >
 <strong>types:</strong>
 </li>
+<li >
 <ul >
 <li >
 <a href='#Documentation'>Documentation</a></li>
@@ -172,9 +106,11 @@ end</code></pre>
 <li >
 <a href='#Summary'>Summary</a></li>
 </ul>
+</li>
 <li >
 <strong>macros:</strong>
 </li>
+<li >
 <ul >
 <li >
 <a href='#@doc'>@doc</a></li>
@@ -183,10 +119,11 @@ end</code></pre>
 <li >
 <a href='#@query'>@query</a></li>
 </ul>
+</li>
 </ul>
 <div class='entries'>
 <div class='entry'>
-<a name='query'></a><div class='entry-name category-function'>
+<div id='query' class='entry-name category-function'>
 <div class='category'>[function] &mdash; </div> query
 </div>
 <div class='entry-body'>
@@ -195,14 +132,14 @@ end</code></pre>
 <table class='meta-table'>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e12dac8153d308658f0e1ce5f9a2aa7e02062acb/src/query.jl#L94'>Docile/src/query.jl:94</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/68166ce9a11f545decfc2d695001e987ba4e0f17/src/query.jl#L94'>Docile/src/query.jl:94</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<a name='doctest(modname::Module)'></a><div class='entry-name category-method'>
+<div id='doctest(modname::Module)' class='entry-name category-method'>
 <div class='category'>[method] &mdash; </div> doctest(modname::Module)
 </div>
 <div class='entry-body'>
@@ -225,14 +162,14 @@ end</code></pre>
 </tr>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e12dac8153d308658f0e1ce5f9a2aa7e02062acb/src/doctest.jl#L106'>Docile/src/doctest.jl:106</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/68166ce9a11f545decfc2d695001e987ba4e0f17/src/doctest.jl#L106'>Docile/src/doctest.jl:106</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<a name='failed(s::Summary)'></a><div class='entry-name category-method'>
+<div id='failed(s::Summary)' class='entry-name category-method'>
 <div class='category'>[method] &mdash; </div> failed(s::Summary)
 </div>
 <div class='entry-body'>
@@ -246,14 +183,14 @@ end</code></pre>
 </tr>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e12dac8153d308658f0e1ce5f9a2aa7e02062acb/src/doctest.jl#L67'>Docile/src/doctest.jl:67</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/68166ce9a11f545decfc2d695001e987ba4e0f17/src/doctest.jl#L67'>Docile/src/doctest.jl:67</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<a name='manual(m::Module)'></a><div class='entry-name category-method'>
+<div id='manual(m::Module)' class='entry-name category-method'>
 <div class='category'>[method] &mdash; </div> manual(m::Module)
 </div>
 <div class='entry-body'>
@@ -262,14 +199,14 @@ end</code></pre>
 <table class='meta-table'>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e12dac8153d308658f0e1ce5f9a2aa7e02062acb/src/render.jl#L33'>Docile/src/render.jl:33</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/68166ce9a11f545decfc2d695001e987ba4e0f17/src/render.jl#L17'>Docile/src/render.jl:17</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<a name='passed(s::Summary)'></a><div class='entry-name category-method'>
+<div id='passed(s::Summary)' class='entry-name category-method'>
 <div class='category'>[method] &mdash; </div> passed(s::Summary)
 </div>
 <div class='entry-body'>
@@ -283,14 +220,14 @@ end</code></pre>
 </tr>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e12dac8153d308658f0e1ce5f9a2aa7e02062acb/src/doctest.jl#L67'>Docile/src/doctest.jl:67</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/68166ce9a11f545decfc2d695001e987ba4e0f17/src/doctest.jl#L67'>Docile/src/doctest.jl:67</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<a name='query(q,modules...)'></a><div class='entry-name category-method'>
+<div id='query(q,modules...)' class='entry-name category-method'>
 <div class='category'>[method] &mdash; </div> query(q,modules...)
 </div>
 <div class='entry-body'>
@@ -313,31 +250,32 @@ end</code></pre>
 </tr>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e12dac8153d308658f0e1ce5f9a2aa7e02062acb/src/query.jl#L72'>Docile/src/query.jl:72</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/68166ce9a11f545decfc2d695001e987ba4e0f17/src/query.jl#L72'>Docile/src/query.jl:72</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<a name='save(file::String,modulename::Module)'></a><div class='entry-name category-method'>
+<div id='save(file::String,modulename::Module)' class='entry-name category-method'>
 <div class='category'>[method] &mdash; </div> save(file::String,modulename::Module)
 </div>
 <div class='entry-body'>
 <p>Write the documentation stored in <code>modulename</code> module to the specified file <code>file</code> in the format guessed from the file's extension.</p>
+<p>If MathJax support is required then the optional keyword argument <code>mathjax::Bool</code> may be given. MathJax uses <code>\(...\)</code> for in-line maths and <code>\[...\]</code> or <code>$$...$$</code> for display equations.</p>
 <p>Currently supported formats: <code>HTML</code>. </p><div class='entry-meta'>
 <strong>Details:</strong>
 <table class='meta-table'>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e12dac8153d308658f0e1ce5f9a2aa7e02062acb/src/render.jl#L58'>Docile/src/render.jl:58</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/68166ce9a11f545decfc2d695001e987ba4e0f17/src/render.jl#L10'>Docile/src/render.jl:10</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<a name='skipped(s::Summary)'></a><div class='entry-name category-method'>
+<div id='skipped(s::Summary)' class='entry-name category-method'>
 <div class='category'>[method] &mdash; </div> skipped(s::Summary)
 </div>
 <div class='entry-body'>
@@ -351,14 +289,14 @@ end</code></pre>
 </tr>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e12dac8153d308658f0e1ce5f9a2aa7e02062acb/src/doctest.jl#L67'>Docile/src/doctest.jl:67</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/68166ce9a11f545decfc2d695001e987ba4e0f17/src/doctest.jl#L67'>Docile/src/doctest.jl:67</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<a name='Documentation'></a><div class='entry-name category-type'>
+<div id='Documentation' class='entry-name category-type'>
 <div class='category'>[type] &mdash; </div> Documentation
 </div>
 <div class='entry-body'>
@@ -379,18 +317,18 @@ end</code></pre>
 </tr>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e12dac8153d308658f0e1ce5f9a2aa7e02062acb/src/types.jl#L36'>Docile/src/types.jl:36</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/68166ce9a11f545decfc2d695001e987ba4e0f17/src/types.jl#L36'>Docile/src/types.jl:36</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<a name='Entry{category}'></a><div class='entry-name category-type'>
+<div id='Entry{category}' class='entry-name category-type'>
 <div class='category'>[type] &mdash; </div> Entry{category}
 </div>
 <div class='entry-body'>
-<p>Type representing an docstring and associated metadata in the module's <code>Documentation</code> object.</p><div class='entry-meta'>
+<p>Type representing a docstring and associated metadata in the module's <code>Documentation</code> object.</p><div class='entry-meta'>
 <strong>Details:</strong>
 <table class='meta-table'>
 <tr >
@@ -406,14 +344,14 @@ end</code></pre>
 </tr>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e12dac8153d308658f0e1ce5f9a2aa7e02062acb/src/types.jl#L2'>Docile/src/types.jl:2</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/68166ce9a11f545decfc2d695001e987ba4e0f17/src/types.jl#L2'>Docile/src/types.jl:2</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<a name='Summary'></a><div class='entry-name category-type'>
+<div id='Summary' class='entry-name category-type'>
 <div class='category'>[type] &mdash; </div> Summary
 </div>
 <div class='entry-body'>
@@ -422,14 +360,14 @@ end</code></pre>
 <table class='meta-table'>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e12dac8153d308658f0e1ce5f9a2aa7e02062acb/src/doctest.jl#L53'>Docile/src/doctest.jl:53</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/68166ce9a11f545decfc2d695001e987ba4e0f17/src/doctest.jl#L53'>Docile/src/doctest.jl:53</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<a name='@doc'></a><div class='entry-name category-macro'>
+<div id='@doc' class='entry-name category-macro'>
 <div class='category'>[macro] &mdash; </div> @doc
 </div>
 <div class='entry-body'>
@@ -454,14 +392,14 @@ f(x) = x</code></pre><div class='entry-meta'>
 </tr>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e12dac8153d308658f0e1ce5f9a2aa7e02062acb/src/docstrings.jl#L61'>Docile/src/docstrings.jl:61</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/68166ce9a11f545decfc2d695001e987ba4e0f17/src/docstrings.jl#L61'>Docile/src/docstrings.jl:61</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<a name='@docstrings'></a><div class='entry-name category-macro'>
+<div id='@docstrings' class='entry-name category-macro'>
 <div class='category'>[macro] &mdash; </div> @docstrings
 </div>
 <div class='entry-body'>
@@ -483,14 +421,14 @@ f(x) = x</code></pre><div class='entry-meta'>
 </tr>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e12dac8153d308658f0e1ce5f9a2aa7e02062acb/src/docstrings.jl#L55'>Docile/src/docstrings.jl:55</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/68166ce9a11f545decfc2d695001e987ba4e0f17/src/docstrings.jl#L55'>Docile/src/docstrings.jl:55</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<a name='@query'></a><div class='entry-name category-macro'>
+<div id='@query' class='entry-name category-macro'>
 <div class='category'>[macro] &mdash; </div> @query
 </div>
 <div class='entry-body'>
@@ -512,13 +450,19 @@ f(x) = x</code></pre><div class='entry-meta'>
 <table class='meta-table'>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e12dac8153d308658f0e1ce5f9a2aa7e02062acb/src/query.jl#L140'>Docile/src/query.jl:140</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/68166ce9a11f545decfc2d695001e987ba4e0f17/src/query.jl#L140'>Docile/src/query.jl:140</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 </div>
-</body>
-</html>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.5.0/codemirror.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.5.0/mode/julia/julia.min.js"></script>
+
+
+
+<script type="text/javascript" src="static/custom.js"></script>
 
