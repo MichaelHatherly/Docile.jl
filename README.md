@@ -55,6 +55,6 @@ Please file any issues or feature requests you might have through the GitHub [is
 [docile-stable-url]: https://MichaelHatherly.github.io/Docile.jl/stable/index.html
 
 [docile-master-url]: https://MichaelHatherly.github.io/Docile.jl/master/docile.html
-[docile-interface-master-url]: https://MichaelHatherly.github.io/Docile.jl/master/docile.html
+[docile-interface-master-url]: https://MichaelHatherly.github.io/Docile.jl/master/interface.html
 
 [lexicon-url]: https://github.com/MichaelHatherly/Lexicon.jl
