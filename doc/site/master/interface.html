@@ -1,0 +1,196 @@
+<!doctype html>
+
+<meta charset="utf-8">
+
+<title>Docile.Interface</title>
+
+<link rel="stylesheet" type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/4.5.0/codemirror.min.css">
+
+<link rel="stylesheet" type="text/css" href="static/custom.css">
+
+<h1 class='package-header'>Docile.Interface</h1>
+
+<p>Utility methods for working with <code>Entry</code> and <code>Documentation</code> types from the <code>Docile</code> module. </p><h1 id='module-reference'>Reference</h1>
+<ul class='index'>
+<li >
+<strong>methods:</strong>
+</li>
+<li >
+<ul >
+<li >
+<a href='#category{K}(entry::Entry{K})'>category{K}(entry::Entry{K})</a></li>
+<li >
+<a href='#docs(entry::Entry{category})'>docs(entry::Entry{category})</a></li>
+<li >
+<a href='#documentation(modulename::Module)'>documentation(modulename::Module)</a></li>
+<li >
+<a href='#entries(doc::Documentation)'>entries(doc::Documentation)</a></li>
+<li >
+<a href='#isdocumented(modulename::Module)'>isdocumented(modulename::Module)</a></li>
+<li >
+<a href='#manual(doc::Documentation)'>manual(doc::Documentation)</a></li>
+<li >
+<a href='#metadata(entry::Entry{category})'>metadata(entry::Entry{category})</a></li>
+<li >
+<a href='#modulename(doc::Documentation)'>modulename(doc::Documentation)</a></li>
+<li >
+<a href='#pages(manual::Manual)'>pages(manual::Manual)</a></li>
+</ul>
+</li>
+</ul>
+<div class='entries'>
+<div class='entry'>
+<div id='category{K}(entry::Entry{K})' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> category{K}(entry::Entry{K})
+</div>
+<div class='entry-body'>
+<p>Symbol representing the category that an <code>Entry</code> belongs to.</p><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e4c077a623b21d628f0572f254fa1fe1ee200527/src/interface.jl#L13'>Docile/src/interface.jl:13</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class='entry'>
+<div id='docs(entry::Entry{category})' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> docs(entry::Entry{category})
+</div>
+<div class='entry-body'>
+<p>The raw documentation associated with an <code>Entry</code>.</p><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e4c077a623b21d628f0572f254fa1fe1ee200527/src/interface.jl#L16'>Docile/src/interface.jl:16</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class='entry'>
+<div id='documentation(modulename::Module)' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> documentation(modulename::Module)
+</div>
+<div class='entry-body'>
+<p>The <code>Documentation</code> object in a documented module.</p><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e4c077a623b21d628f0572f254fa1fe1ee200527/src/interface.jl#L37'>Docile/src/interface.jl:37</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class='entry'>
+<div id='entries(doc::Documentation)' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> entries(doc::Documentation)
+</div>
+<div class='entry-body'>
+<p>A dictionary of associating documentation entries to objects.</p><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e4c077a623b21d628f0572f254fa1fe1ee200527/src/interface.jl#L31'>Docile/src/interface.jl:31</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class='entry'>
+<div id='isdocumented(modulename::Module)' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> isdocumented(modulename::Module)
+</div>
+<div class='entry-body'>
+<p>Check whether a module has been documented using Docile.jl.</p><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e4c077a623b21d628f0572f254fa1fe1ee200527/src/interface.jl#L34'>Docile/src/interface.jl:34</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class='entry'>
+<div id='manual(doc::Documentation)' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> manual(doc::Documentation)
+</div>
+<div class='entry-body'>
+<p>The <code>Manual</code> object containing a module's manual pages.</p><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e4c077a623b21d628f0572f254fa1fe1ee200527/src/interface.jl#L25'>Docile/src/interface.jl:25</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class='entry'>
+<div id='metadata(entry::Entry{category})' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> metadata(entry::Entry{category})
+</div>
+<div class='entry-body'>
+<p>The dictionary containing all metadata associated with an <code>Entry</code>.</p><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e4c077a623b21d628f0572f254fa1fe1ee200527/src/interface.jl#L19'>Docile/src/interface.jl:19</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class='entry'>
+<div id='modulename(doc::Documentation)' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> modulename(doc::Documentation)
+</div>
+<div class='entry-body'>
+<p>The module that a <code>Documentation</code> object documents.</p><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e4c077a623b21d628f0572f254fa1fe1ee200527/src/interface.jl#L22'>Docile/src/interface.jl:22</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class='entry'>
+<div id='pages(manual::Manual)' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> pages(manual::Manual)
+</div>
+<div class='entry-body'>
+<p>Path and contents tuples representing the manual pages in order.</p><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e4c077a623b21d628f0572f254fa1fe1ee200527/src/interface.jl#L28'>Docile/src/interface.jl:28</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/4.5.0/codemirror.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/4.5.0/mode/julia/julia.min.js"></script>
+
+
+
+<script type="text/javascript" src="static/custom.js"></script>
+

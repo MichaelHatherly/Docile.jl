@@ -9,6 +9,9 @@
 that provides a docstring macro, `@doc`, for documenting arbitrary Julia
 objects and associating metadata with them.
 
+**Note:** the query and display functionality has been moved to
+[Lexicon.jl][lexicon-url].
+
 ### Installation
 
 *Docile* currently supports Julia `0.3/0.4` and is available from `METADATA` via:
@@ -19,7 +22,17 @@ Pkg.add("Docile")
 
 ### Documentation
 
-Self-generated documentation created from docstrings and external files in available [here](https://MichaelHatherly.github.io/Docile.jl/).
+*Lexicon.jl*-generated documentation is available for:
+
+**Stable:**
+
+[`Docile`][docile-stable-url]
+
+**Master:**
+
+[`Docile`][docile-master-url]
+
+[`Docile.Interface`][docile-interface-master-url]
 
 ### Issues and Support
 
@@ -38,3 +51,10 @@ Please file any issues or feature requests you might have through the GitHub [is
 [pkgeval-url]: http://pkg.julialang.org/?pkg=Docile&ver=release
 
 [issue-tracker]: https://github.com/MichaelHatherly/Docile.jl/issues
+
+[docile-stable-url]: https://MichaelHatherly.github.io/Docile.jl/stable/index.html
+
+[docile-master-url]: https://MichaelHatherly.github.io/Docile.jl/master/docile.html
+[docile-interface-master-url]: https://MichaelHatherly.github.io/Docile.jl/master/docile.html
+
+[lexicon-url]: https://github.com/MichaelHatherly/Lexicon.jl

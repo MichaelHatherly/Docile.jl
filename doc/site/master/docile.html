@@ -1,0 +1,220 @@
+<!doctype html>
+
+<meta charset="utf-8">
+
+<title>Docile</title>
+
+<link rel="stylesheet" type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/4.5.0/codemirror.min.css">
+
+<link rel="stylesheet" type="text/css" href="static/custom.css">
+
+<h1 class='package-header'>Docile</h1>
+
+<p>Docile is a <a href="http://www.julialang.org">Julia</a> package documentation system that provides a docstring macro, <code>@doc</code>, for documenting arbitrary Julia objects and associating metadata with them.</p>
+<h3>Installation</h3>
+<p><em>Docile.jl</em> is in <code>METADATA</code> and can be installed via <code>Pkg.add("Docile")</code>.</p>
+<h3>Usage</h3>
+<p>The <code>@doc</code> macro can document <em>functions</em>, <em>globals</em>, <em>macros</em>, <em>methods</em>, <em>modules</em>, and <em>types</em>. The syntax is the same for all cases.</p>
+<p><strong>Example:</strong></p>
+<pre><code>module PackageName
+
+using Docile
+@docstrings # Call before any `@doc` uses. Creates module's `__METADATA__` object.
+
+@doc """
+Markdown formatted text appears here...
+
+""" {
+    # metadata section
+    :section => "Main section",
+    :tags    => ["foo", "bar", "baz"]
+    # ... other (Symbol => Any) pairs
+    } ->
+function myfunc(x, y)
+    # ...
+end
+
+@doc "A short docstring." ->
+foo(x) = x
+
+end</code></pre>
+<p>A <code>-></code> is required between the docstring/metadata and the object being documented. It <strong>must</strong> appear on the same line as the docstring/metadata.</p>
+<p>If no metadata is required for an object then the metadata section can be left out.</p>
+<p>External files containing documentation can be linked to by adding a <code>:file => "path"</code> to the metadata section of the <code>@doc</code> macro. The text section of the macro is ignored in this case and can be left out. The file path is taken to be relative to the source file.</p>
+<p><strong>Example:</strong></p>
+<pre><code>@doc { :file => "../doc/manual.md" } -> Docile
+</code></pre>
+<p>The <code>@doc</code> macro requires at least a docstring or metadata section. The docstring section always appears first if both are provided. Bare <code>@doc</code>s are not permitted:</p>
+<pre><code>@doc -> illegal(x) = x
+</code></pre>
+<p>A <code>@tex_mstr</code> string macro is provided to avoid having to escape LaTeX syntax in docstrings. Using standard multiline strings allows for interpolating data into the string from the surrounding module in the usual way.</p>
+<p>Code generated via loops and <code>@eval</code> can also be documented. See the file <a href="https://github.com/MichaelHatherly/Docile.jl/blob/master/test/tests/loop-generated-docs.jl">loop-generated-docs.jl</a> for an example of this. </p><h1 id='module-reference'>Reference</h1>
+<ul class='index'>
+<li >
+<strong>types:</strong>
+</li>
+<li >
+<ul >
+<li >
+<a href='#Documentation'>Documentation</a></li>
+<li >
+<a href='#Entry{category}'>Entry{category}</a></li>
+</ul>
+</li>
+<li >
+<strong>macros:</strong>
+</li>
+<li >
+<ul >
+<li >
+<a href='#@doc'>@doc</a></li>
+<li >
+<a href='#@docstrings'>@docstrings</a></li>
+<li >
+<a href='#@tex_mstr'>@tex_mstr</a></li>
+</ul>
+</li>
+</ul>
+<div class='entries'>
+<div class='entry'>
+<div id='Documentation' class='entry-name category-type'>
+<div class='category'>[type] &mdash; </div> Documentation
+</div>
+<div class='entry-body'>
+<p>Stores the documentation generated for a module via <code>@doc</code>. The instance created in a module via <code>@docstrings</code> is called <code>__METADATA__</code>. </p><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>file:</strong></td><td >
+<code>../doc/objects/Documentation.md</code>
+</td>
+</tr>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e4c077a623b21d628f0572f254fa1fe1ee200527/src/types.jl#L28'>Docile/src/types.jl:28</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class='entry'>
+<div id='Entry{category}' class='entry-name category-type'>
+<div class='category'>[type] &mdash; </div> Entry{category}
+</div>
+<div class='entry-body'>
+<p>Type representing a docstring and associated metadata in the module's <code>Documentation</code> object. </p><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>file:</strong></td><td >
+<code>../doc/objects/Entry.md</code>
+</td>
+</tr>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e4c077a623b21d628f0572f254fa1fe1ee200527/src/types.jl#L2'>Docile/src/types.jl:2</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class='entry'>
+<div id='@doc' class='entry-name category-macro'>
+<div class='category'>[macro] &mdash; </div> @doc
+</div>
+<div class='entry-body'>
+<p>Document objects in source code, namely:</p>
+<ul><li>functions</li><li>methods</li><li>macros</li><li>types</li><li>globals</li><li>modules</li></ul>
+<p>Takes a multiline string as documentation and/or a <code>(Symbol => Any)</code> dictionary containing metadata. Only one needs to be provided, but the docstring <strong>must</strong> appear first if both are needed.</p>
+<p><strong>Example:</strong></p>
+<pre><code>@docstrings
+
+@doc """
+Markdown formatted text appears here...
+""" {
+    :key => :value
+    } ->
+f(x) = x</code></pre><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>file:</strong></td><td >
+<code>../doc/objects/at-doc.md</code>
+</td>
+</tr>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e4c077a623b21d628f0572f254fa1fe1ee200527/src/macros.jl#L56'>Docile/src/macros.jl:56</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class='entry'>
+<div id='@docstrings' class='entry-name category-macro'>
+<div class='category'>[macro] &mdash; </div> @docstrings
+</div>
+<div class='entry-body'>
+<p>Module documentation initialiser. Run this macro prior to any <code>@doc</code> uses in a module.</p>
+<p>Creates the required <code>Documentation</code> object used to store a module's docstrings.</p>
+<p><strong>Examples:</strong></p>
+<pre><code>using Docile
+@docstrings</code></pre>
+<p>An optional list of file names may be provided for inclusion in the manual section of the documentation, which can be viewed using the <code>manual</code> function from <a href="https://github.com/MichaelHatherly/Lexicon.jl">Lexicon.jl</a>.</p>
+<pre><code>using Docile
+@docstrings {"../doc/manual.md"}
+</code></pre><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>file:</strong></td><td >
+<code>../doc/objects/at-docstrings.md</code>
+</td>
+</tr>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e4c077a623b21d628f0572f254fa1fe1ee200527/src/macros.jl#L49'>Docile/src/macros.jl:49</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class='entry'>
+<div id='@tex_mstr' class='entry-name category-macro'>
+<div class='category'>[macro] &mdash; </div> @tex_mstr
+</div>
+<div class='entry-body'>
+<p>A convenience string macro to allow LaTeX-like syntax to be used in docstrings in the following manner:</p>
+<pre><code>@docstrings
+
+@doc tex"""
+Some inline maths: \( x * y \in G \forall x, y \in G \) and some display
+equations:
+
+\[
+\int_a^b f(x) \, dx = F(b) - F(a)
+\]
+
+""" ->
+f(x) = x</code></pre><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/e4c077a623b21d628f0572f254fa1fe1ee200527/src/Docile.jl#L37'>Docile/src/Docile.jl:37</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/4.5.0/codemirror.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/4.5.0/mode/julia/julia.min.js"></script>
+
+
+
+<script type="text/javascript" src="static/custom.js"></script>
+

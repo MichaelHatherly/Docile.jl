@@ -12,7 +12,9 @@ using Docile
 ```
 
 An optional list of file names may be provided for inclusion in the
-manual section of the documentation, which is viewable using `manual`.
+manual section of the documentation, which can be viewed using the
+`manual` function from
+[Lexicon.jl](https://github.com/MichaelHatherly/Lexicon.jl).
 
 ```julia
 using Docile
