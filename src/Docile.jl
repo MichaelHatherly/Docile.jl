@@ -1,14 +1,9 @@
 module Docile
 
-import AnsiColor, Markdown
-
-import Base: triplequoted, writemime, push!, length
+import Base: triplequoted, push!
 import Base.Meta: isexpr
 
-export 
-    query, @query,
-    @doc, @docstrings, @tex_mstr,
-    doctest, passed, failed, skipped, Summary, save, manual
+export @docstrings, @doc, @tex_mstr
 
 # internal
 macro docref(ref)
@@ -17,16 +12,43 @@ macro docref(ref)
 end
 
 include("types.jl")
-include("docstrings.jl")
+include("macros.jl")
 
-# Initialise docstrings for this module. Can't document previous files
-# since they define the docstring methods/macros.
 @docstrings {"../doc/manual.md"}
 
-include("render.jl")
-include("doctest.jl")
-include("query.jl")
+@doc """
+A convenience string macro to allow LaTeX-like syntax to be used in
+docstrings in the following manner:
 
-include("docs.jl")
+```julia
+@docstrings
+
+@doc tex\"\"\"
+Some inline maths: \\( x * y \\in G \\forall x, y \\in G \\) and some display
+equations:
+
+\\[
+\\int_a^b f(x) \\, dx = F(b) - F(a)
+\\]
+
+\"\"\" ->
+f(x) = x
+```
+""" ->
+macro tex_mstr(text)
+    triplequoted(text)
+end
+
+include("interface.jl")
+
+# Add other documentation manually.
+for (cat, obj, ref, file) in [
+        (:macro, symbol("@doc"),        REF_DOC,           "at-doc.md"),
+        (:macro, symbol("@docstrings"), REF_DOCSTRINGS,    "at-docstrings.md"),
+        (:type,  Documentation,         REF_DOCUMENTATION, "Documentation.md"),
+        (:type,  Entry,                 REF_ENTRY,         "Entry.md")
+        ]
+    __METADATA__.entries[obj] = Entry{cat}(ref, {:file => "../doc/objects/$(file)"})
+end
 
 end # module
