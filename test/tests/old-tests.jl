@@ -5,7 +5,7 @@ using Docile
 @docstrings
 
 @doc {
-    :file    => "methoddoc.md",
+    :file    => "test-case.md",
     :section => "Tests"
     } ->
 function g(x)
@@ -499,43 +499,43 @@ OldTests
 
 # fix for `@doc` with no docstring
 @doc {
-    :file => "methoddoc.md"
+    :file => "test-case.md"
     } ->
 function h(x, y, z)
 
 end
 @doc {
-    :file => "methoddoc.md"
+    :file => "test-case.md"
     } ->
 type FooBar30
 
 end
 
 @doc {
-    :file => "methoddoc.md"
+    :file => "test-case.md"
     } ->
 abstract FooBar31
 
 @doc {
-    :file => "methoddoc.md"
+    :file => "test-case.md"
     } ->
 global const FOOBAR1 = 4
 
 @doc {
-    :file => "methoddoc.md"
+    :file => "test-case.md"
     } ->
 const FOOBAR2 = 4
 
 @doc {
-    :file => "methoddoc.md"
+    :file => "test-case.md"
     } ->
 FOOBAR3 = 4
 
 @doc {
-    :file => "methoddoc.md"
+    :file => "test-case.md"
     } ->
 h(x, y, z) = x
 
-doctest(OldTests)
-
 end
+
+@test modulename(documentation(OldTests)) === OldTests

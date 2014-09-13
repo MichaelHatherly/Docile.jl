@@ -1,4 +1,4 @@
-category(ex) =
+object_category(ex) =
     ismethod(ex) ? :method :
     ismacro(ex)  ? :macro  :
     istype(ex)   ? :type   :
@@ -45,19 +45,14 @@ end
 
 const METADATA = :__METADATA__
 
-## macros –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-macro tex_mstr(text)
-    triplequoted(text)
-end
-
-@docref () -> REF_DOCSTRINGS_MACRO
+@docref () -> REF_DOCSTRINGS
 macro docstrings(files...)
-    files = isempty(files) ? :([]) : :(map(f -> joinpath(dirname(@__FILE__), f), $(files[1].args)))
-    esc(:($METADATA = Docile.Documentation(current_module(), $files)))
+    files = isempty(files) ? :([]) :
+        :([abspath(joinpath(dirname(@__FILE__), f)) for f in $(files[1].args)])
+    esc(:(const $METADATA = Docile.Documentation(current_module(), $files)))
 end
 
-@docref () -> REF_DOC_MACRO
+@docref () -> REF_DOC
 macro doc(args...)
     isexpr(last(args), :(->)) || error("@doc: use `->` to separate docs/object:\n$(args)")
 
@@ -66,7 +61,7 @@ macro doc(args...)
 
     # Find the category and name of an object. Build corresponding quoted expressions
     # for use in the `quote` returned. Macros names are prefixed by `@` here.
-    c, n   = category(obj.args[2]), name(obj.args[2])
+    c, n   = object_category(obj.args[2]), name(obj.args[2])
     qc, qn = Expr(:quote, c), Expr(:quote, c == :macro ? symbol("@$(n)") : n)
 
     # Capture the line and file.

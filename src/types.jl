@@ -1,50 +1,36 @@
-@docref () -> REF_ENTRY_TYPE
+@docref () -> REF_ENTRY
 type Entry{category} # category::Symbol
-    docs::Markdown.Block
+    docs::String
     meta::Dict{Symbol, Any}
 
     function Entry(source, meta::Dict)
         push!(meta, :source, source)
-        docs = haskey(meta, :file) ?
-            Markdown.parse_file(joinpath(dirname(source[2]), meta[:file])) :
-            Markdown.parse("")
+        docs = haskey(meta, :file) ? readall(joinpath(dirname(source[2]), meta[:file])) : ""
         new(docs, meta)
     end
 
     function Entry(source, text::String, meta::Dict = Dict{Symbol, Any}())
         push!(meta, :source, source)
-        new(Markdown.parse(text), meta)
+        new(text, meta)
     end
 
     Entry(args...) = error("@doc: incorrect arguments given to docstring macro:\n$(args)")
 end
 
-type Entries
-    entries::Vector{(Any, Entry)}
-end
-Entries() = Entries((Any, Entry)[])
-
-push!(ents::Entries, obj, ent::Entry) = push!(ents.entries, (obj, ent))
-
-length(ents::Entries) = length(ents.entries)
-
+@docref () -> REF_MANUAL
 type Manual
-    manual::Vector{Markdown.Block}
+    pages::Vector{(String, String)}
+    
+    Manual(files) = new([(abspath(file), readall(file)) for file in files])
 end
 
-@docref () -> REF_DOCUMENTATION_TYPE
+@docref () -> REF_DOCUMENTATION
 type Documentation
     modname::Module
     manual::Manual
     entries::Dict{Any, Entry}
-    Documentation(m::Module) = new(m, Markdown.Block[], Dict{Any, Entry}())
-    function Documentation(m::Module, files)
-        manual = Markdown.Block[]
-        for file in files
-            push!(manual, Markdown.parse_file(file))
-        end
-        new(m, Manual(manual), Dict{Any, Entry}())
-    end
+    
+    Documentation(m::Module, files = String[]) = new(m, Manual(files), Dict{Any, Entry}())
 end
 
 function push!(docs::Documentation, object, ent::Entry)
