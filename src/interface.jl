@@ -13,28 +13,31 @@ using Docile
 @doc "Symbol representing the category that an `Entry` belongs to." ->
 category{K}(entry::Entry{K}) = K
 
-@doc "The raw documentation associated with an `Entry`." ->
+@doc "Raw documentation string associated with an `Entry`." ->
 docs(entry::Entry) = entry.docs
 
-@doc "The dictionary containing all metadata associated with an `Entry`." ->
+@doc "Dictionary containing all metadata associated with an `Entry`." ->
 metadata(entry::Entry) = entry.meta
 
-@doc "The module that a `Documentation` object documents." ->
+@doc "Module that a `Documentation` object documents." ->
 modulename(doc::Documentation) = doc.modname
 
 @doc "The `Manual` object containing a module's manual pages." ->
 manual(doc::Documentation) = doc.manual
 
-@doc "Path and contents tuples representing the manual pages in order." ->
+@doc "Vector containing the contents of each manual page and file name." ->
 pages(manual::Manual) = manual.pages
 
-@doc "A dictionary of associating documentation entries to objects." ->
+@doc "Dictionary associating objects and documentation entries." ->
 entries(doc::Documentation) = doc.entries
 
 @doc "Check whether a module has been documented using Docile.jl." ->
 isdocumented(modulename::Module) = isdefined(modulename, METADATA)
 
-@doc "The `Documentation` object in a documented module." ->
+@doc """
+The `Documentation` object in a documented module. This method raises an
+error if the module is not documented.
+""" ->
 function documentation(modulename::Module)
     if isdocumented(modulename)
         getfield(modulename, METADATA)

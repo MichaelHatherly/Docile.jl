@@ -1,6 +1,8 @@
 using Docile, Docile.Interface
 using Base.Test
 
+# TODO: add Lexicon for test/REQUIRE for doctesting once it's tagged.
+
 files = [
     "loop-generated-docs",
     "method-docs",
