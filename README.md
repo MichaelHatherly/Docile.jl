@@ -24,9 +24,11 @@ Pkg.add("Docile")
 
 *Lexicon.jl*-generated documentation is available for:
 
-**Stable:**
+**Stable (0.2.0):**
 
 [`Docile`][docile-stable-url]
+
+[`Docile.Interface`][docile-interface-stable-url]
 
 **Master:**
 
@@ -52,9 +54,10 @@ Please file any issues or feature requests you might have through the GitHub [is
 
 [issue-tracker]: https://github.com/MichaelHatherly/Docile.jl/issues
 
-[docile-stable-url]: https://MichaelHatherly.github.io/Docile.jl/stable/index.html
+[docile-stable-url]:           https://MichaelHatherly.github.io/Docile.jl/stable/docile.html
+[docile-interface-stable-url]: https://MichaelHatherly.github.io/Docile.jl/stable/interface.html
 
-[docile-master-url]: https://MichaelHatherly.github.io/Docile.jl/master/docile.html
+[docile-master-url]:           https://MichaelHatherly.github.io/Docile.jl/master/docile.html
 [docile-interface-master-url]: https://MichaelHatherly.github.io/Docile.jl/master/interface.html
 
 [lexicon-url]: https://github.com/MichaelHatherly/Lexicon.jl
