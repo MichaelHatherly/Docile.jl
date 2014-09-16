@@ -36,4 +36,11 @@ end
 function push!(docs::Documentation, object, ent::Entry)
     haskey(docs.entries, object) && warn("@doc: overwriting object $(object)")
     docs.entries[object] = ent
+    nothing
+end
+
+function push!(docs::Documentation, objects::Set, ent::Entry)
+    for object in objects
+        push!(docs, object, ent)
+    end
 end
