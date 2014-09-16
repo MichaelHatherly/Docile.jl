@@ -24,14 +24,6 @@ function lateguess(curmod, symb)
     guess(getfield(curmod, symb))
 end
 
-function lastmethod(fn)
-    res = nothing
-    for f in fn.env
-        res = f
-    end
-    res
-end
-
 name(ex::Expr) = name(isa(ex.args[1], Bool) ? ex.args[2] : ex.args[1])
 name(s::Symbol) = s
 
