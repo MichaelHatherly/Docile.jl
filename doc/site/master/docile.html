@@ -93,7 +93,7 @@ end</code></pre>
 </tr>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/f281fcea9b39b3a323a156b83bf30ac0c0ed2749/src/types.jl#L28'>Docile/src/types.jl:28</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/5da9088bcadff48cf4e60116234da91b544529e6/src/types.jl#L28'>Docile/src/types.jl:28</a></code></td>
 </tr>
 </table>
 </div>
@@ -115,7 +115,7 @@ end</code></pre>
 </tr>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/f281fcea9b39b3a323a156b83bf30ac0c0ed2749/src/types.jl#L2'>Docile/src/types.jl:2</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/5da9088bcadff48cf4e60116234da91b544529e6/src/types.jl#L2'>Docile/src/types.jl:2</a></code></td>
 </tr>
 </table>
 </div>
@@ -140,7 +140,28 @@ f(x) = x
 
 @doc "A single line docstring with no metadata." ->
 function g(x)
+    x
+end</code></pre>
+<h3>Documenting Functions and Methods</h3>
+<p>Adding documentation to a <code>Function</code> rather than a specific <code>Method</code> can be achieved in two ways.</p>
+<p><strong>Case 1</strong></p>
+<p>Documentation may be added <em>after</em> the first definition of a method. In the following example documentation is added to the method <code>f(x)</code> and then to the generic function <code>f</code>.</p>
+<pre><code>@docstrings
 
+@doc "Method specific documentation." ->
+function f(x)
+    x
+end
+
+@doc "Documentation for generic function `f`." -> f</code></pre>
+<p><em>Note:</em> The <code>f</code> may be written directly after the <code>-></code> or on the subsequent line.</p>
+<p><strong>Case 2</strong></p>
+<p>There may only be generic documentation for a function and none that is method-specific. In this case the generic documentation may be written directly above one of the methods by using <code>@doc*</code>. The documentation will then be associated with the <code>Function</code> object rather than that particular <code>Method</code>.</p>
+<pre><code>@docstrings
+
+@doc* "Generic documentation for this function." ->
+function f(x)
+    x
 end</code></pre><div class='entry-meta'>
 <strong>Details:</strong>
 <table class='meta-table'>
@@ -151,7 +172,7 @@ end</code></pre><div class='entry-meta'>
 </tr>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/f281fcea9b39b3a323a156b83bf30ac0c0ed2749/src/macros.jl#L56'>Docile/src/macros.jl:56</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/5da9088bcadff48cf4e60116234da91b544529e6/src/macros.jl#L61'>Docile/src/macros.jl:61</a></code></td>
 </tr>
 </table>
 </div>
@@ -179,7 +200,7 @@ end</code></pre><div class='entry-meta'>
 </tr>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/f281fcea9b39b3a323a156b83bf30ac0c0ed2749/src/macros.jl#L49'>Docile/src/macros.jl:49</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/5da9088bcadff48cf4e60116234da91b544529e6/src/macros.jl#L54'>Docile/src/macros.jl:54</a></code></td>
 </tr>
 </table>
 </div>
@@ -207,7 +228,7 @@ f(x) = x</code></pre><div class='entry-meta'>
 <table class='meta-table'>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/f281fcea9b39b3a323a156b83bf30ac0c0ed2749/src/Docile.jl#L37'>Docile/src/Docile.jl:37</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/5da9088bcadff48cf4e60116234da91b544529e6/src/Docile.jl#L37'>Docile/src/Docile.jl:37</a></code></td>
 </tr>
 </table>
 </div>
