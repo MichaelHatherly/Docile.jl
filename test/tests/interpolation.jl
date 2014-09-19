@@ -15,9 +15,14 @@ f(x) = x
     } ->
 g(x) = x
 
+@doc* md"$x"i {
+    :result => "1"
+    } ->
+h(x) = x
+
 end
 
-for fn in [:f, :g]
+for fn in [:f, :g, :h]
     results = query(getfield(Interpolation, fn))
     @test length(results) == 1
     mod, obj, ent = results.entries[1]
