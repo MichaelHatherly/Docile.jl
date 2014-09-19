@@ -1,6 +1,6 @@
 module Interface
 
-import Docile: Entry, Manual, Documentation, METADATA
+import Docile: Entry, Manual, Documentation, Docstring, METADATA
 
 export Entry, Manual, Documentation,
        category, docs, metadata,
@@ -8,15 +8,13 @@ export Entry, Manual, Documentation,
        documentation, isdocumented
 
 using Docile
-@docstrings [
-    :manual => ["../doc/interface.md"]
-    ]
+@docstrings [ :manual => ["../doc/interface.md"] ]
 
 @doc "Symbol representing the category that an `Entry` belongs to." ->
 category{K}(entry::Entry{K}) = K
 
 @doc "Raw documentation string associated with an `Entry`." ->
-docs(entry::Entry) = entry.docs
+docs(entry::Entry) = entry.docs.content
 
 @doc "Dictionary containing all metadata associated with an `Entry`." ->
 metadata(entry::Entry) = entry.meta
@@ -28,7 +26,7 @@ modulename(doc::Documentation) = doc.modname
 manual(doc::Documentation) = doc.manual
 
 @doc "Vector containing the contents of each manual page and file name." ->
-pages(manual::Manual) = manual.pages
+pages(manual::Manual) = [(file, page.content) for (file, page) in manual.pages]
 
 @doc "Dictionary associating objects and documentation entries." ->
 entries(doc::Documentation) = doc.entries

@@ -9,6 +9,7 @@ files = [
     "at-doc-star",
     "interface",
     "old-tests",
+    "docstring-macros",
     "doctests"
     ]
 
