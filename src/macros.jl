@@ -51,10 +51,13 @@ end
 const METADATA = :__METADATA__
 
 @docref () -> REF_DOCSTRINGS
-macro docstrings(files...)
-    files = isempty(files) ? :([]) :
-        :([abspath(joinpath(dirname(@__FILE__), f)) for f in $(files[1].args)])
-    esc(:(const $METADATA = Docile.Documentation(current_module(), $files)))
+macro docstrings(args...)
+    quote
+        const $(esc(METADATA)) = Documentation(
+            current_module(),
+            abspath(dirname(@__FILE__)),
+            $(args...))
+    end
 end
 
 @docref () -> REF_DOC
@@ -83,7 +86,7 @@ function doc(args...)
     if generic
         
         # Generic function docs attatched to a method definition.
-        esc(:($obj; push!($METADATA, $n, Docile.Entry{:function}($source, $(data...)))))        
+        esc(:($obj; push!($METADATA, $n, :function, $source, $(data...))))
         
     elseif c == :method
         
@@ -92,7 +95,7 @@ function doc(args...)
         oset = :($before = isdefined($qn) ? Set(methods($n)) : Set{Method}())
         nset = :(setdiff(Set(methods($n)), $before))
         
-        esc(:($oset; $obj; push!($METADATA, $nset, Docile.Entry{:method}($source, $(data...)))))
+        esc(:($oset; $obj; push!($METADATA, $nset, :method, $source, $(data...))))
         
     else
         
@@ -101,7 +104,7 @@ function doc(args...)
         
         # Macros, types, globals, modules, functions (not attatched to a method)
         var = c in (:type, :symbol) ? :($n) : :($qn)
-        esc(:($obj; push!($METADATA, $var, Docile.Entry{$cat}($source, $(data...)))))
+        esc(:($obj; push!($METADATA, $var, $cat, $source, $(data...))))
         
     end
 end

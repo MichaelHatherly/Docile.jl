@@ -14,7 +14,9 @@ end
 include("types.jl")
 include("macros.jl")
 
-@docstrings {"../doc/manual.md"}
+@docstrings [
+    :manual => ["../doc/manual.md"]
+    ]
 
 @doc """
 A convenience string macro to allow LaTeX-like syntax to be used in
@@ -48,7 +50,7 @@ for (cat, obj, ref, file) in [
         (:type,  Documentation,         REF_DOCUMENTATION, "Documentation.md"),
         (:type,  Entry,                 REF_ENTRY,         "Entry.md")
         ]
-    __METADATA__.entries[obj] = Entry{cat}(ref, {:file => "../doc/objects/$(file)"})
+    __METADATA__.entries[obj] = Entry{cat}(ref, __METADATA__, {:file => "../doc/objects/$(file)"})
 end
 
 end # module
