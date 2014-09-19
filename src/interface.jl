@@ -1,6 +1,6 @@
 module Interface
 
-import Docile: Entry, Manual, Documentation, METADATA
+import Docile: Entry, Manual, Documentation, Docstring, METADATA
 
 export Entry, Manual, Documentation,
        category, docs, metadata,
@@ -16,7 +16,11 @@ using Docile
 category{K}(entry::Entry{K}) = K
 
 @doc "Raw documentation string associated with an `Entry`." ->
-docs(entry::Entry) = entry.docs
+docs(entry::Entry) = _docs(entry.docs)
+
+# TODO: remove later
+_docs(s::String) = s
+_docs(docstring::Docstring) = docstring.content
 
 @doc "Dictionary containing all metadata associated with an `Entry`." ->
 metadata(entry::Entry) = entry.meta
@@ -28,7 +32,11 @@ modulename(doc::Documentation) = doc.modname
 manual(doc::Documentation) = doc.manual
 
 @doc "Vector containing the contents of each manual page and file name." ->
-pages(manual::Manual) = manual.pages
+pages(manual::Manual) = [_page(t...) for t in manual.pages]
+
+# TODO: remove later
+_page(file::String, docstring::String) = (file, docstring)
+_page(file::String, docstring::Docstring) = (file, docstring.content)
 
 @doc "Dictionary associating objects and documentation entries." ->
 entries(doc::Documentation) = doc.entries
