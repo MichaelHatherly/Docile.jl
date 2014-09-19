@@ -10,6 +10,7 @@ files = [
     "interface",
     "old-tests",
     "docstring-macros",
+    "interpolation",
     "edge-cases",
     "doctests"
     ]

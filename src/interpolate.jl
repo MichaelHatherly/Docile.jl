@@ -41,6 +41,6 @@ function parse_brackets(str::IO)
         end
         write(out, c)
     end
-    brackets == 0 || error("unmatched brackets.")
+    brackets == 0 || throw(ParseError("unmatched brackets."))
     out
 end
