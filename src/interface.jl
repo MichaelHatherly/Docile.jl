@@ -8,7 +8,9 @@ export Entry, Manual, Documentation,
        documentation, isdocumented
 
 using Docile
-@docstrings {"../doc/interface.md"}
+@docstrings [
+    :manual => ["../doc/interface.md"]
+    ]
 
 @doc "Symbol representing the category that an `Entry` belongs to." ->
 category{K}(entry::Entry{K}) = K

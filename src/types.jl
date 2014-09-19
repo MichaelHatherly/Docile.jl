@@ -3,13 +3,15 @@ type Entry{category} # category::Symbol
     docs::String
     meta::Dict{Symbol, Any}
 
-    function Entry(source, meta::Dict)
+    # handle external docstrings
+    function Entry(source, doc::Documentation, meta::Dict)
         push!(meta, :source, source)
-        docs = haskey(meta, :file) ? readall(joinpath(dirname(source[2]), meta[:file])) : ""
-        new(docs, meta)
+        text = haskey(meta, :file) ? readall(joinpath(dirname(source[2]), meta[:file])) : ""
+        new(text, meta)
     end
 
-    function Entry(source, text::String, meta::Dict = Dict{Symbol, Any}())
+    # handle internal docstrings
+    function Entry(source, doc::Documentation, text::String, meta::Dict = Dict{Symbol, Any}())
         push!(meta, :source, source)
         new(text, meta)
     end
@@ -21,26 +23,54 @@ end
 type Manual
     pages::Vector{(String, String)}
     
-    Manual(files) = new([(abspath(file), readall(file)) for file in files])
+    function Manual(root, files)
+        new([(f = joinpath(root, file); (abspath(f), readall(f))) for file in files])
+    end
 end
+
+const DOCUMENTATION_METADATA = [
+    :manual => String[]
+    ]
 
 @docref () -> REF_DOCUMENTATION
 type Documentation
     modname::Module
     manual::Manual
     entries::Dict{Any, Entry}
+    metadata::Dict{Symbol, Any}
     
-    Documentation(m::Module, files = String[]) = new(m, Manual(files), Dict{Any, Entry}())
+    # DEPRECIATION -- 0.3 removal.
+    function Documentation(m::Module, root::String, manual::Vector)
+        Base.warn_once("""
+        @docstrings with a vector argument is depreciated. Use a Dict{Symbol, Any}
+        instead. To specify the manual section use the following:
+        
+        @docstrings [
+            :manual => ["../doc/maunal.md", "../doc/interface.md"]
+        ]
+        """)
+        
+        meta = copy(DOCUMENTATION_METADATA)
+        meta[:manual] = manual
+        
+        new(m, Manual(root, manual), Dict{Any, Entry}(), meta)
+    end
+    
+    function Documentation(m::Module, root::String, meta::Dict = Dict{Symbol, Any}())
+        # override default metadata with that provided by @docstrings
+        meta = merge(DOCUMENTATION_METADATA, meta)
+        new(m, Manual(root, meta[:manual]), Dict{Any, Entry}(), meta)
+    end
 end
 
-function push!(docs::Documentation, object, ent::Entry)
+function push!(docs::Documentation, object, cat, source, data...)
     haskey(docs.entries, object) && warn("@doc: overwriting object $(object)")
-    docs.entries[object] = ent
+    docs.entries[object] = Entry{cat}(source, docs, data...)
     nothing
 end
 
-function push!(docs::Documentation, objects::Set, ent::Entry)
+function push!(docs::Documentation, objects::Set, args...)
     for object in objects
-        push!(docs, object, ent)
+        push!(docs, object, args...)
     end
 end
