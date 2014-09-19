@@ -11,12 +11,12 @@ macro docref(ref)
     :($(esc(node[end])) = ($(node[1].args[1] + 1), @__FILE__))
 end
 
+include("interpolate.jl")
+include("docstrings.jl")
 include("types.jl")
 include("macros.jl")
 
-@docstrings [
-    :manual => ["../doc/manual.md"]
-    ]
+@docstrings [ :manual => ["../doc/manual.md"] ]
 
 @doc """
 A convenience string macro to allow LaTeX-like syntax to be used in

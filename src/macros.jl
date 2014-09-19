@@ -52,12 +52,7 @@ const METADATA = :__METADATA__
 
 @docref () -> REF_DOCSTRINGS
 macro docstrings(args...)
-    quote
-        const $(esc(METADATA)) = Documentation(
-            current_module(),
-            abspath(dirname(@__FILE__)),
-            $(args...))
-    end
+    :(const $(esc(METADATA)) = Documentation(current_module(), @__FILE__, $(args...)))
 end
 
 @docref () -> REF_DOC
