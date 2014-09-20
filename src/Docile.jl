@@ -18,35 +18,24 @@ include("macros.jl")
 
 @docstrings [ :manual => ["../doc/manual.md"] ]
 
-@doc """
-A convenience string macro to allow LaTeX-like syntax to be used in
-docstrings in the following manner:
-
-```julia
-@docstrings
-
-@doc tex\"\"\"
-Some inline maths: \\( x * y \\in G \\forall x, y \\in G \\) and some display
-equations:
-
-\\[
-\\int_a^b f(x) \\, dx = F(b) - F(a)
-\\]
-
-\"\"\" ->
-f(x) = x
-```
-""" ->
 macro tex_mstr(text)
+    Base.warn_once("""
+    @tex_mstr has be deprecated in favour of typed docstrings and will
+    be removed in version 0.3.0.
+    
+    Use @md_str and @md_mstr when needing to avoid interpolation.
+    """)
     triplequoted(text)
 end
 
 include("interface.jl")
 
-# Add other documentation manually.
+# Add documentation manually.
 for (cat, obj, ref, file) in [
         (:macro, symbol("@doc"),        REF_DOC,           "at-doc.md"),
         (:macro, symbol("@docstrings"), REF_DOCSTRINGS,    "at-docstrings.md"),
+        (:macro, symbol("@md_str"),     REF_MD_STR,        "at-md-str.md"),
+        (:macro, symbol("@md_mstr"),    REF_MD_MSTR,       "at-md-mstr.md"),
         (:type,  Documentation,         REF_DOCUMENTATION, "Documentation.md"),
         (:type,  Entry,                 REF_ENTRY,         "Entry.md")
         ]
