@@ -65,7 +65,7 @@ type Documentation
         use the following:
         
         @docstrings [
-            :manual => ["../doc/maunal.md", "../doc/interface.md"]
+            :manual => ["../doc/maunal.md"]
         ]
         """)
         
