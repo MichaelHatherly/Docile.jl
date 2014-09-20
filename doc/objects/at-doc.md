@@ -1,25 +1,48 @@
-Document objects in source code such as *functions*, *methods*,
-*macros*, *types*, *globals*, and *modules*.
+Document objects in source code such as *functions*, *methods*, *macros*, *types*,
+*globals*, and *modules*.
 
-Takes a string as documentation and/or a `(Symbol => Any)`
-dictionary containing metadata. Only one needs to be provided, but the
-docstring **must** appear first if both are needed.
+Takes a string as documentation and/or a `(Symbol => Any)` dictionary containing metadata.
+Only one of these needs to be provided, but the docstring must appear first if both are
+needed.
 
 **Examples:**
 
 ```julia
 @docstrings
 
-@doc """
-Markdown formatted text appears here...
-""" {
-    :key => :value
-    } ->
+@doc "A single line method docstring with no metadata." ->
 f(x) = x
 
-@doc "A single line docstring with no metadata." ->
-function g(x)
+@doc "A single line macro docstring with some arbitrary metadata." {
+    :author => "Author Name"
+    } ->
+macro g(x)
     x
+end
+
+@doc """
+A longer docstring for a type in a triple quoted string with no metadata.
+""" ->
+type F
+    # ...
+end
+
+@doc """
+A triple quoted docstring for a global with metadata.
+""" {
+    :status => (:deprecated, v"0.1.0")
+    } ->
+const ABC = 1
+
+value = "interpolated"
+
+@doc """
+Since docstrings are just normal strings values can be $(value) into
+them from the surrounding scope or calculated, $(rand()), when the
+module is loaded.
+""" ->
+immutable G
+    # ...
 end
 ```
 
@@ -63,3 +86,16 @@ function f(x)
     x
 end
 ```
+
+### Documentation Formatting and Interpolation
+
+Currently the only supported format for docstrings is markdown as provided by the
+Markdown.jl package.
+
+By default all docstrings will be stored as `MarkdownDocstring`s. This default may be
+changed (once other formats become available) using the `@docstring` macro metadata (see
+[@docstrings](#@docstrings) for details).
+
+Since `$` and `\` are not interpreted literally in strings, string macros `@md_str` and
+`@md_mstr` are provided to make it easier to enter LaTeX equations in docstrings. The
+[@md_str](#@md_str) entry provides details.

@@ -1,75 +1,44 @@
-Docile is a [Julia](http://www.julialang.org) package documentation
-system that provides a docstring macro, `@doc`, for documenting
-arbitrary Julia objects and associating metadata with them.
+*Docile* is a [Julia](http://www.julialang.org) package documentation system that provides
+a docstring macro, `@doc`, for documenting arbitrary Julia objects and associating
+metadata with them.
 
 ### Installation
 
-*Docile.jl* is in `METADATA` and can be installed via
-`Pkg.add("Docile")`.
+The package is in `METADATA` and can be installed via `Pkg.add("Docile")`.
 
-### Usage
+### Overview
 
-The `@doc` macro can document *functions*, *globals*, *macros*,
-*methods*, *modules*, and *types*. The syntax is the same for all cases.
-
-**Example:**
+The `@doc` macro can be used to document *functions*, *globals*, *macros*, *methods*,
+*modules*, and *types*. The following example illustrates some basic usage of the macro.
 
 ```julia
 module PackageName
 
 using Docile
-@docstrings # Call before any `@doc` uses. Creates module's `__METADATA__` object.
+@docstrings
 
-@doc """
-Markdown formatted text appears here...
-
-""" {
-    # metadata section
-    :section => "Main section",
-    :tags    => ["foo", "bar", "baz"]
-    # ... other (Symbol => Any) pairs
-    } ->
-function myfunc(x, y)
+@doc " ... " ->
+function f(x)
     # ...
 end
 
-@doc "A short docstring." ->
-foo(x) = x
+@doc """
+...
+""" ->
+g(x) = x
 
 end
 ```
 
-A `->` is required between the docstring/metadata and the object being
-documented. It **must** appear on the same line as the docstring/metadata.
+**Explanation:**
 
-If no metadata is required for an object then the metadata section can be left out.
+The *Docile* package is loaded with `using Docile` and the current module's documentation
+is initialised via the `@docstrings` macro.
 
-External files containing documentation can be linked to by adding a
-`:file => "path"` to the metadata section of the `@doc` macro. The text
-section of the macro is ignored in this case and can be left out. The
-file path is taken to be relative to the source file.
+The `@doc` macro is then be used to attach documentation to the methods `f(x)` and `g(x)`.
 
-**Example:**
+Note that the `->` is required between the string and the object being documented and it
+must appear on the same line as the closing `"`.
 
-```julia
-@doc { :file => "../doc/manual.md" } -> Docile
-
-```
-
-The `@doc` macro requires at least a docstring or metadata section. The
-docstring section always appears first if both are provided. Bare
-`@doc`s are not permitted:
-
-```julia
-@doc -> illegal(x) = x
-
-```
-
-A `@tex_mstr` string macro is provided to avoid having to escape LaTeX
-syntax in docstrings. Using standard multiline strings allows for
-interpolating data into the string from the surrounding module in the
-usual way.
-
-Code generated via loops and `@eval` can also be documented. See the file
-[loop-generated-docs.jl](https://github.com/MichaelHatherly/Docile.jl/blob/master/test/tests/loop-generated-docs.jl)
-for an example of this.
+A more in-depth discussion covering metadata, formatted docstrings, and documenting
+generic functions can be found in the entry for [@doc](#@doc).
