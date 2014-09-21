@@ -11,45 +11,32 @@
 
 <h1 class='package-header'>Docile</h1>
 
-<p>Docile is a <a href="http://www.julialang.org">Julia</a> package documentation system that provides a docstring macro, <code>@doc</code>, for documenting arbitrary Julia objects and associating metadata with them.</p>
+<p><em>Docile</em> is a <a href="http://www.julialang.org">Julia</a> package documentation system that provides a docstring macro, <code>@doc</code>, for documenting arbitrary Julia objects and associating metadata with them.</p>
 <h3>Installation</h3>
-<p><em>Docile.jl</em> is in <code>METADATA</code> and can be installed via <code>Pkg.add("Docile")</code>.</p>
-<h3>Usage</h3>
-<p>The <code>@doc</code> macro can document <em>functions</em>, <em>globals</em>, <em>macros</em>, <em>methods</em>, <em>modules</em>, and <em>types</em>. The syntax is the same for all cases.</p>
-<p><strong>Example:</strong></p>
+<p>The package is in <code>METADATA</code> and can be installed via <code>Pkg.add("Docile")</code>.</p>
+<h3>Overview</h3>
+<p>The <code>@doc</code> macro can be used to document <em>functions</em>, <em>globals</em>, <em>macros</em>, <em>methods</em>, <em>modules</em>, and <em>types</em>. The following example illustrates some basic usage of the macro.</p>
 <pre><code>module PackageName
 
 using Docile
-@docstrings # Call before any `@doc` uses. Creates module's `__METADATA__` object.
+@docstrings
 
-@doc """
-Markdown formatted text appears here...
-
-""" {
-    # metadata section
-    :section => "Main section",
-    :tags    => ["foo", "bar", "baz"]
-    # ... other (Symbol => Any) pairs
-    } ->
-function myfunc(x, y)
+@doc " ... " ->
+function f(x)
     # ...
 end
 
-@doc "A short docstring." ->
-foo(x) = x
+@doc """
+...
+""" ->
+g(x) = x
 
 end</code></pre>
-<p>A <code>-></code> is required between the docstring/metadata and the object being documented. It <strong>must</strong> appear on the same line as the docstring/metadata.</p>
-<p>If no metadata is required for an object then the metadata section can be left out.</p>
-<p>External files containing documentation can be linked to by adding a <code>:file => "path"</code> to the metadata section of the <code>@doc</code> macro. The text section of the macro is ignored in this case and can be left out. The file path is taken to be relative to the source file.</p>
-<p><strong>Example:</strong></p>
-<pre><code>@doc { :file => "../doc/manual.md" } -> Docile
-</code></pre>
-<p>The <code>@doc</code> macro requires at least a docstring or metadata section. The docstring section always appears first if both are provided. Bare <code>@doc</code>s are not permitted:</p>
-<pre><code>@doc -> illegal(x) = x
-</code></pre>
-<p>A <code>@tex_mstr</code> string macro is provided to avoid having to escape LaTeX syntax in docstrings. Using standard multiline strings allows for interpolating data into the string from the surrounding module in the usual way.</p>
-<p>Code generated via loops and <code>@eval</code> can also be documented. See the file <a href="https://github.com/MichaelHatherly/Docile.jl/blob/master/test/tests/loop-generated-docs.jl">loop-generated-docs.jl</a> for an example of this. </p><h1 id='module-reference'>Reference</h1>
+<p><strong>Explanation:</strong></p>
+<p>The <em>Docile</em> package is loaded with <code>using Docile</code> and the current module's documentation is initialised via the <code>@docstrings</code> macro.</p>
+<p>The <code>@doc</code> macro is then be used to attach documentation to the methods <code>f(x)</code> and <code>g(x)</code>.</p>
+<p>Note that the <code>-></code> is required between the string and the object being documented and it must appear on the same line as the closing <code>"</code>.</p>
+<p>A more in-depth discussion covering metadata, formatted docstrings, and documenting generic functions can be found in the entry for <a href="#@doc">@doc</a>. </p><h1 id='module-reference'>Reference</h1>
 <ul class='index'>
 <li >
 <strong>types:</strong>
@@ -72,7 +59,9 @@ end</code></pre>
 <li >
 <a href='#@docstrings'>@docstrings</a></li>
 <li >
-<a href='#@tex_mstr'>@tex_mstr</a></li>
+<a href='#@md_mstr'>@md_mstr</a></li>
+<li >
+<a href='#@md_str'>@md_str</a></li>
 </ul>
 </li>
 </ul>
@@ -93,7 +82,7 @@ end</code></pre>
 </tr>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/f281fcea9b39b3a323a156b83bf30ac0c0ed2749/src/types.jl#L28'>Docile/src/types.jl:28</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/463c48b9a3cb9f5d6ca10caf518b6bf55dad800b/src/types.jl#L52'>Docile/src/types.jl:52</a></code></td>
 </tr>
 </table>
 </div>
@@ -115,7 +104,7 @@ end</code></pre>
 </tr>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/f281fcea9b39b3a323a156b83bf30ac0c0ed2749/src/types.jl#L2'>Docile/src/types.jl:2</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/463c48b9a3cb9f5d6ca10caf518b6bf55dad800b/src/types.jl#L2'>Docile/src/types.jl:2</a></code></td>
 </tr>
 </table>
 </div>
@@ -127,21 +116,69 @@ end</code></pre>
 </div>
 <div class='entry-body'>
 <p>Document objects in source code such as <em>functions</em>, <em>methods</em>, <em>macros</em>, <em>types</em>, <em>globals</em>, and <em>modules</em>.</p>
-<p>Takes a string as documentation and/or a <code>(Symbol => Any)</code> dictionary containing metadata. Only one needs to be provided, but the docstring <strong>must</strong> appear first if both are needed.</p>
+<p>Takes a string as documentation and/or a <code>(Symbol => Any)</code> dictionary containing metadata. Only one of these needs to be provided, but the docstring must appear first if both are needed.</p>
 <p><strong>Examples:</strong></p>
 <pre><code>@docstrings
 
-@doc """
-Markdown formatted text appears here...
-""" {
-    :key => :value
-    } ->
+@doc "A single line method docstring with no metadata." ->
 f(x) = x
 
-@doc "A single line docstring with no metadata." ->
-function g(x)
+@doc "A single line macro docstring with some arbitrary metadata." {
+    :author => "Author Name"
+    } ->
+macro g(x)
+    x
+end
 
-end</code></pre><div class='entry-meta'>
+@doc """
+A longer docstring for a type in a triple quoted string with no metadata.
+""" ->
+type F
+    # ...
+end
+
+@doc """
+A triple quoted docstring for a global with metadata.
+""" {
+    :status => (:deprecated, v"0.1.0")
+    } ->
+const ABC = 1
+
+value = "interpolated"
+
+@doc """
+Since docstrings are just normal strings values can be $(value) into
+them from the surrounding scope or calculated, $(rand()), when the
+module is loaded.
+""" ->
+immutable G
+    # ...
+end</code></pre>
+<h3>Documenting Functions and Methods</h3>
+<p>Adding documentation to a <code>Function</code> rather than a specific <code>Method</code> can be achieved in two ways.</p>
+<p><strong>Case 1</strong></p>
+<p>Documentation may be added <em>after</em> the first definition of a method. In the following example documentation is added to the method <code>f(x)</code> and then to the generic function <code>f</code>.</p>
+<pre><code>@docstrings
+
+@doc "Method specific documentation." ->
+function f(x)
+    x
+end
+
+@doc "Documentation for generic function `f`." -> f</code></pre>
+<p><em>Note:</em> The <code>f</code> may be written directly after the <code>-></code> or on the subsequent line.</p>
+<p><strong>Case 2</strong></p>
+<p>There may only be generic documentation for a function and none that is method-specific. In this case the generic documentation may be written directly above one of the methods by using <code>@doc*</code>. The documentation will then be associated with the <code>Function</code> object rather than that particular <code>Method</code>.</p>
+<pre><code>@docstrings
+
+@doc* "Generic documentation for this function." ->
+function f(x)
+    x
+end</code></pre>
+<h3>Documentation Formatting and Interpolation</h3>
+<p>Currently the only supported format for docstrings is markdown as provided by the Markdown.jl package.</p>
+<p>By default all docstrings will be stored as <code>MarkdownDocstring</code>s. This default may be changed (once other formats become available) using the <code>@docstring</code> macro metadata (see <a href="#@docstrings">@docstrings</a> for details).</p>
+<p>Since <code>$</code> and <code>\</code> are not interpreted literally in strings, string macros <code>@md_str</code> and <code>@md_mstr</code> are provided to make it easier to enter LaTeX equations in docstrings. The <a href="#@md_str">@md_str</a> entry provides details. </p><div class='entry-meta'>
 <strong>Details:</strong>
 <table class='meta-table'>
 <tr >
@@ -151,7 +188,7 @@ end</code></pre><div class='entry-meta'>
 </tr>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/f281fcea9b39b3a323a156b83bf30ac0c0ed2749/src/macros.jl#L56'>Docile/src/macros.jl:56</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/463c48b9a3cb9f5d6ca10caf518b6bf55dad800b/src/macros.jl#L59'>Docile/src/macros.jl:59</a></code></td>
 </tr>
 </table>
 </div>
@@ -166,10 +203,14 @@ end</code></pre><div class='entry-meta'>
 <p><strong>Examples:</strong></p>
 <pre><code>using Docile
 @docstrings</code></pre>
-<p>An optional list of file names may be provided for inclusion in the manual section of the documentation, which can be viewed using the <code>manual</code> function from <a href="https://github.com/MichaelHatherly/Lexicon.jl">Lexicon.jl</a>. The file paths must be specified relative to the source file where <code>@docstrings</code> is called from.</p>
+<p>An optional <code>Dict{Symbol, Any}</code> metadata dictionary can be used to specify additional options for the module's documentation.</p>
 <pre><code>using Docile
-@docstrings {"../doc/manual.md"}
-</code></pre><div class='entry-meta'>
+@docstrings [ :manual => ["../doc/manual.md"] ]
+</code></pre>
+<p>Available keywords are <code>:manual</code> and <code>:format</code>. Others will become available in future.</p>
+<p><code>:format</code> specifies the default format to use for all docstrings in a module. Current choices for formatting are: <code>MarkdownDocstring</code>. This will be expanded once more parsers become available.</p>
+<p><code>:manual</code> is a vector of files that make up a module's manual section. The paths must be specified relative to the source file where <code>@docstrings</code> is called from.</p>
+<p>The manual sections may be viewed using the <code>manual</code> function from <a href="https://github.com/MichaelHatherly/Lexicon.jl">Lexicon.jl</a> and are included in the HTML documentation generated by <em>Lexicon</em>. </p><div class='entry-meta'>
 <strong>Details:</strong>
 <table class='meta-table'>
 <tr >
@@ -179,35 +220,62 @@ end</code></pre><div class='entry-meta'>
 </tr>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/f281fcea9b39b3a323a156b83bf30ac0c0ed2749/src/macros.jl#L49'>Docile/src/macros.jl:49</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/463c48b9a3cb9f5d6ca10caf518b6bf55dad800b/src/macros.jl#L54'>Docile/src/macros.jl:54</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<div id='@tex_mstr' class='entry-name category-macro'>
-<div class='category'>[macro] &mdash; </div> @tex_mstr
+<div id='@md_mstr' class='entry-name category-macro'>
+<div class='category'>[macro] &mdash; </div> @md_mstr
 </div>
 <div class='entry-body'>
-<p>A convenience string macro to allow LaTeX-like syntax to be used in docstrings in the following manner:</p>
+<p>A multiline version of <a href="#@md_str">@md_str</a>. </p><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>file:</strong></td><td >
+<code>../doc/objects/at-md-mstr.md</code>
+</td>
+</tr>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/463c48b9a3cb9f5d6ca10caf518b6bf55dad800b/src/docstrings.jl#L24'>Docile/src/docstrings.jl:24</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class='entry'>
+<div id='@md_str' class='entry-name category-macro'>
+<div class='category'>[macro] &mdash; </div> @md_str
+</div>
+<div class='entry-body'>
+<p>String macro to specify a docstring as a markdown-formatted <code>MarkdownDocstring</code> object. This macro is useful when it is necessary to avoid Julia's string interpolation features, such as writing LaTeX equations.</p>
+<p>Once different formats are available for writing documentation these string macros will allow the author to override the default docstring format specified by <code>@docstrings</code> if they wish to write docstrings in several different formats in a single module.</p>
+<p><strong>Example:</strong></p>
 <pre><code>@docstrings
 
-@doc tex"""
-Some inline maths: \( x * y \in G \forall x, y \in G \) and some display
-equations:
+@doc md"Markdown formatted docstring." ->
+f(x) = x</code></pre>
+<p>To use interpolation append an <code>i</code> to the docstring:</p>
+<pre><code>@docstrings
 
-\[
-\int_a^b f(x) \, dx = F(b) - F(a)
-\]
+format = "Markdown"
 
-""" ->
+@doc md"$(format) formatted docstring."i ->
 f(x) = x</code></pre><div class='entry-meta'>
 <strong>Details:</strong>
 <table class='meta-table'>
 <tr >
+<td><strong>file:</strong></td><td >
+<code>../doc/objects/at-md-str.md</code>
+</td>
+</tr>
+<tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/f281fcea9b39b3a323a156b83bf30ac0c0ed2749/src/Docile.jl#L37'>Docile/src/Docile.jl:37</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/463c48b9a3cb9f5d6ca10caf518b6bf55dad800b/src/docstrings.jl#L19'>Docile/src/docstrings.jl:19</a></code></td>
 </tr>
 </table>
 </div>
