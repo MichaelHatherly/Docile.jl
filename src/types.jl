@@ -55,10 +55,9 @@ type Documentation
     entries::Dict{Any, Entry}
     meta::Dict{Symbol, Any}
     
-    # DEPRECIATION -- 0.3 removal.
     function Documentation(m::Module, root, manual::Vector)
         Base.warn_once("""
-        @docstrings with a vector argument is depreciated and will be
+        @docstrings with a vector argument is deprecated and will be
         removed in version 0.3.0.
         
         Use a Dict{Symbol, Any} instead. To specify the manual section
