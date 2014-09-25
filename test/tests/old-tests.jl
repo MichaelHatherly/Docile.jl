@@ -11,8 +11,8 @@ using Docile
 function g(x)
 end
 
-@doc tex"""
-The `tex` multiline string allows LaTeX input without escaping
+@doc md"""
+The `md` multiline string allows Latex input without escaping
 characters.
 
 $$

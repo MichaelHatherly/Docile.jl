@@ -2,6 +2,7 @@
 type Entry{category} # category::Symbol
     docs::Docstring
     meta::Dict{Symbol, Any}
+    modname::Module
 
     # handle external docstrings
     function Entry(source, doc::Documentation, meta::Dict)
@@ -12,19 +13,19 @@ type Entry{category} # category::Symbol
             else
                 doc.meta[:format]("")
             end
-        new(text, meta)
+        new(text, meta, doc.modname)
     end
 
     # handle internal raw docstrings
     function Entry(source, doc::Documentation, text::String, meta::Dict = Dict{Symbol, Any}())
         push!(meta, :source, source)
-        new(doc.meta[:format](text), meta)
+        new(doc.meta[:format](text), meta, doc.modname)
     end
     
     # handle internal typed docstrings
     function Entry(source, doc::Documentation, text::Docstring, meta::Dict = Dict{Symbol, Any}())
         push!(meta, :source, source)
-        new(text, meta)
+        new(text, meta, doc.modname)
     end
 
     Entry(args...) = error("@doc: incorrect arguments given to docstring macro:\n$(args)")
@@ -89,7 +90,9 @@ end
 
 # For methods since setdiff is used to find new method definitions.
 function push!(docs::Documentation, objects::Set, cat, source, data...)
+    ent = Entry{cat}(source, docs, data...)
     for object in objects
-        push!(docs, object, cat, source, data...)
+        haskey(docs.entries, object) && warn("@doc: overwriting object $(object)")
+        docs.entries[object] = ent
     end
 end

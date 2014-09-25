@@ -19,8 +19,11 @@ docs(entry::Entry) = entry.docs.content
 @doc "Dictionary containing all metadata associated with an `Entry`." ->
 metadata(entry::Entry) = entry.meta
 
-@doc "Module that a `Documentation` object documents." ->
+@doc "Module where the `Documentation` object is defined." ->
 modulename(doc::Documentation) = doc.modname
+
+@doc "Module where the object that an `Entry` documents is defined." ->
+modulename(ent::Entry) = ent.modname
 
 @doc "The `Manual` object containing a module's manual pages." ->
 manual(doc::Documentation) = doc.manual

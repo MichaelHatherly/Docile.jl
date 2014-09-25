@@ -31,7 +31,7 @@ end
 
 for fn in [:f, :g, :h, :j]
     results = query(getfield(DocstringMacros, fn))
-    @test length(results.entries) == 1
-    mod, obj, ent = results.entries[1]
+    @test length(results.categories) == 1
+    ent, obj = first(results.categories[:function].entries)
     @test docs(ent) == metadata(ent)[:result]
 end
