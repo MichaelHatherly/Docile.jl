@@ -1,29 +1,29 @@
-abstract Docstring
+type Docs{ext}
+    data :: String
+    obj
+    Docs(data) = new(data)
+end
 
-const FORMATS = Dict{Symbol, Any}()
+# Load contents of a file into a Docstring type parametrised on the file extension.
+formatted(file) = Docs{symbol(splitext(file)[end][2:end])}(readall(file))
 
-# Default to markdown format.
-formatted(file) = get(FORMATS, symbol(splitext(file)[end][2:end]), :md)(readall(file))
-
-for (ext, T) in [("md",  :MarkdownDocstring)]
+for ext in [:md, :txt]
     @eval begin
         $(Expr(:toplevel, Expr(:export, symbol("@$(ext)_str"), symbol("@$(ext)_mstr"))))
         
-        type $(T) <: Docstring
-            content::String
-        end
-        
-        push!($FORMATS, $(Expr(:quote, symbol(ext))), $T)
-        
-        @docref () -> $(symbol("REF_$(uppercase(ext))_STR"))
+        @docref () -> $(symbol(uppercase("REF_$(ext)_STR")))
         macro $(symbol("$(ext)_str"))(content, flags...)
-            Expr(:call, Expr(:quote, $T), "i" in flags ? interpolate(content) : content)
+            _build_expression(content, flags, $(Expr(:quote, ext)))
         end
         
-        @docref () -> $(symbol("REF_$(uppercase(ext))_MSTR"))
+        @docref () -> $(symbol(uppercase("REF_$(ext)_MSTR")))
         macro $(symbol("$(ext)_mstr"))(content, flags...)
-            content = triplequoted(content)
-            Expr(:call, Expr(:quote, $T), "i" in flags ? interpolate(content) : content)
+            _build_expression(triplequoted(content), flags, $(Expr(:quote, ext)))
         end
     end
+end
+
+function _build_expression(content, flags, ext)
+    Expr(:call, Expr(:curly, :Docs, Expr(:quote, ext)),
+         "i" in flags ? interpolate(content) : content)
 end

@@ -35,7 +35,7 @@ end
 for mt in MethodDocs.f.env
     ent = entries(documentation(MethodDocs))[mt]
     @test mt.sig === metadata(ent)[:sig]
-    @test docs(ent) == "documentation"
+    @test data(docs(ent)) == "documentation"
 end
 
 @test modulename(documentation(MethodDocs)) === MethodDocs

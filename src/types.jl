@@ -1,29 +1,30 @@
 @docref () -> REF_ENTRY
 type Entry{category} # category::Symbol
-    docs::Docstring
-    meta::Dict{Symbol, Any}
-    modname::Module
+    docs    :: Docs
+    meta    :: Dict{Symbol, Any}
+    modname :: Module
 
-    # handle external docstrings
+    # Handle external docstrings by taking the format from the file extension.
+    # When no :file is provided then generate an emtpy docs with the default :format.
     function Entry(source, doc::Documentation, meta::Dict)
         push!(meta, :source, source)
         text =
             if haskey(meta, :file)
                 formatted(joinpath(dirname(source[2]), meta[:file]))
             else
-                doc.meta[:format]("")
+                Docs{doc.meta[:format]}("")
             end
         new(text, meta, doc.modname)
     end
 
-    # handle internal raw docstrings
+    # Handle internal raw docstrings by applying the default :format from found in `doc.meta` to it.
     function Entry(source, doc::Documentation, text::String, meta::Dict = Dict{Symbol, Any}())
         push!(meta, :source, source)
-        new(doc.meta[:format](text), meta, doc.modname)
+        new(Docs{doc.meta[:format]}(text), meta, doc.modname)
     end
     
-    # handle internal typed docstrings
-    function Entry(source, doc::Documentation, text::Docstring, meta::Dict = Dict{Symbol, Any}())
+    # Handle internal typed docstrings produced using string macros.
+    function Entry(source, doc::Documentation, text::Docs, meta::Dict = Dict{Symbol, Any}())
         push!(meta, :source, source)
         new(text, meta, doc.modname)
     end
@@ -31,13 +32,21 @@ type Entry{category} # category::Symbol
     Entry(args...) = error("@doc: incorrect arguments given to docstring macro:\n$(args)")
 end
 
+@docref () -> REF_PAGE
+type Page
+    docs :: Docs
+    file :: String
+    
+    Page(file) = new(formatted(file), file)
+end
+
 @docref () -> REF_MANUAL
 type Manual
-    pages::Vector{(String, Docstring)}
+    pages :: Vector{Page}
     
     function Manual(root, files)
         root = abspath(dirname(root))
-        new([(f = joinpath(root, file); (abspath(f), formatted(f))) for file in files])
+        new([Page(abspath(joinpath(root, file))) for file in files])
     end
 end
 
@@ -46,15 +55,15 @@ Manual(::Nothing, files) = Manual(pwd(), files)
 
 const DOCUMENTATION_METADATA = [
     :manual => String[],
-    :format => MarkdownDocstring
+    :format => :md
     ]
 
 @docref () -> REF_DOCUMENTATION
 type Documentation
-    modname::Module
-    manual::Manual
-    entries::Dict{Any, Entry}
-    meta::Dict{Symbol, Any}
+    modname :: Module
+    manual  :: Manual
+    entries :: Dict{Any, Entry}
+    meta    :: Dict{Symbol, Any}
     
     function Documentation(m::Module, root, manual::Vector)
         Base.warn_once("""

@@ -26,7 +26,7 @@ for fn in [:f, :g, :h]
     results = query(getfield(Interpolation, fn))
     @test length(results.categories) == 1
     ent, obj = first(results.categories[:function].entries)
-    @test docs(ent) == metadata(ent)[:result]
+    @test data(docs(ent)) == metadata(ent)[:result]
 end
 
 @test_throws ParseError Docile.interpolate("\$(1 + 2 + (")

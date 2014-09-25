@@ -21,21 +21,21 @@ let results = query(AtDocStar.f)
     @test length(results.categories) == 2
     
     ent, obj = first(results.categories[:function].entries)
-    @test docs(ent) == "Generic docs for f."
+    @test data(docs(ent)) == "Generic docs for f."
 end
 
 let results = @query AtDocStar.f(1)
     @test length(results.categories) == 1
     
     ent, obj = first(results.categories[:method].entries)
-    @test docs(ent) == "Method f specific docs."
+    @test data(docs(ent)) == "Method f specific docs."
 end
 
 let results = query(AtDocStar.g)
     @test length(results.categories) == 2
     
     ent, obj = first(results.categories[:function].entries)
-    @test docs(ent) == "Generic docs for g."
+    @test data(docs(ent)) == "Generic docs for g."
     @test metadata(ent)[:returns] == (Bool,)
 end
 
@@ -43,6 +43,6 @@ let results = @query AtDocStar.g(1, [3, 4, 5])
     @test length(results.categories) == 1
     
     ent, obj = first(results.categories[:method].entries)
-    @test docs(ent) == "Method g specific docs."
+    @test data(docs(ent)) == "Method g specific docs."
     @test metadata(ent)[:returns] == (Bool,)
 end

@@ -3,7 +3,7 @@ module Docile
 import Base: triplequoted, push!
 import Base.Meta: isexpr
 
-export @docstrings, @doc, @tex_mstr
+export @docstrings, @doc
 
 # internal
 macro docref(ref)
