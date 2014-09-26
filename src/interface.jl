@@ -58,7 +58,7 @@ docs(e::Entry) = e.docs
 data(d::Docs) = d.data
 
 @doc "The parsed documentation for an object. Lazy parsing." ->
-parsed(d::Docs) = isdefined(d, :obj) ? d.obj : parsedocs(d)
+parsed(d::Docs) = isdefined(d, :obj) ? d.obj : (d.obj = parsedocs(d);)
 
 @doc "Extension method for handling arbitary docstring formats." ->
 parsedocs{ext}(d::Docs{ext}) = error("Unknown documentation format: $(ext)")
