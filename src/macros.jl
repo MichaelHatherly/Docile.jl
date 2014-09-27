@@ -80,7 +80,7 @@ function doc(args...)
     # Prebuilt expressions on single lines to avoid packing extra lines into destination module.
     if generic
         
-        # Generic function docs attatched to a method definition.
+        # Generic function docs attached to a method definition.
         esc(:($obj; push!($METADATA, $n, :function, $source, $(data...))))
         
     elseif c == :method
@@ -97,7 +97,7 @@ function doc(args...)
         # Category of entry.
         cat = c == :symbol ? :(Docile.lateguess(current_module(), $qn)) : :($qc)
         
-        # Macros, types, globals, modules, functions (not attatched to a method)
+        # Macros, types, globals, modules, functions (not attached to a method)
         var = c in (:type, :symbol) ? :($n) : :($qn)
         esc(:($obj; push!($METADATA, $var, $cat, $source, $(data...))))
         

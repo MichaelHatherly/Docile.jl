@@ -4,7 +4,7 @@ type Docs{ext}
     Docs(data) = new(data)
 end
 
-# Load contents of a file into a Docstring type parametrised on the file extension.
+# Load contents of a file into a docstring type parametrised on the file extension.
 formatted(file) = Docs{symbol(splitext(file)[end][2:end])}(readall(file))
 
 for ext in [:md, :txt]

@@ -5,7 +5,7 @@ type Entry{category} # category::Symbol
     modname :: Module
 
     # Handle external docstrings by taking the format from the file extension.
-    # When no :file is provided then generate an emtpy docs with the default :format.
+    # When no :file is provided then generate an empty docs with the default :format.
     function Entry(source, doc::Documentation, meta::Dict)
         push!(meta, :source, source)
         text =

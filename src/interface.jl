@@ -47,7 +47,7 @@ category{K}(e::Entry{K}) = K
 @doc "Module where the entry is defined." ->
 modulename(e::Entry) = e.modname
 
-@doc "Dictionary containing arbitary metadata related to an entry." ->
+@doc "Dictionary containing arbitrary metadata related to an entry." ->
 metadata(e::Entry) = e.meta
 
 @doc "Documentation related to the entry." ->
@@ -60,7 +60,7 @@ data(d::Docs) = d.data
 @doc "The parsed documentation for an object. Lazy parsing." ->
 parsed(d::Docs) = isdefined(d, :obj) ? d.obj : (d.obj = parsedocs(d);)
 
-@doc "Extension method for handling arbitary docstring formats." ->
+@doc "Extension method for handling arbitrary docstring formats." ->
 parsedocs{ext}(d::Docs{ext}) = error("Unknown documentation format: $(ext)")
 
 parsedocs(d::Docs{:txt}) = data(d)
