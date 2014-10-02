@@ -24,7 +24,7 @@ Pkg.add("Docile")
 
 *Lexicon.jl*-generated documentation is available for:
 
-**Stable (0.2.2):**
+**Stable (0.3.0):**
 
 [`Docile`][docile-stable-url]
 

@@ -1,5 +1,3 @@
-Pkg.checkout("Lexicon") # remove later
-
 using Docile, Docile.Interface
 using Lexicon
 using Base.Test

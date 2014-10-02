@@ -19,30 +19,44 @@
 <li >
 <ul >
 <li >
-<a href='#category{K}(entry::Entry{K})'>category{K}(entry::Entry{K})</a></li>
+<a href='#category{K}(e::Entry{K})'>category{K}(e::Entry{K})</a></li>
 <li >
-<a href='#docs(entry::Entry{category})'>docs(entry::Entry{category})</a></li>
+<a href='#data(d::Docs{format})'>data(d::Docs{format})</a></li>
 <li >
-<a href='#documentation(modulename::Module)'>documentation(modulename::Module)</a></li>
+<a href='#docs(e::Entry{category})'>docs(e::Entry{category})</a></li>
 <li >
-<a href='#entries(doc::Documentation)'>entries(doc::Documentation)</a></li>
+<a href='#docs(p::Page)'>docs(p::Page)</a></li>
 <li >
-<a href='#isdocumented(modulename::Module)'>isdocumented(modulename::Module)</a></li>
+<a href='#documentation(m::Module)'>documentation(m::Module)</a></li>
 <li >
-<a href='#manual(doc::Documentation)'>manual(doc::Documentation)</a></li>
+<a href='#entries(d::Documentation)'>entries(d::Documentation)</a></li>
 <li >
-<a href='#metadata(entry::Entry{category})'>metadata(entry::Entry{category})</a></li>
+<a href='#file(p::Page)'>file(p::Page)</a></li>
 <li >
-<a href='#modulename(doc::Documentation)'>modulename(doc::Documentation)</a></li>
+<a href='#isdocumented(m::Module)'>isdocumented(m::Module)</a></li>
 <li >
-<a href='#pages(manual::Manual)'>pages(manual::Manual)</a></li>
+<a href='#manual(d::Documentation)'>manual(d::Documentation)</a></li>
+<li >
+<a href='#metadata(d::Documentation)'>metadata(d::Documentation)</a></li>
+<li >
+<a href='#metadata(e::Entry{category})'>metadata(e::Entry{category})</a></li>
+<li >
+<a href='#modulename(d::Documentation)'>modulename(d::Documentation)</a></li>
+<li >
+<a href='#modulename(e::Entry{category})'>modulename(e::Entry{category})</a></li>
+<li >
+<a href='#pages(m::Manual)'>pages(m::Manual)</a></li>
+<li >
+<a href='#parsed(d::Docs{format})'>parsed(d::Docs{format})</a></li>
+<li >
+<a href='#parsedocs{ext}(d::Docs{ext})'>parsedocs{ext}(d::Docs{ext})</a></li>
 </ul>
 </li>
 </ul>
 <div class='entries'>
 <div class='entry'>
-<div id='category{K}(entry::Entry{K})' class='entry-name category-method'>
-<div class='category'>[method] &mdash; </div> category{K}(entry::Entry{K})
+<div id='category{K}(e::Entry{K})' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> category{K}(e::Entry{K})
 </div>
 <div class='entry-body'>
 <p>Symbol representing the category that an <code>Entry</code> belongs to.</p><div class='entry-meta'>
@@ -50,47 +64,79 @@
 <table class='meta-table'>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/1391a2b115062709f6f260df2ac5eb504e8c7f75/src/interface.jl#L13'>Docile/src/interface.jl:13</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/4ef1a64e614049e8707fd74c53062edc0feb23d8/src/interface.jl#L44'>Docile/src/interface.jl:44</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<div id='docs(entry::Entry{category})' class='entry-name category-method'>
-<div class='category'>[method] &mdash; </div> docs(entry::Entry{category})
+<div id='data(d::Docs{format})' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> data(d::Docs{format})
 </div>
 <div class='entry-body'>
-<p>Raw documentation string associated with an <code>Entry</code>.</p><div class='entry-meta'>
+<p>The raw content stored in a docstring.</p><div class='entry-meta'>
 <strong>Details:</strong>
 <table class='meta-table'>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/1391a2b115062709f6f260df2ac5eb504e8c7f75/src/interface.jl#L16'>Docile/src/interface.jl:16</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/4ef1a64e614049e8707fd74c53062edc0feb23d8/src/interface.jl#L57'>Docile/src/interface.jl:57</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<div id='documentation(modulename::Module)' class='entry-name category-method'>
-<div class='category'>[method] &mdash; </div> documentation(modulename::Module)
+<div id='docs(e::Entry{category})' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> docs(e::Entry{category})
 </div>
 <div class='entry-body'>
-<p>The <code>Documentation</code> object in a documented module. This method raises an error if the module is not documented. </p><div class='entry-meta'>
+<p>Documentation related to the entry.</p><div class='entry-meta'>
 <strong>Details:</strong>
 <table class='meta-table'>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/1391a2b115062709f6f260df2ac5eb504e8c7f75/src/interface.jl#L40'>Docile/src/interface.jl:40</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/4ef1a64e614049e8707fd74c53062edc0feb23d8/src/interface.jl#L53'>Docile/src/interface.jl:53</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<div id='entries(doc::Documentation)' class='entry-name category-method'>
-<div class='category'>[method] &mdash; </div> entries(doc::Documentation)
+<div id='docs(p::Page)' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> docs(p::Page)
+</div>
+<div class='entry-body'>
+<p>The documentation stored in a manual page.</p><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/4ef1a64e614049e8707fd74c53062edc0feb23d8/src/interface.jl#L37'>Docile/src/interface.jl:37</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class='entry'>
+<div id='documentation(m::Module)' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> documentation(m::Module)
+</div>
+<div class='entry-body'>
+<p><code>Documentation</code> object stored in a module. Error raised if not documented.</p><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/4ef1a64e614049e8707fd74c53062edc0feb23d8/src/interface.jl#L14'>Docile/src/interface.jl:14</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class='entry'>
+<div id='entries(d::Documentation)' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> entries(d::Documentation)
 </div>
 <div class='entry-body'>
 <p>Dictionary associating objects and documentation entries.</p><div class='entry-meta'>
@@ -98,15 +144,31 @@
 <table class='meta-table'>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/1391a2b115062709f6f260df2ac5eb504e8c7f75/src/interface.jl#L31'>Docile/src/interface.jl:31</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/4ef1a64e614049e8707fd74c53062edc0feb23d8/src/interface.jl#L26'>Docile/src/interface.jl:26</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<div id='isdocumented(modulename::Module)' class='entry-name category-method'>
-<div class='category'>[method] &mdash; </div> isdocumented(modulename::Module)
+<div id='file(p::Page)' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> file(p::Page)
+</div>
+<div class='entry-body'>
+<p>File where a page's content was read from.</p><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/4ef1a64e614049e8707fd74c53062edc0feb23d8/src/interface.jl#L40'>Docile/src/interface.jl:40</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class='entry'>
+<div id='isdocumented(m::Module)' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> isdocumented(m::Module)
 </div>
 <div class='entry-body'>
 <p>Check whether a module has been documented using Docile.jl.</p><div class='entry-meta'>
@@ -114,15 +176,15 @@
 <table class='meta-table'>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/1391a2b115062709f6f260df2ac5eb504e8c7f75/src/interface.jl#L34'>Docile/src/interface.jl:34</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/4ef1a64e614049e8707fd74c53062edc0feb23d8/src/interface.jl#L17'>Docile/src/interface.jl:17</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<div id='manual(doc::Documentation)' class='entry-name category-method'>
-<div class='category'>[method] &mdash; </div> manual(doc::Documentation)
+<div id='manual(d::Documentation)' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> manual(d::Documentation)
 </div>
 <div class='entry-body'>
 <p>The <code>Manual</code> object containing a module's manual pages.</p><div class='entry-meta'>
@@ -130,55 +192,119 @@
 <table class='meta-table'>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/1391a2b115062709f6f260df2ac5eb504e8c7f75/src/interface.jl#L25'>Docile/src/interface.jl:25</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/4ef1a64e614049e8707fd74c53062edc0feb23d8/src/interface.jl#L23'>Docile/src/interface.jl:23</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<div id='metadata(entry::Entry{category})' class='entry-name category-method'>
-<div class='category'>[method] &mdash; </div> metadata(entry::Entry{category})
+<div id='metadata(d::Documentation)' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> metadata(d::Documentation)
 </div>
 <div class='entry-body'>
-<p>Dictionary containing all metadata associated with an <code>Entry</code>.</p><div class='entry-meta'>
+<p>The metadata dictionary containing configuration settings.</p><div class='entry-meta'>
 <strong>Details:</strong>
 <table class='meta-table'>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/1391a2b115062709f6f260df2ac5eb504e8c7f75/src/interface.jl#L19'>Docile/src/interface.jl:19</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/4ef1a64e614049e8707fd74c53062edc0feb23d8/src/interface.jl#L29'>Docile/src/interface.jl:29</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<div id='modulename(doc::Documentation)' class='entry-name category-method'>
-<div class='category'>[method] &mdash; </div> modulename(doc::Documentation)
+<div id='metadata(e::Entry{category})' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> metadata(e::Entry{category})
 </div>
 <div class='entry-body'>
-<p>Module that a <code>Documentation</code> object documents.</p><div class='entry-meta'>
+<p>Dictionary containing arbitrary metadata related to an entry.</p><div class='entry-meta'>
 <strong>Details:</strong>
 <table class='meta-table'>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/1391a2b115062709f6f260df2ac5eb504e8c7f75/src/interface.jl#L22'>Docile/src/interface.jl:22</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/4ef1a64e614049e8707fd74c53062edc0feb23d8/src/interface.jl#L50'>Docile/src/interface.jl:50</a></code></td>
 </tr>
 </table>
 </div>
 </div>
 </div>
 <div class='entry'>
-<div id='pages(manual::Manual)' class='entry-name category-method'>
-<div class='category'>[method] &mdash; </div> pages(manual::Manual)
+<div id='modulename(d::Documentation)' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> modulename(d::Documentation)
 </div>
 <div class='entry-body'>
-<p>Vector containing the contents of each manual page and file name.</p><div class='entry-meta'>
+<p>Module where the <code>Documentation</code> object is defined.</p><div class='entry-meta'>
 <strong>Details:</strong>
 <table class='meta-table'>
 <tr >
 <td><strong>source:</strong></td><td >
-<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/1391a2b115062709f6f260df2ac5eb504e8c7f75/src/interface.jl#L28'>Docile/src/interface.jl:28</a></code></td>
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/4ef1a64e614049e8707fd74c53062edc0feb23d8/src/interface.jl#L20'>Docile/src/interface.jl:20</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class='entry'>
+<div id='modulename(e::Entry{category})' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> modulename(e::Entry{category})
+</div>
+<div class='entry-body'>
+<p>Module where the entry is defined.</p><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/4ef1a64e614049e8707fd74c53062edc0feb23d8/src/interface.jl#L47'>Docile/src/interface.jl:47</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class='entry'>
+<div id='pages(m::Manual)' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> pages(m::Manual)
+</div>
+<div class='entry-body'>
+<p>List of pages that provide general documentation related to a module.</p><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/4ef1a64e614049e8707fd74c53062edc0feb23d8/src/interface.jl#L33'>Docile/src/interface.jl:33</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class='entry'>
+<div id='parsed(d::Docs{format})' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> parsed(d::Docs{format})
+</div>
+<div class='entry-body'>
+<p>The parsed documentation for an object. Lazy parsing.</p><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/4ef1a64e614049e8707fd74c53062edc0feb23d8/src/interface.jl#L60'>Docile/src/interface.jl:60</a></code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class='entry'>
+<div id='parsedocs{ext}(d::Docs{ext})' class='entry-name category-method'>
+<div class='category'>[method] &mdash; </div> parsedocs{ext}(d::Docs{ext})
+</div>
+<div class='entry-body'>
+<p>Extension method for handling arbitrary docstring formats.</p><div class='entry-meta'>
+<strong>Details:</strong>
+<table class='meta-table'>
+<tr >
+<td><strong>source:</strong></td><td >
+<code><a href='https://github.com/MichaelHatherly/Docile.jl/tree/4ef1a64e614049e8707fd74c53062edc0feb23d8/src/interface.jl#L63'>Docile/src/interface.jl:63</a></code></td>
 </tr>
 </table>
 </div>
