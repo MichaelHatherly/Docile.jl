@@ -1,12 +1,3 @@
-type Docs{ext}
-    data :: String
-    obj
-    Docs(data) = new(data)
-end
-
-# Load contents of a file into a docstring type parametrised on the file extension.
-formatted(file) = Docs{symbol(splitext(file)[end][2:end])}(readall(file))
-
 for ext in [:md, :txt]
     @eval begin
         $(Expr(:toplevel, Expr(:export, symbol("@$(ext)_str"), symbol("@$(ext)_mstr"))))

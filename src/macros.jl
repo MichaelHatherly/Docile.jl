@@ -1,3 +1,6 @@
+# What does the expression `ex` represent? Can it be documented? :symbol is used to
+# resolve functions and modules is the calling module's context -- after `@doc` has
+# returned.
 object_category(ex) =
     ismethod(ex) ? :method :
     ismacro(ex)  ? :macro  :
@@ -11,38 +14,44 @@ isglobal(ex) = isexpr(ex, [:global, :const, :(=)]) && !isexpr(ex.args[1], :call)
 istype(ex)   = isexpr(ex, [:type, :abstract, :typealias])
 ismacro(ex)  = isexpr(ex, :macro)
 
-# handle module/function as symbols at later stage of execution
+# Handle module/function as symbols at later stage.
 issymbol(s::Symbol) = true
 issymbol(ex) = false
 
-guess(f::Function) = :function
-guess(m::Module)   = :module
-guess(unknown)     = error("@doc: cannot document a $(unknown)")
-
+# What does the symbol `symb` represent in the current module `curmod`.
 function lateguess(curmod, symb)
     isdefined(curmod, symb) || error("@doc: undefined object: $(symb)")
     guess(getfield(curmod, symb))
 end
+guess(f::Function) = :function
+guess(m::Module)   = :module
+guess(unknown)     = error("@doc: cannot document a $(unknown)")
 
+# Extract the symbol identifying an expression.
 name(ex::Expr) = name(isa(ex.args[1], Bool) ? ex.args[2] : ex.args[1])
 name(s::Symbol) = s
 
+# Split the expressions passed to `@doc` into data and object. The docstring and metadata
+# dict in the first tuple are the data, while the second returned value is the actual
+# piece of code being documented.
 function separate(expr)
     data, obj = expr.args
     (data,), obj
 end
-
 function separate(docs, expr)
     meta, obj = expr.args
     (docs, meta), obj
 end
 
-function docstar(star::Symbol, args...)
-    star == :(*) ||  error("@doc: invalid modifier used: $(star)")
-    true, args
+# Attaching metadata to the generic function rather than the specific method which the
+# `@doc` is applied to.
+function docstar(symb::Symbol, args...)
+    (generic = symb == :(*);), generic ? args : (symb, args...)
 end
 docstar(args...) = (false, args)
 
+# Returns the line number and filename of the documented object. This is based on the
+# `LineNumberNode` provided by `->` and is sometimes a few lines out.
 function findsource(obj)
     loc = obj.args[1].args
     (loc[1], string(loc[2]))
@@ -81,7 +90,7 @@ function doc(args...)
     if generic
         
         # Generic function docs attached to a method definition.
-        esc(:($obj; push!($METADATA, $n, :function, $source, $(data...))))
+        esc(:($obj; Docile.setmeta!(current_module(), $n, :function, $source, $(data...))))
         
     elseif c == :method
         
@@ -90,7 +99,7 @@ function doc(args...)
         oset = :($before = isdefined($qn) ? Set(methods($n)) : Set{Method}())
         nset = :(setdiff(Set(methods($n)), $before))
         
-        esc(:($oset; $obj; push!($METADATA, $nset, :method, $source, $(data...))))
+        esc(:($oset; $obj; Docile.setmeta!(current_module(), $nset, :method, $source, $(data...))))
         
     else
         
@@ -99,7 +108,7 @@ function doc(args...)
         
         # Macros, types, globals, modules, functions (not attached to a method)
         var = c in (:type, :symbol) ? :($n) : :($qn)
-        esc(:($obj; push!($METADATA, $var, $cat, $source, $(data...))))
+        esc(:($obj; Docile.setmeta!(current_module(), $var, $cat, $source, $(data...))))
         
     end
 end

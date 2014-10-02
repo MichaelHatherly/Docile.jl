@@ -1,6 +1,6 @@
 module Docile
 
-import Base: triplequoted, push!
+import Base: triplequoted
 import Base.Meta: isexpr
 
 export @docstrings, @doc
@@ -12,23 +12,12 @@ macro docref(ref)
 end
 
 include("interpolate.jl")
-include("docstrings.jl")
 include("types.jl")
 include("macros.jl")
+include("docstrings.jl")
+include("interface.jl")
 
 @docstrings [ :manual => ["../doc/manual.md"] ]
-
-macro tex_mstr(text)
-    Base.warn_once("""
-    @tex_mstr has be deprecated in favour of typed docstrings and will
-    be removed in version 0.3.0.
-    
-    Use @md_str and @md_mstr when needing to avoid interpolation.
-    """)
-    triplequoted(text)
-end
-
-include("interface.jl")
 
 # Add documentation manually.
 for (cat, obj, ref, file) in [
@@ -39,7 +28,7 @@ for (cat, obj, ref, file) in [
         (:type,  Documentation,         REF_DOCUMENTATION, "Documentation.md"),
         (:type,  Entry,                 REF_ENTRY,         "Entry.md")
         ]
-    __METADATA__.entries[obj] = Entry{cat}(ref, __METADATA__, {:file => "../doc/objects/$(file)"})
+    __METADATA__.entries[obj] = Entry{cat}(current_module(), ref, {:file => "../doc/objects/$(file)"})
 end
 
 end # module

@@ -1,35 +1,47 @@
+# Lazy-loading documentation object. Initially the raw documentation string is stored in
+# `data` while `obj` field remains undefined. The parsed documentation AST/object/etc. is
+# cached in `obj` on first request for it. `format` is a symbol.
+type Docs{format}
+    data :: String
+    obj
+    
+    # `Lazy `obj` field access which leaves the `obj` field undefined until first accessed.
+    Docs(data::String) = new(data)
+    
+    # Pass `Doc` objects straight through. Simplifies code in `Entry` constructors.
+    Docs(docs::Docs) = docs
+end
+
+# Guess doc format from file extension. Entry docstring created when file does not exist.
+function externaldocs(mod, meta)
+    file = abspath(joinpath(getdoc(mod).meta[:root]), get(meta, :file, ""))
+    isfile(file) ? readdocs(file) : Docs{getdoc(mod).meta[:format]}("")
+end
+
+# Load and apply format based on extension to the given `filename`.
+readdocs(file) = Docs{format(file)}(readall(file))
+
+# Extract the format of a file based *solely* of the file's extension.
+format(file) = symbol(splitext(file)[end][2:end])
+
 @docref () -> REF_ENTRY
 type Entry{category} # category::Symbol
     docs    :: Docs
     meta    :: Dict{Symbol, Any}
     modname :: Module
 
-    # Handle external docstrings by taking the format from the file extension.
-    # When no :file is provided then generate an empty docs with the default :format.
-    function Entry(source, doc::Documentation, meta::Dict)
-        push!(meta, :source, source)
-        text =
-            if haskey(meta, :file)
-                formatted(joinpath(dirname(source[2]), meta[:file]))
-            else
-                Docs{doc.meta[:format]}("")
-            end
-        new(text, meta, doc.modname)
-    end
-
-    # Handle internal raw docstrings by applying the default :format from found in `doc.meta` to it.
-    function Entry(source, doc::Documentation, text::String, meta::Dict = Dict{Symbol, Any}())
-        push!(meta, :source, source)
-        new(Docs{doc.meta[:format]}(text), meta, doc.modname)
+    function Entry(modname::Module, source, doc, meta::Dict = Dict())
+        meta[:source] = source
+        new(Docs{getdoc(modname).meta[:format]}(doc), meta, modname)
     end
     
-    # Handle internal typed docstrings produced using string macros.
-    function Entry(source, doc::Documentation, text::Docs, meta::Dict = Dict{Symbol, Any}())
-        push!(meta, :source, source)
-        new(text, meta, doc.modname)
+    # No docstring was provided, try to read from :file. Blank docs field when no file.
+    function Entry(modname::Module, source, meta::Dict = Dict())
+        meta[:source] = source
+        new(externaldocs(modname, meta), meta, modname)
     end
 
-    Entry(args...) = error("@doc: incorrect arguments given to docstring macro:\n$(args)")
+    Entry(args...) = error("@doc: incorrect arguments given to macro:\n$(args)")
 end
 
 @docref () -> REF_PAGE
@@ -37,23 +49,20 @@ type Page
     docs :: Docs
     file :: String
     
-    Page(file) = new(formatted(file), file)
+    Page(file) = new(readdocs(file), file)
 end
 
 @docref () -> REF_MANUAL
 type Manual
     pages :: Vector{Page}
     
-    function Manual(root, files)
-        root = abspath(dirname(root))
-        new([Page(abspath(joinpath(root, file))) for file in files])
-    end
+    Manual(root, files) = new([Page(abspath(joinpath(root, file))) for file in files])
 end
 
 # Usage from REPL, use current directory as root.
 Manual(::Nothing, files) = Manual(pwd(), files)
 
-const DOCUMENTATION_METADATA = [
+const DEFAULT_METADATA = [
     :manual => String[],
     :format => :md
     ]
@@ -65,43 +74,37 @@ type Documentation
     entries :: Dict{Any, Entry}
     meta    :: Dict{Symbol, Any}
     
-    function Documentation(m::Module, root, manual::Vector)
-        Base.warn_once("""
-        @docstrings with a vector argument is deprecated and will be
-        removed in version 0.3.0.
-        
-        Use a Dict{Symbol, Any} instead. To specify the manual section
-        use the following:
-        
-        @docstrings [
-            :manual => ["../doc/maunal.md"]
-        ]
-        """)
-        
-        meta = copy(DOCUMENTATION_METADATA)
-        meta[:manual] = manual
-        
-        new(m, Manual(root, manual), Dict{Any, Entry}(), meta)
-    end
-    
-    function Documentation(m::Module, root, meta::Dict = Dict{Symbol, Any}())
-        # override default metadata with that provided by @docstrings
-        meta = merge(DOCUMENTATION_METADATA, meta)
-        new(m, Manual(root, meta[:manual]), Dict{Any, Entry}(), meta)
+    function Documentation(m::Module, file, meta::Dict = Dict())
+        meta = merge(DEFAULT_METADATA, meta)
+        meta[:root] = dirname(file)
+        new(m, Manual(meta[:root], meta[:manual]), Dict{Any, Entry}(), meta)
     end
 end
 
-function push!(docs::Documentation, object, cat, source, data...)
-    haskey(docs.entries, object) && warn("@doc: overwriting object $(object)")
-    docs.entries[object] = Entry{cat}(source, docs, data...)
-    nothing
+# Warn the author about overwritten metadata.
+function pushmeta!(doc::Documentation, object, entry::Entry)
+    haskey(doc.entries, object) && warn("Overwriting metadata for `$(doc.modname).$(object)`.")
+    doc.entries[object] = entry
+    nothing # `setmeta!` doesn't return anything.
 end
 
-# For methods since setdiff is used to find new method definitions.
-function push!(docs::Documentation, objects::Set, cat, source, data...)
-    ent = Entry{cat}(source, docs, data...)
+# Metatdata interface for *single* objects. `args` is the docstring and metadata dict.
+function setmeta!(modname, object, category, source, args...)
+    pushmeta!(getdoc(modname), object, Entry{category}(modname, source, args...))
+end
+
+# For varargs method definitions since they generate multiple method objects. Use the
+# *same* Entry object for each object's documentation.
+function setmeta!(modname, objects::Set, category, source, args...)
+    entry = Entry{category}(modname, source, args...)
+    meta = getdoc(modname)
     for object in objects
-        haskey(docs.entries, object) && warn("@doc: overwriting object $(object)")
-        docs.entries[object] = ent
+        pushmeta!(meta, object, entry)
     end
+end
+
+# Return the Metadata object stored in a module.
+function getdoc(modname)
+    isdefined(modname, METADATA) || error("No metadata defined in module $(modname).")
+    getfield(modname, METADATA)
 end
