@@ -81,6 +81,8 @@ type Documentation
     end
 end
 
+Documentation(m::Module, ::Nothing, meta = Dict()) = Documentation(m, joinpath(pwd(), "_"), meta)
+
 # Warn the author about overwritten metadata.
 function pushmeta!(doc::Documentation, object, entry::Entry)
     haskey(doc.entries, object) && warn("Overwriting metadata for `$(doc.modname).$(object)`.")
