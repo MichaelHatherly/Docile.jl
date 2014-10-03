@@ -1,4 +1,4 @@
-String macro to specify a docstring as a markdown-formatted `MarkdownDocstring` object.
+String macro to specify a docstring as a markdown-formatted `Docs{:md}` object.
 This macro is useful when it is necessary to avoid Julia's string interpolation features,
 such as writing LaTeX equations.
 
