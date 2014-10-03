@@ -19,9 +19,8 @@ using Docile
 
 Available keywords are `:manual` and `:format`. Others will become available in future.
 
-`:format` specifies the default format to use for all docstrings in a module. Current
-choices for formatting are: `MarkdownDocstring`. This will be expanded once more parsers
-become available.
+`:format` specifies the default format to use for all docstrings in a module. `:md` is
+the default format.
 
 `:manual` is a vector of files that make up a module's manual section. The paths must be
 specified relative to the source file where `@docstrings` is called from.
