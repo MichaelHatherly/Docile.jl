@@ -1,0 +1,3 @@
+using Lint
+
+lintpkg("Docile")
