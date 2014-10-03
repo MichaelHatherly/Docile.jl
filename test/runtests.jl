@@ -1,5 +1,6 @@
 using Docile, Docile.Interface
 using Lexicon
+using Lint
 using Base.Test
 
 files = [
@@ -19,3 +20,6 @@ for file in files
     println(" >>> Running tests in $(file).jl")
     include(joinpath("tests", "$(file).jl"))
 end
+
+# Lint the package
+Lint.lintpkg("Docile")

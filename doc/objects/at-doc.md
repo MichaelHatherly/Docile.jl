@@ -92,7 +92,7 @@ end
 Currently the only supported format for docstrings is markdown as provided by the
 Markdown.jl package.
 
-By default all docstrings will be stored as `MarkdownDocstring`s. This default may be
+By default all docstrings will be stored in `Docs{:md}` types. This default may be
 changed (once other formats become available) using the `@docstring` macro metadata (see
 [@docstrings](#@docstrings) for details).
 

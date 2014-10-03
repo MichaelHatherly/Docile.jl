@@ -1,3 +1,8 @@
+### v0.3.1
+
+* Expand `Interface.parsedocs` documentation.
+* Run Lint.jl on package to catch compatibility problems.
+
 ## v0.3.0
 
 * Lazy caching of docstring ASTs.

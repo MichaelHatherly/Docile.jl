@@ -60,7 +60,21 @@ data(d::Docs) = d.data
 @doc "The parsed documentation for an object. Lazy parsing." ->
 parsed(d::Docs) = isdefined(d, :obj) ? d.obj : (d.obj = parsedocs(d);)
 
-@doc "Extension method for handling arbitrary docstring formats." ->
+@doc """
+Extension method for handling arbitrary docstring formats.
+
+Parsers for additional formats can be defined by extending this method as follows:
+
+```julia
+import Docile.Interface: parsedocs
+
+parsedocs(d::Docs{:format}) = Format.parse(data(d))
+
+```
+
+where `:format` is the symbol representing the docstring's format and `Format.parse` is
+the desired parser.
+""" ->
 parsedocs{ext}(d::Docs{ext}) = error("Unknown documentation format: $(ext)")
 
 parsedocs(d::Docs{:txt}) = data(d)
