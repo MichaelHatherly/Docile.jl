@@ -1,6 +1,7 @@
 # Try to load packages that rely on Docile so then don't get broken.
 
 const PACKAGES = [
+    "Diversity",
     "HttpServer"
     ]
 
