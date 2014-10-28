@@ -73,13 +73,13 @@ const DEFAULT_METADATA = [
 type Documentation
     modname :: Module
     manual  :: Manual
-    entries :: Dict{Any, Entry}
+    entries :: ObjectIdDict
     meta    :: Dict{Symbol, Any}
 
     function Documentation(m::Module, file, meta::Dict = Dict())
         meta = merge(DEFAULT_METADATA, meta)
         meta[:root] = dirname(file)
-        new(m, Manual(meta[:root], meta[:manual]), Dict{Any, Entry}(), meta)
+        new(m, Manual(meta[:root], meta[:manual]), ObjectIdDict(), meta)
     end
 end
 
