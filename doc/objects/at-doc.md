@@ -13,9 +13,9 @@ needed.
 @doc "A single line method docstring with no metadata." ->
 f(x) = x
 
-@doc "A single line macro docstring with some arbitrary metadata." {
+@doc "A single line macro docstring with some arbitrary metadata." [
     :author => "Author Name"
-    } ->
+    ] ->
 macro g(x)
     x
 end
@@ -29,9 +29,9 @@ end
 
 @doc """
 A triple quoted docstring for a global with metadata.
-""" {
+""" [
     :status => (:deprecated, v"0.1.0")
-    } ->
+    ] ->
 const ABC = 1
 
 value = "interpolated"
