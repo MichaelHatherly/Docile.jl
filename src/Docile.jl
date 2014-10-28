@@ -28,7 +28,7 @@ for (cat, obj, ref, file) in [
         (:type,  Documentation,         REF_DOCUMENTATION, "Documentation.md"),
         (:type,  Entry,                 REF_ENTRY,         "Entry.md")
         ]
-    __METADATA__.entries[obj] = Entry{cat}(current_module(), ref, {:file => "../doc/objects/$(file)"})
+    __METADATA__.entries[obj] = Entry{cat}(current_module(), ref, [:file => "../doc/objects/$(file)"])
 end
 
 end # module

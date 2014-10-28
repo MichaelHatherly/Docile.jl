@@ -16,7 +16,7 @@ end
 
 function parse_dollar(str::IO)
     eof(str) && error("stray dollar")
-    out = 
+    out =
         if peek(str) == '('
             read(str, Char) # discard the opening bracket
             parse_brackets(str)

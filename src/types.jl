@@ -4,10 +4,10 @@
 type Docs{format}
     data :: String
     obj
-    
+
     # `Lazy `obj` field access which leaves the `obj` field undefined until first accessed.
     Docs(data::String) = new(data)
-    
+
     # Pass `Doc` objects straight through. Simplifies code in `Entry` constructors.
     Docs(docs::Docs) = docs
 end
@@ -31,12 +31,14 @@ type Entry{category} # category::Symbol
     modname :: Module
 
     function Entry(modname::Module, source, doc, meta::Dict = Dict())
+        meta = convert(Dict{Symbol, Any}, meta)
         meta[:source] = source
         new(Docs{getdoc(modname).meta[:format]}(doc), meta, modname)
     end
-    
+
     # No docstring was provided, try to read from :file. Blank docs field when no file.
     function Entry(modname::Module, source, meta::Dict = Dict())
+        meta = convert(Dict{Symbol, Any}, meta)
         meta[:source] = source
         new(externaldocs(modname, meta), meta, modname)
     end
@@ -48,14 +50,14 @@ end
 type Page
     docs :: Docs
     file :: String
-    
+
     Page(file) = new(readdocs(file), file)
 end
 
 @docref () -> REF_MANUAL
 type Manual
     pages :: Vector{Page}
-    
+
     Manual(root, files) = new([Page(abspath(joinpath(root, file))) for file in files])
 end
 
@@ -73,7 +75,7 @@ type Documentation
     manual  :: Manual
     entries :: Dict{Any, Entry}
     meta    :: Dict{Symbol, Any}
-    
+
     function Documentation(m::Module, file, meta::Dict = Dict())
         meta = merge(DEFAULT_METADATA, meta)
         meta[:root] = dirname(file)

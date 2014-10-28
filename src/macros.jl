@@ -69,7 +69,7 @@ macro doc(args...); doc(args...); end
 
 function doc(args...)
     isexpr(last(args), :(->)) || error("@doc: use `->` to separate docs/object:\n$(args)")
-    
+
     # Check for `@doc*` syntax and separate the args out.
     generic, args = docstar(args...)
 
@@ -80,35 +80,35 @@ function doc(args...)
     # for use in the `quote` returned. Macros names are prefixed by `@` here.
     c, n   = object_category(obj.args[2]), name(obj.args[2])
     qc, qn = Expr(:quote, c), Expr(:quote, c == :macro ? symbol("@$(n)") : n)
-    
+
     (generic && c != :method) && error("@doc: generic docstrings only allowed for methods.")
 
     # Capture the line and file.
     source = findsource(obj)
-    
+
     # Prebuilt expressions on single lines to avoid packing extra lines into destination module.
     if generic
-        
+
         # Generic function docs attached to a method definition.
         esc(:($obj; Docile.setmeta!(current_module(), $n, :function, $source, $(data...))))
-        
+
     elseif c == :method
-        
+
         # Find all newly defined methods resulting from the current definition.
         before = gensym()
         oset = :($before = isdefined($qn) ? Set(methods($n)) : Set{Method}())
         nset = :(setdiff(Set(methods($n)), $before))
-        
+
         esc(:($oset; $obj; Docile.setmeta!(current_module(), $nset, :method, $source, $(data...))))
-        
+
     else
-        
+
         # Category of entry.
         cat = c == :symbol ? :(Docile.lateguess(current_module(), $qn)) : :($qc)
-        
+
         # Macros, types, globals, modules, functions (not attached to a method)
         var = c in (:type, :symbol) ? :($n) : :($qn)
         esc(:($obj; Docile.setmeta!(current_module(), $var, $cat, $source, $(data...))))
-        
+
     end
 end

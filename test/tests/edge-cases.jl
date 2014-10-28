@@ -3,7 +3,7 @@ module EdgeCases
 using Docile
 @docstrings
 
-@doc { :returns => (Int,) } ->
+@doc [ :returns => (Int,) ] ->
 f(x) = x
 
 end

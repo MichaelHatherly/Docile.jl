@@ -3,25 +3,25 @@ module MethodDocs
 using Docile
 @docstrings
 
-@doc "documentation" { :sig => (String,) } ->
+@doc "documentation" [ :sig => (String,) ] ->
 f(x::String) = x
 
-@doc "documentation" { :sig => (Int,) } ->
+@doc "documentation" [ :sig => (Int,) ] ->
 f(x::Int) = x
 
-@doc "documentation" { :sig => (Vector, Int) } ->
+@doc "documentation" [ :sig => (Vector, Int) ] ->
 f(x::Vector, y::Int) = x
 
-@doc "documentation" { :sig => (Int, String) } ->
+@doc "documentation" [ :sig => (Int, String) ] ->
 f(x::Int, y::String) = x
 
-@doc "documentation" { :sig => (Char, Complex, String) } ->
+@doc "documentation" [ :sig => (Char, Complex, String) ] ->
 f(x::Char, y::Complex, z::String) = x
 
-@doc "documentation" { :sig => (Vector, Char, Real) } ->
+@doc "documentation" [ :sig => (Vector, Char, Real) ] ->
 f(x::Vector, y::Char, z::Real) = x
 
-@doc "documentation" { :sig => (String, Matrix{Int}) } ->
+@doc "documentation" [ :sig => (String, Matrix{Int}) ] ->
 f(x::String, y::Matrix{Int}) = x
 
 @doc "Generic function docstring." -> f
