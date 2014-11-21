@@ -1,18 +1,15 @@
 module MacroSpec
 
 using Docile
-@docstrings
 
 TESTCASE = readall(joinpath(Pkg.dir("Docile"), "test", "tests", "test-case.md"))
 
 ## ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 info("testing methods")
 
-@doc """
+@doc meta("""
 $(TESTCASE)
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 function docs_and_meta(x)
 end
 
@@ -22,18 +19,16 @@ $(TESTCASE)
 function docs_no_meta(x)
 end
 
-@doc [ :file => "test-case.md", :key => :value ] ->
+@doc meta(file = "test-case.md", key = :value) ->
 function extern_docs_meta(x)
 end
 
 ## ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 info("testing single line methods")
 
-@doc """
+@doc meta("""
 $(TESTCASE)
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 inline_docs_meta(x) = x
 
 @doc """
@@ -41,17 +36,15 @@ $(TESTCASE)
 """ ->
 inline_docs_no_meta(x) = x
 
-@doc [ :file => "test-case.md", :key => :value ] ->
+@doc meta(file = "test-case.md", key = :value) ->
 inline_extern_docs_meta(x) = x
 
 ## ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 info("testing generic functions")
 
-@doc """
+@doc meta("""
 $(TESTCASE)
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 inline_docs_meta
 
 @doc """
@@ -59,17 +52,15 @@ $(TESTCASE)
 """ ->
 inline_docs_no_meta
 
-@doc [ :file => "test-case.md", :key => :value ] ->
+@doc meta(file = "test-case.md", key = :value) ->
 inline_extern_docs_meta
 
 ## ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 info("testing types")
 
-@doc """
+@doc meta("""
 $(TESTCASE)
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 type DocsAndMeta
 end
 
@@ -79,18 +70,16 @@ $(TESTCASE)
 type DocsNoMeta
 end
 
-@doc [ :file => "test-case.md", :key => :value ] ->
+@doc meta(file = "test-case.md", key = :value) ->
 type ExternDocsMeta
 end
 
 ## ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 info("testing immutable types")
 
-@doc """
+@doc meta("""
 $(TESTCASE)
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 immutable DocsAndMetaImm
 end
 
@@ -100,18 +89,16 @@ $(TESTCASE)
 immutable DocsNoMetaImm
 end
 
-@doc [ :file => "test-case.md", :key => :value ] ->
+@doc meta(file = "test-case.md", key = :value) ->
 immutable ExternDocsMetaImm
 end
 
 ## ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 info("testing abstract types")
 
-@doc """
+@doc meta("""
 $(TESTCASE)
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 abstract DocsAndMetaAbs
 
 @doc """
@@ -119,17 +106,15 @@ $(TESTCASE)
 """ ->
 abstract DocsNoMetaAbs
 
-@doc [ :file => "test-case.md", :key => :value ] ->
+@doc meta(file = "test-case.md", key = :value) ->
 abstract ExternDocsMetaAbs
 
 ## ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 info("testing constants")
 
-@doc """
+@doc meta("""
 $(TESTCASE)
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 const DocsAndMetaConst = 1
 
 @doc """
@@ -137,17 +122,15 @@ $(TESTCASE)
 """ ->
 const DocsNoMetaConst = 1
 
-@doc [ :file => "test-case.md", :key => :value ] ->
+@doc meta(file = "test-case.md", key = :value) ->
 const ExternDocsMetaConst = 1
 
 ## ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 info("testing globals")
 
-@doc """
+@doc meta("""
 $(TESTCASE)
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 DocsAndMetaGlobal = 1
 
 @doc """
@@ -155,17 +138,15 @@ $(TESTCASE)
 """ ->
 DocsNoMetaGlobal = 1
 
-@doc [ :file => "test-case.md", :key => :value ] ->
+@doc meta(file = "test-case.md", key = :value) ->
 ExternDocsMetaGlobal = 1
 
 ## ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 info("testing macros")
 
-@doc """
+@doc meta("""
 $(TESTCASE)
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 macro docs_and_meta(x)
 end
 
@@ -175,18 +156,16 @@ $(TESTCASE)
 macro docs_no_meta(x)
 end
 
-@doc [ :file => "test-case.md", :key => :value ] ->
+@doc meta(file = "test-case.md", key = :value) ->
 macro extern_docs_meta(x)
 end
 
 ## ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 info("testing modules")
 
-@doc """
+@doc meta("""
 $(TESTCASE)
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 MacroSpec
 
 @doc """
@@ -194,7 +173,7 @@ $(TESTCASE)
 """ ->
 MacroSpec
 
-@doc [ :file => "test-case.md", :key => :value ] ->
+@doc meta(file = "test-case.md", key = :value) ->
 MacroSpec
 
 end

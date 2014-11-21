@@ -2,16 +2,12 @@
 module OldTests
 
 using Docile
-@docstrings
 
-@doc [
-    :file    => "test-case.md",
-    :section => "Tests"
-    ] ->
+@doc meta(file = "test-case.md", section = "Tests") ->
 function g(x)
 end
 
-@doc md"""
+@doc meta(md"""
 The `md` multiline string allows Latex input without escaping
 characters.
 
@@ -20,12 +16,10 @@ $$
 $$
 
 Some more text.
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 h(x) = x
 
-@doc """
+@doc meta("""
 Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut tristique
 vitae, sagittis vel odio. Maecenas convallis ullamcorper ultricies.
 
@@ -34,13 +28,11 @@ a = 2
 b = 3
 a + b
 ```
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 function f(x::Int)
 end
 
-@doc """
+@doc meta("""
 Nam dictum, odio nec pretium volutpat, arcu ante placerat erat, non
 tristique elit urna et turpis. Quisque mi metus, ornare sit amet
 fermentum et, tincidunt et orci. Fusce eget orci a orci congue
@@ -60,11 +52,7 @@ A code block that fails:
 sqrt(-1)
 ```
 
-""" [
-    :parameters => [
-        (:x, "the real argument")
-        ]
-    ] ->
+""", parameters = [(:x, "the real argument")]) ->
 f(x::Real) = x
 
 @doc """
@@ -97,14 +85,12 @@ f(x::Matrix) = x^2
 
 ## types ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-@doc """
+@doc meta("""
 Suspendisse lectus leo, consectetur in tempor sit amet, placerat quis
 neque. Etiam luctus porttitor lorem, sed suscipit est rutrum non.
 Curabitur lobortis nisl a enim congue semper. Aenean commodo ultrices
 imperdiet.
-""" [
-    :tags => ["one", "two", "three"]
-    ] ->
+""", tags = ["one", "two", "three"]) ->
 abstract FooAbs1
 
 @doc """
@@ -115,14 +101,12 @@ velit, id fringilla sem nunc vel mi.
 """ ->
 abstract FooAbs2
 
-@doc """
+@doc meta("""
 Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 abstract FooAbs3{S}
 
 @doc """
@@ -133,14 +117,12 @@ diam iaculis velit, id fringilla sem nunc vel mi.
 """ ->
 abstract FooAbs4{S}
 
-@doc """
+@doc meta("""
 Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 abstract Foo1 <: FooAbs1
 
 @doc """
@@ -151,14 +133,12 @@ diam iaculis velit, id fringilla sem nunc vel mi.
 """ ->
 abstract Foo2 <: FooAbs2
 
-@doc """
+@doc meta("""
 Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 typealias Foo3 Int
 
 @doc """
@@ -169,14 +149,12 @@ diam iaculis velit, id fringilla sem nunc vel mi.
 """ ->
 typealias Foo4 Int
 
-@doc """
+@doc meta("""
 Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 immutable Foo5
 end
 
@@ -189,14 +167,12 @@ diam iaculis velit, id fringilla sem nunc vel mi.
 immutable Foo6
 end
 
-@doc """
+@doc meta("""
 Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 immutable Foo7 <: FooAbs1
 end
 
@@ -209,14 +185,12 @@ diam iaculis velit, id fringilla sem nunc vel mi.
 immutable Foo8 <: FooAbs2
 end
 
-@doc """
+@doc meta("""
 Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 immutable Foo9{T}
 end
 
@@ -229,14 +203,12 @@ diam iaculis velit, id fringilla sem nunc vel mi.
 immutable Foo10{T}
 end
 
-@doc """
+@doc meta("""
 Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 immutable Foo11{T} <: FooAbs1
 end
 
@@ -249,14 +221,12 @@ diam iaculis velit, id fringilla sem nunc vel mi.
 immutable Foo12{T} <: FooAbs2
 end
 
-@doc """
+@doc meta("""
 Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 immutable Foo13{T,S} <: FooAbs3{S}
 end
 
@@ -269,14 +239,12 @@ diam iaculis velit, id fringilla sem nunc vel mi.
 immutable Foo14{T,S} <: FooAbs4{S}
 end
 
-@doc """
+@doc meta("""
 Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 type Foo15
 end
 
@@ -289,14 +257,12 @@ diam iaculis velit, id fringilla sem nunc vel mi.
 type Foo16
 end
 
-@doc """
+@doc meta("""
 Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 type Foo17 <: FooAbs1
 end
 
@@ -309,14 +275,12 @@ diam iaculis velit, id fringilla sem nunc vel mi.
 type Foo18 <: FooAbs2
 end
 
-@doc """
+@doc meta("""
 Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 type Foo19{T}
 end
 
@@ -329,14 +293,12 @@ diam iaculis velit, id fringilla sem nunc vel mi.
 type Foo20{T}
 end
 
-@doc """
+@doc meta("""
 Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 type Foo21{T} <: FooAbs1
 end
 
@@ -349,14 +311,12 @@ diam iaculis velit, id fringilla sem nunc vel mi.
 type Foo22{T} <: FooAbs2
 end
 
-@doc """
+@doc meta("""
 Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 type Foo23{T,S} <: FooAbs3{S}
 end
 
@@ -371,14 +331,12 @@ end
 
 ## macros –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-@doc """
+@doc meta("""
 Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 macro foo(args)
 end
 
@@ -393,13 +351,11 @@ end
 
 ## constants ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-@doc """ Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
+@doc meta(""" Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 const FOO = "foo"
 
 @doc """
@@ -412,14 +368,12 @@ const FOO = "foo"
 
 ## globals ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-@doc """
+@doc meta("""
 Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 global FOO = "foo"
 
 @doc """
@@ -432,14 +386,12 @@ global FOO = "foo"
 
 ## global constants –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-@doc """
+@doc meta("""
 Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 global const FOO = "foo"
 
 @doc """
@@ -452,14 +404,12 @@ global const FOO = "foo"
 
 ## non constants ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-@doc """
+@doc meta("""
 Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 FOO = "foo"
 
 @doc """
@@ -472,14 +422,12 @@ FOO = "foo"
 
 ## symbols (functions and modules) ––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-@doc """
+@doc meta("""
 Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut
 tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper
 ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi
 diam iaculis velit, id fringilla sem nunc vel mi.
-""" [
-    :key => :value
-    ] ->
+""", key = :value) ->
 f
 
 @doc """
@@ -490,50 +438,34 @@ diam iaculis velit, id fringilla sem nunc vel mi.
 """ ->
 g
 
-@doc """
+@doc meta("""
 Documentation for the Module itself.
-""" [
-    :tags => ["One", "Two", "Three"]
-    ] ->
+""", tags = ["One", "Two", "Three"]) ->
 OldTests
 
 # fix for `@doc` with no docstring
-@doc [
-    :file => "test-case.md"
-    ] ->
+@doc meta(file = "test-case.md") ->
 function h(x, y, z)
 
 end
-@doc [
-    :file => "test-case.md"
-    ] ->
+@doc meta(file = "test-case.md") ->
 type FooBar30
 
 end
 
-@doc [
-    :file => "test-case.md"
-    ] ->
+@doc meta(file = "test-case.md") ->
 abstract FooBar31
 
-@doc [
-    :file => "test-case.md"
-    ] ->
+@doc meta(file = "test-case.md") ->
 global const FOOBAR1 = 4
 
-@doc [
-    :file => "test-case.md"
-    ] ->
+@doc meta(file = "test-case.md") ->
 const FOOBAR2 = 4
 
-@doc [
-    :file => "test-case.md"
-    ] ->
+@doc meta(file = "test-case.md") ->
 FOOBAR3 = 4
 
-@doc [
-    :file => "test-case.md"
-    ] ->
+@doc meta(file = "test-case.md") ->
 h(x, y, z) = x
 
 end

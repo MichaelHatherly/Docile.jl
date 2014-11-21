@@ -1,30 +1,18 @@
 module DocstringMacros
 
 using Docile
-@docstrings
 
-@doc* md"x + y = $(1 + 1)" [
-    :result => "x + y = \$(1 + 1)"
-    ] ->
+@doc* meta(md"x + y = $(1 + 1)", result = "x + y = \$(1 + 1)") ->
 f(x) = x
 
-@doc* md"x + y = $(1 + 1)"i [
-    :result => "x + y = 2"
-    ] ->
+@doc* meta(md"x + y = $(1 + 1)"i, result = "x + y = 2") ->
 g(x) = x
 
-@doc* md"""
-$(1 + (sin(3) + 1))
-""" [
-    :result => "\$(1 + (sin(3) + 1))\n"
-    ] ->
+@doc* meta(md"""$(1 + (sin(3) + 1))""",
+           result = "\$(1 + (sin(3) + 1))") ->
 h(x) = x
 
-@doc* md"""
-$(1 + (sin(3) + 1))
-"""i [
-    :result => "2.1411200080598674\n"
-    ] ->
+@doc* meta(md"""$(1 + (sin(3) + 1))"""i, result = "2.1411200080598674") ->
 j(x) = x
 
 end

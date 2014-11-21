@@ -1,7 +1,6 @@
 module AtDocStar
 
 using Docile, Docile.Interface
-@docstrings
 
 @doc* "Generic docs for f." ->
 f(x) = x
@@ -9,10 +8,10 @@ f(x) = x
 @doc "Method f specific docs." ->
 f(x::Int) = x
 
-@doc* "Generic docs for g." [ :returns => (Bool,) ] ->
+@doc* meta("Generic docs for g.", returns = (Bool,)) ->
 g(x, y) = x < y
 
-@doc "Method g specific docs." [ :returns => (Bool,) ] ->
+@doc meta("Method g specific docs.", returns = (Bool,)) ->
 g(x, y::Vector) = x ≤ minimum(y)
 
 end

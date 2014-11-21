@@ -1,9 +1,8 @@
 module EdgeCases
 
 using Docile
-@docstrings
 
-@doc [ :returns => (Int,) ] ->
+@doc meta(returns = (Int,)) ->
 f(x) = x
 
 end

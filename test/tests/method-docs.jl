@@ -1,27 +1,26 @@
 module MethodDocs
 
 using Docile
-@docstrings
 
-@doc "documentation" [ :sig => (Float64,) ] ->
+@doc meta("documentation", sig = (Float64,)) ->
 f(x::Float64) = x
 
-@doc "documentation" [ :sig => (Int,) ] ->
+@doc meta("documentation", sig = (Int,)) ->
 f(x::Int) = x
 
-@doc "documentation" [ :sig => (Vector, Int) ] ->
+@doc meta("documentation", sig = (Vector, Int)) ->
 f(x::Vector, y::Int) = x
 
-@doc "documentation" [ :sig => (Int, Float64) ] ->
+@doc meta("documentation", sig = (Int, Float64)) ->
 f(x::Int, y::Float64) = x
 
-@doc "documentation" [ :sig => (Char, Complex, Float64) ] ->
+@doc meta("documentation", sig = (Char, Complex, Float64)) ->
 f(x::Char, y::Complex, z::Float64) = x
 
-@doc "documentation" [ :sig => (Vector, Char, Real) ] ->
+@doc meta("documentation", sig = (Vector, Char, Real)) ->
 f(x::Vector, y::Char, z::Real) = x
 
-@doc "documentation" [ :sig => (Float64, Matrix{Int}) ] ->
+@doc meta("documentation", sig = (Float64, Matrix{Int})) ->
 f(x::Float64, y::Matrix{Int}) = x
 
 @doc "Generic function docstring." -> f

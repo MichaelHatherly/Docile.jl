@@ -1,23 +1,16 @@
 module Interpolation
 
 using Docile
-@docstrings
 
 x, y = 1, 2
 
-@doc* md"$x + $y = $(x + y)" [
-    :result => "\$x + \$y = \$(x + y)"
-    ] ->
+@doc* meta(md"$x + $y = $(x + y)", result = "\$x + \$y = \$(x + y)") ->
 f(x) = x
 
-@doc* md"$x + $y = $(x + y)"i [
-    :result => "$x + $y = $(x + y)"
-    ] ->
+@doc* meta(md"$x + $y = $(x + y)"i, result = "$x + $y = $(x + y)") ->
 g(x) = x
 
-@doc* md"$x"i [
-    :result => "1"
-    ] ->
+@doc* meta(md"$x"i, result = "1") ->
 h(x) = x
 
 end
