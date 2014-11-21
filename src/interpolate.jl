@@ -1,7 +1,7 @@
 import Base: peek, is_id_char
 
 # TODO: decide on handling of \\
-function interpolate(content::String)
+function interpolate(content::AbstractString)
     out, str, tmp = Expr(:call, :string), IOBuffer(content), IOBuffer()
     while !eof(str)
         if (c = read(str, Char);) == '$'

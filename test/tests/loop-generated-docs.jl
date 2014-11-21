@@ -5,7 +5,7 @@ using Docile
 
 for (docs, meta, fn, T) in [
         ("# one\n*$(VERSION)*", [ :count => 1 ], :foo, Int)
-        ("## two", [ :count => 2 ], :foo, String)
+        ("## two", [ :count => 2 ], :foo, Real)
         ("### three", [ :count => 3 ], :foo, Float64)
         ("#### four", [ :count => 4 ], :foo, Uint8)
         ]

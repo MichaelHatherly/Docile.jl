@@ -3,6 +3,8 @@ module Docile
 import Base: triplequoted
 import Base.Meta: isexpr
 
+using Compat
+
 export @docstrings, @doc, meta
 
 # internal

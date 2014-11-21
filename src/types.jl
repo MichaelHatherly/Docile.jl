@@ -2,11 +2,11 @@
 # `data` while `obj` field remains undefined. The parsed documentation AST/object/etc. is
 # cached in `obj` on first request for it. `format` is a symbol.
 type Docs{format}
-    data :: String
+    data :: AbstractString
     obj
 
     # `Lazy `obj` field access which leaves the `obj` field undefined until first accessed.
-    Docs(data::String) = new(data)
+    Docs(data::AbstractString) = new(data)
 
     # Pass `Doc` objects straight through. Simplifies code in `Entry` constructors.
     Docs(docs::Docs) = docs
@@ -66,7 +66,7 @@ type Entry{category} # category::Symbol
     end
 
     # Convenience constructor for simple string docs.
-    function Entry(modname::Module, source, doc::String)
+    function Entry(modname::Module, source, doc::AbstractString)
         meta = Dict{Symbol, Any}()
         meta[:source] = source
         new(Docs{getdoc(modname).meta[:format]}(doc), meta, modname)
@@ -78,7 +78,7 @@ end
 @docref () -> REF_PAGE
 type Page
     docs :: Docs
-    file :: String
+    file :: AbstractString
 
     Page(file) = new(readdocs(file), file)
 end
@@ -93,10 +93,10 @@ end
 # Usage from REPL, use current directory as root.
 Manual(::Nothing, files) = Manual(pwd(), files)
 
-const DEFAULT_METADATA = [
-    :manual => String[],
+const DEFAULT_METADATA = @compat Dict{Symbol, Any}(
+    :manual => AbstractString[],
     :format => :md
-    ]
+    )
 
 @docref () -> REF_DOCUMENTATION
 type Documentation

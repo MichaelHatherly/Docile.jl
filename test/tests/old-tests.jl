@@ -62,10 +62,10 @@ sqrt(-1)
 
 """ [
     :parameters => [
-        (:x, "the string argument")
+        (:x, "the real argument")
         ]
     ] ->
-f(x::String) = x
+f(x::Real) = x
 
 @doc """
 Suspendisse lectus leo, consectetur in tempor sit amet, placerat quis
