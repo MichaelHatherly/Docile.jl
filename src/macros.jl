@@ -86,11 +86,13 @@ function doc(args...)
     # Capture the line and file.
     source = findsource(obj)
 
+    autodocs = :(isdefined($(Expr(:quote, METADATA))) || @docstrings)
+
     # Prebuilt expressions on single lines to avoid packing extra lines into destination module.
     if generic
 
         # Generic function docs attached to a method definition.
-        esc(:($obj; Docile.setmeta!(current_module(), $n, :function, $source, $(data...)); $n))
+        esc(:($autodocs; $obj; Docile.setmeta!(current_module(), $n, :function, $source, $(data...)); $n))
 
     elseif c == :method
 
@@ -99,7 +101,7 @@ function doc(args...)
         oset = :($before = isdefined($qn) ? Set(methods($n)) : Set{Method}())
         nset = :(setdiff(Set(methods($n)), $before))
 
-        esc(:($oset; $obj; Docile.setmeta!(current_module(), $nset, :method, $source, $(data...)); $n))
+        esc(:($autodocs; $oset; $obj; Docile.setmeta!(current_module(), $nset, :method, $source, $(data...)); $n))
 
     else
 
@@ -108,7 +110,7 @@ function doc(args...)
 
         # Macros, types, globals, modules, functions (not attached to a method)
         var = c in (:type, :symbol) ? :($n) : :($qn)
-        esc(:($obj; Docile.setmeta!(current_module(), $var, $cat, $source, $(data...))))
+        esc(:(autodocs; $obj; Docile.setmeta!(current_module(), $var, $cat, $source, $(data...))))
 
     end
 end

@@ -72,6 +72,13 @@ type Entry{category} # category::Symbol
         new(Docs{getdoc(modname).meta[:format]}(doc), meta, modname)
     end
 
+    # For md"" etc. -style docstrings.
+    function Entry(modname::Module, source, doc::Docs)
+        meta = Dict{Symbol, Any}()
+        meta[:source] = source
+        new(doc, meta, modname)
+    end
+
     Entry(args...) = error("@doc: incorrect arguments given to macro:\n$(args)")
 end
 

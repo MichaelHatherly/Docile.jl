@@ -32,8 +32,6 @@ Add additional metadata to a documented object.
 The syntax previously used (in versions prior to `0.3.2`) was
 
 ```julia
-@docstrings
-
 @doc "Documentation goes here..." [ :returns => (Int,) ] ->
 foobar(x) = 2x + 1
 ```
@@ -41,8 +39,6 @@ foobar(x) = 2x + 1
 This now becomes
 
 ```julia
-@docstrings
-
 @doc meta("Documentation goes here...", returns = (Int,)) ->
 foobar(x) = 2x + 1
 ```
@@ -50,8 +46,6 @@ foobar(x) = 2x + 1
 Specifying an external file as documentation can be done in the following way:
 
 ```julia
-@docstrings
-
 @doc meta(file = "../my/external/file.md") ->
 foobar(x) = 2x + 1
 ```
