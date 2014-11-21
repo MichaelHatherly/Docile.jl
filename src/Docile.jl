@@ -19,7 +19,7 @@ include("macros.jl")
 include("docstrings.jl")
 include("interface.jl")
 
-@docstrings [ :manual => ["../doc/manual.md"] ]
+@docstrings(manual = ["../doc/manual.md"])
 
 @doc """
 Add additional metadata to a documented object.
@@ -34,6 +34,7 @@ The syntax previously used (in versions prior to `0.3.2`) was
 ```julia
 @doc "Documentation goes here..." [ :returns => (Int,) ] ->
 foobar(x) = 2x + 1
+
 ```
 
 This now becomes

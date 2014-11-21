@@ -59,9 +59,17 @@ end
 
 const METADATA = :__METADATA__
 
+# Handle both kinds of config.
+docstrings(; args...) = Dict{Symbol, Any}(args)
+# TODO: deprecated.
+function docstrings(d::Dict)
+    Base.warn_once("Dict-based `@docstring` config is deprecated. Use keywords instead.")
+    d
+end
+
 @docref () -> REF_DOCSTRINGS
 macro docstrings(args...)
-    :(const $(esc(METADATA)) = Documentation(current_module(), @__FILE__, $(args...)))
+    :(const $(esc(METADATA)) = Documentation(current_module(), @__FILE__, Docile.docstrings($(args...))))
 end
 
 @docref () -> REF_DOC
