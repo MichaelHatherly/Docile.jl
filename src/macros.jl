@@ -90,7 +90,7 @@ function doc(args...)
     if generic
 
         # Generic function docs attached to a method definition.
-        esc(:($obj; Docile.setmeta!(current_module(), $n, :function, $source, $(data...))))
+        esc(:($obj; Docile.setmeta!(current_module(), $n, :function, $source, $(data...)); $n))
 
     elseif c == :method
 
@@ -99,7 +99,7 @@ function doc(args...)
         oset = :($before = isdefined($qn) ? Set(methods($n)) : Set{Method}())
         nset = :(setdiff(Set(methods($n)), $before))
 
-        esc(:($oset; $obj; Docile.setmeta!(current_module(), $nset, :method, $source, $(data...))))
+        esc(:($oset; $obj; Docile.setmeta!(current_module(), $nset, :method, $source, $(data...)); $n))
 
     else
 

@@ -3,7 +3,7 @@ module Docile
 import Base: triplequoted
 import Base.Meta: isexpr
 
-export @docstrings, @doc
+export @docstrings, @doc, meta
 
 # internal
 macro docref(ref)
@@ -19,7 +19,46 @@ include("interface.jl")
 
 @docstrings [ :manual => ["../doc/manual.md"] ]
 
-# Add documentation manually.
+@doc """
+Add additional metadata to a documented object.
+
+`meta` takes arbitary many keyword arguments and stores them internally as a
+Dict{Symbol,Any}`. The `doc` argument defaults to an empty string if none is provided.
+
+**Examples:**
+
+The syntax previously used (in versions prior to `0.3.2`) was
+
+```julia
+@docstrings
+
+@doc "Documentation goes here..." [ :returns => (Int,) ] ->
+foobar(x) = 2x + 1
+```
+
+This now becomes
+
+```julia
+@docstrings
+
+@doc meta("Documentation goes here...", returns = (Int,)) ->
+foobar(x) = 2x + 1
+```
+
+Specifying an external file as documentation can be done in the following way:
+
+```julia
+@docstrings
+
+@doc meta(file = "../my/external/file.md") ->
+foobar(x) = 2x + 1
+```
+
+**Note:** the `file` path is relative to the current source file.
+""" ->
+meta(doc = ""; args...) = (doc, Dict{Symbol, Any}(args))
+
+# Add other documentation manually.
 for (cat, obj, ref, file) in [
         (:macro, symbol("@doc"),        REF_DOC,           "at-doc.md"),
         (:macro, symbol("@docstrings"), REF_DOCSTRINGS,    "at-docstrings.md"),
@@ -28,7 +67,7 @@ for (cat, obj, ref, file) in [
         (:type,  Documentation,         REF_DOCUMENTATION, "Documentation.md"),
         (:type,  Entry,                 REF_ENTRY,         "Entry.md")
         ]
-    __METADATA__.entries[obj] = Entry{cat}(current_module(), ref, [:file => "../doc/objects/$(file)"])
+    __METADATA__.entries[obj] = Entry{cat}(current_module(), ref, meta(file = "../doc/objects/$(file)"))
 end
 
 end # module

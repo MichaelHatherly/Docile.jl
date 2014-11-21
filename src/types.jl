@@ -31,6 +31,10 @@ type Entry{category} # category::Symbol
     modname :: Module
 
     function Entry(modname::Module, source, doc, meta::Dict = Dict())
+
+        # TODO: deprecate
+        Base.warn_once("Dict-based syntax for metadata is deprecated. Use `meta` method instead.")
+
         meta = convert(Dict{Symbol, Any}, meta)
         meta[:source] = source
         new(Docs{getdoc(modname).meta[:format]}(doc), meta, modname)
@@ -38,9 +42,34 @@ type Entry{category} # category::Symbol
 
     # No docstring was provided, try to read from :file. Blank docs field when no file.
     function Entry(modname::Module, source, meta::Dict = Dict())
+
+        # TODO: deprecate
+        Base.warn_once("Dict-based syntax for metadata is deprecated. Use `meta` method instead.")
+
         meta = convert(Dict{Symbol, Any}, meta)
         meta[:source] = source
         new(externaldocs(modname, meta), meta, modname)
+    end
+
+    # Handle the `meta` method syntax for `@doc`.
+    function Entry(modname::Module, source, tup::Tuple)
+        doc, meta = tup
+        meta[:source] = source
+
+        # When a `file` field is provided in the metadata override the given docstring and
+        # instead use the file's contents.
+        d = haskey(meta, :file) ?
+            externaldocs(modname, meta) :
+            Docs{getdoc(modname).meta[:format]}(doc)
+
+        new(d, meta, modname)
+    end
+
+    # Convenience constructor for simple string docs.
+    function Entry(modname::Module, source, doc::String)
+        meta = Dict{Symbol, Any}()
+        meta[:source] = source
+        new(Docs{getdoc(modname).meta[:format]}(doc), meta, modname)
     end
 
     Entry(args...) = error("@doc: incorrect arguments given to macro:\n$(args)")
