@@ -24,8 +24,8 @@ include("interface.jl")
 @doc """
 Add additional metadata to a documented object.
 
-`meta` takes arbitary many keyword arguments and stores them internally as a
-`Dict{Symbol,Any}`. The `doc` argument defaults to an empty string if none is provided.
+`meta` takes arbitary keyword arguments and stores them internally as a `Dict{Symbol,Any}`.
+The optional `doc` argument defaults to an empty string if not specified.
 
 **Examples:**
 

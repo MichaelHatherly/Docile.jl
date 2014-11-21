@@ -1,9 +1,8 @@
 Document objects in source code such as *functions*, *methods*, *macros*, *types*,
 *globals*, and *modules*.
 
-Takes a string as documentation and/or a `(Symbol => Any)` dictionary containing metadata.
-Only one of these needs to be provided, but the docstring must appear first if both are
-needed.
+Takes a string as documentation or a `meta` object containing a docstring and/or
+additional metadata. See `meta` for further details.
 
 **Examples:**
 
