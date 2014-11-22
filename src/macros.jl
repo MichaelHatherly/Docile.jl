@@ -28,7 +28,13 @@ guess(m::Module)   = :module
 guess(unknown)     = error("@doc: cannot document a $(unknown)")
 
 # Extract the symbol identifying an expression.
-name(ex::Expr) = name(isa(ex.args[1], Bool) ? ex.args[2] : ex.args[1])
+function name(ex::Expr)
+    n = isa(ex.args[1], Bool)    ? ex.args[2] :           # types
+        isexpr(ex.args[1], :(.)) ? ex.args[1].args[end] : # qualified names
+        ex.args[1]
+    name(n)
+end
+name(q::QuoteNode) = q.value
 name(s::Symbol) = s
 
 # Split the expressions passed to `@doc` into data and object. The docstring and metadata
