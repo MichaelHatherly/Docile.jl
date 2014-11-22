@@ -1,28 +1,23 @@
-Module documentation initialiser. Run this macro prior to any `@doc` uses in a module. The
-macro creates the required `Documentation` object used to store a module's docstrings.
+Module documentation initialiser. Optional.
 
-**Examples:**
+The macro creates the required `Documentation` object used to store a module's docstrings.
+When no `@docstrings` in provided the first `@doc` usage will automatically generate the
+required `Documentation` object without additional metadata.
 
-```julia
-using Docile
-@docstrings
-```
-
-An optional `Dict{Symbol, Any}` metadata dictionary can be used to specify additional
-options for the module's documentation.
+**Example:**
 
 ```julia
 using Docile
-@docstrings [ :manual => ["../doc/manual.md"] ]
+@docstrings(manual = ["../doc/manual.md"])
 
 ```
 
-Available keywords are `:manual` and `:format`. Others will become available in future.
+Available keywords are `manual` and `format`. Others will become available in the future.
 
-`:format` specifies the default format to use for all docstrings in a module. `:md` is
+`format` specifies the default format to use for all docstrings in a module. `:md` is
 the default format.
 
-`:manual` is a vector of files that make up a module's manual section. The paths must be
+`manual` is a vector of files that make up a module's manual section. The paths must be
 specified relative to the source file where `@docstrings` is called from.
 
 The manual sections may be viewed using the `manual` function from

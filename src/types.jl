@@ -2,11 +2,11 @@
 # `data` while `obj` field remains undefined. The parsed documentation AST/object/etc. is
 # cached in `obj` on first request for it. `format` is a symbol.
 type Docs{format}
-    data :: String
+    data :: AbstractString
     obj
 
     # `Lazy `obj` field access which leaves the `obj` field undefined until first accessed.
-    Docs(data::String) = new(data)
+    Docs(data::AbstractString) = new(data)
 
     # Pass `Doc` objects straight through. Simplifies code in `Entry` constructors.
     Docs(docs::Docs) = docs
@@ -31,6 +31,10 @@ type Entry{category} # category::Symbol
     modname :: Module
 
     function Entry(modname::Module, source, doc, meta::Dict = Dict())
+
+        # TODO: deprecate
+        Base.warn_once("Dict-based syntax for metadata is deprecated. Use `meta` method instead.")
+
         meta = convert(Dict{Symbol, Any}, meta)
         meta[:source] = source
         new(Docs{getdoc(modname).meta[:format]}(doc), meta, modname)
@@ -38,9 +42,41 @@ type Entry{category} # category::Symbol
 
     # No docstring was provided, try to read from :file. Blank docs field when no file.
     function Entry(modname::Module, source, meta::Dict = Dict())
+
+        # TODO: deprecate
+        Base.warn_once("Dict-based syntax for metadata is deprecated. Use `meta` method instead.")
+
         meta = convert(Dict{Symbol, Any}, meta)
         meta[:source] = source
         new(externaldocs(modname, meta), meta, modname)
+    end
+
+    # Handle the `meta` method syntax for `@doc`.
+    function Entry(modname::Module, source, tup::Tuple)
+        doc, meta = tup
+        meta[:source] = source
+
+        # When a `file` field is provided in the metadata override the given docstring and
+        # instead use the file's contents.
+        d = haskey(meta, :file) ?
+            externaldocs(modname, meta) :
+            Docs{getdoc(modname).meta[:format]}(doc)
+
+        new(d, meta, modname)
+    end
+
+    # Convenience constructor for simple string docs.
+    function Entry(modname::Module, source, doc::AbstractString)
+        meta = Dict{Symbol, Any}()
+        meta[:source] = source
+        new(Docs{getdoc(modname).meta[:format]}(doc), meta, modname)
+    end
+
+    # For md"" etc. -style docstrings.
+    function Entry(modname::Module, source, doc::Docs)
+        meta = Dict{Symbol, Any}()
+        meta[:source] = source
+        new(doc, meta, modname)
     end
 
     Entry(args...) = error("@doc: incorrect arguments given to macro:\n$(args)")
@@ -49,7 +85,7 @@ end
 @docref () -> REF_PAGE
 type Page
     docs :: Docs
-    file :: String
+    file :: AbstractString
 
     Page(file) = new(readdocs(file), file)
 end
@@ -64,10 +100,10 @@ end
 # Usage from REPL, use current directory as root.
 Manual(::Nothing, files) = Manual(pwd(), files)
 
-const DEFAULT_METADATA = [
-    :manual => String[],
+const DEFAULT_METADATA = @compat Dict{Symbol, Any}(
+    :manual => AbstractString[],
     :format => :md
-    ]
+    )
 
 @docref () -> REF_DOCUMENTATION
 type Documentation

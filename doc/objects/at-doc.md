@@ -1,9 +1,8 @@
 Document objects in source code such as *functions*, *methods*, *macros*, *types*,
 *globals*, and *modules*.
 
-Takes a string as documentation and/or a `(Symbol => Any)` dictionary containing metadata.
-Only one of these needs to be provided, but the docstring must appear first if both are
-needed.
+Takes a string as documentation or a `meta` object containing a docstring and/or
+additional metadata. See `meta` for further details.
 
 **Examples:**
 
@@ -13,9 +12,8 @@ needed.
 @doc "A single line method docstring with no metadata." ->
 f(x) = x
 
-@doc "A single line macro docstring with some arbitrary metadata." [
-    :author => "Author Name"
-    ] ->
+@doc meta("A single line macro docstring with some arbitrary metadata.",
+          author = "Author Name") ->
 macro g(x)
     x
 end
@@ -27,11 +25,9 @@ type F
     # ...
 end
 
-@doc """
+@doc meta("""
 A triple quoted docstring for a global with metadata.
-""" [
-    :status => (:deprecated, v"0.1.0")
-    ] ->
+""", status = (:deprecated, v"0.1.0")) ->
 const ABC = 1
 
 value = "interpolated"
@@ -58,8 +54,6 @@ the following example documentation is added to the method `f(x)`
 and then to the generic function `f`.
 
 ```julia
-@docstrings
-
 @doc "Method specific documentation." ->
 function f(x)
     x
@@ -79,8 +73,6 @@ will then be associated with the `Function` object rather than that
 particular `Method`.
 
 ```julia
-@docstrings
-
 @doc* "Generic documentation for this function." ->
 function f(x)
     x

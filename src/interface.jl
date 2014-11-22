@@ -8,7 +8,7 @@ export documentation, isdocumented, modulename, manual, entries,
        metadata, pages, docs, file, category, parsed, parsedocs, data
 
 using Docile
-@docstrings [ :manual => ["../doc/interface.md"] ]
+@docstrings(manual = ["../doc/interface.md"])
 
 # Documentation
 @doc "`Documentation` object stored in a module. Error raised if not documented." ->

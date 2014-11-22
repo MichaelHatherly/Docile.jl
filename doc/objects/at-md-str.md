@@ -9,8 +9,6 @@ they wish to write docstrings in several different formats in a single module.
 **Example:**
 
 ```julia
-@docstrings
-
 @doc md"Markdown formatted docstring." ->
 f(x) = x
 ```
@@ -18,8 +16,6 @@ f(x) = x
 To use interpolation append an `i` to the docstring:
 
 ```julia
-@docstrings
-
 format = "Markdown"
 
 @doc md"$(format) formatted docstring."i ->
