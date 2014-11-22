@@ -21,8 +21,11 @@ body {
 }
 
 table, th, td {
-  padding: 0.5em;
   vertical-align: baseline;
+}
+
+td > p {
+  margin: 5px;
 }
 
 .index li {
@@ -65,7 +68,7 @@ pre {
   border-left: 1px solid #aaa;
 }
 
-p > code {
+p > code, td > code {
   background-color: #f6f6f6;
   padding: 2px 3px 2px 3px;
   margin: 2px;
