@@ -11,6 +11,7 @@ files = [
     "old-tests",
     "docstring-macros",
     "interpolation",
+    "qualified-methods",
     "edge-cases",
     "doctests"
     ]

@@ -37,6 +37,10 @@ end
 name(q::QuoteNode) = q.value
 name(s::Symbol) = s
 
+# Returns as a tuple the module name as well as the full method name.
+qualifiedname(ex::Expr)  = isexpr(ex.args[1], :(.)) ? (ex.args[1].args[1], ex.args[1]) : qualifiedname(ex.args[1])
+qualifiedname(s::Symbol) = (:(current_module()), s)
+
 # Split the expressions passed to `@doc` into data and object. The docstring and metadata
 # dict in the first tuple are the data, while the second returned value is the actual
 # piece of code being documented.
@@ -75,7 +79,7 @@ end
 
 @docref () -> REF_DOCSTRINGS
 macro docstrings(args...)
-    :(const $(esc(METADATA)) = Documentation(current_module(), @__FILE__, Docile.docstrings($(args...))))
+    :(const $(esc(METADATA)) = Documentation(current_module(), @__FILE__, docstrings($(args...))))
 end
 
 @docref () -> REF_DOC
@@ -105,14 +109,16 @@ function doc(args...)
     # Prebuilt expressions on single lines to avoid packing extra lines into destination module.
     if generic
 
-        # Generic function docs attached to a method definition.
+        qmod, n = qualifiedname(obj.args[2])
+
         esc(:($autodocs; $obj; Docile.setmeta!(current_module(), $n, :function, $source, $(data...)); $n))
 
     elseif c == :method
 
-        # Find all newly defined methods resulting from the current definition.
+        qmod, n = qualifiedname(obj.args[2])
+
         before = gensym()
-        oset = :($before = isdefined($qn) ? Set(methods($n)) : Set{Method}())
+        oset = :($before = isdefined($qmod, $qn) ? Set(methods($n)) : Set{Method}())
         nset = :(setdiff(Set(methods($n)), $before))
 
         esc(:($autodocs; $oset; $obj; Docile.setmeta!(current_module(), $nset, :method, $source, $(data...)); $n))
