@@ -124,7 +124,7 @@ function doc(args...)
 
         # Macros, types, globals, modules, functions (not attached to a method)
         var = c in (:type, :symbol) ? :($n) : :($qn)
-        esc(:(autodocs; $obj; Docile.setmeta!(current_module(), $var, $cat, $source, $(data...))))
+        esc(:($autodocs; $obj; Docile.setmeta!(current_module(), $var, $cat, $source, $(data...))))
 
     end
 end
