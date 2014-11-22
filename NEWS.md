@@ -1,3 +1,11 @@
+### v0.3.2
+
+* Deprecate dict-based versions of `@doc` metadata and `@docstrings` macros.
+* Automatic creation of documentation cache in modules when no `@docstrings` is provided.
+* `@doc` support for `.` syntax used to extend methods from other modules.
+* Julia `0.4` compatibility using the `Compat.jl` package.
+* Use an `ObjectIdDict` for storing documentation cache. Allows for precompiling documented modules.
+
 ### v0.3.1
 
 * Expand `Interface.parsedocs` documentation.

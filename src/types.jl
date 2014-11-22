@@ -100,6 +100,8 @@ end
 # Usage from REPL, use current directory as root.
 Manual(::Nothing, files) = Manual(pwd(), files)
 
+const __DOCUMENTED_MODULES__ = Set{Module}()
+
 const DEFAULT_METADATA = @compat Dict{Symbol, Any}(
     :manual => AbstractString[],
     :format => :md
@@ -113,8 +115,12 @@ type Documentation
     meta    :: Dict{Symbol, Any}
 
     function Documentation(m::Module, file, meta::Dict = Dict())
+        # Track which modules have been documented.
+        push!(__DOCUMENTED_MODULES__, m)
+
         meta = merge(DEFAULT_METADATA, meta)
         meta[:root] = dirname(file)
+
         new(m, Manual(meta[:root], meta[:manual]), ObjectIdDict(), meta)
     end
 end
