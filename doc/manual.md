@@ -42,3 +42,28 @@ must appear on the same line as the closing `"`.
 
 A more in-depth discussion covering metadata, formatted docstrings, and documenting
 generic functions can be found in the entry for [@doc](#@doc).
+
+### Backwards compatibility with julia 0.4's `@doc`
+
+Julia 0.4 includes a documentation system whose design was based on Docile.
+If you want to leverage the built-in mechanism on julia 0.4, change the
+
+```julia
+using Docile
+@docstrings
+```
+
+to
+
+```julia
+if VERSION < v"0.4.0-dev"
+    using Docile
+else
+    macro docstrings()
+        :(nothing)
+    end
+end
+@docstrings
+```
+
+Note that some Docile features, like `@doc*`, are not present in julia 0.4.
