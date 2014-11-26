@@ -50,7 +50,6 @@ If you want to leverage the built-in mechanism on julia 0.4, change the
 
 ```julia
 using Docile
-@docstrings
 ```
 
 to
@@ -58,12 +57,7 @@ to
 ```julia
 if VERSION < v"0.4.0-dev"
     using Docile
-else
-    macro docstrings()
-        :(nothing)
-    end
 end
-@docstrings
 ```
 
 Note that some Docile features, like `@doc*`, are not present in julia 0.4.
