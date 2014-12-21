@@ -5,7 +5,7 @@ import Base.Meta: isexpr
 
 using Compat
 
-export @docstrings, @doc, meta
+export @docstrings, @doc, @document, meta
 
 # internal
 macro docref(ref)
@@ -17,6 +17,7 @@ include("interpolate.jl")
 include("types.jl")
 include("macros.jl")
 include("docstrings.jl")
+include("bare-strings.jl")
 include("interface.jl")
 
 @docstrings(manual = ["../doc/manual.md"])

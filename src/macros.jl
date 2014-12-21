@@ -13,6 +13,7 @@ ismethod(ex) = isexpr(ex, [:function, :(=)]) && isexpr(ex.args[1], :call)
 isglobal(ex) = isexpr(ex, [:global, :const, :(=)]) && !isexpr(ex.args[1], :call)
 istype(ex)   = isexpr(ex, [:type, :abstract, :typealias])
 ismacro(ex)  = isexpr(ex, :macro)
+ismodule(ex) = isexpr(ex, :module)
 
 # Handle module/function as symbols at later stage.
 issymbol(s::Symbol) = true
