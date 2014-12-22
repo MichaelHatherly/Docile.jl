@@ -13,7 +13,8 @@ files = [
     "interpolation",
     "qualified-methods",
     "edge-cases",
-    "doctests"
+    "doctests",
+    "bare-docstrings/tests"
     ]
 
 for file in files

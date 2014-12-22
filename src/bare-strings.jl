@@ -3,8 +3,8 @@
 Bare Docstrings
 ===============
 
-Plain strings/multiline-strings/string-macros that appear directly before a
-documentable object are transformed from
+Plain strings/multiline-strings/string-macros that appear directly before an
+object that can be documented are transformed from
 
     <<docstring>>
     <<object>>
@@ -52,8 +52,6 @@ preserved. Complex or non-standard uses of ``include`` will probably confuse
 this macro. ``require``, ``reload``, ``import``, ``importall``, and ``using``
 will not be followed and thus act as boundaries for the ``@document`` macro.
 
-Uses of docstrings inside of ``@eval`` blocks might work.
-
 =#
 
 macro document(ex::Expr)
@@ -65,15 +63,22 @@ macro document(ex::Expr)
 
     # Expression rewriting
     out = manipulate_expr!(ex.args[2].args[1].args[2], modexpr.args[2])
-
-    # Docile preamble.
-    splice!(out.args[end].args, 3,
-            [Expr(:using, :Docile),
-             Expr(:macrocall, symbol("@docstrings"), opts.args[2:end]...)])
+    insert_preamble!(out, opts)
 
     Expr(:toplevel, esc(out))
 end
 
+function insert_preamble!(ex, opts)
+    preamble = [Expr(:using, :Docile)]
+    # Only add the ``@docstrings`` macro when there are options given.
+    if !isempty(opts.args[2:end])
+        push!(preamble, Expr(:macrocall, symbol("@docstrings"), opts.args[2:end]...))
+    end
+    # Add to module right after the default ``eval`` methods.
+    splice!(ex.args[end].args, 3, preamble)
+end
+
+# Recursively disassemble an expression and rebuild with docstring annotations.
 function manipulate_expr!(file::Symbol, ex::Expr)
     args = copy(ex.args)
     out  = Expr(ex.head)
@@ -91,21 +96,31 @@ function manipulate_expr!(file::Symbol, ex::Expr)
                 push!(tmp, arg)
                 if isdocumentable(arg)
                     # Should have form: [<DOCSTRING>, <LINENODE>, <OBJECT>]
-                    length(tmp) == 3 || error("Invalid docstring location.")
+                    if length(tmp) != 3
+                        error("Invalid docstring: $(file):$(tmp[2].args[1])")
+                    end
 
                     # Build the ``->``-style docstring syntax.
                     expr = :(@doc $(tmp[1]) -> $(tmp[3]))
-                    # Replace line number node from ``->`` above with correct one.
+                    # Replace line and file in ``->`` with the correct one.
                     expr.args[end].args[end].args[1].args = [tmp[2].args[1], file]
-                    push!(out.args, expr)
 
-                    empty!(tmp) # Avoid duplicating expressions.
+                    # Append the newly created documentation expression.
+                    push!(out.args, expr)
+                    # Avoid duplicating expressions.
+                    empty!(tmp)
+
                     break
                 end
             end
             append!(out.args, tmp)
         else
-            arg = manipulate_expr!(file, arg)
+            # Documentation shouldn't appear inside something that can be
+            # documentent itself, so we can avoid entering those expressions
+            # entirely.
+            if !isdocumentable(arg)
+                arg = manipulate_expr!(file, arg)
+            end
             push!(out.args, arg)
         end
     end
@@ -132,23 +147,45 @@ end
 
 function replace_include!(ex)
     if isexpr(ex, :call) && ex.args[1] == :include
-        ex.head = :macrocall
-        ex.args[1] = Expr(:(.), :Docile, QuoteNode(symbol("@__include__")))
+        ex.args[1] = Expr(:(.), :Docile, QuoteNode(:documented_include))
     end
     ex
 end
 
 macro subdoc(file, ex)
     isexpr(ex, :block) || throw(ArgumentError("Wrong expression given."))
-    esc(manipulate_expr!(symbol(file), ex))
+    esc(Expr(:toplevel, manipulate_expr!(symbol(file), ex).args...))
 end
 
-macro __include__(file)
-    quote
-        file = joinpath(dirname(@__FILE__), $(esc(file)))
-        txt = "using Docile; Docile.@subdoc \"$(file)\" begin $(readall(file)) end"
-        include_string(txt, file)
+function include_with_header(content, path)
+    text = "using Docile; Docile.@subdoc \"$(path)\" begin $(content) end"
+    include_string(text, path)
+end
+
+# From base/loading.jl's ``inlude_from_node_1`` method.
+function documented_include(path::AbstractString)
+    prev = Base.source_path(nothing)
+    path = (prev == nothing) ? abspath(path) : joinpath(dirname(prev),path)
+    tls = task_local_storage()
+    tls[:SOURCE_PATH] = path
+    local result
+    try
+        if myid() == 1
+            # sleep a bit to process file requests from other nodes
+            nprocs() > 1 && sleep(0.005)
+            result = include_with_header(readall(path), path)
+            nprocs() > 1 && sleep(0.005)
+        else
+            result = include_with_header(remotecall_fetch(1, readall, path), path)
+        end
+    finally
+        if prev == nothing
+            delete!(tls, :SOURCE_PATH)
+        else
+            tls[:SOURCE_PATH] = prev
+        end
     end
+    result
 end
 
 ## Error reporting ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
