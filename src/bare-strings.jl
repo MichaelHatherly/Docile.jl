@@ -1,228 +1,107 @@
-#=
+using Base.Meta
 
-Bare Docstrings
-===============
+export @document
 
-Plain strings/multiline-strings/string-macros that appear directly before an
-object that can be documented are transformed from
+const PKG  = :Docile
+const META = :__METADATA__
 
-    <<docstring>>
-    <<object>>
+macro document(args) wrapmodule!(checkargs(args)...) end
 
-into
+"Add documentation caching code to the given module."
+function wrapmodule!(mexpr, opts)
 
-    @doc <<docstring>> ->
-    <<object>>
+    body = mexpr.args[end]
 
-syntax using the ``@document`` macro. This macro can be used as follows:
+    # Hide variable from the module.
+    includes = gensym()
 
-    using Docile
+    # Added immediately after a module's ``eval`` definitions.
+    pre =
+        quote
+            # Maintain list of included files for this module.
+            const $(includes) = UTF8String[]
 
-    @document options(
-        # Optional keyword arguments passed to ``@docstrings``.
-        ) ->
-
-    module ModuleName
-
-    # Module's contents goes here.
-
-    "Docstring for method ``foobar``."
-    foobar(x) = x
-
-    end
-
-The mock-method ``options`` is used to pass keyword arguments to the
-``@docstrings`` macro inside the targeted module ``ModuleName``. ``@document``
-creates the following block expression inside of the targeted module:
-
-    module ModuleName
-
-    # >>> GENERATED
-    using Docile
-    @docstrings <<keyword arguments>>
-    # <<< END GENERATED
-
-    # rest of original module...
-
-    end
-
-``include`` calls are followed into their respective files and the previous
-transformations mentioned will be applied. File and line numbers should be
-preserved. Complex or non-standard uses of ``include`` will probably confuse
-this macro. ``require``, ``reload``, ``import``, ``importall``, and ``using``
-will not be followed and thus act as boundaries for the ``@document`` macro.
-
-=#
-
-macro document(ex::Expr)
-    # Error checks.
-    check_at_document_expr(ex)
-    opts, modexpr = ex.args
-    check_options_expr(opts)
-    check_module_expr(modexpr)
-
-    # Expression rewriting
-    out = manipulate_expr!(ex.args[2].args[1].args[2], modexpr.args[2])
-    insert_preamble!(out, opts)
-
-    Expr(:toplevel, esc(out))
-end
-
-function insert_preamble!(ex, opts)
-    preamble = [Expr(:using, :Docile)]
-    # Only add the ``@docstrings`` macro when there are options given.
-    if !isempty(opts.args[2:end])
-        push!(preamble, Expr(:macrocall, symbol("@docstrings"), opts.args[2:end]...))
-    end
-    # Add to module right after the default ``eval`` methods.
-    splice!(ex.args[end].args, 3, preamble)
-end
-
-# Recursively disassemble an expression and rebuild with docstring annotations.
-function manipulate_expr!(file::Symbol, ex::Expr)
-    args = copy(ex.args)
-    out  = Expr(ex.head)
-    while !isempty(args)
-        arg = shift!(args)
-
-        replace_include!(arg)
-        insert_using!(arg)
-
-        # Build ``@doc`` expression.
-        if isa(arg, AbstractString) || isexpr(arg, :string) || isstringmacro(arg)
-            tmp = Any[arg]
-            while !isempty(args)
-                arg = shift!(args)
-                push!(tmp, arg)
-                if isdocumentable(arg)
-                    # Should have form: [<DOCSTRING>, <LINENODE>, <OBJECT>]
-                    if length(tmp) != 3
-                        error("Invalid docstring: $(file):$(tmp[2].args[1])")
-                    end
-
-                    # Build the ``->``-style docstring syntax.
-                    expr = :(@doc $(tmp[1]) -> $(tmp[3]))
-                    # Replace line and file in ``->`` with the correct one.
-                    expr.args[end].args[end].args[1].args = [tmp[2].args[1], file]
-
-                    # Append the newly created documentation expression.
-                    push!(out.args, expr)
-                    # Avoid duplicating expressions.
-                    empty!(tmp)
-
-                    break
-                end
-            end
-            append!(out.args, tmp)
-        else
-            # Documentation shouldn't appear inside something that can be
-            # documentent itself, so we can avoid entering those expressions
-            # entirely.
-            if !isdocumentable(arg)
-                arg = manipulate_expr!(file, arg)
-            end
-            push!(out.args, arg)
+            # Intercept all ``include`` calls to cache filenames.
+            include = path -> $(PKG).cached_include($(includes), path)
         end
-    end
-    out
-end
-manipulate_expr!(file::Symbol, other) = other # No-op for anything else.
+    splice!(body.args, 3:2, [Expr(:import, PKG), pre])
 
-function isstringmacro(ex)
-    isexpr(ex, :macrocall) && ismatch(r"(_|m|_m)str$", string(ex.args[1]))
-end
+    # Added at the very end of the module.
+    post =
+        quote
+            # Restore normal behaviour of ``include``.
+            include = Base.include_from_node1
 
-function isdocumentable(ex)
-    ismethod(ex) || ismacro(ex) || istype(ex) || isglobal(ex) || issymbol(ex)
-end
-
-## Expression rewriting –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-function insert_using!(ex)
-    if ismodule(ex)
-        insert!(ex.args[end].args, 3, Expr(:using, :Docile))
-    end
-    ex
-end
-
-function replace_include!(ex)
-    if isexpr(ex, :call) && ex.args[1] == :include
-        ex.args[1] = Expr(:(.), :Docile, QuoteNode(:documented_include))
-    end
-    ex
-end
-
-macro subdoc(file, ex)
-    isexpr(ex, :block) || throw(ArgumentError("Wrong expression given."))
-    esc(Expr(:toplevel, manipulate_expr!(symbol(file), ex).args...))
-end
-
-function include_with_header(content, path)
-    text = "using Docile; Docile.@subdoc \"$(path)\" begin $(content) end"
-    include_string(text, path)
-end
-
-# From base/loading.jl's ``inlude_from_node_1`` method.
-function documented_include(path::AbstractString)
-    prev = Base.source_path(nothing)
-    path = (prev == nothing) ? abspath(path) : joinpath(dirname(prev),path)
-    tls = task_local_storage()
-    tls[:SOURCE_PATH] = path
-    local result
-    try
-        if myid() == 1
-            # sleep a bit to process file requests from other nodes
-            nprocs() > 1 && sleep(0.005)
-            result = include_with_header(readall(path), path)
-            nprocs() > 1 && sleep(0.005)
-        else
-            result = include_with_header(remotecall_fetch(1, readall, path), path)
+            # Store module's documentation.
+            const $(META) = $(PKG).document(
+                current_module(),
+                @__FILE__,
+                $(includes),
+                $(opts))
         end
-    finally
-        if prev == nothing
-            delete!(tls, :SOURCE_PATH)
-        else
-            tls[:SOURCE_PATH] = prev
+    push!(body.args, post)
+
+    Expr(:toplevel, esc(mexpr))
+end
+
+"Build documentation object for the given ``modname``."
+function document(
+        modname  :: Module,
+        root     :: AbstractString,
+        included :: Vector{UTF8String},
+        options  :: Dict{Symbol, Any}
+        )
+
+    ### TODO
+
+end
+
+"A modified version of ``include`` that caches the included file's path."
+function cached_include(cache, path::AbstractString, prev = Base.source_path(nothing))
+    path = prev ≡ nothing ? abspath(path) : joinpath(dirname(prev), path)
+    push!(cache, path)
+    Base.include_from_node1(path)
+end
+
+options(; args...) = Dict{Symbol, Any}(args)
+
+qualified(s, pkg = PKG) = Expr(:(.), pkg, QuoteNode(symbol(s)))
+
+"Extract module definition and ``options`` method call."
+function checkargs(expr)
+    use = """
+     Correct usage:
+
+        using __Docile__
+        @document options(
+            # Optional keyword arguments go here.
+            ) ->
+
+        module TargetModule
+
+        # Module contents goes here.
+
         end
-    end
-    result
+    """
+    err = str -> (print("\n", str); println(use); throw(ArgumentError(str)))
+
+    (islambda(expr) && length(expr.args) == 2) ||
+        err("Incorrect arguments given to ``@document`` macro.")
+
+    opts, ex = expr.args
+
+    (iscall(opts) && opts.args[1] == :options) ||
+        err("Missing ``options`` call.")
+
+    opts.args[1] = qualified(opts.args[1]) # Qualify the ``options`` method call.
+
+    (isblock(ex) && length(ex.args) == 2 && ismodule(ex.args[end])) ||
+        err("Missing module definition.")
+
+    ex.args[end], opts # Strip out module's surrounding block expression.
 end
 
-## Error reporting ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-const USAGE = """
-Correct usage:
-
-    using Docile
-
-    @document options(
-        # optional keyword arguments
-        ) ->
-
-    module ModuleName
-
-    # module contents goes here
-
-    end
-"""
-
-function check_at_document_expr(ex)
-    if isexpr(ex, :(->)) && length(ex.args) == 2
-        return
-    end
-    error("Incorrect ``@document`` syntax. $(USAGE)")
-end
-
-function check_options_expr(ex)
-    if isexpr(ex, :call) && ex.args[1] == :options
-        return
-    end
-    error("Missing ``options`` call. $(USAGE)")
-end
-
-function check_module_expr(ex)
-    if isexpr(ex, :block) && length(ex.args) == 2 && isexpr(ex.args[end], :module)
-        return
-    end
-    error("Missing module definition. $(USAGE)")
-end
+isblock(ex)  = isexpr(ex, :block)
+ismodule(ex) = isexpr(ex, :module)
+iscall(ex)   = isexpr(ex, :call)
+islambda(ex) = isexpr(ex, :(->))
