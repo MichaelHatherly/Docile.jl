@@ -2,10 +2,13 @@
 
 const PACKAGES = [
     "Diversity",
-    "HttpServer"
+    "HttpServer",
+    "KNITRO",
+    "LMDB"
     ]
 
 for package in PACKAGES
+    Pkg.installed(package) == nothing && Pkg.add(package)
     file = joinpath(Pkg.dir(package), "src", package * ".jl")
     try
         info("Trying $(package)...")
