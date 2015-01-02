@@ -2,7 +2,7 @@ module MacroSpec
 
 using Docile
 
-TESTCASE = readall(joinpath(Pkg.dir("Docile"), "test", "tests", "test-case.md"))
+TESTCASE = readall(joinpath(Pkg.dir("Docile"), "test", "macro", "subfiles", "test-case.md"))
 
 ## ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 info("testing methods")
@@ -177,5 +177,3 @@ MacroSpec
 MacroSpec
 
 end
-
-@test modulename(documentation(MacroSpec)) === MacroSpec

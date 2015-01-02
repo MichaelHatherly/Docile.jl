@@ -1,28 +1,77 @@
 module Docile
 
 import Base: triplequoted
-import Base.Meta: isexpr
 
-using Compat
+using Base.Meta, Compat, Iterators
 
-export @docstrings, @doc, @document, meta
+export @docstrings, @doc, @document, meta # Old exports.
 
-# internal
-macro docref(ref)
-    node = ref.args[end].args
-    :($(esc(node[end])) = ($(node[1].args[1] + 1), @__FILE__))
+export @commence, @conclude
+
+### Bootstrap. ###
+
+const __DOCUMENTED_MODULES__ = Set{Module}()
+
+const META = :__METADATA__
+
+const DEFAULT_OPTIONS = @compat Dict{Symbol, Any}(
+    :format => :md,
+    :manual => UTF8String[]
+    )
+
+"Stores a module's metadata."
+type Metadata
+    modname :: Module
+    objects :: ObjectIdDict
+    root    :: UTF8String
+    files   :: Set{UTF8String}
+    options :: Dict{Symbol, Any}
+
+    function Metadata(root, options)
+        options = merge(DEFAULT_OPTIONS, options)
+        push!(__DOCUMENTED_MODULES__, current_module())
+        new(current_module(), ObjectIdDict(), root, Set{UTF8String}(), options)
+    end
 end
+
+# Capture metadata options.
+macro options(args...) :(options($(map(esc, args)...))) end
+options(; args...) = Dict{Symbol, Any}(args)
+
+"Modified ``include`` that caches paths of included file in module's ``__METADATA__``."
+include!(meta, path) = (pushfile!(meta, path); Base.include_from_node1(path))
+pushfile!(meta, path) = push!(meta.files, fullpath(path, Base.source_path(nothing)))
+fullpath(path, prev) = path ≡ nothing ? abspath(path) : joinpath(dirname(prev), path)
+
+"Setup documentation for the current module. Place at start of module."
+macro commence(options...)
+    quote
+        const $(esc(META)) = Metadata(@__FILE__, @options($(map(esc, options)...)))
+        $(esc(:include)) = path -> include!($(esc(META)), path)
+    end
+end
+
+"Build documentation for the current module. Place at end of module."
+macro conclude()
+    quote
+        $(esc(:include)) = Base.include_from_node1
+        builddocs!($(esc(META)))
+    end
+end
+### End bootstrap. ###
+
+@commence(manual = "../docs/manual.md")
+
+include("method-lookup.jl")
+include("builddocs.jl")
 
 include("interpolate.jl")
 include("types.jl")
 include("macros.jl")
 include("docstrings.jl")
-include("bare-strings.jl")
 include("interface.jl")
 
-@docstrings(manual = ["../doc/manual.md"])
-
-@doc """
+"""
 Add additional metadata to a documented object.
 
 `meta` takes arbitary keyword arguments and stores them internally as a `Dict{Symbol,Any}`.
@@ -53,19 +102,9 @@ foobar(x) = 2x + 1
 ```
 
 **Note:** the `file` path is relative to the current source file.
-""" ->
+"""
 meta(doc = ""; args...) = (doc, Dict{Symbol, Any}(args))
 
-# Add other documentation manually.
-for (cat, obj, ref, file) in [
-        (:macro, symbol("@doc"),        REF_DOC,           "at-doc.md"),
-        (:macro, symbol("@docstrings"), REF_DOCSTRINGS,    "at-docstrings.md"),
-        (:macro, symbol("@md_str"),     REF_MD_STR,        "at-md-str.md"),
-        (:macro, symbol("@md_mstr"),    REF_MD_MSTR,       "at-md-mstr.md"),
-        (:type,  Documentation,         REF_DOCUMENTATION, "Documentation.md"),
-        (:type,  Entry,                 REF_ENTRY,         "Entry.md")
-        ]
-    __METADATA__.entries[obj] = Entry{cat}(current_module(), ref, meta(file = "../doc/objects/$(file)"))
-end
+@conclude
 
 end # module
