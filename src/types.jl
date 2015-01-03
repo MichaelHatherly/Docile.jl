@@ -17,8 +17,8 @@ end
 
 "Guess doc format from file extension. Entry docstring created when file does not exist."
 function externaldocs(mod, meta)
-    file = abspath(joinpath(getdoc(mod).meta[:root]), get(meta, :file, ""))
-    isfile(file) ? readdocs(file) : Docs{getdoc(mod).meta[:format]}("")
+    file = abspath(joinpath(getdoc(mod).data[:root]), get(meta, :file, ""))
+    isfile(file) ? readdocs(file) : Docs{getdoc(mod).data[:format]}("")
 end
 
 "Load and apply format based on extension to the given `filename`."
@@ -37,60 +37,41 @@ objects.
 """
 type Entry{category} # category::Symbol
     docs    :: Docs
-    meta    :: Dict{Symbol, Any}
+    data    :: Dict{Symbol, Any}
     modname :: Module
-
-    function Entry(modname::Module, source, doc, meta::Dict = Dict())
-
-        # TODO: deprecate
-        Base.warn_once("Dict-based syntax for metadata is deprecated. Use `meta` method instead.")
-
-        meta = convert(Dict{Symbol, Any}, meta)
-        meta[:source] = source
-        new(Docs{getdoc(modname).meta[:format]}(doc), meta, modname)
-    end
-
-    # No docstring was provided, try to read from :file. Blank docs field when no file.
-    function Entry(modname::Module, source, meta::Dict = Dict())
-
-        # TODO: deprecate
-        Base.warn_once("Dict-based syntax for metadata is deprecated. Use `meta` method instead.")
-
-        meta = convert(Dict{Symbol, Any}, meta)
-        meta[:source] = source
-        new(externaldocs(modname, meta), meta, modname)
-    end
 
     "Handle the `meta` method syntax for `@doc`."
     function Entry(modname::Module, source, tup::Tuple)
-        doc, meta = tup
-        meta[:source] = source
+        doc, data = tup
+        data[:source] = source
 
         # When a `file` field is provided in the metadata override the given docstring and
         # instead use the file's contents.
-        d = haskey(meta, :file) ?
-            externaldocs(modname, meta) :
-            Docs{getdoc(modname).meta[:format]}(doc)
+        d = haskey(data, :file) ?
+            externaldocs(modname, data) :
+            Docs{getdoc(modname).data[:format]}(doc)
 
-        new(d, meta, modname)
+        new(d, data, modname)
     end
 
     "Convenience constructor for simple string docs."
     function Entry(modname::Module, source, doc::AbstractString)
-        meta = Dict{Symbol, Any}()
-        meta[:source] = source
-        new(Docs{getdoc(modname).meta[:format]}(doc), meta, modname)
+        data = Dict{Symbol, Any}()
+        data[:source] = source
+        new(Docs{getdoc(modname).data[:format]}(doc), data, modname)
     end
 
     "For md\"\" etc. -style docstrings."
     function Entry(modname::Module, source, doc::Docs)
-        meta = Dict{Symbol, Any}()
-        meta[:source] = source
-        new(doc, meta, modname)
+        data = Dict{Symbol, Any}()
+        data[:source] = source
+        new(doc, data, modname)
     end
 
     Entry(args...) = error("@doc: incorrect arguments given to macro:\n$(args)")
 end
+
+## Manual Pages. ------------------------------------------------------------------------
 
 type Page
     docs :: Docs
@@ -108,41 +89,30 @@ end
 "Usage from REPL, use current directory as root."
 Manual(::Nothing, files) = Manual(pwd(), files)
 
-const DEFAULT_METADATA = @compat Dict{Symbol, Any}(
-    :manual => AbstractString[],
-    :format => :md
-    )
+## Additional Metadata constructors. ----------------------------------------------------
 
-"""
-Stores the documentation generated for a module via `@doc`. The instance
-created in a module via `@docstrings` is called `__METADATA__`.
+function Metadata(modname::Module, file, data::Dict = Dict())
+    register!(modname)
 
-The `Docile.Interface` module (documentation available
-[here](interface.html)) provides methods for interacting with
-`Documentation` objects.
-"""
-type Documentation
-    modname :: Module
-    manual  :: Manual
-    entries :: ObjectIdDict
-    meta    :: Dict{Symbol, Any}
+    default = @compat Dict{Symbol, Any}(
+        :manual => AbstractString[],
+        :format => :md
+        )
+    data   = merge(default, data)
+    root   = data[:root] = dirname(file)
+    manual = Manual(root, data[:manual])
 
-    function Documentation(m::Module, file, meta::Dict = Dict())
-        # Track which modules have been documented.
-        push!(__DOCUMENTED_MODULES__, m)
-
-        meta = merge(DEFAULT_METADATA, meta)
-        meta[:root] = dirname(file)
-
-        new(m, Manual(meta[:root], meta[:manual]), ObjectIdDict(), meta)
-    end
+    Metadata(modname, ObjectIdDict(), root, Set{UTF8String}(), data, true)
 end
+Metadata(m::Module, ::Nothing, data = Dict()) = Metadata(m, joinpath(pwd(), "_"), data)
 
-Documentation(m::Module, ::Nothing, meta = Dict()) = Documentation(m, joinpath(pwd(), "_"), meta)
+## Metadata accessors. ------------------------------------------------------------------
 
 "Warn the author about overwritten metadata."
-function pushmeta!(doc::Documentation, object, entry::Entry)
-    haskey(doc.entries, object) && warn("Overwriting metadata for `$(doc.modname).$(object)`.")
+function pushmeta!(doc::Metadata, object, entry::Entry)
+    if haskey(doc.entries, object)
+        warn("Overwriting metadata for `$(doc.modname).$(object)`.")
+    end
     doc.entries[object] = entry
     nothing # `setmeta!` doesn't return anything.
 end

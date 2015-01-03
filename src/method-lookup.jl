@@ -1,3 +1,12 @@
+"Symbolic dispatch type."
+immutable Head{S} end
+
+"Symbolic dispatch on ``head`` field on an expression. Union using comma separated list."
+macro H_str(text)
+    heads = [Head{symbol(part)} for part in split(text, ", ")]
+    Expr(:(::), Expr(:call, :Union, heads...))
+end
+
 type State
     mod    :: Module
     scopes :: Vector{Dict}
@@ -13,11 +22,6 @@ popscope!(state::State) = pop!(state.scopes)
 pushref!(state::State, object) = push!(state.refs, object)
 popref!(state::State) = pop!(state.refs)
 
-function addtoscope!(state::State, variable::Symbol, value)
-    length(state.scopes) == 0 && push!(state.scopes, Dict())
-    push!(state.scopes[end], variable, value)
-end
-
 "Search scopes for variable with name ``var``. Returns ``var`` if not found."
 function getvar(state::State, variable::Symbol)
     for scope in reverse(state.scopes)
@@ -25,14 +29,9 @@ function getvar(state::State, variable::Symbol)
     end
     variable
 end
-
-"Symbolic dispatch type."
-immutable Head{S} end
-
-"Symbolic dispatch on ``head`` field on an expression. Union using comma separated list."
-macro H_str(text)
-    heads = [Head{symbol(part)} for part in split(text, ", ")]
-    Expr(:(::), Expr(:call, :Union, heads...))
+function addtoscope!(state::State, variable::Symbol, value)
+    length(state.scopes) == 0 && push!(state.scopes, Dict())
+    push!(state.scopes[end], variable, value)
 end
 
 funccall(ex::Expr)    = funccall(Head{ex.head}(), ex)
@@ -92,7 +91,7 @@ function sig(H"ref", state, ex)
     # We're now done with indexing into this object so pop it from the stack.
     popref!(state)
 
-    result # Return the actual indexing result from expression ``x``.
+    result # Return the actual indexing result from expression ``ex``.
 end
 
 function indexer(state, arg)
@@ -119,8 +118,6 @@ function sig(state::State, q::Symbol)
 end
 
 sig(::State, constant) = constant
-
-## TypeVars
 
 typevar(state, ex::Expr) = ((q = ex.args[1];), TypeVar(q, sig(state, ex.args[2])))
 typevar(state, q::Symbol) = (q, TypeVar(q, Any))
@@ -185,25 +182,25 @@ issigmatch(fname, method, args) = issigmatch(method.sig, args)
 issigmatch(sig, args) = issubtype(sig, args) || sig == args
 ###
 
-## Unravel loops containing ``@eval`` blocks. Quite basic, no conditional or body variables.
+## Unravel Loops. -----------------------------------------------------------------------
 
-function unravel(objects, meta, state, file, ex::Expr)
-    unravel(Head{ex.head}(), objects, meta, state, file, ex)
+function unravel(entries, meta, state, file, ex::Expr)
+    unravel(Head{ex.head}(), entries, meta, state, file, ex)
 end
-unravel(objects, meta, state, file, other) = objects
+unravel(entries, meta, state, file, other) = entries
 
-function unravel(::Head, objects, meta, state, file, ex::Expr)
+function unravel(::Head, entries, meta, state, file, ex::Expr)
     for arg in ex.args
-        unravel(objects, meta, state, file, arg)
+        unravel(entries, meta, state, file, arg)
     end
-    objects
+    entries
 end
-unravel(::Head, objects, meta, state, file, ex) = objects
+unravel(::Head, entries, meta, state, file, ex) = entries
 
-function unravel(H"for", objects, meta, state, file, ex::Expr)
+function unravel(H"for", entries, meta, state, file, ex::Expr)
 
     # Skip loops with no ``@eval`` inside.
-    is_eval_block(ex) || return objects
+    is_eval_block(ex) || return entries
 
     # Rewrite "multi" for loops to nested one. Capture outer loop variables.
     ex, vars = expandloop(state, ex)
@@ -211,15 +208,15 @@ function unravel(H"for", objects, meta, state, file, ex::Expr)
     # Execute the outer loop.
     for val in sig(state, vars[2])
         pushscope!(state, newscope(vars[1], val))
-        unravel(objects, meta, state, file, ex)
+        unravel(entries, meta, state, file, ex)
         popscope!(state)
     end
 
-    objects
+    entries
 end
 
-function unravel(H"macrocall", objects, meta, state, file, ex::Expr)
-    merge!(objects, processast(meta, state, file, ex))
+function unravel(H"macrocall", entries, meta, state, file, ex::Expr)
+    merge!(entries, processast(meta, state, file, ex))
 end
 
 expandloop(state, ex::Expr) = expandloop(Head{ex.args[1].head}(), state, ex)

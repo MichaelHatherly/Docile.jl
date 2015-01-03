@@ -4,7 +4,7 @@
 parsefile(file) = parse("begin $(readall(file)) end")
 
 "Parse ``root`` and ``files``, adding available docstrings to ``objects``."
-builddocs!(meta) = (merge!(meta.objects, rootast(meta), includedast(meta)); nothing)
+builddocs!(meta) = (merge!(meta.entries, rootast(meta), includedast(meta)); nothing)
 
 "Extract docstrings from the AST found in the root file of a module."
 function rootast(meta)
@@ -15,20 +15,20 @@ end
 
 "Extract docstrings from the AST of included files."
 function includedast(meta)
-    objects = ObjectIdDict()
+    entries = ObjectIdDict()
     for file in meta.files
-        merge!(objects, processast(meta, State(meta.modname), file, parsefile(file)))
+        merge!(entries, processast(meta, State(meta.modname), file, parsefile(file)))
     end
-    objects
+    entries
 end
 
 "Gather valid documentation from a given expression ``ast``."
 function processast(meta, state, file, ast::Expr)
-    objects = ObjectIdDict()
+    entries = ObjectIdDict()
 
-    should_skip_expr(ast) && return objects # Don't traverse non-toplevel expressions.
+    should_skip_expr(ast) && return entries # Don't traverse non-toplevel expressions.
 
-    isloop(ast) && return unravel(objects, meta, state, file, ast)
+    isloop(ast) && return unravel(entries, meta, state, file, ast)
 
     # Add type parameters to the scope for inner constructor usage.
     isconcretetype(ast) && push_type_scope!(state, ast)
@@ -36,20 +36,20 @@ function processast(meta, state, file, ast::Expr)
     # For each overlapping 3 arguments in an expression check whether it is a
     # valid documentation block and generate documentation if it is.
     for block in partition(ast.args, 3, 1)
-        isdocblock(block) && addentry!(objects, processblock(meta, state, file, block)...)
-        merge!(objects, processast(meta, state, file, block[1]))
+        isdocblock(block) && addentry!(entries, processblock(meta, state, file, block)...)
+        merge!(entries, processast(meta, state, file, block[1]))
     end
 
     # Since we partition the argument list into overlapping blocks of 3, the
     # last 2 arguments are not passed to ``processast``. Do that now if needed.
     for arg in ast.args[max(length(ast.args) - 2, 1):end]
-        merge!(objects, processast(meta, state, file, arg))
+        merge!(entries, processast(meta, state, file, arg))
     end
 
     # Remove the type parameter scope.
     isconcretetype(ast) && popscope!(state)
 
-    objects
+    entries
 end
 processast(meta, state, file, other) = ObjectIdDict() # Only traverse expressions.
 
@@ -87,7 +87,7 @@ function processblock(meta, state, file, block)
     category = object_category(expr)
 
     # Build the docstring object for the given raw ``docstring``.
-    docs = Docs{meta.options[:format]}(sig(state, docstring))
+    docs = Docs{meta.data[:format]}(sig(state, docstring))
 
     # Get the actual object being documented according to the current module.
     object = object_ref(Head{category}(), meta, state, expr)
@@ -107,7 +107,7 @@ object_ref(H"macro", m, state, ex) = getfield(m.modname, macroname(getvar(state,
 "Get the object/objects created by an expression in the given module."
 object_ref
 
-postprocess_entry!(H"macro", meta, entry, expr) = (entry.meta[:signature] = expr.args[1];)
+postprocess_entry!(H"macro", meta, entry, expr) = (entry.data[:signature] = expr.args[1];)
 postprocess_entry!(::Any, meta, entry, expr) = nothing # Currently a no-op.
 
 "Add additional metadata to an entry based on the category of the entry."

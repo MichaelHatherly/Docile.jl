@@ -10,9 +10,10 @@ fmeth(obj, T) = first(methods(obj, T))
 facts("Macro docstrings.") do
 
     context("Basics.") do
+
         @fact length(metadata().entries) => 69
 
-        @fact metadata().meta => @compat Dict{Symbol, Any}(
+        @fact metadata().data => @compat Dict{Symbol, Any}(
             :format => :md,
             :manual => ["../../doc/manual.md"],
             :root   => dirname(@__FILE__)
@@ -32,7 +33,7 @@ facts("Macro docstrings.") do
         @fact docs(fmeth(MacroDocs.f_30, (Any,))) => "f_30"
         @fact docs(fmeth(MacroDocs.f_31, (Any,))) => "f_31"
 
-        @fact entry(fmeth(MacroDocs.f_31, (Any,))).meta[:returns] => (Bool,)
+        @fact entry(fmeth(MacroDocs.f_31, (Any,))).data[:returns] => (Bool,)
 
         @fact docs(fmeth(Base.getindex, (MacroDocs.Foo, Integer))) => "Base.getindex"
         @fact docs(fmeth(Base.Meta.show_sexpr, (MacroDocs.Foo,)))  => "Base.Meta.show_sexpr"
@@ -47,12 +48,12 @@ facts("Macro docstrings.") do
         @fact docs(MacroDocs.f_30) => "g_f_30"
         @fact docs(MacroDocs.f_31) => "g_f_31"
 
-        @fact entry(MacroDocs.f_31).meta[:returns] => (Bool,)
+        @fact entry(MacroDocs.f_31).data[:returns] => (Bool,)
 
-        @fact entry(MacroDocs.f_32).meta[:result] => docs(MacroDocs.f_32)
-        @fact entry(MacroDocs.f_33).meta[:result] => docs(MacroDocs.f_33)
-        @fact entry(MacroDocs.f_34).meta[:result] => docs(MacroDocs.f_34)
-        @fact entry(MacroDocs.f_35).meta[:result] => docs(MacroDocs.f_35)
+        @fact entry(MacroDocs.f_32).data[:result] => docs(MacroDocs.f_32)
+        @fact entry(MacroDocs.f_33).data[:result] => docs(MacroDocs.f_33)
+        @fact entry(MacroDocs.f_34).data[:result] => docs(MacroDocs.f_34)
+        @fact entry(MacroDocs.f_35).data[:result] => docs(MacroDocs.f_35)
 
     end
 
