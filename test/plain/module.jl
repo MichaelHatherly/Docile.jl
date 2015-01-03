@@ -10,7 +10,7 @@ module PlainDocs
 reload("Docile.jl")
 
 using Docile, Compat
-@commence(manual = ["../../doc/manual.md"])
+@document(manual = ["../../doc/manual.md"])
 
 include("subfiles/functions.jl")
 include("subfiles/globals.jl")
@@ -24,7 +24,5 @@ module Skipped_Inner_Module
 f_1() = ()
 
 end
-
-@conclude
 
 end

@@ -1,61 +1,164 @@
 module Interface
 
-import Docile: Documentation, Manual, Page, Entry, Docs, METADATA
-
-export Documentation, Manual, Page, Entry, Docs
-
-export documentation, isdocumented, documented, modulename, manual, entries,
-       metadata, pages, docs, file, category, parsed, parsedocs, data
-
 using Docile
-@commence(manual = "../doc/interface.md")
+@document(manual = ["../doc/interface.md"])
 
-"`Documentation` object stored in a module. Error raised if not documented."
-documentation(m::Module) = isdocumented(m) ? getfield(m, METADATA) : error("$(m) not documented.")
+## Imports. -----------------------------------------------------------------------------
 
-"Returns the modules that are currently documented by Docile."
-documented() = Docile.__DOCUMENTED_MODULES__
+import Docile:
 
-"Check whether a module has been documented using Docile.jl."
-isdocumented(m::Module) = m ∈ documented()
+    Metadata,
+    Manual,
+    Page,
+    Entry,
+    Docs,
+    METADATA,
+    builddocs!
 
-"Module where the `Documentation` object is defined."
-modulename(d::Documentation) = d.modname
+## Re-exports. --------------------------------------------------------------------------
 
-"The `Manual` object containing a module's manual pages."
-manual(d::Documentation) = d.manual
+const Documentation = Metadata # Backwards compatibility.
 
-"Dictionary associating objects and documentation entries."
-entries(d::Documentation) = d.entries
+export
 
-"The metadata dictionary containing configuration settings."
-metadata(d::Documentation) = d.meta
+    Documentation,
+    Metadata,
+    Manual,
+    Page,
+    Entry,
+    Docs
 
-"List of pages that provide general documentation related to a module."
-pages(m::Manual) = m.pages
+## Module. ------------------------------------------------------------------------------
 
-"The documentation stored in a manual page."
-docs(p::Page) = p.docs
+export documented, isdocumented, metadata, builddocs!
 
-"File where a page's content was read from."
+"""
+Returns the modules that are currently documented by Docile.
+"""
+documented() = Docile.DOCUMENTED
+
+"""
+Is the given module `modname` documented using Docile?
+"""
+isdocumented(mod::Module) = mod ∈ documented()
+
+"""
+Returns the `Metadata` object stored in a module `modname` by Docile. Throws an
+`ArgumentError` when the module has not been documented.
+"""
+function metadata(mod::Module)
+    isdocumented(mod) || throw(ArgumentError("$(mod) is not documented."))
+    getfield(mod, METADATA)
+end
+
+"""
+Build all documentation stored in a module `mod`.
+"""
+function builddocs!(mod::Module)
+    meta = metadata(mod)
+    meta.loaded = true
+    builddocs!(meta)
+end
+
+## Metadata. ----------------------------------------------------------------------------
+
+export modulename, manual, entries, root, files, isloaded
+
+"""
+Module where the `Metadata` object is defined.
+"""
+modulename(meta::Metadata) = meta.modname
+
+"""
+The `Manual` object containing a module's manual pages.
+"""
+manual(meta::Metadata) = meta.data[:manual]
+
+"""
+Dictionary associating objects and documentation entries.
+"""
+entries(meta::Metadata) = meta.entries
+
+"""
+File containing the module definition documented with the `meta` object.
+"""
+root(meta::Metadata)  = meta.root
+
+"""
+All files `include`d in the module documented with the `meta` object.
+"""
+files(meta::Metadata) = meta.files
+
+"""
+Has the documentation contained in a module been loaded into the `meta` object?
+"""
+isloaded(meta::Metadata) = meta.loaded
+
+"""
+A dictionary containing configuration settings related to the `meta` object.
+"""
+metadata(meta::Metadata) = meta.data
+
+## Manual. ------------------------------------------------------------------------------
+
+export pages, docs, file
+
+"""
+List of pages that provide general documentation related to a module.
+"""
+pages(man::Manual) = man.pages
+
+"""
+The documentation stored in a manual page.
+"""
+docs(page::Page) = page.docs
+
+"""
+File where a page's content was read from.
+"""
 file(p::Page) = p.file
 
-"Symbol representing the category that an `Entry` belongs to."
-category{K}(e::Entry{K}) = K
+## Entry. -------------------------------------------------------------------------------
 
-"Module where the entry is defined."
+export category, modulename, metadata, docs
+
+"""
+Symbol representing the category that an `Entry` belongs to.
+"""
+category{C}(e::Entry{C}) = C
+
+"""
+Module where the entry is defined.
+"""
 modulename(e::Entry) = e.modname
 
-"Dictionary containing arbitrary metadata related to an entry."
-metadata(e::Entry) = e.meta
+"""
+Dictionary containing arbitrary metadata related to an entry.
+"""
+metadata(e::Entry) = e.data
 
-"Documentation related to the entry."
+"""
+Documentation related to the entry.
+"""
 docs(e::Entry) = e.docs
 
-"The raw content stored in a docstring."
+## Docs. --------------------------------------------------------------------------------
+
+export data, format, parsed, parsedocs
+
+"""
+The raw content stored in a docstring.
+"""
 data(d::Docs) = d.data
 
-"The parsed documentation for an object. Lazy parsing."
+"""
+Return the format that a docstring is written in.
+"""
+format{F}(d::Docs{F}) = F
+
+"""
+The parsed documentation for an object. Lazy parsing.
+"""
 parsed(d::Docs) = isdefined(d, :obj) ? d.obj : (d.obj = parsedocs(d);)
 
 """
@@ -77,6 +180,10 @@ parsedocs{ext}(d::Docs{ext}) = error("Unknown documentation format: $(ext)")
 
 parsedocs(d::Docs{:txt}) = data(d)
 
-@conclude
+## Deprecated. --------------------------------------------------------------------------
+
+export documentation
+
+documentation(mod::Module) = metadata(mod)
 
 end

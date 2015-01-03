@@ -1,21 +1,28 @@
 include("module.jl")
 
+### Force compilation of documentation.
+import Docile.Interface: builddocs!
+builddocs!(PlainDocs)
+###
+
+### Helper methods.
 metadata() = PlainDocs.__METADATA__
-docs(obj)  = metadata().objects[obj].docs.data
+docs(obj)  = metadata().entries[obj].docs.data
 
 macro_lambda(s)    = getfield(PlainDocs, symbol(s))
-macro_signature(s) = metadata().objects[macro_lambda(symbol(s))].meta[:signature]
+macro_signature(s) = metadata().entries[macro_lambda(symbol(s))].data[:signature]
 
 fmeth(obj) = first(methods(obj))
 fmeth(obj, T) = first(methods(obj, T))
+###
 
 facts("Plain docstrings.") do
 
     context("Basics.") do
 
-        @fact length(metadata().objects) => 81
+        @fact length(metadata().entries) => 81
 
-        @fact metadata().options => @compat Dict{Symbol, Any}(
+        @fact metadata().data => @compat Dict{Symbol, Any}(
             :format => :md,
             :manual => ["../../doc/manual.md"])
 
@@ -35,10 +42,12 @@ facts("Plain docstrings.") do
         end
 
         context("Qualified names.") do
+
             @fact docs(fmeth(factorize, (Symbol, Symbol)))  => "Base.factorize"
             @fact docs(fmeth(factorize, (AbstractString,))) => "Base.factorize{T}"
             @fact docs(fmeth(norm, (AbstractString,)))      => "Base.LinAlg.norm"
             @fact docs(fmeth(norm, (AbstractString, Int)))  => "Base.LinAlg.norm{T}"
+
         end
 
     end
