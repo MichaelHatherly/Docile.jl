@@ -1,16 +1,13 @@
 include("module.jl")
 
-### Force compilation of documentation.
-import Docile.Interface: builddocs!
-builddocs!(PlainDocs)
-###
+import Docile.Interface: metadata
 
 ### Helper methods.
-metadata() = PlainDocs.__METADATA__
-docs(obj)  = metadata().entries[obj].docs.data
+meta = metadata(PlainDocs)
+docs(obj)  = meta.entries[obj].docs.data
 
 macro_lambda(s)    = getfield(PlainDocs, symbol(s))
-macro_signature(s) = metadata().entries[macro_lambda(symbol(s))].data[:signature]
+macro_signature(s) = meta.entries[macro_lambda(symbol(s))].data[:signature]
 
 fmeth(obj) = first(methods(obj))
 fmeth(obj, T) = first(methods(obj, T))
@@ -20,17 +17,17 @@ facts("Plain docstrings.") do
 
     context("Basics.") do
 
-        @fact length(metadata().entries) => 81
+        @fact length(meta.entries) => 81
 
-        @fact metadata().data => @compat Dict{Symbol, Any}(
+        @fact meta.data => @compat Dict{Symbol, Any}(
             :format => :md,
             :manual => ["../../doc/manual.md"])
 
-        @fact metadata().root => joinpath(dirname(@__FILE__), "module.jl")
+        @fact meta.root => joinpath(dirname(@__FILE__), "module.jl")
 
-        @fact length(metadata().files) => 5
+        @fact length(meta.files) => 5
 
-        @fact metadata().modname => PlainDocs
+        @fact meta.modname => PlainDocs
 
     end
 

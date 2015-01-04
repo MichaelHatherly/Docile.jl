@@ -166,6 +166,11 @@ function findmethods(state::State, ex::Expr)
         length(mset) > numkws && break
     end
 
+    # When no methods are found then we've probably hit a bug.
+    if length(mset) == 0
+        warn("No methods found: ``$(fname)($(args))``. Please file a bug report.")
+    end
+
     popscope!(state) # Remove parametric types from scope.
 
     mset

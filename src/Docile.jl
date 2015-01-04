@@ -2,7 +2,7 @@ module Docile
 
 import Base: triplequoted
 
-using Base.Meta, Compat, Iterators
+using Base.Meta, Compat
 
 export @document, @docstrings, @doc, meta
 

@@ -35,7 +35,9 @@ function processast(meta, state, file, ast::Expr)
 
     # For each overlapping 3 arguments in an expression check whether it is a
     # valid documentation block and generate documentation if it is.
-    for block in partition(ast.args, 3, 1)
+    for n = 1:(length(ast.args) - 2)
+        block = tuple(ast.args[n:n + 2]...)
+
         isdocblock(block) && addentry!(entries, processblock(meta, state, file, block)...)
         merge!(entries, processast(meta, state, file, block[1]))
     end
@@ -92,12 +94,19 @@ function processblock(meta, state, file, block)
     # Get the actual object being documented according to the current module.
     object = object_ref(Head{category}(), meta, state, expr)
 
+    # :symbol category is resolved now into either :function or :module.
+    category = recheck_category(object, category)
+
     entry = Entry{category}(meta.modname, source, docs)
 
     postprocess_entry!(Head{category}(), meta, entry, expr)
 
     object, entry
 end
+
+recheck_category(::Module, ::Symbol) = :module
+recheck_category(::Any, cat::Symbol) = cat
+recheck_category(::Function, cat::Symbol) = cat ≡ :symbol ? :function : cat
 
 object_ref(H"method", m, state, ex) = findmethods(state, ex)
 object_ref(H"global", m, state, ex) = getvar(state, name(ex))

@@ -1,8 +1,8 @@
 include("module.jl")
 
-metadata() = MacroDocs.__METADATA__
-docs(obj)  = metadata().entries[obj].docs.data
-entry(obj) = metadata().entries[obj]
+meta = MacroDocs.__METADATA__
+docs(obj)  = meta.entries[obj].docs.data
+entry(obj) = meta.entries[obj]
 
 fmeth(obj) = first(methods(obj))
 fmeth(obj, T) = first(methods(obj, T))
@@ -11,15 +11,15 @@ facts("Macro docstrings.") do
 
     context("Basics.") do
 
-        @fact length(metadata().entries) => 69
+        @fact length(meta.entries) => 69
 
-        @fact metadata().data => @compat Dict{Symbol, Any}(
+        @fact meta.data => @compat Dict{Symbol, Any}(
             :format => :md,
             :manual => ["../../doc/manual.md"],
             :root   => dirname(@__FILE__)
             )
 
-        @fact metadata().modname => MacroDocs
+        @fact meta.modname => MacroDocs
 
     end
 

@@ -30,7 +30,7 @@ export
 
 ## Module. ------------------------------------------------------------------------------
 
-export documented, isdocumented, metadata, builddocs!
+export documented, isdocumented, metadata
 
 """
 Returns the modules that are currently documented by Docile.
@@ -43,21 +43,18 @@ Is the given module `modname` documented using Docile?
 isdocumented(mod::Module) = mod ∈ documented()
 
 """
-Returns the `Metadata` object stored in a module `modname` by Docile. Throws an
-`ArgumentError` when the module has not been documented.
+Returns the `Metadata` object stored in a module `modname` by Docile.
+
+Throws an `ArgumentError` when the module has not been documented.
+
+If the `Metadata` is not loaded yet (`isloaded` returns `false`) then that is
+done first, and the resulting documentation is returned.
 """
 function metadata(mod::Module)
     isdocumented(mod) || throw(ArgumentError("$(mod) is not documented."))
-    getfield(mod, METADATA)
-end
-
-"""
-Build all documentation stored in a module `mod`.
-"""
-function builddocs!(mod::Module)
-    meta = metadata(mod)
-    meta.loaded = true
-    builddocs!(meta)
+    meta = getfield(mod, METADATA)
+    isloaded(meta) || builddocs!(meta)
+    meta
 end
 
 ## Metadata. ----------------------------------------------------------------------------
