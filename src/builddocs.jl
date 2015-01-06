@@ -84,6 +84,9 @@ function processblock(meta, state, file, block)
     # Split valid block into docstring, intermediate line, and documentable expression.
     docstring, line, expr = block
 
+    # When encountering a quoted object extract it's value first.
+    expr = extract_quoted(expr)
+
     # Where is the expression located and what category does it belong to?
     source   = (linenumber(line), file)
     category = object_category(expr)
@@ -112,6 +115,9 @@ object_ref(H"method", m, state, ex) = findmethods(state, ex)
 object_ref(H"global", m, state, ex) = getvar(state, name(ex))
 object_ref(H"type, symbol", m, state, ex) = getfield(m.modname, getvar(state, name(ex)))
 object_ref(H"macro", m, state, ex) = getfield(m.modname, macroname(getvar(state, name(ex))))
+
+extract_quoted(qn::QuoteNode) = qn.value
+extract_quoted(other) = other
 
 "Get the object/objects created by an expression in the given module."
 object_ref
@@ -146,7 +152,10 @@ isline
 linenumber(lnn::LineNumberNode) = lnn.line
 
 "Is the expression ``x`` able to be documented."
-isdocumentable(x) = ismethod(x) | ismacro(x) | istype(x) | isglobal(x) | issymbol(x)
+isdocumentable(x) = ismethod(x) | ismacro(x) | istype(x) | isglobal(x) | issymbol(x) | isquote(x)
+
+isquote(x::QuoteNode) = true
+isquote(other) = false
 
 "Recursively walk an expression searching for a module with the correct name."
 function findmodule(ast, modname)

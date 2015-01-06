@@ -17,7 +17,7 @@ facts("Plain docstrings.") do
 
     context("Basics.") do
 
-        @fact length(meta.entries) => 81
+        @fact length(meta.entries) => 83
 
         @fact meta.data => @compat Dict{Symbol, Any}(
             :format => :md,
@@ -53,6 +53,9 @@ facts("Plain docstrings.") do
 
         @fact docs(PlainDocs.f_1) => "g_f_1"
         @fact docs(PlainDocs.f_2) => "g_f_2"
+
+        @fact docs(PlainDocs.f_33) => "f_33"
+        @fact docs(PlainDocs.f_34) => "f_34"
 
     end
 

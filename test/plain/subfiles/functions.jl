@@ -135,3 +135,15 @@ Base.LinAlg.norm(::AbstractString) = ()
 
 "Base.LinAlg.norm{T}"
 Base.LinAlg.norm{T <: AbstractString}(::T, ::Integer; a = 1) = ()
+
+# Generic pre-docs.
+
+"f_33"
+:f_33
+
+f_33() = ()
+
+"""f_34"""
+:f_34
+
+f_34() = ()
