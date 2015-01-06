@@ -17,10 +17,6 @@ function _build_expression(content, flags, ext)
          "i" in flags ? interpolate(content) : content)
 end
 
-type File
-    path::AbstractString
-end
-
 macro file_str(path)
     ext = symbol(strip(last(splitext(path)), '.'))
     Docs{ext}(File(joinpath(pwd(), path)))
