@@ -4,7 +4,7 @@ import Base: triplequoted
 
 using Base.Meta, Compat
 
-export @document, @docstrings, @doc, meta
+export @document, @file_str, @docstrings, @doc, meta
 
 ## Start Bootstrap. ---------------------------------------------------------------------
 

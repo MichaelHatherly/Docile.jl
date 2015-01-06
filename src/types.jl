@@ -13,6 +13,12 @@ type Docs{format}
 
     "Pass `Doc` objects straight through. Simplifies code in `Entry` constructors."
     Docs(docs::Docs) = docs
+
+    "Read a file's contents as the docstring."
+    Docs(file::File) =
+        isfile(file.path) ?
+        new(readall(file.path)) :
+        new("Missing file: $(file.path)")
 end
 
 "Guess doc format from file extension. Entry docstring created when file does not exist."

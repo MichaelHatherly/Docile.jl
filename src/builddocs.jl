@@ -10,14 +10,20 @@ builddocs!(meta) = (merge!(meta.entries, rootast(meta), includedast(meta)); noth
 function rootast(meta)
     # The target module might not be the only toplevel thing in a root file. Only traverse it.
     module_expr = findmodule(parsefile(meta.root), meta.modname).args[end]
-    processast(meta, State(meta.modname), meta.root, module_expr)
+    # To handle `@file_str` paths correctly we must be in the correct folder.
+    cd(dirname(meta.root)) do
+        processast(meta, State(meta.modname), meta.root, module_expr)
+    end
 end
 
 "Extract docstrings from the AST of included files."
 function includedast(meta)
     entries = ObjectIdDict()
     for file in meta.files
-        merge!(entries, processast(meta, State(meta.modname), file, parsefile(file)))
+        # To handle `@file_str` paths correctly we must be in the correct folder.
+        cd(dirname(file)) do
+            merge!(entries, processast(meta, State(meta.modname), file, parsefile(file)))
+        end
     end
     entries
 end

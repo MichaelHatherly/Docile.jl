@@ -17,7 +17,7 @@ facts("Plain docstrings.") do
 
     context("Basics.") do
 
-        @fact length(meta.entries) => 83
+        @fact length(meta.entries) => 84
 
         @fact meta.data => @compat Dict{Symbol, Any}(
             :format => :md,
@@ -117,14 +117,21 @@ facts("Plain docstrings.") do
 
         for i = 1:2, T = (Integer, Float64), fn = [:lg_1, :lg_2]
             func = getfield(PlainDocs, fn)
-            @fact docs(first(methods(func, (Array{T, i},)))) => "$(fn) $(i) $(T)"
+            @fact docs(fmeth(func, (Array{T, i},))) => "$(fn) $(i) $(T)"
         end
 
-        @fact docs(first(methods(PlainDocs.lg_3))) => "lg_3"
-        @fact docs(first(methods(PlainDocs.lg_4))) => "lg_4"
+        @fact docs(fmeth(PlainDocs.lg_3)) => "lg_3"
+        @fact docs(fmeth(PlainDocs.lg_4)) => "lg_4"
 
         @fact docs(PlainDocs.lg_T_1) => "lg_T_1"
         @fact docs(PlainDocs.lg_T_2) => "lg_T_2"
 
     end
+
+    context("External docstring.") do
+
+        @fact docs(fmeth(PlainDocs.f_35)) => "external docs\n"
+
+    end
+
 end

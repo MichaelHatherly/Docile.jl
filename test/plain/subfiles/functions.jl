@@ -147,3 +147,8 @@ f_33() = ()
 :f_34
 
 f_34() = ()
+
+# External docstrings.
+
+file"external-docs.md"
+f_35() = ()
