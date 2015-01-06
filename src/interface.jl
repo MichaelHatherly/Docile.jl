@@ -50,10 +50,16 @@ Throws an `ArgumentError` when the module has not been documented.
 If the `Metadata` is not loaded yet (`isloaded` returns `false`) then that is
 done first, and the resulting documentation is returned.
 """
-function metadata(mod::Module)
+function metadata(mod::Module; rebuild = false)
     isdocumented(mod) || throw(ArgumentError("$(mod) is not documented."))
     meta = getfield(mod, METADATA)
-    isloaded(meta) || builddocs!(meta)
+    # We only need to build the module's documentation if it's not been done
+    # yet, or if explicitly asked to do so by `rebuild = true`.
+    if !isloaded(meta) || rebuild
+        info("Parsing documentation for $(mod).")
+        builddocs!(meta)
+        meta.loaded = true
+    end
     meta
 end
 
