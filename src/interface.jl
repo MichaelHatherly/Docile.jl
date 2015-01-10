@@ -10,6 +10,7 @@ import Docile:
     Metadata,
     Manual,
     Page,
+    AbstractEntry,
     Entry,
     Docs,
     METADATA,
@@ -25,6 +26,7 @@ export
     Metadata,
     Manual,
     Page,
+    AbstractEntry,
     Entry,
     Docs
 

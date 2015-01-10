@@ -37,6 +37,8 @@ readdocs(file) = Docs{format(file)}(readall(file))
 "Extract the format of a file based *solely* of the file's extension."
 format(file) = symbol(splitext(file)[end][2:end])
 
+abstract AbstractEntry
+
 """
 Type representing a docstring and associated metadata in the
 module's `Documentation` object.
@@ -45,7 +47,7 @@ The `Docile.Interface` module (documentation available
 [here](interface.html)) provides methods for working with `Entry`
 objects.
 """
-type Entry{category} # category::Symbol
+type Entry{category} <: AbstractEntry # category::Symbol
     docs    :: Docs
     data    :: Dict{Symbol, Any}
     modname :: Module
