@@ -52,7 +52,7 @@ end
 
 ## End Bootstrap. -----------------------------------------------------------------------
 
-@document(manual = ["../docs/manual.md"])
+@document(manual = ["../doc/manual.md"])
 
 include("method-lookup.jl")
 include("builddocs.jl")
