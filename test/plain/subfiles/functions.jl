@@ -152,3 +152,13 @@ f_34() = ()
 
 file"external-docs.md"
 f_35() = ()
+
+# Grouped docstrings.
+
+"f_36"
+(:f_36, Any...)
+
+f_36() = ()
+f_36(x) = ()
+f_36(x, y) = ()
+f_36(x, y, z) = ()
