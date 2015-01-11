@@ -17,7 +17,7 @@ facts("Plain docstrings.") do
 
     context("Basics.") do
 
-        @fact length(meta.entries) => 84
+        @fact length(meta.entries) => 88
 
         @fact meta.data => @compat Dict{Symbol, Any}(
             :format => :md,
@@ -44,6 +44,15 @@ facts("Plain docstrings.") do
             @fact docs(fmeth(factorize, (AbstractString,))) => "Base.factorize{T}"
             @fact docs(fmeth(norm, (AbstractString,)))      => "Base.LinAlg.norm"
             @fact docs(fmeth(norm, (AbstractString, Int)))  => "Base.LinAlg.norm{T}"
+
+        end
+
+        context("Grouped methods.") do
+
+            @fact docs(fmeth(PlainDocs.f_36, ()))              => "f_36"
+            @fact docs(fmeth(PlainDocs.f_36, (Any,)))          => "f_36"
+            @fact docs(fmeth(PlainDocs.f_36, (Any, Any,)))     => "f_36"
+            @fact docs(fmeth(PlainDocs.f_36, (Any, Any, Any))) => "f_36"
 
         end
 

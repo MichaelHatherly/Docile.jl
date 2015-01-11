@@ -187,6 +187,15 @@ issigmatch(fname, method, args) = issigmatch(method.sig, args)
 issigmatch(sig, args) = issubtype(sig, args) || sig == args
 ###
 
+## Tuple lookup. ------------------------------------------------------------------------
+
+"Get all methods from a quoted tuple of the form `(function, T1, T2, ...)`."
+function findtuples(state::State, ex::Expr)
+    fname = sig(state, sig(state, ex.args[1])) # Run twice to get rid of QuoteNodes.
+    types = tuple(map(arg -> sig(state, arg), ex.args[2:end])...)
+    Set{Method}(methods(fname, types))
+end
+
 ## Unravel Loops. -----------------------------------------------------------------------
 
 function unravel(entries, meta, state, file, ex::Expr)

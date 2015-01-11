@@ -9,6 +9,7 @@ object_category(ex) =
     istype(ex)   ? :type   :
     isglobal(ex) ? :global :
     issymbol(ex) ? :symbol :
+    istuple(ex)  ? :tuple  :
     error("@doc: cannot document object:\n$(ex)")
 
 ismethod(ex) = isexpr(ex, [:function, :(=)]) && isexpr(ex.args[1], :call)
@@ -18,6 +19,7 @@ ismacro(ex)  = isexpr(ex, :macro)
 ismodule(ex) = isexpr(ex, :module)
 isloop(ex)   = isexpr(ex, :for)
 iscurly(ex)  = isexpr(ex, :curly)
+istuple(ex)  = isexpr(ex, :tuple)
 
 isconcretetype(ex) = isexpr(ex, [:type, :immutable])
 

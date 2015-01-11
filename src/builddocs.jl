@@ -116,17 +116,19 @@ end
 recheck_category(::Module, ::Symbol) = :module
 recheck_category(::Any, cat::Symbol) = cat
 recheck_category(::Function, cat::Symbol) = cat ≡ :symbol ? :function : cat
+recheck_category(::Set{Method}, ::Symbol) = :method
+
+"Get the object/objects created by an expression in the given module."
+:object_ref
 
 object_ref(H"method", m, state, ex) = findmethods(state, ex)
 object_ref(H"global", m, state, ex) = getvar(state, name(ex))
 object_ref(H"type, symbol", m, state, ex) = getfield(m.modname, getvar(state, name(ex)))
 object_ref(H"macro", m, state, ex) = getfield(m.modname, macroname(getvar(state, name(ex))))
+object_ref(H"tuple", m, state, ex) = findtuples(state, ex)
 
 extract_quoted(qn::QuoteNode) = qn.value
 extract_quoted(other) = other
-
-"Get the object/objects created by an expression in the given module."
-object_ref
 
 postprocess_entry!(H"macro", meta, entry, expr) = (entry.data[:signature] = expr.args[1];)
 postprocess_entry!(::Any, meta, entry, expr) = nothing # Currently a no-op.
@@ -140,25 +142,32 @@ macroname(ex) = symbol("@$(ex)")
 "Is the given triplet ``block`` a valid documentation block."
 isdocblock(block) = isdocstring(block[1]) && isline(block[2]) && isdocumentable(block[3])
 
+"Is the expression ``ex`` a docstring."
+:isdocstring
+
 isdocstring(x) = isstring(x) || (ismacrocall(x) && ismatch(r"(_|_m|m)str", string(x.args[1])))
 isdocstring(s::AbstractString) = true
-
-"Is the expression ``ex`` a docstring."
-isdocstring
 
 ismacrocall(ex) = isexpr(ex, :macrocall)
 isstring(ex) = isexpr(ex, :string)
 
+"Is this a line?"
+:isline
+
 isline(other) = false
 isline(lnn::LineNumberNode) = true
-
-"Is this a line?"
-isline
 
 linenumber(lnn::LineNumberNode) = lnn.line
 
 "Is the expression ``x`` able to be documented."
-isdocumentable(x) = ismethod(x) | ismacro(x) | istype(x) | isglobal(x) | issymbol(x) | isquote(x)
+isdocumentable(x) =
+    ismethod(x)  ||
+    ismacro(x)   ||
+    istype(x)    ||
+    isglobal(x)  ||
+    issymbol(x)  ||
+    isquote(x)   ||
+    istuple(x)
 
 isquote(x::QuoteNode) = true
 isquote(other) = false
@@ -181,10 +190,15 @@ _findmodule(other, modname) = Expr(:missing)
 "Does the given expression ``ex`` represent a module definition?"
 ismodule(ex) = isexpr(ex, :module)
 
-should_skip_expr(ex) = ismodule(ex) || ismacro(ex) || ismethod(ex) || isglobal(ex)
+should_skip_expr(ex) =
+    ismodule(ex)    ||
+    ismacro(ex)     ||
+    ismethod(ex)    ||
+    isglobal(ex)    ||
+    istuple(ex)
+
+"Is the given expression ``ex`` the definition of the module ``modname``?"
+:samemodule
 
 samemodule(ex, s::Symbol) = ismodule(ex) && ex.args[2] == s
 samemodule(ex, m::Module) = samemodule(ex, module_name(m))
-
-"Is the given expression ``ex`` the definition of the module ``modname``?"
-samemodule
