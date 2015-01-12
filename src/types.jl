@@ -151,3 +151,14 @@ function getdoc(modname)
     isdefined(modname, METADATA) || error("No metadata defined in module $(modname).")
     getfield(modname, METADATA)
 end
+
+## Metadata utilities. ------------------------------------------------------------------
+
+function (==)(a::Metadata, b::Metadata)
+    all([getfield(a, f) == getfield(b, f) for f in names(Metadata)])
+end
+
+function copy(m::Metadata)
+    Metadata(m.modname, copy(m.entries), m.root,
+             copy(m.files), copy(m.data), m.loaded)
+end

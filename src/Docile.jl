@@ -1,6 +1,6 @@
 module Docile
 
-import Base: triplequoted
+import Base: triplequoted, copy
 
 using Base.Meta, Compat
 
