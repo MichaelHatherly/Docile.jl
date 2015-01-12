@@ -122,7 +122,7 @@ recheck_category(::Set{Method}, ::Symbol) = :method
 :object_ref
 
 object_ref(H"method", m, state, ex) = findmethods(state, ex)
-object_ref(H"global", m, state, ex) = getvar(state, name(ex))
+object_ref(H"global, typealias", m, state, ex) = getvar(state, name(ex))
 object_ref(H"type, symbol", m, state, ex) = getfield(m.modname, getvar(state, name(ex)))
 object_ref(H"macro", m, state, ex) = getfield(m.modname, macroname(getvar(state, name(ex))))
 object_ref(H"tuple", m, state, ex) = findtuples(state, ex)
@@ -164,6 +164,7 @@ isdocumentable(x) =
     ismethod(x)  ||
     ismacro(x)   ||
     istype(x)    ||
+    isalias(x)   ||
     isglobal(x)  ||
     issymbol(x)  ||
     isquote(x)   ||

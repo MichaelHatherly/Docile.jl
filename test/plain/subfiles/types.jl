@@ -6,6 +6,14 @@ abstract T_A_1
 """T_A_2"""
 abstract T_A_2
 
+## Aliased
+
+"T_TA_1"
+typealias T_TA_1 T_A_1
+
+"""T_TA_2"""
+typealias T_TA_2 T_A_2
+
 ## Mutable
 
 "T_M_1"

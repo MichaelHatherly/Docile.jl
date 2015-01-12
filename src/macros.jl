@@ -4,17 +4,19 @@ to resolve functions and modules in the calling module's context -- after `@doc`
 has returned.
 """
 object_category(ex) =
-    ismethod(ex) ? :method :
-    ismacro(ex)  ? :macro  :
-    istype(ex)   ? :type   :
-    isglobal(ex) ? :global :
-    issymbol(ex) ? :symbol :
-    istuple(ex)  ? :tuple  :
+    ismethod(ex) ? :method    :
+    ismacro(ex)  ? :macro     :
+    istype(ex)   ? :type      :
+    isalias(ex)  ? :typealias :
+    isglobal(ex) ? :global    :
+    issymbol(ex) ? :symbol    :
+    istuple(ex)  ? :tuple     :
     error("@doc: cannot document object:\n$(ex)")
 
 ismethod(ex) = isexpr(ex, [:function, :(=)]) && isexpr(ex.args[1], :call)
 isglobal(ex) = isexpr(ex, [:global, :const, :(=)]) && !isexpr(ex.args[1], :call)
-istype(ex)   = isexpr(ex, [:type, :abstract, :typealias])
+istype(ex)   = isexpr(ex, [:type, :abstract])
+isalias(ex)  = isexpr(ex, :typealias)
 ismacro(ex)  = isexpr(ex, :macro)
 ismodule(ex) = isexpr(ex, :module)
 isloop(ex)   = isexpr(ex, :for)
