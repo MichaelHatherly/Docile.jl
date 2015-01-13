@@ -17,6 +17,21 @@ function _build_expression(content, flags, ext)
          "i" in flags ? interpolate(content) : content)
 end
 
+"""
+Provide a file path to the contents of a docstring.
+
+The path is relative to the current source code file where the macro is called
+from. The docstring format is decided based on the file extension provided. For
+files written in markdown the extension must be `.md`.
+
+**Example:**
+
+```julia
+file"../docs/foobar.md"
+foobar(x) = 2x
+
+```
+"""
 macro file_str(path)
     ext = symbol(strip(last(splitext(path)), '.'))
     Docs{ext}(File(joinpath(pwd(), path)))
@@ -25,8 +40,9 @@ end
 """
 Add additional metadata to a documented object.
 
-`meta` takes arbitary keyword arguments and stores them internally as a `Dict{Symbol,Any}`.
-The optional `doc` argument defaults to an empty string if not specified.
+`meta` takes arbitrary keyword arguments and stores them internally as a
+`Dict{Symbol,Any}`. The optional `doc` argument defaults to an empty string if
+not specified.
 
 **Examples:**
 

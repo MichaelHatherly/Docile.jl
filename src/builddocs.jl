@@ -1,9 +1,9 @@
 # Parse all included files and create documentation from available docstrings.
 
-"Read contents of ``file`` and parse into an expression."
+"Read contents of `file` and parse it into an expression."
 parsefile(file) = parse("begin $(readall(file)) end")
 
-"Parse ``root`` and ``files``, adding available docstrings to ``objects``."
+"Parse `root` and `files`, adding available docstrings to `objects`."
 builddocs!(meta) = (merge!(meta.entries, rootast(meta), includedast(meta)); nothing)
 
 "Extract docstrings from the AST found in the root file of a module."
@@ -28,21 +28,21 @@ function includedast(meta)
     entries
 end
 
-"Gather valid documentation from a given expression ``ast``."
-function processast(meta, state, file, ast::Expr)
+"Gather valid documentation from a given expression `ex`."
+function processast(meta, state, file, ex::Expr)
     entries = ObjectIdDict()
 
-    should_skip_expr(ast) && return entries # Don't traverse non-toplevel expressions.
+    should_skip_expr(ex) && return entries # Don't traverse non-toplevel expressions.
 
-    isloop(ast) && return unravel(entries, meta, state, file, ast)
+    isloop(ex) && return unravel(entries, meta, state, file, ex)
 
     # Add type parameters to the scope for inner constructor usage.
-    isconcretetype(ast) && push_type_scope!(state, ast)
+    isconcretetype(ex) && push_type_scope!(state, ex)
 
     # For each overlapping 3 arguments in an expression check whether it is a
     # valid documentation block and generate documentation if it is.
-    for n = 1:(length(ast.args) - 2)
-        block = tuple(ast.args[n:n + 2]...)
+    for n = 1:(length(ex.args) - 2)
+        block = tuple(ex.args[n:n + 2]...)
 
         isdocblock(block) && addentry!(entries, processblock(meta, state, file, block)...)
         merge!(entries, processast(meta, state, file, block[1]))
@@ -50,12 +50,12 @@ function processast(meta, state, file, ast::Expr)
 
     # Since we partition the argument list into overlapping blocks of 3, the
     # last 2 arguments are not passed to ``processast``. Do that now if needed.
-    for arg in ast.args[max(length(ast.args) - 2, 1):end]
+    for arg in ex.args[max(length(ex.args) - 2, 1):end]
         merge!(entries, processast(meta, state, file, arg))
     end
 
     # Remove the type parameter scope.
-    isconcretetype(ast) && popscope!(state)
+    isconcretetype(ex) && popscope!(state)
 
     entries
 end
@@ -74,9 +74,13 @@ else
 end
 ###
 
+# When entering a type expression we add the type parameters to the scope.
 function push_type_scope!(state::State, ex::Expr)
     pushscope!(state, upperbounds(typevars(state, typeparams(ex))))
 end
+
+"Add object or set of objects and corresponding `Entry` object to a module."
+:addentry!
 
 function addentry!(dict, objects::Set, entry)
     for object in objects
@@ -85,7 +89,7 @@ function addentry!(dict, objects::Set, entry)
 end
 addentry!(dict, object, entry) = push!(dict, object, entry)
 
-"Collect object and docstring Entry object from a valid documentation block."
+"Collect object and docstring `Entry` object from a valid documentation block."
 function processblock(meta, state, file, block)
     # Split valid block into docstring, intermediate line, and documentable expression.
     docstring, line, expr = block
@@ -98,17 +102,17 @@ function processblock(meta, state, file, block)
     category = object_category(expr)
 
     # Build the docstring object for the given raw ``docstring``.
-    docs = Docs{meta.data[:format]}(sig(state, docstring))
+    docs = Docs{meta.data[:format]}(exec(state, docstring))
 
     # Get the actual object being documented according to the current module.
-    object = object_ref(Head{category}(), meta, state, expr)
+    object = object_ref(category, meta, state, expr)
 
     # :symbol category is resolved now into either :function or :module.
     category = recheck_category(object, category)
 
     entry = Entry{category}(meta.modname, source, docs)
 
-    postprocess_entry!(Head{category}(), meta, entry, expr)
+    postprocess_entry!(category, meta, entry, expr)
 
     object, entry
 end
@@ -119,7 +123,7 @@ recheck_category(::Function, cat::Symbol) = cat ≡ :symbol ? :function : cat
 recheck_category(::Set{Method}, ::Symbol) = :method
 
 "Get the object/objects created by an expression in the given module."
-:object_ref
+object_ref(cat, meta, state, ex) = object_ref(Head{cat}(), meta, state, ex)
 
 object_ref(H"method", m, state, ex) = findmethods(state, ex)
 object_ref(H"global, typealias", m, state, ex) = getvar(state, name(ex))
@@ -130,36 +134,32 @@ object_ref(H"tuple", m, state, ex) = findtuples(state, ex)
 extract_quoted(qn::QuoteNode) = qn.value
 extract_quoted(other) = other
 
+"Add additional metadata to an entry based on the category of the entry."
+postprocess_entry!(cat::Symbol, meta, ent, ex) = postprocess_entry!(Head{cat}(), meta, ent, ex)
+
 postprocess_entry!(H"macro", meta, entry, expr) = (entry.data[:signature] = expr.args[1];)
 postprocess_entry!(::Any, meta, entry, expr) = nothing # Currently a no-op.
 
-"Add additional metadata to an entry based on the category of the entry."
-postprocess_entry!
-
-"Symbol representing a macro call to the specified macro ``ex``."
+"Symbol representing a macro call to the specified macro `ex`."
 macroname(ex) = symbol("@$(ex)")
 
-"Is the given triplet ``block`` a valid documentation block."
+"Is the given triplet `block` a valid documentation block."
 isdocblock(block) = isdocstring(block[1]) && isline(block[2]) && isdocumentable(block[3])
 
-"Is the expression ``ex`` a docstring."
-:isdocstring
-
+# Test whether an object is a docstring.
 isdocstring(x) = isstring(x) || (ismacrocall(x) && ismatch(r"(_|_m|m)str", string(x.args[1])))
 isdocstring(s::AbstractString) = true
 
 ismacrocall(ex) = isexpr(ex, :macrocall)
 isstring(ex) = isexpr(ex, :string)
 
-"Is this a line?"
-:isline
-
+# Test whether an object is a line node.
 isline(other) = false
 isline(lnn::LineNumberNode) = true
 
 linenumber(lnn::LineNumberNode) = lnn.line
 
-"Is the expression ``x`` able to be documented."
+# Is the object expression `x` able to be documented.
 isdocumentable(x) =
     ismethod(x)  ||
     ismacro(x)   ||
@@ -188,7 +188,7 @@ function _findmodule(ast::Expr, modname::Symbol)
 end
 _findmodule(other, modname) = Expr(:missing)
 
-"Does the given expression ``ex`` represent a module definition?"
+# Does the given expression `ex` represent a module definition?
 ismodule(ex) = isexpr(ex, :module)
 
 should_skip_expr(ex) =
@@ -197,9 +197,6 @@ should_skip_expr(ex) =
     ismethod(ex)    ||
     isglobal(ex)    ||
     istuple(ex)
-
-"Is the given expression ``ex`` the definition of the module ``modname``?"
-:samemodule
 
 samemodule(ex, s::Symbol) = ismodule(ex) && ex.args[2] == s
 samemodule(ex, m::Module) = samemodule(ex, module_name(m))

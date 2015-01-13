@@ -1,12 +1,28 @@
-"Symbolic dispatch type."
+# Symbolic dispatch type.
 immutable Head{S} end
 
-"Symbolic dispatch on ``head`` field on an expression. Union using comma separated list."
+# Dispatch on `head` field of expression. Union using comma separated list.
 macro H_str(text)
     heads = [Head{symbol(part)} for part in split(text, ", ")]
     Expr(:(::), Expr(:call, :Union, heads...))
 end
 
+"""
+The `State` type holds the data for evaluating expressions using `exec`.
+
+**Fields:**
+
+* `mod`: The module object where expressions will be evaluated.
+* `scopes`: Stack of local variables defined by for-loops and type parameters.
+* `refs`: Stack of objects being indexed into to handle `end` and `:` uses.
+
+**Example:**
+
+```julia
+state = Docile.State(Main)
+state = Docile.State(Main, [[:T => TypeVar(:T, Any)]])
+```
+"""
 type State
     mod    :: Module
     scopes :: Vector{Dict}
@@ -16,76 +32,145 @@ type State
     State(mod, scopes) = new(mod, scopes, Any[])
 end
 
+"Add a new scope to top of `state`'s stack of scopes."
 pushscope!(state::State, scope::Dict) = push!(state.scopes, scope)
+
+"Remove the scope from the top of `state`'s scopes stack."
 popscope!(state::State) = pop!(state.scopes)
 
+"Push an object onto the top of a `state`'s index references stack."
 pushref!(state::State, object) = push!(state.refs, object)
+
+"Remove the object from the top of `state`'s index references stack."
 popref!(state::State) = pop!(state.refs)
 
-"Search scopes for variable with name ``var``. Returns ``var`` if not found."
-function getvar(state::State, variable::Symbol)
+function getvar(state::State, var::Symbol)
     for scope in reverse(state.scopes)
-        haskey(scope, variable) && return scope[variable]
+        haskey(scope, var) && return scope[var]
     end
-    variable
-end
-function addtoscope!(state::State, variable::Symbol, value)
-    length(state.scopes) == 0 && push!(state.scopes, Dict())
-    push!(state.scopes[end], variable, value)
+    var
 end
 
+function addtoscope!(state::State, var::Symbol, value)
+    length(state.scopes) == 0 && push!(state.scopes, Dict())
+    push!(state.scopes[end], var, value)
+end
+
+"Extract the `Expr(:call, ...)` from the given `ex`."
 funccall(ex::Expr)    = funccall(Head{ex.head}(), ex)
+
 funccall(::Head, ex)  = ex.args[1]
 funccall(H"call", ex) = ex
 
+"Extract quoted type parameters from an expression."
 gettvars(ex::Expr) = iscurly(ex.args[1]) ? ex.args[1].args[2:end] : Any[]
 
+"Extract quoted argument expressions from a method call expression."
 getargs(ex::Expr) = ex.args[2:end]
 
+"""
+Return the `Function` object contained in expression `ex`.
+
+This method can handle single line function expressions, standard
+`function ... end` expressions, ones containing type parameters, and will
+also extract the `Function` object from method calls.
+
+`\$` interpolated expressions are also handled for cases where the expression is
+evaluated in a for-loop containing `@eval`.
+
+**Example:**
+
+```julia
+f(x) = 2x
+
+state = Docile.State(current_module())
+
+Docile.funcname(state, :(f(x) = 2x))
+Docile.funcname(state, :(f(x)))
+```
+"""
 funcname(state::State, ex::Expr) = funcname(Head{ex.head}(), state, ex)
 
 funcname(H"=, function, call, curly", state::State, ex::Expr) = funcname(state, ex.args[1])
 
 funcname(H"$", state::State, ex::Expr) = funcname(state, getvar(state, ex.args[1]))
-funcname(H".", state::State, ex::Expr) = getfield(sig(state, ex.args[1]), ex.args[2].value)
+funcname(H".", state::State, ex::Expr) = getfield(exec(state, ex.args[1]), ex.args[2].value)
 
 funcname(state::State, qn::QuoteNode) = funcname(state, qn.value)
-funcname(state::State, q::Symbol)     = sig(state, sig(state, q))
+funcname(state::State, q::Symbol)     = exec(state, exec(state, q))
 funcname(::State, other)              = other
 
-sig(state::State, ex::Expr) = sig(Head{ex.head}(), state, ex)
+"""
+Execute expression `ex` in the context provided by `state`.
 
-sig(H".", state, ex) = sig(sig(state, ex.args[1]), ex.args[2], true)
+Given an `Expr` and an a `State` object we walk the expression tree replacing
+symbols with their actual values as determined by the provided `state` variable.
 
-sig(mod::Module, qn::QuoteNode, ::Bool) = getfield(mod, qn.value)
-sig(::State, qn::QuoteNode) = qn.value
+This method's main purpose is to evaluate method signatures and is *not*
+designed to act as a replacement for `eval` in any way.
 
-sig(H"::", state, ex) = sig(state, ex.args[end])
-sig(H"kw", state, ex) = sig(state, ex.args[1])
+Some expression classes that `exec` should be able to interpret are:
 
-sig(H":", state, ex) = colon(map(a -> indexer(state, a), ex.args)...)
+* Symbols defined in a module or scope provided by the `state` object.
+* Qualified names, ie. `MyModule.foo`.
+* Method and macro calls.
+* Type parameters.
+* Vararg syntax.
+* Tuples and vectors (both `hcat` and `vcat`).
+* Basic indexing syntax with unnested `end` and `:`.
+* String interpolation.
+* `:` range syntax (both `a:b` and `a:b:c`).
+* `\$` interpolation for simple `@eval`-style code generation in for-loops.
+* Constants.
 
-sig(H"...", state, ex) = Vararg{sig(state, ex.args[1])}
+**Example:**
 
-sig(H"curly", state, ex) = sig(state, ex.args[1]){msig(state, ex.args[2:end])...}
-sig(H"call", state, ex) = sig(state, ex.args[1])(msig(state, ex.args[2:end])...)
-sig(H"macrocall", state, ex) = sig(state, sig(state, ex.args[1])(msig(state, ex.args[2:end])...))
+```julia
+vec = [1, 2, 3]
 
-sig(H"string", state, ex) = string(msig(state, ex.args)...)
-sig(H"tuple", state, ex) = tuple(msig(state, ex.args)...)
+state = Docile.State(current_module())
 
-sig(H"vcat", state, ex) = vcat(msig(state, ex.args)...)
-sig(H"hcat", state, ex) = hcat(msig(state, ex.args)...)
+Docile.exec(state, :(vec[1:2]))
+Docile.exec(state, :(1 + 2 + 3))
+Docile.exec(state, :("This is a vector: \$(vec)"))
+Docile.exec(state, :(Union(Vector{Int}, Array{Float64, 3})))
+```
+"""
+exec(state::State, ex::Expr) = exec(Head{ex.head}(), state, ex)
 
-# Refs need access the object being referenced so that they can use "end" and ":" correctly.
-function sig(H"ref", state, ex)
+## Start exec methods. ------------------------------------------------------------------
+
+exec(H".", state, ex) = getfield(exec(state, ex.args[1]), ex.args[2].value)
+
+exec(H"::", state, ex) = exec(state, ex.args[end])
+exec(H"kw", state, ex) = exec(state, ex.args[1])
+
+exec(H":", state, ex) = colon(map(a -> indexer(state, a), ex.args)...)
+
+exec(H"...", state, ex) = Vararg{exec(state, ex.args[1])}
+
+exec(H"curly", state, ex) = exec(state, ex.args[1]){exec(state, ex.args[2:end])...}
+exec(H"call", state, ex) = exec(state, ex.args[1])(exec(state, ex.args[2:end])...)
+
+function exec(H"macrocall", state, ex)
+    exec(state, exec(state, ex.args[1])(exec(state, ex.args[2:end])...))
+end
+
+exec(H"string", state, ex) = string(exec(state, ex.args)...)
+exec(H"tuple", state, ex) = tuple(exec(state, ex.args)...)
+
+exec(H"vcat", state, ex) = vcat(exec(state, ex.args)...)
+exec(H"hcat", state, ex) = hcat(exec(state, ex.args)...)
+
+# Refs need access to object being referenced so they can use "end" and ":" correctly.
+function exec(H"ref", state, ex)
     # Find the object being referenced.
-    object = sig(state, ex.args[1])
+    object = exec(state, ex.args[1])
 
     # Add it as the most recently referenced object.
     pushref!(state, object)
 
-    # Index into the object taking into account "end" and ":" tokens with ``indexer``.
+    # Index into object taking into account "end" and ":" tokens with ``indexer``.
     result = getindex(object, map(a -> indexer(state, a), ex.args[2:end])...)
 
     # We're now done with indexing into this object so pop it from the stack.
@@ -100,40 +185,48 @@ function indexer(state, arg)
     elseif arg ≡ :(:)
         1:endof(state.refs[end])
     else
-        sig(state, arg)
+        exec(state, arg)
     end
 end
 
-sig(H"quote", state, ex) = ex.args[1]
+exec(H"quote", state, ex) = ex.args[1]
 
-sig(H"$", state, ex) = sig(state, ex.args[1])
+exec(H"$", state, ex) = exec(state, ex.args[1])
 
-msig(state, args) = map(a -> sig(state, a), args)
+exec(state::State, args::Vector) = map(a -> exec(state, a), args)
 
-function sig(state::State, q::Symbol)
-    for i in length(state.scopes):-1:1
-        haskey(state.scopes[i], q) && return state.scopes[i][q]
+function exec(state::State, q::Symbol)
+    for scope in reverse(state.scopes)
+        haskey(scope, q) && return scope[q]
     end
     getfield(state.mod, q)
 end
 
-sig(::State, constant) = constant
+exec(::State, qn::QuoteNode) = qn.value
 
-typevar(state, ex::Expr) = ((q = ex.args[1];), TypeVar(q, sig(state, ex.args[2])))
+exec(::State, constant) = constant
+
+## End exec methods. --------------------------------------------------------------------
+
+# Create a `TypeVar` from and expression and current `state`.
+typevar(state, ex::Expr) = ((q = ex.args[1];), TypeVar(q, exec(state, ex.args[2])))
 typevar(state, q::Symbol) = (q, TypeVar(q, Any))
 
+# Create a dictionary of type parameters.
 typevars(state, args)       = Dict{Symbol, TypeVar}([typevar(state, a) for a in args])
 typevars(::State, ::Symbol) = Dict{Symbol, TypeVar}() # No parametric types.
 
+# Extract the argument's type.
 function argtype(state, ex::Expr)
     if ex.head == :(...) && isa(ex.args[1], Symbol)
         Vararg{Any}
     else
-        sig(state, ex)
+        exec(state, ex)
     end
 end
 argtype(::State, ::Symbol) = Any # Untyped argument.
 
+# For a list of expressions return a tuple of the corresponding types.
 function argtypes(state, args)
     types, numkws = Any[], 0
     for arg in args
@@ -148,6 +241,24 @@ end
 mostgeneral(T::DataType) = T{[tvar.ub for tvar in T.parameters]...}
 mostgeneral(other)       = other
 
+"""
+Return set of methods defined by an expression `ex` as if it had been evaluated.
+
+For methods with `n` optional arguments the method returns all those `n` methods
+defined by the expression `ex`. `findmethods` handles type parameters in inner
+constructors correctly if they have already been pushed into the `state`'s scope
+stack.
+
+When no methods are found to match an expression then an error is raised.
+
+**Example:**
+
+```julia
+foobar(x, y = 1) = x + y
+state = Docile.State(current_module())
+Docile.findmethods(state, :(foobar(x, y = 1) = x + y))
+```
+"""
 function findmethods(state::State, ex::Expr)
     fname, fcall = mostgeneral(funcname(state, ex)), funccall(ex)
 
@@ -166,9 +277,9 @@ function findmethods(state::State, ex::Expr)
         length(mset) > numkws && break
     end
 
-    # When no methods are found then we've probably hit a bug.
-    if length(mset) == 0
-        warn("No methods found: ``$(fname)($(args))``. Please file a bug report.")
+    # When a different number of methods are found then we've probably hit a bug.
+    if length(mset) != (numkws + 1)
+        error("Wrong methods found: ``$(fname)($(args))``. Please file a bug report.")
     end
 
     popscope!(state) # Remove parametric types from scope.
@@ -191,13 +302,25 @@ issigmatch(sig, args) = issubtype(sig, args) || sig == args
 
 "Get all methods from a quoted tuple of the form `(function, T1, T2, ...)`."
 function findtuples(state::State, ex::Expr)
-    fname = sig(state, sig(state, ex.args[1])) # Run twice to get rid of QuoteNodes.
-    types = tuple(map(arg -> sig(state, arg), ex.args[2:end])...)
+    fname = exec(state, exec(state, ex.args[1])) # Run twice to get rid of QuoteNodes.
+    types = tuple(map(arg -> exec(state, arg), ex.args[2:end])...)
     Set{Method}(methods(fname, types))
 end
 
 ## Unravel Loops. -----------------------------------------------------------------------
 
+"""
+Execute for-loops containing `@eval` blocks and retrieve documented objects.
+
+When an `Expr(:for, ...)` is encountered do the following:
+
+* Walk inner expressions to find `@eval` blocks. Return if none found.
+* For each multi argument loop expand it into nested loops.
+* Execute the outer most loop's variable and loop over the value returned.
+* For each loop iteration push new scope onto `state` containing value of loop variable.
+* Recursively expand the inner loop expressions with this new scope and execute it.
+* Pop the current loop iteration's scope after loop has been completed.
+"""
 function unravel(entries, meta, state, file, ex::Expr)
     unravel(Head{ex.head}(), entries, meta, state, file, ex)
 end
@@ -220,7 +343,7 @@ function unravel(H"for", entries, meta, state, file, ex::Expr)
     ex, vars = expandloop(state, ex)
 
     # Execute the outer loop.
-    for val in sig(state, vars[2])
+    for val in exec(state, vars[2])
         pushscope!(state, newscope(vars[1], val))
         unravel(entries, meta, state, file, ex)
         popscope!(state)
@@ -242,7 +365,7 @@ function expandloop(H"block", state, ex)
 end
 expandloop(H"=", state, ex) = (ex.args[end], loopvars(ex.args[1].args...))
 
-"Build a new scope from loop variables with same shape."
+# Build a new scope from loop variables with the same shape.
 newscope(vars, vals) = newscope!(Dict{Symbol, Any}(), vars, vals)
 
 function newscope!(out::Dict{Symbol, Any}, vars::Vector, vals::Tuple)
@@ -258,9 +381,6 @@ loopvars(H"=",     ex::Expr) = [loopvars(ex.args[1], ex.args[2])]
 
 loopvars(var::Symbol, val) = (var, val)
 loopvars(vars::Expr,  val) = (vars.args, val)
-
-"Capture loop variables in scope dicts."
-loopvars
 
 function is_eval_block(ex::Expr)
     (ismacrocall(ex) && ex.args[1] ≡ symbol("@eval")) && return true
