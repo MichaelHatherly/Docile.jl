@@ -125,6 +125,7 @@ recheck_category(::Set{Method}, ::Symbol) = :method
 "Get the object/objects created by an expression in the given module."
 object_ref(cat, meta, state, ex) = object_ref(Head{cat}(), meta, state, ex)
 
+object_ref(H"doctag", m, state, ex) = gensym("doctag")
 object_ref(H"method", m, state, ex) = findmethods(state, ex)
 object_ref(H"global, typealias", m, state, ex) = getvar(state, name(ex))
 object_ref(H"type, symbol", m, state, ex) = getfield(m.modname, getvar(state, name(ex)))
@@ -166,6 +167,7 @@ isdocumentable(x) =
     istype(x)    ||
     isalias(x)   ||
     isglobal(x)  ||
+    isdoctag(x)  ||
     issymbol(x)  ||
     isquote(x)   ||
     istuple(x)

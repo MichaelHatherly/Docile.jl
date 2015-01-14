@@ -9,6 +9,7 @@ object_category(ex) =
     istype(ex)   ? :type      :
     isalias(ex)  ? :typealias :
     isglobal(ex) ? :global    :
+    isdoctag(ex) ? :doctag    :
     issymbol(ex) ? :symbol    :
     istuple(ex)  ? :tuple     :
     error("@doc: cannot document object:\n$(ex)")
@@ -22,6 +23,7 @@ ismodule(ex) = isexpr(ex, :module)
 isloop(ex)   = isexpr(ex, :for)
 iscurly(ex)  = isexpr(ex, :curly)
 istuple(ex)  = isexpr(ex, :tuple)
+isdoctag(ex) = ex == :DOCTAG
 
 isconcretetype(ex) = isexpr(ex, [:type, :immutable])
 
