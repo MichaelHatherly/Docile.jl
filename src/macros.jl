@@ -19,9 +19,11 @@ istype(ex)   = isexpr(ex, [:type, :abstract])
 isalias(ex)  = isexpr(ex, :typealias)
 ismacro(ex)  = isexpr(ex, :macro)
 ismodule(ex) = isexpr(ex, :module)
-isloop(ex)   = isexpr(ex, :for)
+isfor(ex)    = isexpr(ex, :for)
 iscurly(ex)  = isexpr(ex, :curly)
 istuple(ex)  = isexpr(ex, :tuple)
+iswhile(ex)  = isexpr(ex, :while)
+isloop(ex)   = isexpr(ex, [:for, :while])
 
 isconcretetype(ex) = isexpr(ex, [:type, :immutable])
 

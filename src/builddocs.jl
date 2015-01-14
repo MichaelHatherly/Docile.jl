@@ -32,9 +32,13 @@ end
 function processast(meta, state, file, ex::Expr)
     entries = ObjectIdDict()
 
-    should_skip_expr(ex) && return entries # Don't traverse non-toplevel expressions.
+    # When documenting objects created by a for-loop and `@eval` user must
+    # specify `:loopdocs => true` in `@document`.
+    if isfor(ex) && meta.data[:loopdocs]
+        return unravel(entries, meta, state, file, ex)
+    end
 
-    isloop(ex) && return unravel(entries, meta, state, file, ex)
+    should_skip_expr(ex) && return entries # Don't traverse non-toplevel expressions.
 
     # Add type parameters to the scope for inner constructor usage.
     isconcretetype(ex) && push_type_scope!(state, ex)
@@ -196,7 +200,8 @@ should_skip_expr(ex) =
     ismacro(ex)     ||
     ismethod(ex)    ||
     isglobal(ex)    ||
-    istuple(ex)
+    istuple(ex)     ||
+    isloop(ex)
 
 samemodule(ex, s::Symbol) = ismodule(ex) && ex.args[2] == s
 samemodule(ex, m::Module) = samemodule(ex, module_name(m))

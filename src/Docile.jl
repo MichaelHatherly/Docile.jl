@@ -44,7 +44,10 @@ most of the type's fields.
 """
 function Metadata(root::AbstractString, data::Dict)
     register!(current_module())
-    data = merge(@compat(Dict(:format => :md, :manual => UTF8String[])), data)
+    data = merge(@compat(Dict(:format   => :md,
+                              :loopdocs => false,
+                              :manual   => UTF8String[]
+                              )), data)
     Metadata(current_module(), ObjectIdDict(), root, Set{UTF8String}(), data, false)
 end
 

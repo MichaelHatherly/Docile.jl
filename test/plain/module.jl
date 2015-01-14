@@ -10,7 +10,10 @@ module PlainDocs
 reload("Docile.jl")
 
 using Docile, Compat
-@document(manual = ["../../doc/manual.md"])
+@document(
+    manual   = ["../../doc/manual.md"],
+    loopdocs = true
+    )
 
 # For testing `Docile.Interface.isexported` functionality.
 export f_2, T_A_2, T_TA_2, G_M_2, @m_2
