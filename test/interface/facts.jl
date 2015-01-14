@@ -46,6 +46,14 @@ facts("Interface.") do
         @fact isempty(metadata(metadata(Docile))) => false
         @fact typeof(metadata(metadata(Docile)))  => Dict{Symbol, Any}
 
+        s = symbol("@doc")
+        λ = getfield(Docile, s)
+        @fact Docile.Interface.macroname(entries(metadata(Docile))[λ]) => s
+
+        @fact Docile.Interface.name(isempty)                 => :isempty
+        @fact Docile.Interface.name(:isempty)                => :isempty
+        @fact Docile.Interface.name(first(methods(isempty))) => :isempty
+
     end
 
     context("Entry.") do
@@ -72,6 +80,8 @@ facts("Interface.") do
         @fact_throws parsed(docs(entries(metadata(Docile))[Docile.Entry]))
 
         @fact parsedocs(Docile.Docs{:txt}("")) => ""
+
+        @fact_throws parsedocs(Docile.Docs{:md}(""))
 
     end
 
