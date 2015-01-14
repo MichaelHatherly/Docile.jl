@@ -133,25 +133,6 @@ name(m::Method)   = m.func.code.name
 name(t::DataType) = t.name.name
 name(s::Symbol)   = s
 
-## Manual. ------------------------------------------------------------------------------
-
-export pages, docs, file
-
-"""
-List of pages that provide general documentation related to a module.
-"""
-pages(man::Manual) = man.pages
-
-"""
-The documentation stored in a manual page.
-"""
-docs(page::Page) = page.docs
-
-"""
-File where a page's content was read from.
-"""
-file(p::Page) = p.file
-
 ## Entry. -------------------------------------------------------------------------------
 
 export category, modulename, metadata, docs
