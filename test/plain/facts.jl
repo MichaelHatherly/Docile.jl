@@ -1,6 +1,6 @@
 include("module.jl")
 
-import Docile.Interface: metadata
+import Docile.Interface: metadata, isexported
 
 ### Helper methods.
 meta = metadata(PlainDocs)
@@ -143,6 +143,28 @@ facts("Plain docstrings.") do
     context("External docstring.") do
 
         @fact docs(fmeth(PlainDocs.f_35)) => "external docs\n"
+
+    end
+
+    context("Interface.") do
+
+        context("Exported objects.") do
+
+            @fact isexported(PlainDocs, PlainDocs.f_1)        => false
+            @fact isexported(PlainDocs, fmeth(PlainDocs.f_1)) => false
+            @fact isexported(PlainDocs, PlainDocs.T_A_1)      => false
+            @fact isexported(PlainDocs, :T_TA_1)              => false
+            @fact isexported(PlainDocs, :G_M_1)               => false
+            @fact isexported(PlainDocs, macro_lambda("@m_1")) => false
+
+            @fact isexported(PlainDocs, PlainDocs.f_2)        => true
+            @fact isexported(PlainDocs, fmeth(PlainDocs.f_2)) => true
+            @fact isexported(PlainDocs, PlainDocs.T_A_2)      => true
+            @fact isexported(PlainDocs, :T_TA_2)              => true
+            @fact isexported(PlainDocs, :G_M_2)               => true
+            @fact isexported(PlainDocs, macro_lambda("@m_2")) => true
+
+        end
 
     end
 

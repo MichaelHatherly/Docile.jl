@@ -67,7 +67,7 @@ end
 
 ## Metadata. ----------------------------------------------------------------------------
 
-export modulename, manual, entries, root, files, isloaded
+export modulename, manual, entries, root, files, isloaded, isexported
 
 """
 Module where the `Metadata` object is defined.
@@ -103,6 +103,35 @@ isloaded(meta::Metadata) = meta.loaded
 A dictionary containing configuration settings related to the `meta` object.
 """
 metadata(meta::Metadata) = meta.data
+
+"""
+Check whether `object` has been exported from a *documented* module `modname`.
+"""
+function isexported(modname::Module, object)
+
+    meta = metadata(modname)
+    data = metadata(meta)
+
+    # Don't recalculate exports every time.
+    if !haskey(data, :exports)
+        data[:exports] = Set{Symbol}(names(modulename(meta)))
+    end
+
+    ent = entries(meta)[object]
+    cat = category(ent)
+
+    # Special case macros since they're stored as anon funcs.
+    sym = cat == :macro ? macroname(ent) : name(object)
+
+    sym ∈ data[:exports]
+end
+
+macroname(ent) = symbol(string("@", metadata(ent)[:signature].args[1]))
+
+name(f::Function) = f.env.name
+name(m::Method)   = m.func.code.name
+name(t::DataType) = t.name.name
+name(s::Symbol)   = s
 
 ## Manual. ------------------------------------------------------------------------------
 
