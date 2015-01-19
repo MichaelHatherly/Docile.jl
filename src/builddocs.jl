@@ -46,7 +46,7 @@ function processast(meta, state, file, ex::Expr)
     # For each overlapping 3 arguments in an expression check whether it is a
     # valid documentation block and generate documentation if it is.
     for n = 1:(length(ex.args) - 2)
-        block = tuple(ex.args[n:n + 2]...)
+        block = ex.args[n:n + 2]
 
         isdocblock(block) && addentry!(entries, processblock(meta, state, file, block)...)
         merge!(entries, processast(meta, state, file, block[1]))
