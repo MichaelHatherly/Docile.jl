@@ -114,6 +114,24 @@ quote the function as in this example:
 f(x) = 2x
 ```
 
+### Inner constructors
+
+A type's inner constructors can have individual docstrings by placing
+a docstring above the construct as with `Method` docstrings:
+
+```julia
+" ... "
+type MyType
+    # fields...
+
+    " ... "
+    MyType() = new()
+
+    " ... "
+    MyType(x) = new(x)
+end
+```
+
 ### Grouped docstrings
 
 Some docstrings may be applicable to multiple methods or functions. To
