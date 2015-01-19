@@ -11,6 +11,7 @@ object_category(ex) =
     isglobal(ex) ? :global    :
     issymbol(ex) ? :symbol    :
     istuple(ex)  ? :tuple     :
+    isvcat(ex)   ? :vcat      :
     error("@doc: cannot document object:\n$(ex)")
 
 ismethod(ex) = isexpr(ex, [:function, :(=)]) && isexpr(ex.args[1], :call)
@@ -22,6 +23,7 @@ ismodule(ex) = isexpr(ex, :module)
 isfor(ex)    = isexpr(ex, :for)
 iscurly(ex)  = isexpr(ex, :curly)
 istuple(ex)  = isexpr(ex, :tuple)
+isvcat(ex)   = isexpr(ex, :vcat)
 iswhile(ex)  = isexpr(ex, :while)
 isloop(ex)   = isexpr(ex, [:for, :while])
 

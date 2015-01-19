@@ -17,7 +17,7 @@ facts("Plain docstrings.") do
 
     context("Basics.") do
 
-        @fact length(meta.entries) => 90
+        @fact length(meta.entries) => 100
 
         @fact meta.data => @compat Dict{Symbol, Any}(
             :format   => :md,
@@ -57,6 +57,19 @@ facts("Plain docstrings.") do
 
         end
 
+        context("[] syntax.") do
+
+            @fact docs(fmeth(PlainDocs.f_38, (Any,))) => "f_38/f_39"
+            @fact docs(fmeth(PlainDocs.f_39, (Any,))) => "f_38/f_39"
+
+            @fact docs(fmeth(PlainDocs.f_41, ())) => "f_41/f_42"
+            @fact docs(fmeth(PlainDocs.f_42, ())) => "f_41/f_42"
+
+            @fact docs(fmeth(PlainDocs.f_41, (Any,))) => "f_41/f_42"
+            @fact docs(fmeth(PlainDocs.f_42, (Any,))) => "f_41/f_42"
+
+        end
+
     end
 
     context("Functions.") do
@@ -66,6 +79,16 @@ facts("Plain docstrings.") do
 
         @fact docs(PlainDocs.f_33) => "f_33"
         @fact docs(PlainDocs.f_34) => "f_34"
+
+        context("[] syntax.") do
+
+            @fact docs(PlainDocs.f_37)  => "f_37"
+            @fact docs(PlainDocs.f_37!) => "f_37"
+
+            @fact docs(PlainDocs.f_40)  => "f_40"
+            @fact docs(PlainDocs.f_40!) => "f_40"
+
+        end
 
     end
 

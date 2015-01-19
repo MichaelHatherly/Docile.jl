@@ -124,6 +124,7 @@ end
 recheck_category(::Module, ::Symbol) = :module
 recheck_category(::Any, cat::Symbol) = cat
 recheck_category(::Function, cat::Symbol) = cat ≡ :symbol ? :function : cat
+recheck_category(::Set{Function}, ::Symbol) = :function
 recheck_category(::Set{Method}, ::Symbol) = :method
 
 "Get the object/objects created by an expression in the given module."
@@ -134,6 +135,7 @@ object_ref(H"global, typealias", m, state, ex) = getvar(state, name(ex))
 object_ref(H"type, symbol", m, state, ex) = getfield(m.modname, getvar(state, name(ex)))
 object_ref(H"macro", m, state, ex) = getfield(m.modname, macroname(getvar(state, name(ex))))
 object_ref(H"tuple", m, state, ex) = findtuples(state, ex)
+object_ref(H"vcat", m, state, ex)  = findvcats(state, ex)
 
 extract_quoted(qn::QuoteNode) = qn.value
 extract_quoted(other) = other
@@ -172,7 +174,8 @@ isdocumentable(x) =
     isglobal(x)  ||
     issymbol(x)  ||
     isquote(x)   ||
-    istuple(x)
+    istuple(x)   ||
+    isvcat(x)
 
 isquote(x::QuoteNode) = true
 isquote(other) = false
@@ -201,6 +204,7 @@ should_skip_expr(ex) =
     ismethod(ex)    ||
     isglobal(ex)    ||
     istuple(ex)     ||
+    isvcat(ex)      ||
     isloop(ex)
 
 samemodule(ex, s::Symbol) = ismodule(ex) && ex.args[2] == s

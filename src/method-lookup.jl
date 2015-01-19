@@ -307,6 +307,26 @@ function findtuples(state::State, ex::Expr)
     Set{Method}(methods(fname, types))
 end
 
+## [] lookup. ---------------------------------------------------------------------------
+
+function findvcats(state::State, ex::Expr)
+    if all(arg -> isa(arg, Symbol) || isa(arg, QuoteNode), ex.args)
+        out = Set{Function}()
+        for arg in ex.args
+            push!(out, exec(state, exec(state, arg)))
+        end
+        out
+    elseif all(arg -> istuple(arg), ex.args)
+        out = Set{Method}()
+        for arg in ex.args
+            union!(out, findtuples(state, arg))
+        end
+        out
+    else
+        error("Invalid [objects...] syntax. Either all functions or all method tuples.")
+    end
+end
+
 ## Unravel Loops. -----------------------------------------------------------------------
 
 """
