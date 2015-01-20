@@ -38,6 +38,19 @@ macro file_str(path)
 end
 
 """
+Add additional commentary to source code unrelated to any particular object.
+
+**Example:**
+
+```julia
+@comment \"\"\"
+...
+\"\"\"
+```
+"""
+macro comment(text) text end
+
+"""
 Add additional metadata to a documented object.
 
 `meta` takes arbitrary keyword arguments and stores them internally as a

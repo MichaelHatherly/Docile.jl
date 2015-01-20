@@ -15,6 +15,8 @@ using Docile, Compat
     loopdocs = true
     )
 
+@comment "comment 1"
+
 # For testing `Docile.Interface.isexported` functionality.
 export f_2, T_A_2, T_TA_2, G_M_2, @m_2
 

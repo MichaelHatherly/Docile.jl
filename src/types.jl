@@ -2,6 +2,11 @@ type File
     path::AbstractString
 end
 
+immutable Comment
+    id::Symbol
+    Comment() = new(gensym("comment"))
+end
+
 """
 Lazy-loading documentation object. Initially the raw documentation string is
 stored in `data` while `obj` field remains undefined. The parsed documentation

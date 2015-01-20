@@ -48,7 +48,12 @@ function processast(meta, state, file, ex::Expr)
     for n = 1:(length(ex.args) - 2)
         block = ex.args[n:n + 2]
 
-        isdocblock(block) && addentry!(entries, processblock(meta, state, file, block)...)
+        if iscomment(block)
+            addentry!(entries, processcomment(meta, state, file, block)...)
+        elseif isdocblock(block)
+            addentry!(entries, processblock(meta, state, file, block)...)
+        end
+
         merge!(entries, processast(meta, state, file, block[1]))
     end
 
@@ -92,6 +97,18 @@ function addentry!(dict, objects::Set, entry)
     end
 end
 addentry!(dict, object, entry) = push!(dict, object, entry)
+
+function processcomment(meta, state, file, block)
+    mac, line, _ = block
+
+    source = (linenumber(line), file)
+    docs   = Docs{meta.data[:format]}(exec(state, mac))
+
+    object = Comment()
+    entry  = Entry{:comment}(meta.modname, source, docs)
+
+    object, entry
+end
 
 "Collect object and docstring `Entry` object from a valid documentation block."
 function processblock(meta, state, file, block)
@@ -151,6 +168,8 @@ macroname(ex) = symbol("@$(ex)")
 
 "Is the given triplet `block` a valid documentation block."
 isdocblock(block) = isdocstring(block[1]) && isline(block[2]) && isdocumentable(block[3])
+
+iscomment(block) = ismacrocall(block[1]) && block[1].args[1] == symbol("@comment")
 
 # Test whether an object is a docstring.
 isdocstring(x) = isstring(x) || (ismacrocall(x) && ismatch(r"(_|_m|m)str", string(x.args[1])))

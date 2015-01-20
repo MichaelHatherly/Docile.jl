@@ -1,6 +1,7 @@
 include("module.jl")
 
 import Docile.Interface: metadata, isexported
+import Docile
 
 ### Helper methods.
 meta = metadata(PlainDocs)
@@ -17,7 +18,7 @@ facts("Plain docstrings.") do
 
     context("Basics.") do
 
-        @fact length(meta.entries) => 100
+        @fact length(meta.entries) => 103
 
         @fact meta.data => @compat Dict{Symbol, Any}(
             :format   => :md,
@@ -167,6 +168,18 @@ facts("Plain docstrings.") do
     context("External docstring.") do
 
         @fact docs(fmeth(PlainDocs.f_35)) => "external docs\n"
+
+    end
+
+    context("Comment blocks.") do
+
+        comments = filter((obj, ent) -> isa(obj, Docile.Comment), meta.entries)
+
+        @fact length(comments) => 3
+
+        for (comment, ent) in comments
+            @fact ent.docs.data => anyof("external docs\n", "comment 1", "comment 2")
+        end
 
     end
 

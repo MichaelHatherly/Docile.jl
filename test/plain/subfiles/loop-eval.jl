@@ -5,6 +5,8 @@ for i = 1:2, T = (Integer, Float64), fn = [:lg_1, :lg_2]
     end
 end
 
+@comment file"external-docs.md"
+
 # Adapted from arpack.jl.
 for (T, TR, naupd_name, neupd_name) in
 
