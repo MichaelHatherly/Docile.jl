@@ -8,6 +8,7 @@ using Docile
 import Docile:
 
     Metadata,
+    Comment,
     Manual,
     Page,
     AbstractEntry,
@@ -125,6 +126,8 @@ function isexported(modname::Module, object)
 
     sym ∈ data[:exports]
 end
+
+isexported(modname::Module, comment::Comment) = false
 
 macroname(ent) = symbol(string("@", metadata(ent)[:signature].args[1]))
 
