@@ -71,3 +71,13 @@ foobar(x) = 2x + 1
 **Note:** the `file` path is relative to the current source file.
 """
 meta(doc = ""; args...) = (doc, Dict{Symbol, Any}(args))
+
+export @doc_str, @doc_mstr
+
+macro doc_str(text)
+    text
+end
+
+macro doc_mstr(text)
+    triplequoted(text)
+end

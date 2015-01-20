@@ -138,6 +138,14 @@ f_34() = ()
 @doc* meta(md"""$(1 + (sin(3) + 1))"""i, result = "2.1411200080598674") ->
 f_35(x) = ()
 
+# doc_str, doc_mstr macros.
+
+@doc doc"f_36" ->
+f_36() = ()
+
+@doc doc"""f_37""" ->
+f_37() = ()
+
 # Qualified methods.
 
 type Foo end

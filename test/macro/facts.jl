@@ -11,7 +11,7 @@ facts("Macro docstrings.") do
 
     context("Basics.") do
 
-        @fact length(meta.entries) => 69
+        @fact length(meta.entries) => 71
 
         @fact meta.data => @compat Dict{Symbol, Any}(
             :format => :md,
