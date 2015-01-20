@@ -136,7 +136,13 @@ end
 
 "Metatdata interface for *single* objects. `args` is the docstring and metadata dict."
 function setmeta!(modname, object, category, source, args...)
-    pushmeta!(getdoc(modname), object, Entry{category}(modname, source, args...))
+    entry = Entry{category}(modname, source, args...)
+    # translate symbolic macro names into their underlying functions.
+    if category ≡ :macro
+        entry.data[:signature] = object
+        object = getfield(modname, macroname(object.args[1]))
+    end
+    pushmeta!(getdoc(modname), object, entry)
 end
 
 """

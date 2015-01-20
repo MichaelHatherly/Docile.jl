@@ -59,8 +59,8 @@ facts("Macro docstrings.") do
 
     context("Macros.") do
 
-        @fact docs(symbol("@m_1")) => "m_1"
-        @fact docs(symbol("@m_2")) => "m_2"
+        @fact docs(getfield(MacroDocs, symbol("@m_1"))) => "m_1"
+        @fact docs(getfield(MacroDocs, symbol("@m_2"))) => "m_2"
 
     end
 

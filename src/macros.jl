@@ -245,7 +245,7 @@ function doc(args...)
     # Find the category and name of an object. Build corresponding quoted expressions
     # for use in the `quote` returned. Macros names are prefixed by `@` here.
     c, n   = object_category(obj.args[2]), name(obj.args[2])
-    qc, qn = Expr(:quote, c), Expr(:quote, c == :macro ? symbol("@$(n)") : n)
+    qc, qn = Expr(:quote, c), Expr(:quote, c == :macro ? obj.args[end].args[1] : n)
 
     (generic && c != :method) && error("@doc: generic docstrings only allowed for methods.")
 
