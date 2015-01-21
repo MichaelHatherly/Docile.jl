@@ -1,4 +1,4 @@
-site_name: Lexicon.jl
+site_name: Docile.jl
 theme: yeti
 pages:
     - ['index.md', 'Introduction']
