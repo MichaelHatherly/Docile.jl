@@ -2,12 +2,12 @@
 
 Docile provides two distinct ways to add docstrings to source code.
 
-## `@doc`
+## @doc
 
 This macro mirrors the behavior of the `@doc` macro provided in Julia 0.4
 with two additional features.
 
-### `@doc*`
+### @doc*
 
 The syntax:
 
@@ -25,7 +25,7 @@ f(x) = 2x
 
 adds the documentation to the `Method` object `f(x)`.
 
-### `meta`
+### meta
 
 Additional metadata can be added to a docstring by using the `meta` function as
 follows:

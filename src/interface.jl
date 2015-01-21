@@ -1,7 +1,7 @@
 module Interface
 
 using Docile
-@document(manual = ["../doc/interface.md"])
+@document(manual = ["../docs/interface.md"])
 
 ## Imports. -----------------------------------------------------------------------------
 

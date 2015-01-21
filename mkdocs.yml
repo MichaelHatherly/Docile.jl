@@ -1,0 +1,8 @@
+site_name: Lexicon.jl
+theme: yeti
+pages:
+    - ['index.md', 'Introduction']
+    - ['manual.md', 'Manual', 'Overview']
+    - ['syntax.md', 'Manual', 'Syntax']
+    - ['api/docile.md', 'API', 'Docile']
+    - ['api/interface.md', 'API', 'Docile.Interface']
