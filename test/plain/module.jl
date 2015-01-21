@@ -11,7 +11,7 @@ reload("Docile.jl")
 
 using Docile, Compat
 @document(
-    manual   = ["../../doc/manual.md"],
+    manual   = ["../../docs/manual.md"],
     loopdocs = true
     )
 

@@ -1,7 +1,7 @@
 module MacroDocs
 
 using Docile, Compat
-@docstrings(manual = ["../../doc/manual.md"])
+@docstrings(manual = ["../../docs/manual.md"])
 
 include("subfiles/macro-spec.jl")
 

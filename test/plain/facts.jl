@@ -23,7 +23,7 @@ facts("Plain docstrings.") do
         @fact meta.data => @compat Dict{Symbol, Any}(
             :format   => :md,
             :loopdocs => true,
-            :manual   => ["../../doc/manual.md"])
+            :manual   => ["../../docs/manual.md"])
 
         @fact meta.root => joinpath(dirname(@__FILE__), "module.jl")
 

@@ -15,7 +15,7 @@ facts("Macro docstrings.") do
 
         @fact meta.data => @compat Dict{Symbol, Any}(
             :format => :md,
-            :manual => ["../../doc/manual.md"],
+            :manual => ["../../docs/manual.md"],
             :root   => dirname(@__FILE__)
             )
 
