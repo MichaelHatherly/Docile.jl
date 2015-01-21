@@ -1,3 +1,10 @@
+## v0.4.0
+
+* New plain string docstrings.
+* New documentation site using MkDocs.
+* Store macros using their corresponding anonymous functions as keys.
+* Add missing `@doc_str` macro.
+
 ### v0.3.2
 
 * Deprecate dict-based versions of `@doc` metadata and `@docstrings` macros.
