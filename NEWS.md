@@ -1,3 +1,7 @@
+### v0.4.1
+
+* Fix deprecation warnings.
+
 ## v0.4.0
 
 * New plain string docstrings.
