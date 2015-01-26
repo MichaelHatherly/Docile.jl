@@ -53,7 +53,7 @@ end
 
 function addtoscope!(state::State, var::Symbol, value)
     length(state.scopes) == 0 && push!(state.scopes, Dict())
-    push!(state.scopes[end], var, value)
+    setindex!(state.scopes[end], value, var)
 end
 
 "Extract the `Expr(:call, ...)` from the given `ex`."
@@ -394,7 +394,7 @@ function newscope!(out::Dict{Symbol, Any}, vars::Vector, vals::Tuple)
     end
     out
 end
-newscope!(out::Dict{Symbol, Any}, var::Symbol, val) = push!(out, var, val)
+newscope!(out::Dict{Symbol, Any}, var::Symbol, val) = setindex!(out, val, var)
 
 loopvars(H"block", ex::Expr) = [loopvars(arg.args[1], arg.args[2]) for arg in ex.args]
 loopvars(H"=",     ex::Expr) = [loopvars(ex.args[1], ex.args[2])]

@@ -96,7 +96,7 @@ function addentry!(dict, objects::Set, entry)
         addentry!(dict, object, entry)
     end
 end
-addentry!(dict, object, entry) = push!(dict, object, entry)
+addentry!(dict, object, entry) = setindex!(dict, entry, object)
 
 function processcomment(meta, state, file, block)
     mac, line, _ = block
