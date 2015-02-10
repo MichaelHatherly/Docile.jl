@@ -159,7 +159,7 @@ end
 exec(H"string", state, ex) = string(exec(state, ex.args)...)
 exec(H"tuple", state, ex) = tuple(exec(state, ex.args)...)
 
-exec(H"vcat", state, ex) = vcat(exec(state, ex.args)...)
+exec(H"vcat, vect", state, ex) = vcat(exec(state, ex.args)...)
 exec(H"hcat", state, ex) = hcat(exec(state, ex.args)...)
 
 # Refs need access to object being referenced so they can use "end" and ":" correctly.

@@ -152,7 +152,7 @@ object_ref(H"global, typealias", m, state, ex) = getvar(state, name(ex))
 object_ref(H"type, symbol", m, state, ex) = getfield(m.modname, getvar(state, name(ex)))
 object_ref(H"macro", m, state, ex) = getfield(m.modname, macroname(getvar(state, name(ex))))
 object_ref(H"tuple", m, state, ex) = findtuples(state, ex)
-object_ref(H"vcat", m, state, ex)  = findvcats(state, ex)
+object_ref(H"vcat, vect", m, state, ex)  = findvcats(state, ex)
 
 extract_quoted(qn::QuoteNode) = qn.value
 extract_quoted(other) = other
@@ -194,7 +194,8 @@ isdocumentable(x) =
     issymbol(x)  ||
     isquote(x)   ||
     istuple(x)   ||
-    isvcat(x)
+    isvcat(x)    ||
+    isvect(x)
 
 isquote(x::QuoteNode) = true
 isquote(other) = false
@@ -224,6 +225,7 @@ should_skip_expr(ex) =
     isglobal(ex)    ||
     istuple(ex)     ||
     isvcat(ex)      ||
+    isvect(ex)      ||
     isloop(ex)
 
 samemodule(ex, s::Symbol) = ismodule(ex) && ex.args[2] == s
