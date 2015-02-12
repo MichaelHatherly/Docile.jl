@@ -260,7 +260,7 @@ Docile.findmethods(state, :(foobar(x, y = 1) = x + y))
 ```
 """
 function findmethods(state::State, ex::Expr)
-    fname, fcall = mostgeneral(funcname(state, ex)), funccall(ex)
+    fname, fcall = funcname(state, ex), funccall(ex)
 
     pushscope!(state, typevars(state, gettvars(fcall))) # Add parametric types to scope.
 
@@ -269,7 +269,7 @@ function findmethods(state::State, ex::Expr)
     # Find all methods created by the given expression ``ex``.
     mset = Set{Method}()
 
-    for m in methods(fname), n in 0:numkws
+    for m in allmethods(fname), n in 0:numkws
         # Try to match each subset of args tuple (left-to-right) with method signatures.
         issigmatch(fname, m, args[1:end - n]) && push!(mset, m)
 
@@ -279,12 +279,23 @@ function findmethods(state::State, ex::Expr)
 
     # When a different number of methods are found then we've probably hit a bug.
     if length(mset) != (numkws + 1)
-        error("Wrong methods found: ``$(fname)($(args))``. Please file a bug report.")
+        detailed_error(fname, numkws, args, mset)
     end
 
     popscope!(state) # Remove parametric types from scope.
 
     mset
+end
+
+function allmethods(fname)
+    out = Set{Method}()
+    for m in methods(fname)
+        push!(out, m)
+    end
+    for m in methods(mostgeneral(fname))
+        push!(out, m)
+    end
+    out
 end
 
 ### Handle call overloading differences between versions.
@@ -410,3 +421,36 @@ function is_eval_block(ex::Expr)
     false
 end
 is_eval_block(ex) = false
+
+## Error reporting.
+
+function detailed_error(fname, numkws, args, mset)
+    println("""
+    Failed to find the correct method signatures. Stopping.
+
+    **Details:**
+
+    * `fname`:  `$(fname)`
+    * `numkws`: `$(numkws)`
+    * `args`:   `$(args)`
+
+    * `mset`:
+    ```
+    $(join([string(m) for m in mset], "\n"))
+    ```
+
+    * `allmethods`:
+    ```
+    $(join([string(m) for m in allmethods(fname)], "\n"))
+    ```
+
+    **Version Info:**
+    ```""")
+    versioninfo()
+    println("```")
+
+    error("""
+    Please file a bug report including the above information at
+    https://github.com/MichaelHatherly/Docile.jl/issues.
+    """)
+end
