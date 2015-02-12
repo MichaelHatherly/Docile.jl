@@ -306,7 +306,7 @@ else
 end
 issigmatch(fname, method, args) = issigmatch(method.sig, args)
 
-issigmatch(sig, args) = issubtype(args, sig) || sig == args
+issigmatch(sig, args) = sig == args
 ###
 
 ## Tuple lookup. ------------------------------------------------------------------------
