@@ -1,3 +1,11 @@
+### v0.4.3
+
+* Fix incorrect outer constructor signature matching.
+
+### v0.4.2
+
+* Fix vcat/vect parsing changes.
+
 ### v0.4.1
 
 * Fix deprecation warnings.
