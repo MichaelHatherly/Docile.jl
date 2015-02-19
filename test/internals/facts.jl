@@ -22,7 +22,7 @@ facts("Internals.") do
         @fact Docile.exec(s, :(1 + 2 * 3)) => 1 + 2 * 3
 
         @fact Docile.exec(s, :([1, 2, 3, 4, 5][1:2])) => [1, 2, 3, 4, 5][1:2]
-        @fact Docile.exec(s, :([1:100][end])) => [1:100][end]
+        @fact Docile.exec(s, :([1:100;][end])) => [1:100;][end]
 
         @fact Docile.exec(s, :(zeros(Int, 3, 3))) => zeros(Int, 3, 3)
 

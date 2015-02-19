@@ -156,6 +156,10 @@ function exec(H"macrocall", state, ex)
     exec(state, exec(state, ex.args[1])(exec(state, ex.args[2:end])...))
 end
 
+function exec(H"triple_quoted_string", state, ex)
+    exec(state, Expr(:macrocall, symbol("@mstr"), ex.args...))
+end
+
 exec(H"string", state, ex) = string(exec(state, ex.args)...)
 exec(H"tuple", state, ex) = tuple(exec(state, ex.args)...)
 
