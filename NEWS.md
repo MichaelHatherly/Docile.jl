@@ -1,3 +1,8 @@
+### v0.4.4
+
+* Handle new expression head `:triple_quoted_string`.
+* Fix deprecation warning for array syntax.
+
 ### v0.4.3
 
 * Fix incorrect outer constructor signature matching.
