@@ -43,6 +43,7 @@ Convenience constructor for `Metadata` type that initializes default values for
 most of the type's fields.
 """
 function Metadata(root::AbstractString, data::Dict)
+    @assert isfile(root) "`@document` can only be used in files. REPL usage is unsupported."
     register!(current_module())
     data = merge(@compat(Dict(:format   => :md,
                               :loopdocs => false,
