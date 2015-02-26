@@ -1,3 +1,8 @@
+### v0.4.5
+
+* Add missing `Interface.name(::Module)` method.
+* Fix unclear error message when using `@document` from the REPL.
+
 ### v0.4.4
 
 * Handle new expression head `:triple_quoted_string`.
