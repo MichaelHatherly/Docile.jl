@@ -133,6 +133,7 @@ macroname(ent) = symbol(string("@", metadata(ent)[:signature].args[1]))
 
 name(f::Function) = f.env.name
 name(m::Method)   = m.func.code.name
+name(m::Module)   = module_name(m)
 name(t::DataType) = t.name.name
 name(s::Symbol)   = s
 
