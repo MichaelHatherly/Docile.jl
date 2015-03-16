@@ -20,7 +20,6 @@ The `State` type holds the data for evaluating expressions using `exec`.
 
 ```julia
 state = Docile.State(Main)
-state = Docile.State(Main, [[:T => TypeVar(:T, Any)]])
 ```
 """
 type State
