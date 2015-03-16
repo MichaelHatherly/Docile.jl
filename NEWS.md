@@ -1,3 +1,7 @@
+### v0.4.7
+
+* Use `fieldnames` instead of deprecated `names`.
+
 ### v0.4.6
 
 * Fix wrongly quoted `:end` syntax affecting older 0.3 release.

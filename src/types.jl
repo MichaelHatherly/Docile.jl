@@ -166,7 +166,7 @@ end
 ## Metadata utilities. ------------------------------------------------------------------
 
 function (==)(a::Metadata, b::Metadata)
-    all([getfield(a, f) == getfield(b, f) for f in names(Metadata)])
+    all([getfield(a, f) == getfield(b, f) for f in fieldnames(Metadata)])
 end
 
 function copy(m::Metadata)
