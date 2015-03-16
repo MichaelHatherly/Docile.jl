@@ -184,7 +184,7 @@ function exec(H"ref", state, ex)
 end
 
 function indexer(state, arg)
-    if arg ≡ :end
+    if arg ≡ symbol("end")
         endof(state.refs[end])
     elseif arg ≡ :(:)
         1:endof(state.refs[end])

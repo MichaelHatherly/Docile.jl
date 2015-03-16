@@ -1,3 +1,7 @@
+### v0.4.6
+
+* Fix wrongly quoted `:end` syntax affecting older 0.3 rela
+
 ### v0.4.5
 
 * Add missing `Interface.name(::Module)` method.
