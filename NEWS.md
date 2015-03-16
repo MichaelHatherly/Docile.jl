@@ -1,6 +1,6 @@
 ### v0.4.6
 
-* Fix wrongly quoted `:end` syntax affecting older 0.3 rela
+* Fix wrongly quoted `:end` syntax affecting older 0.3 release.
 
 ### v0.4.5
 
