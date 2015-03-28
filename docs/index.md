@@ -1,16 +1,11 @@
 # Docile
 
-*Docile* is a [Julia](www.julialang.org) package documentation system
-that provides a docstring macro, `@doc`, for documenting arbitrary Julia
-objects and associating metadata with them.
+*Docile* is a [Julia](http://www.julialang.org) package documentation system.
 
-### Manual
+It provides a macro, `@doc`, for documenting arbitrary Julia objects. This
+functionality is equivalent to the new `@doc` macro available from `Base` in
+Julia `0.4`.
 
-* [Package Overview](manual)
-* [Syntax Summary](syntax)
-
-### Module API
-
-* [Docile](api/docile)
-* [Docile.Interface](api/interface)
-
+Additionally, *Docile* has support for using plain strings for documentation
+rather than using the `@doc` macro. See the package documentation for further
+details.

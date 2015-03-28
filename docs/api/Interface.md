@@ -11,7 +11,7 @@ Symbol representing the category that an `Entry` belongs to.
 
 
 **source:**
-[Docile/src/interface.jl:147](https://github.com/MichaelHatherly/Docile.jl/tree/f720bd5a61fcd6c292816a4d367f9adecdf31099/src/interface.jl#L147)
+[Docile/src/interface.jl:147](https://github.com/MichaelHatherly/Docile.jl/tree/34ca314a33253f4ee19e7cb88799dbd68cae8efc/src/interface.jl#L147)
 
 ---
 
@@ -20,7 +20,7 @@ The raw content stored in a docstring.
 
 
 **source:**
-[Docile/src/interface.jl:171](https://github.com/MichaelHatherly/Docile.jl/tree/f720bd5a61fcd6c292816a4d367f9adecdf31099/src/interface.jl#L171)
+[Docile/src/interface.jl:171](https://github.com/MichaelHatherly/Docile.jl/tree/34ca314a33253f4ee19e7cb88799dbd68cae8efc/src/interface.jl#L171)
 
 ---
 
@@ -29,7 +29,7 @@ Documentation related to the entry.
 
 
 **source:**
-[Docile/src/interface.jl:162](https://github.com/MichaelHatherly/Docile.jl/tree/f720bd5a61fcd6c292816a4d367f9adecdf31099/src/interface.jl#L162)
+[Docile/src/interface.jl:162](https://github.com/MichaelHatherly/Docile.jl/tree/34ca314a33253f4ee19e7cb88799dbd68cae8efc/src/interface.jl#L162)
 
 ---
 
@@ -38,7 +38,7 @@ Returns the modules that are currently documented by Docile.
 
 
 **source:**
-[Docile/src/interface.jl:41](https://github.com/MichaelHatherly/Docile.jl/tree/f720bd5a61fcd6c292816a4d367f9adecdf31099/src/interface.jl#L41)
+[Docile/src/interface.jl:41](https://github.com/MichaelHatherly/Docile.jl/tree/34ca314a33253f4ee19e7cb88799dbd68cae8efc/src/interface.jl#L41)
 
 ---
 
@@ -47,7 +47,7 @@ Dictionary associating objects and documentation entries.
 
 
 **source:**
-[Docile/src/interface.jl:86](https://github.com/MichaelHatherly/Docile.jl/tree/f720bd5a61fcd6c292816a4d367f9adecdf31099/src/interface.jl#L86)
+[Docile/src/interface.jl:86](https://github.com/MichaelHatherly/Docile.jl/tree/34ca314a33253f4ee19e7cb88799dbd68cae8efc/src/interface.jl#L86)
 
 ---
 
@@ -56,7 +56,7 @@ All files `include`d in the module documented with the `meta` object.
 
 
 **source:**
-[Docile/src/interface.jl:96](https://github.com/MichaelHatherly/Docile.jl/tree/f720bd5a61fcd6c292816a4d367f9adecdf31099/src/interface.jl#L96)
+[Docile/src/interface.jl:96](https://github.com/MichaelHatherly/Docile.jl/tree/34ca314a33253f4ee19e7cb88799dbd68cae8efc/src/interface.jl#L96)
 
 ---
 
@@ -65,7 +65,7 @@ Return the format that a docstring is written in.
 
 
 **source:**
-[Docile/src/interface.jl:176](https://github.com/MichaelHatherly/Docile.jl/tree/f720bd5a61fcd6c292816a4d367f9adecdf31099/src/interface.jl#L176)
+[Docile/src/interface.jl:176](https://github.com/MichaelHatherly/Docile.jl/tree/34ca314a33253f4ee19e7cb88799dbd68cae8efc/src/interface.jl#L176)
 
 ---
 
@@ -74,7 +74,7 @@ Is the given module `modname` documented using Docile?
 
 
 **source:**
-[Docile/src/interface.jl:46](https://github.com/MichaelHatherly/Docile.jl/tree/f720bd5a61fcd6c292816a4d367f9adecdf31099/src/interface.jl#L46)
+[Docile/src/interface.jl:46](https://github.com/MichaelHatherly/Docile.jl/tree/34ca314a33253f4ee19e7cb88799dbd68cae8efc/src/interface.jl#L46)
 
 ---
 
@@ -83,7 +83,7 @@ Check whether `object` has been exported from a *documented* module `modname`.
 
 
 **source:**
-[Docile/src/interface.jl:111](https://github.com/MichaelHatherly/Docile.jl/tree/f720bd5a61fcd6c292816a4d367f9adecdf31099/src/interface.jl#L111)
+[Docile/src/interface.jl:111](https://github.com/MichaelHatherly/Docile.jl/tree/34ca314a33253f4ee19e7cb88799dbd68cae8efc/src/interface.jl#L111)
 
 ---
 
@@ -92,7 +92,7 @@ Has the documentation contained in a module been loaded into the `meta` object?
 
 
 **source:**
-[Docile/src/interface.jl:101](https://github.com/MichaelHatherly/Docile.jl/tree/f720bd5a61fcd6c292816a4d367f9adecdf31099/src/interface.jl#L101)
+[Docile/src/interface.jl:101](https://github.com/MichaelHatherly/Docile.jl/tree/34ca314a33253f4ee19e7cb88799dbd68cae8efc/src/interface.jl#L101)
 
 ---
 
@@ -101,7 +101,7 @@ The `Manual` object containing a module's manual pages.
 
 
 **source:**
-[Docile/src/interface.jl:81](https://github.com/MichaelHatherly/Docile.jl/tree/f720bd5a61fcd6c292816a4d367f9adecdf31099/src/interface.jl#L81)
+[Docile/src/interface.jl:81](https://github.com/MichaelHatherly/Docile.jl/tree/34ca314a33253f4ee19e7cb88799dbd68cae8efc/src/interface.jl#L81)
 
 ---
 
@@ -110,7 +110,7 @@ Dictionary containing arbitrary metadata related to an entry.
 
 
 **source:**
-[Docile/src/interface.jl:157](https://github.com/MichaelHatherly/Docile.jl/tree/f720bd5a61fcd6c292816a4d367f9adecdf31099/src/interface.jl#L157)
+[Docile/src/interface.jl:157](https://github.com/MichaelHatherly/Docile.jl/tree/34ca314a33253f4ee19e7cb88799dbd68cae8efc/src/interface.jl#L157)
 
 ---
 
@@ -119,7 +119,7 @@ A dictionary containing configuration settings related to the `meta` object.
 
 
 **source:**
-[Docile/src/interface.jl:106](https://github.com/MichaelHatherly/Docile.jl/tree/f720bd5a61fcd6c292816a4d367f9adecdf31099/src/interface.jl#L106)
+[Docile/src/interface.jl:106](https://github.com/MichaelHatherly/Docile.jl/tree/34ca314a33253f4ee19e7cb88799dbd68cae8efc/src/interface.jl#L106)
 
 ---
 
@@ -133,7 +133,7 @@ done first, and the resulting documentation is returned.
 
 
 **source:**
-[Docile/src/interface.jl:56](https://github.com/MichaelHatherly/Docile.jl/tree/f720bd5a61fcd6c292816a4d367f9adecdf31099/src/interface.jl#L56)
+[Docile/src/interface.jl:56](https://github.com/MichaelHatherly/Docile.jl/tree/34ca314a33253f4ee19e7cb88799dbd68cae8efc/src/interface.jl#L56)
 
 ---
 
@@ -142,7 +142,7 @@ Module where the entry is defined.
 
 
 **source:**
-[Docile/src/interface.jl:152](https://github.com/MichaelHatherly/Docile.jl/tree/f720bd5a61fcd6c292816a4d367f9adecdf31099/src/interface.jl#L152)
+[Docile/src/interface.jl:152](https://github.com/MichaelHatherly/Docile.jl/tree/34ca314a33253f4ee19e7cb88799dbd68cae8efc/src/interface.jl#L152)
 
 ---
 
@@ -151,7 +151,7 @@ Module where the `Metadata` object is defined.
 
 
 **source:**
-[Docile/src/interface.jl:76](https://github.com/MichaelHatherly/Docile.jl/tree/f720bd5a61fcd6c292816a4d367f9adecdf31099/src/interface.jl#L76)
+[Docile/src/interface.jl:76](https://github.com/MichaelHatherly/Docile.jl/tree/34ca314a33253f4ee19e7cb88799dbd68cae8efc/src/interface.jl#L76)
 
 ---
 
@@ -160,7 +160,7 @@ The parsed documentation for an object. Lazy parsing.
 
 
 **source:**
-[Docile/src/interface.jl:181](https://github.com/MichaelHatherly/Docile.jl/tree/f720bd5a61fcd6c292816a4d367f9adecdf31099/src/interface.jl#L181)
+[Docile/src/interface.jl:181](https://github.com/MichaelHatherly/Docile.jl/tree/34ca314a33253f4ee19e7cb88799dbd68cae8efc/src/interface.jl#L181)
 
 ---
 
@@ -181,7 +181,7 @@ the desired parser.
 
 
 **source:**
-[Docile/src/interface.jl:198](https://github.com/MichaelHatherly/Docile.jl/tree/f720bd5a61fcd6c292816a4d367f9adecdf31099/src/interface.jl#L198)
+[Docile/src/interface.jl:198](https://github.com/MichaelHatherly/Docile.jl/tree/34ca314a33253f4ee19e7cb88799dbd68cae8efc/src/interface.jl#L198)
 
 ---
 
@@ -190,6 +190,6 @@ File containing the module definition documented with the `meta` object.
 
 
 **source:**
-[Docile/src/interface.jl:91](https://github.com/MichaelHatherly/Docile.jl/tree/f720bd5a61fcd6c292816a4d367f9adecdf31099/src/interface.jl#L91)
+[Docile/src/interface.jl:91](https://github.com/MichaelHatherly/Docile.jl/tree/34ca314a33253f4ee19e7cb88799dbd68cae8efc/src/interface.jl#L91)
 
 
