@@ -7,12 +7,12 @@ Docile provides two distinct ways to add docstrings to source code.
 This macro mirrors the behavior of the `@doc` macro provided in Julia 0.4
 with two additional features.
 
-### @doc*
+### @doc+
 
 The syntax:
 
 ```julia
-@doc* " ... " ->
+@doc+ " ... " ->
 f(x) = 2x
 ```
 

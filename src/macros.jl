@@ -25,7 +25,7 @@ isfor(ex)    = isexpr(ex, :for)
 iscurly(ex)  = isexpr(ex, :curly)
 istuple(ex)  = isexpr(ex, :tuple)
 isvcat(ex)   = isexpr(ex, :vcat)
-isvect(ex)    = isexpr(ex, :vect)
+isvect(ex)   = isexpr(ex, :vect)
 iswhile(ex)  = isexpr(ex, :while)
 isloop(ex)   = isexpr(ex, [:for, :while])
 
@@ -78,12 +78,19 @@ function separate(docs, expr)
     (docs, meta), obj
 end
 
+const warned = [false]
+
 """
 Attaching metadata to the generic function rather than the specific method which
 the ``@doc`` is applied to.
 """
 function docstar(symb::Symbol, args...)
-    (generic = symb == :(*);), generic ? args : (symb, args...)
+    if symb == :(*) && !warned[1]
+        Base.depwarn("`@doc*` syntax is deprecated. Please use `@doc+` instead.", symbol("@doc*"))
+        warned[1] = true
+    end
+    generic = symb == :(*) || symb == :(+)
+    generic, generic ? args : (symb, args...)
 end
 docstar(args...) = (false, args)
 
@@ -210,11 +217,11 @@ line.
 
 There may only be generic documentation for a function and none that is
 method-specific. In this case the generic documentation may be written directly
-above one of the methods by using `@doc*`. The documentation will then be
+above one of the methods by using `@doc+`. The documentation will then be
 associated with the `Function` object rather than that particular `Method`.
 
 ```julia
-@doc* "Generic documentation for this function." ->
+@doc+ "Generic documentation for this function." ->
 function f(x)
     x
 end
@@ -235,10 +242,19 @@ in docstrings. The [@md_str](#@md_str) entry provides details.
 """
 macro doc(args...); doc(args...); end
 
+function rewrite_doc_plus(args)
+    if isexpr(args[1], :call) && args[1].args[1] == :(+)
+        (:(+), args[1].args[2])
+    else
+        args
+    end
+end
+
 function doc(args...)
+    args = rewrite_doc_plus(args)
     isexpr(last(args), :(->)) || error("@doc: use `->` to separate docs/object:\n$(args)")
 
-    # Check for `@doc*` syntax and separate the args out.
+    # Check for `@doc+` syntax and separate the args out.
     generic, args = docstar(args...)
 
     # Separate out the documentation and metadata (data) from the object (obj).

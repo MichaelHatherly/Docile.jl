@@ -112,13 +112,13 @@ f_2
 
 # Star syntax
 
-@doc* "g_f_30" ->
+@doc+ "g_f_30" ->
 f_30() = ()
 
 @doc "f_30" ->
 f_30(x) = ()
 
-@doc* meta("g_f_31", returns = (Bool,)) ->
+@doc+ meta("g_f_31", returns = (Bool,)) ->
 f_31() = true
 
 @doc meta("f_31", returns = (Bool,)) ->
@@ -126,16 +126,16 @@ f_31(x) = true
 
 # Interpolated docstrings.
 
-@doc* meta(md"x + y = $(1 + 1)", result = "x + y = \$(1 + 1)") ->
+@doc+ meta(md"x + y = $(1 + 1)", result = "x + y = \$(1 + 1)") ->
 f_32() = ()
 
-@doc* meta(md"x + y = $(1 + 1)"i, result = "x + y = 2") ->
+@doc+ meta(md"x + y = $(1 + 1)"i, result = "x + y = 2") ->
 f_33(x) = ()
 
-@doc* meta(md"""$(1 + (sin(3) + 1))""", result = "\$(1 + (sin(3) + 1))") ->
+@doc+ meta(md"""$(1 + (sin(3) + 1))""", result = "\$(1 + (sin(3) + 1))") ->
 f_34() = ()
 
-@doc* meta(md"""$(1 + (sin(3) + 1))"""i, result = "2.1411200080598674") ->
+@doc+ meta(md"""$(1 + (sin(3) + 1))"""i, result = "2.1411200080598674") ->
 f_35(x) = ()
 
 # doc_str, doc_mstr macros.

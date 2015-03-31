@@ -60,4 +60,4 @@ if VERSION < v"0.4.0-dev"
 end
 ```
 
-Note that some Docile features, like `@doc*`, are not present in julia 0.4.
+Note that some Docile features, like `@doc+`, are not present in julia 0.4.
