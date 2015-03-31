@@ -1,3 +1,7 @@
+### v0.4.8
+
+* Deprecate `@doc*` in favour of `@doc+` due to parser error for unary `*`.
+
 ### v0.4.7
 
 * Use `fieldnames` instead of deprecated `names`.
