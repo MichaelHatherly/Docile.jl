@@ -37,6 +37,9 @@ Pkg.add("Docile")
 
 ## Viewing Documentation
 
+Package documentation is available for the [stable][stable-docs-url] and
+[development][latest-docs-url] versions.
+
 To view documentation from the REPL and generate external documentation for a
 package please install the package [*Lexicon*][lexicon-url].
 
@@ -66,5 +69,5 @@ Please file any issues or feature requests you might have through the GitHub
 [latest-docs-img]: https://readthedocs.org/projects/docilejl/badge/?version=latest
 [stable-docs-img]: https://readthedocs.org/projects/docilejl/badge/?version=stable
 
-[latest-docs-url]: https://readthedocs.org/projects/docilejl/?badge=latest
-[stable-docs-url]: https://readthedocs.org/projects/docilejl/?badge=stable
+[latest-docs-url]: http://docilejl.readthedocs.org/en/latest/
+[stable-docs-url]: http://docilejl.readthedocs.org/en/stable/
