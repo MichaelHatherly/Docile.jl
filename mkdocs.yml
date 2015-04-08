@@ -10,3 +10,4 @@ pages:
     - ['syntax.md', 'Manual', 'Syntax']
     - ['api/Docile.md', 'API', 'Docile']
     - ['api/Interface.md', 'API', 'Docile.Interface']
+    - ['api/genindex.md', 'API', 'Index']
