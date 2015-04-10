@@ -46,7 +46,6 @@ package please install the package [*Lexicon*][lexicon-url].
 ## Projects using Docile / Lexicon
 
 * [Docile.jl](https://github.com/MichaelHatherly/Docile.jl) Julia package documentation system.
-
 * [Lexicon.jl](https://github.com/MichaelHatherly/Lexicon.jl) Julia package documentation generator.
 
 If you use Docile / Lexicon please file an issue or send a pull request through GitHub to be listed here.
