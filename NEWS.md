@@ -1,3 +1,7 @@
+### v0.4.9dev
+
+* Uses the new Lexicon version.
+
 ### v0.4.8
 
 * Deprecate `@doc*` in favour of `@doc+` due to parser error for unary `*`.
