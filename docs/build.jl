@@ -16,15 +16,22 @@ cd(dirname(@__FILE__)) do
     end
 
     # Generate and save the contents of docstrings as markdown files.
+    config = nothing
     for m in modules
         filename = joinpath(api_directory, "$(module_name(m)).md")
         try
-            save(filename, m)
+           config = save(filename, m; md_genindex=true, md_permalink=true, md_groupby_category=true)
+            # Save individual API-Index
+            #savegenindex(joinpath(api_directory, "$(module_name(m))_genindex.md"), config)
         catch err
             println(err)
             exit(1)
         end
     end
+    # Save all API-Index: this does not work togehter with individual: just one of them can be used because
+    # calling `savegenindex` will on purpose clear the collected data
+    savegenindex(joinpath(api_directory, "genindex.md"), config)
+
 
     # Add a reminder not to edit the generated files.
     open(joinpath(api_directory, "README.md"), "w") do f
