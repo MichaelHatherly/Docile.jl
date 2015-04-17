@@ -1,3 +1,7 @@
+### v0.4.9
+
+* Fix for tuple changes in julia.
+
 ### v0.4.8
 
 * Deprecate `@doc*` in favour of `@doc+` due to parser error for unary `*`.
