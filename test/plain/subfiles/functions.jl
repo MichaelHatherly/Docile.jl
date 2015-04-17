@@ -91,16 +91,16 @@ f_24{T}(::Matrix{T}, A::Bidiagonal{T}) = ()
 f_25(f::ANY, t::Array, i, lim::Integer, matching::Array{Any,1}) = ()
 
 "f_26"
-f_26(f::Function, types::(Type...)) = ()
+f_26(f::Function, types::Docile.tup(Vararg{Type})) = ()
 
 "f_27"
-f_27(f::Base.Callable, ::(), ts::Tuple...) = ()
+f_27(f::Base.Callable, ::Docile.tup(), ts::Tuple...) = ()
 
 "f_28"
-f_28(x::(Any, Any...)) = ()
+f_28(x::Docile.tup(Any, Vararg{Any})) = ()
 
 "f_29"
-f_29(f::Base.Callable, t::(Any,Any), s::(Any,Any)) = ()
+f_29(f::Base.Callable, t::Docile.tup(Any,Any), s::Docile.tup(Any,Any)) = ()
 
 "f_30"
 f_30{T, S}(::Type{Matrix{T}}, ::Type{Vector{S}}) = ()
@@ -156,7 +156,7 @@ f_35() = ()
 # Grouped docstrings.
 
 "f_36"
-(:f_36, Any...)
+(:f_36, Vararg)
 
 f_36() = ()
 f_36(x) = ()

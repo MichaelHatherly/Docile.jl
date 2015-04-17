@@ -30,13 +30,13 @@ facts("Macro docstrings.") do
             @fact docs(fmeth(getfield(MacroDocs, symbol(fn)))) => fn
         end
 
-        @fact docs(fmeth(MacroDocs.f_30, (Any,))) => "f_30"
-        @fact docs(fmeth(MacroDocs.f_31, (Any,))) => "f_31"
+        @fact docs(fmeth(MacroDocs.f_30, Docile.tup(Any,))) => "f_30"
+        @fact docs(fmeth(MacroDocs.f_31, Docile.tup(Any,))) => "f_31"
 
-        @fact entry(fmeth(MacroDocs.f_31, (Any,))).data[:returns] => (Bool,)
+        @fact entry(fmeth(MacroDocs.f_31, Docile.tup(Any,))).data[:returns] => (Bool,)
 
-        @fact docs(fmeth(Base.getindex, (MacroDocs.Foo, Integer))) => "Base.getindex"
-        @fact docs(fmeth(Base.Meta.show_sexpr, (MacroDocs.Foo,)))  => "Base.Meta.show_sexpr"
+        @fact docs(fmeth(Base.getindex, Docile.tup(MacroDocs.Foo, Integer))) => "Base.getindex"
+        @fact docs(fmeth(Base.Meta.show_sexpr, Docile.tup(MacroDocs.Foo,)))  => "Base.Meta.show_sexpr"
 
     end
 
@@ -88,9 +88,9 @@ facts("Macro docstrings.") do
 
     context("Loop generated docstrings.") do
 
-        for i = 1:2, T = (Integer, Float64), fn = [:lg_1, :lg_2]
+        for i = 1:2, T = [Integer, Float64], fn = [:lg_1, :lg_2]
             func = getfield(MacroDocs, fn)
-            @fact docs(fmeth(func, (Array{T, i},))) => "$(fn) $(i) $(T)"
+            @fact docs(fmeth(func, Docile.tup(Array{T, i},))) => "$(fn) $(i) $(T)"
         end
 
         @fact docs(fmeth(MacroDocs.lg_3)) => "lg_3"

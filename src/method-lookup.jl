@@ -301,15 +301,32 @@ function allmethods(fname)
     out
 end
 
-### Handle call overloading differences between versions.
-if VERSION > v"0.4-"
-    issigmatch(fname::DataType, method, args) = issigmatch(method.sig[2:end], args)
-else
-    issigmatch(fname::DataType, method, args) = issigmatch(method.sig, args)
-end
-issigmatch(fname, method, args) = issigmatch(method.sig, args)
+### Handle differences between versions.
 
-issigmatch(sig, args) = sig == args
+# TODO: remove once Compat.jl has something to cover this change.
+if VERSION ≥ v"0.4-4319"
+    tup(args...) = Tuple{args...}
+else
+    tup(args...) = tuple(args...)
+end
+
+# Tuple overhaul.
+if VERSION ≥ v"0.4-4319"
+    tuple_collect(sig) = collect(sig.parameters)
+else
+    tuple_collect(sig) = collect(sig)
+end
+
+# Call overloading differences.
+if VERSION > v"0.4-"
+    issigmatch(fname::DataType, method, args) = issigmatch(tuple_collect(method.sig)[2:end], args)
+else
+    issigmatch(fname::DataType, method, args) = issigmatch(tuple_collect(method.sig), args)
+end
+issigmatch(fname, method, args) = issigmatch(tuple_collect(method.sig), args)
+
+issigmatch(sig, args) = sig == collect(args)
+
 ###
 
 ## Tuple lookup. ------------------------------------------------------------------------
@@ -317,7 +334,7 @@ issigmatch(sig, args) = sig == args
 "Get all methods from a quoted tuple of the form `(function, T1, T2, ...)`."
 function findtuples(state::State, ex::Expr)
     fname = exec(state, exec(state, ex.args[1])) # Run twice to get rid of QuoteNodes.
-    types = tuple(map(arg -> exec(state, arg), ex.args[2:end])...)
+    types = tup(map(arg -> exec(state, arg), ex.args[2:end])...)
     Set{Method}(methods(fname, types))
 end
 

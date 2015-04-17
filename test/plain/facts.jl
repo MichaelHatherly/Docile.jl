@@ -42,32 +42,32 @@ facts("Plain docstrings.") do
 
         context("Qualified names.") do
 
-            @fact docs(fmeth(factorize, (Symbol, Symbol)))  => "Base.factorize"
-            @fact docs(fmeth(factorize, (AbstractString,))) => "Base.factorize{T}"
-            @fact docs(fmeth(norm, (AbstractString,)))      => "Base.LinAlg.norm"
-            @fact docs(fmeth(norm, (AbstractString, Int)))  => "Base.LinAlg.norm{T}"
+            @fact docs(fmeth(factorize, Docile.tup(Symbol, Symbol)))  => "Base.factorize"
+            @fact docs(fmeth(factorize, Docile.tup(AbstractString,))) => "Base.factorize{T}"
+            @fact docs(fmeth(norm, Docile.tup(AbstractString,)))      => "Base.LinAlg.norm"
+            @fact docs(fmeth(norm, Docile.tup(AbstractString, Int)))  => "Base.LinAlg.norm{T}"
 
         end
 
         context("Grouped methods.") do
 
-            @fact docs(fmeth(PlainDocs.f_36, ()))              => "f_36"
-            @fact docs(fmeth(PlainDocs.f_36, (Any,)))          => "f_36"
-            @fact docs(fmeth(PlainDocs.f_36, (Any, Any,)))     => "f_36"
-            @fact docs(fmeth(PlainDocs.f_36, (Any, Any, Any))) => "f_36"
+            @fact docs(fmeth(PlainDocs.f_36, Docile.tup()))              => "f_36"
+            @fact docs(fmeth(PlainDocs.f_36, Docile.tup(Any,)))          => "f_36"
+            @fact docs(fmeth(PlainDocs.f_36, Docile.tup(Any, Any,)))     => "f_36"
+            @fact docs(fmeth(PlainDocs.f_36, Docile.tup(Any, Any, Any))) => "f_36"
 
         end
 
         context("[] syntax.") do
 
-            @fact docs(fmeth(PlainDocs.f_38, (Any,))) => "f_38/f_39"
-            @fact docs(fmeth(PlainDocs.f_39, (Any,))) => "f_38/f_39"
+            @fact docs(fmeth(PlainDocs.f_38, Docile.tup(Any,))) => "f_38/f_39"
+            @fact docs(fmeth(PlainDocs.f_39, Docile.tup(Any,))) => "f_38/f_39"
 
-            @fact docs(fmeth(PlainDocs.f_41, ())) => "f_41/f_42"
-            @fact docs(fmeth(PlainDocs.f_42, ())) => "f_41/f_42"
+            @fact docs(fmeth(PlainDocs.f_41, Docile.tup())) => "f_41/f_42"
+            @fact docs(fmeth(PlainDocs.f_42, Docile.tup())) => "f_41/f_42"
 
-            @fact docs(fmeth(PlainDocs.f_41, (Any,))) => "f_41/f_42"
-            @fact docs(fmeth(PlainDocs.f_42, (Any,))) => "f_41/f_42"
+            @fact docs(fmeth(PlainDocs.f_41, Docile.tup(Any,))) => "f_41/f_42"
+            @fact docs(fmeth(PlainDocs.f_42, Docile.tup(Any,))) => "f_41/f_42"
 
         end
 
@@ -119,23 +119,23 @@ facts("Plain docstrings.") do
 
         @fact docs(PlainDocs.T_IC_1) => "T_IC_1"
 
-        @fact docs(fmeth(PlainDocs.T_IC_1, ()))     => "T_IC_1/0"
-        @fact docs(fmeth(PlainDocs.T_IC_1, (Any,))) => "T_IC_1/1"
+        @fact docs(fmeth(PlainDocs.T_IC_1, Docile.tup()))     => "T_IC_1/0"
+        @fact docs(fmeth(PlainDocs.T_IC_1, Docile.tup(Any,))) => "T_IC_1/1"
 
         @fact docs(PlainDocs.T_IC_2) => "T_IC_2"
 
-        @fact docs(fmeth(PlainDocs.T_IC_2{Any}, ()))         => "T_IC_2/0"
-        @fact docs(fmeth(PlainDocs.T_IC_2{Any}, (Any,)))     => "T_IC_2/1-2"
-        @fact docs(fmeth(PlainDocs.T_IC_2{Any}, (Any, Any))) => "T_IC_2/1-2"
+        @fact docs(fmeth(PlainDocs.T_IC_2{Any}, Docile.tup()))         => "T_IC_2/0"
+        @fact docs(fmeth(PlainDocs.T_IC_2{Any}, Docile.tup(Any,)))     => "T_IC_2/1-2"
+        @fact docs(fmeth(PlainDocs.T_IC_2{Any}, Docile.tup(Any, Any))) => "T_IC_2/1-2"
 
         @fact docs(PlainDocs.T_IC_3) => "T_IC_3"
 
-        @fact docs(fmeth(PlainDocs.T_IC_3{Real}, (Integer,))) => "T_IC_3/1"
-        @fact docs(fmeth(PlainDocs.T_IC_3{Real}, (Real,Real))) => "T_IC_3/2"
+        @fact docs(fmeth(PlainDocs.T_IC_3{Real}, Docile.tup(Integer,))) => "T_IC_3/1"
+        @fact docs(fmeth(PlainDocs.T_IC_3{Real}, Docile.tup(Real,Real))) => "T_IC_3/2"
         @fact docs(fmeth(PlainDocs.T_IC_3{Real},
-                         (Type{Matrix{Real}},
-                          Vector{Real},
-                          Vararg{Int})
+                         Docile.tup(Type{Matrix{Real}},
+                                    Vector{Real},
+                                    Vararg{Int})
                          )) => "T_IC_3/3"
 
     end
@@ -152,9 +152,9 @@ facts("Plain docstrings.") do
 
     context("Loop generated.") do
 
-        for i = 1:2, T = (Integer, Float64), fn = [:lg_1, :lg_2]
+        for i = 1:2, T = [Integer, Float64], fn = [:lg_1, :lg_2]
             func = getfield(PlainDocs, fn)
-            @fact docs(fmeth(func, (Array{T, i},))) => "$(fn) $(i) $(T)"
+            @fact docs(fmeth(func, Docile.tup(Array{T, i},))) => "$(fn) $(i) $(T)"
         end
 
         @fact docs(fmeth(PlainDocs.lg_3)) => "lg_3"
@@ -173,7 +173,7 @@ facts("Plain docstrings.") do
 
     context("Comment blocks.") do
 
-        comments = filter((obj, ent) -> isa(obj, Docile.Comment), meta.entries)
+        comments = filter((obj, ent) -> typeof(ent).parameters[1] == :comment, meta.entries)
 
         @fact length(comments) => 3
 

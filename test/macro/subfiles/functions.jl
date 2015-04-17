@@ -91,16 +91,16 @@ f_24{T}(::Matrix{T}, A::Bidiagonal{T}) = ()
 f_25(f::ANY, t::Array, i, lim::Integer, matching::Array{Any,1}) = ()
 
 @doc "f_26" ->
-f_26(f::Function, types::(Type...)) = ()
+f_26(f::Function, types::Docile.tup(Vararg{Type})) = ()
 
 @doc "f_27" ->
-f_27(f::Base.Callable, ::(), ts::Tuple...) = ()
+f_27(f::Base.Callable, ::Docile.tup(), ts::Tuple...) = ()
 
 @doc "f_28" ->
-f_28(x::(Any, Any...)) = ()
+f_28(x::Docile.tup(Any, Vararg{Any})) = ()
 
 @doc "f_29" ->
-f_29(f::Base.Callable, t::(Any,Any), s::(Any,Any)) = ()
+f_29(f::Base.Callable, t::Docile.tup(Any,Any), s::Docile.tup(Any,Any)) = ()
 
 # Generic functions.
 
