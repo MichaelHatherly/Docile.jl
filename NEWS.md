@@ -1,3 +1,7 @@
+### v0.4.10
+
+* Fix for `TypeVar` equality in method lookup.
+
 ### v0.4.9
 
 * Fix for tuple changes in julia.
