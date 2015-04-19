@@ -325,7 +325,16 @@ else
 end
 issigmatch(fname, method, args) = issigmatch(tuple_collect(method.sig), args)
 
-issigmatch(sig, args) = sig == collect(args)
+function issigmatch(sig, args)
+    same = length(sig) == length(args)
+    for (a, b) in zip(sig, args)
+        same &= eq(a, b)
+    end
+    same
+end
+
+eq(a, b)                   = a == b
+eq(a::TypeVar, b::TypeVar) = a.name == b.name && a.lb == b.lb && a.ub == b.ub
 
 ###
 
