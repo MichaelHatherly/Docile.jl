@@ -1,3 +1,7 @@
+### v0.4.11
+
+* Fix for changes in import behaviour.
+
 ### v0.4.10
 
 * Fix for `TypeVar` equality in method lookup.
