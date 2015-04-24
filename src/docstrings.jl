@@ -72,6 +72,7 @@ This now becomes
 ```julia
 @doc meta("Documentation goes here...", returns = (Int,)) ->
 foobar(x) = 2x + 1
+
 ```
 
 Specifying an external file as documentation can be done in the following way:
@@ -79,6 +80,7 @@ Specifying an external file as documentation can be done in the following way:
 ```julia
 @doc meta(file = "../my/external/file.md") ->
 foobar(x) = 2x + 1
+
 ```
 
 **Note:** the `file` path is relative to the current source file.

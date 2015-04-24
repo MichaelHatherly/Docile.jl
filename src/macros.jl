@@ -188,6 +188,7 @@ module is loaded.
 immutable G
     # ...
 end
+
 ```
 
 ### Documenting Functions and Methods
@@ -208,6 +209,7 @@ function f(x)
 end
 
 @doc "Documentation for generic function `f`." -> f
+
 ```
 
 *Note:* The `f` may be written directly after the `->` or on the subsequent
@@ -225,6 +227,7 @@ associated with the `Function` object rather than that particular `Method`.
 function f(x)
     x
 end
+
 ```
 
 ### Documentation Formatting and Interpolation
