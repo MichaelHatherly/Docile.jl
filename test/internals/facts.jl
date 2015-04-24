@@ -2,6 +2,9 @@ module InternalTests
 
 using Docile, Docile.Interface, FactCheck
 
+# Hack around a bug in 0.4 base, https://github.com/JuliaLang/julia/issues/10983.
+module m end
+
 facts("Internals.") do
 
     context("Metadata.") do
@@ -13,7 +16,6 @@ facts("Internals.") do
 
     context("Code execution.") do
 
-        m = Module()
         s = Docile.State(m)
 
         @fact Docile.exec(s, :(1:3:10)) => 1:3:10
