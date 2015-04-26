@@ -1,3 +1,7 @@
+### v0.4.12
+
+* Updates `build.jl` to Lexicon v0.1.9.
+
 ### v0.4.11
 
 * Fix for changes in import behaviour.

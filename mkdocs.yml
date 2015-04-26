@@ -9,4 +9,5 @@ pages:
     - ['manual.md', 'Manual', 'Overview']
     - ['syntax.md', 'Manual', 'Syntax']
     - ['api/Docile.md', 'API', 'Docile']
-    - ['api/Interface.md', 'API', 'Docile.Interface']
+    - ['api/Docile.Interface.md', 'API', 'Docile.Interface']
+    - ['api/index.md', 'API', 'Index']
