@@ -47,9 +47,11 @@ package please install the package [*Lexicon*][lexicon-url].
 
 * [AverageShiftedHistograms.jl](https://github.com/joshday/AverageShiftedHistograms.jl) David Scott's Average Shifted Histogram density estimation.
 * [BDF.jl](https://github.com/sam81/BDF.jl) Module to read Biosemi BDF files with the Julia programming language.
+* [BrainWave.jl](https://github.com/sam81/BrainWave.jl) Julia functions to process electroencephalographic recordings
 * [Docile.jl](https://github.com/MichaelHatherly/Docile.jl) Julia package documentation system.
 * [IterativeSolvers.jl](https://github.com/JuliaLang/IterativeSolvers.jl) Implement Arnoldi and Lanczos methods for svds and eigs
 * [Lexicon.jl](https://github.com/MichaelHatherly/Lexicon.jl) Julia package documentation generator.
+* [SDT.jl](https://github.com/sam81/SDT.jl) Signal detection theory measures with Julia
 * [Sims.jl](https://github.com/tshort/Sims.jl) Experiments with non-causal, equation-based modeling in Julia.
 
 If you use Docile / Lexicon please file an issue or send a pull request through GitHub to be listed here.
