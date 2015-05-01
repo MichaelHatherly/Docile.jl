@@ -58,9 +58,10 @@ type Entry{category} <: AbstractEntry # category::Symbol
     modname :: Module
 
     "Handle the `meta` method syntax for `@doc`."
-    function Entry(modname::Module, source, tup::Tuple)
+    function Entry(modname::Module, source, code, tup::Tuple)
         doc, data = tup
         data[:source] = source
+        data[:code] = code
 
         # When a `file` field is provided in the metadata override the given docstring and
         # instead use the file's contents.
@@ -72,16 +73,18 @@ type Entry{category} <: AbstractEntry # category::Symbol
     end
 
     "Convenience constructor for simple string docs."
-    function Entry(modname::Module, source, doc::AbstractString)
+    function Entry(modname::Module, source, code, doc::AbstractString)
         data = Dict{Symbol, Any}()
         data[:source] = source
+        data[:code] = code
         new(Docs{getdoc(modname).data[:format]}(doc), data, modname)
     end
 
     "For md\"\" etc. -style docstrings."
-    function Entry(modname::Module, source, doc::Docs)
+    function Entry(modname::Module, source, code, doc::Docs)
         data = Dict{Symbol, Any}()
         data[:source] = source
+        data[:code] = code
         new(doc, data, modname)
     end
 
@@ -135,8 +138,8 @@ function pushmeta!(doc::Metadata, object, entry::Entry)
 end
 
 "Metatdata interface for *single* objects. `args` is the docstring and metadata dict."
-function setmeta!(modname, object, category, source, args...)
-    entry = Entry{category}(modname, source, args...)
+function setmeta!(modname, object, category, source, code, args...)
+    entry = Entry{category}(modname, source, code, args...)
     # translate symbolic macro names into their underlying functions.
     if category ≡ :macro
         entry.data[:signature] = object
@@ -149,8 +152,8 @@ end
 For varargs method definitions since they generate multiple method objects. Use
 the *same* Entry object for each object's documentation.
 """
-function setmeta!(modname, objects::Set, category, source, args...)
-    entry = Entry{category}(modname, source, args...)
+function setmeta!(modname, objects::Set, category, source, code, args...)
+    entry = Entry{category}(modname, source, code, args...)
     meta = getdoc(modname)
     for object in objects
         pushmeta!(meta, object, entry)

@@ -279,8 +279,8 @@ function doc(args...)
     if generic
 
         qmod, n = qualifiedname(obj.args[2])
-
-        esc(:($autodocs; $obj; Docile.setmeta!(current_module(), $n, :function, $source, $(data...)); $n))
+        code = "DummyCode"
+        esc(:($autodocs; $obj; Docile.setmeta!(current_module(), $n, :function, $source, $code, $(data...)); $n))
 
     elseif c == :method
 
@@ -289,8 +289,8 @@ function doc(args...)
         before = gensym()
         oset = :($before = isdefined($qmod, $qn) ? Set(methods($n)) : Set{Method}())
         nset = :(setdiff(Set(methods($n)), $before))
-
-        esc(:($autodocs; $oset; $obj; Docile.setmeta!(current_module(), $nset, :method, $source, $(data...)); $n))
+        code = "DummyCode"
+        esc(:($autodocs; $oset; $obj; Docile.setmeta!(current_module(), $nset, :method, $source, $code, $(data...)); $n))
 
     else
 
@@ -299,7 +299,8 @@ function doc(args...)
 
         # Macros, types, globals, modules, functions (not attached to a method)
         var = c in (:type, :symbol) ? :($n) : :($qn)
-        esc(:($autodocs; $obj; Docile.setmeta!(current_module(), $var, $cat, $source, $(data...))))
+        code = "DummyCode"
+        esc(:($autodocs; $obj; Docile.setmeta!(current_module(), $var, $cat, $source, $code, $(data...))))
 
     end
 end
