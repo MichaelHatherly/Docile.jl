@@ -99,12 +99,13 @@ end
 addentry!(dict, object, entry) = setindex!(dict, entry, object)
 
 function processcomment(meta, state, file, block)
-    mac, line, _ = block
+    mac, line, expr = block
+
     source = (linenumber(line), file)
+    code = expr
     docs   = Docs{meta.data[:format]}(exec(state, mac))
 
     object = Comment()
-    code = "DummyCode"
     entry  = Entry{:comment}(meta.modname, source, code, docs)
 
     object, entry
@@ -114,6 +115,7 @@ end
 function processblock(meta, state, file, block)
     # Split valid block into docstring, intermediate line, and documentable expression.
     docstring, line, expr = block
+    code = expr  # do that for now before extracting anu quoted object values
 
     # When encountering a quoted object extract it's value first.
     expr = extract_quoted(expr)
@@ -131,7 +133,6 @@ function processblock(meta, state, file, block)
     # :symbol category is resolved now into either :function or :module.
     category = recheck_category(object, category)
 
-    code = "DummyCode"
     entry = Entry{category}(meta.modname, source, code, docs)
 
     postprocess_entry!(category, meta, entry, expr)
