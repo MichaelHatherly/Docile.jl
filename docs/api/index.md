@@ -35,6 +35,8 @@
 
 ## Methods [Internal]
 
+[addentry_codedata!(entry::Docile.Entry{category}, code)](Docile.md#method__addentry_codedata.1)  Adds and filters which code are added to entry.data
+
 [builddocs!(meta)](Docile.md#method__builddocs.1)  Parse `root` and `files`, adding available docstrings to `objects`.
 
 [call(::Type{Docile.Manual}, ::Void, files)](Docile.md#method__call.1)  Usage from REPL, use current directory as root.
@@ -125,9 +127,9 @@
 
 [separate(expr)](Docile.md#method__separate.1)  Split the expressions passed to `@doc` into data and object. The docstring and
 
-[setmeta!(modname, object, category, source, args...)](Docile.md#method__setmeta.1)  Metatdata interface for *single* objects. `args` is the docstring and metadata dict.
+[setmeta!(modname, object, category, source, code, args...)](Docile.md#method__setmeta.1)  Metatdata interface for *single* objects. `args` is the docstring and metadata dict.
 
-[setmeta!(modname, objects::Set{T}, category, source, args...)](Docile.md#method__setmeta.2)  For varargs method definitions since they generate multiple method objects. Use
+[setmeta!(modname, objects::Set{T}, category, source, code, args...)](Docile.md#method__setmeta.2)  For varargs method definitions since they generate multiple method objects. Use
 
 [unravel(entries, meta, state, file, ex::Expr)](Docile.md#method__unravel.1)  Execute for-loops containing `@eval` blocks and retrieve documented objects.
 
