@@ -132,6 +132,7 @@ function processblock(meta, state, file, block)
     category = recheck_category(object, category)
 
     entry = Entry{category}(meta.modname, source, docs)
+    addentry_codedata!(entry, expr)
 
     postprocess_entry!(category, meta, entry, expr)
 

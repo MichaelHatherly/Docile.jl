@@ -135,8 +135,9 @@ function pushmeta!(doc::Metadata, object, entry::Entry)
 end
 
 "Metatdata interface for *single* objects. `args` is the docstring and metadata dict."
-function setmeta!(modname, object, category, source, args...)
+function setmeta!(modname, object, category, source, code, args...)
     entry = Entry{category}(modname, source, args...)
+    addentry_codedata!(entry, code)
     # translate symbolic macro names into their underlying functions.
     if category ≡ :macro
         entry.data[:signature] = object
@@ -149,11 +150,19 @@ end
 For varargs method definitions since they generate multiple method objects. Use
 the *same* Entry object for each object's documentation.
 """
-function setmeta!(modname, objects::Set, category, source, args...)
+function setmeta!(modname, objects::Set, category, source, code, args...)
     entry = Entry{category}(modname, source, args...)
+    addentry_codedata!(entry, code)
     meta = getdoc(modname)
     for object in objects
         pushmeta!(meta, object, entry)
+    end
+end
+
+"Adds and filters which code are added to entry.data"
+function addentry_codedata!(entry::Entry, code)
+    if ismethod(code) || ismacro(code)
+        entry.data[:code] = code
     end
 end
 
