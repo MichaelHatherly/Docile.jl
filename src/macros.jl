@@ -262,6 +262,7 @@ function doc(args...)
 
     # Separate out the documentation and metadata (data) from the object (obj).
     data, obj = separate(args...)
+    code = Expr(:quote, obj.args[2])
 
     # Find the category and name of an object. Build corresponding quoted expressions
     # for use in the `quote` returned. Macros names are prefixed by `@` here.
@@ -280,7 +281,7 @@ function doc(args...)
 
         qmod, n = qualifiedname(obj.args[2])
 
-        esc(:($autodocs; $obj; Docile.setmeta!(current_module(), $n, :function, $source, $(data...)); $n))
+        esc(:($autodocs; $obj; Docile.setmeta!(current_module(), $n, :function, $source, $code, $(data...)); $n))
 
     elseif c == :method
 
@@ -290,7 +291,7 @@ function doc(args...)
         oset = :($before = isdefined($qmod, $qn) ? Set(methods($n)) : Set{Method}())
         nset = :(setdiff(Set(methods($n)), $before))
 
-        esc(:($autodocs; $oset; $obj; Docile.setmeta!(current_module(), $nset, :method, $source, $(data...)); $n))
+        esc(:($autodocs; $oset; $obj; Docile.setmeta!(current_module(), $nset, :method, $source, $code, $(data...)); $n))
 
     else
 
@@ -299,7 +300,7 @@ function doc(args...)
 
         # Macros, types, globals, modules, functions (not attached to a method)
         var = c in (:type, :symbol) ? :($n) : :($qn)
-        esc(:($autodocs; $obj; Docile.setmeta!(current_module(), $var, $cat, $source, $(data...))))
+        esc(:($autodocs; $obj; Docile.setmeta!(current_module(), $var, $cat, $source, $code, $(data...))))
 
     end
 end
