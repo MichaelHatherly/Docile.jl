@@ -189,3 +189,8 @@ function getmeta(m::Module, obj)
     haskey(meta, obj) || throw(ArgumentError("'$(obj)' not found."))
     meta[obj]::Dict{Symbol, Any}
 end
+
+"""
+List of all documented objects in a module `m`.
+"""
+objects(m::Module) = collect(keys(getraw(m)))
