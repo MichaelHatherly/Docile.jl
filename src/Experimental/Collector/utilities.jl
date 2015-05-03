@@ -18,9 +18,8 @@ getobject(H"vcat, vect", m, s, x)        = findvcats(s, x)
 
 recheck(::Module,        ::Symbol) = :module
 recheck(::Any,        cat::Symbol) = cat
-recheck(::Function,   cat::Symbol) = cat ≡ :symbol ? :function : cat
-recheck(::Set{Function}, ::Symbol) = :function
-recheck(::Set{Method},   ::Symbol) = :method
+recheck(::Function,   cat::Symbol) = ifelse(cat == :macro, cat, :function)
+recheck(::Method,        ::Symbol) = :method
 
 
 """

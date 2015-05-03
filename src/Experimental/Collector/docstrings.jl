@@ -91,7 +91,6 @@ function get_docs!(output, moduledata, state, file, block)
     category = getcategory(expr)
 
     object   = getobject(category, moduledata, state, expr)
-    category = recheck(object, category)
     metadata = @compat(Dict(:source => source, :category => category))
 
     postprocess!(category, metadata, expr)
@@ -122,8 +121,9 @@ postprocess!(::Head, metadata, ex) = metadata # No-op.
 Save docstrings and metadata for the objects that have been found.
 """
 function store!(output, object, docs, metadata)
+    metadata[:category]       = recheck(object, metadata[:category])
     output.rawstrings[object] = docs
-    output.metadata[object]  = metadata
+    output.metadata[object]   = metadata
 end
 function store!(output, objects::Set, docs, metadata)
     for object in objects
