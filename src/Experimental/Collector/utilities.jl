@@ -82,12 +82,19 @@ issymbol(::Any)    = false
 """
 Does the tuple of expressions represent a valid docstring and associated object?
 """
-isdocblock(block) = isdocstring(block[1]) && isline(block[2]) && isdocumentable(block[3])
+isdocblock(block) =
+    isline(block[1])         &&
+    isdocstring(block[2])    &&
+    isline(block[3])         &&
+    isdocumentable(block[4])
 
 """
 Is the tuple a valid comment block?
 """
-is_aside(block) = isexpr(block[2], [:vect, :vcat]) && isdocstring(block[2].args[1])
+is_aside(block) =
+    isline(block[1])                 &&
+    isexpr(block[2], [:vect, :vcat]) &&
+    isdocstring(block[2].args[1])
 
 isline(::LineNumberNode) = true
 isline(x::Expr)          = isexpr(x, :line)

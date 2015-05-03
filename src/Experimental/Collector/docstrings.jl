@@ -33,8 +33,8 @@ function process!(output, moduledata, state, file, expr::Expr)
     skipexpr(expr) && return output
     # Add type parameters to the scope for inner constructor usage when in a type.
     scoped(state, expr) do
-        for n in 1:(length(expr.args) - 2)
-            block = expr.args[n:(n + 2)]
+        for n in 1:(length(expr.args) - 3)
+            block = expr.args[n:(n + 3)]
             if is_aside(block)
                 get_aside!(output, moduledata, state, file, block)
             elseif isdocblock(block)
@@ -42,14 +42,14 @@ function process!(output, moduledata, state, file, expr::Expr)
             end
             process!(output, moduledata, state, file, block[1])
         end
-        # Since we partition the argument list into overlapping blocks of 3, the
-        # last 2 arguments are not passed to ``processast``. Do that now if needed.
-        for arg in expr.args[max(length(expr.args) - 2, 1):end]
+        # Since we partition the argument list into overlapping blocks of 4, the
+        # last 3 arguments are not passed to `processast`. Do that now if needed.
+        for arg in expr.args[max(length(expr.args) - 3, 1):end]
             process!(output, moduledata, state, file, arg)
         end
-        # Check for a comment block at the end of a file.
+        # Check for an aside at the end of a file.
         if length(expr.args) >= 2
-            block = (expr.args[end-1:end]..., LineNumberNode(0)) # Dummy line node.
+            block = (expr.args[end-1:end]..., LineNumberNode(0), nothing) # Dummy line node.
             is_aside(block) && get_aside!(output, moduledata, state, file, block)
         end
     end
@@ -62,14 +62,15 @@ process!(output, moduledata, state, file, other) = output # Skip non-expressions
 Extract the comment block from expressions and capture metadata.
 """
 function get_aside!(output, moddata, state, file, block)
-    line, comment, _ = block
+    line, comment, _, _ = block
 
     docs   = findexternal(first(exec(state, comment)))
     source = (linenumber(line), file)
     object = Aside(file, source[1])
 
     output.rawstrings[object] = docs
-    output.metadata[object]   = @compat(Dict(:source => source, :category => :comment))
+    output.metadata[object]   = @compat(Dict(:textsource => source,
+                                             :category => :aside))
 
     output
 end
@@ -78,20 +79,23 @@ end
 Extract a docstring and associated object(s) as well as metadata.
 """
 function get_docs!(output, moduledata, state, file, block)
-    docstring, line, expr = block
+    aboveline, docstring, underline, expr = block
 
     expr = unwrap_macrocall(extract_quoted(expr))
 
     # Escape if we haven't unwrapped a documentatable object!
     (isdocumentable(expr) && !ismacrocall(expr)) || return output
 
-    docs   = findexternal(exec(state, docstring))
-    source = (linenumber(line), file)
+    docs       = findexternal(exec(state, docstring))
+    textsource = (linenumber(aboveline), file)
+    codesource = (linenumber(underline), file)
 
     category = getcategory(expr)
 
     object   = getobject(category, moduledata, state, expr)
-    metadata = @compat(Dict(:source => source, :category => category))
+    metadata = @compat(Dict(:textsource => textsource,
+                            :codesource => codesource,
+                            :category   => category))
 
     postprocess!(category, metadata, expr)
     store!(output, object, docs, metadata)
