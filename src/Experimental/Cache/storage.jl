@@ -30,7 +30,14 @@ let
     "Return the `PackageData` object that represents a registered package."
     @+ function getpackage(m::Module)
         while m != Main
-            haspackage(m) && return PACK[m]::PackageData
+            if haspackage(m)
+                # Collect package data if not cached yet.
+                if !isa(PACK[m], PackageData)
+                    modulename, rootfile, args = PACK[m]
+                    setpackage!(m, Collector.PackageData(modulename, rootfile; args...))
+                end
+                return PACK[m]::PackageData
+            end
             m = module_parent(m)
         end
         throw(ArgumentError("'$(m)' is not a cached package."))
@@ -38,17 +45,37 @@ let
 
     "Register a package with Docile to allow for docstring parsing."
     @+ function setpackage!(m::Module, p::PackageData)
-        haspackage(m) && warn("Overwriting package '$(m)'.")
+        (haspackage(m) && isa(PACK[m], PackageData)) && warn("Overwriting package '$(m)'.")
         for (mod, data) in p.modules
             MODS[mod] = data
         end
         PACK[m] = p
     end
+
+    "Lazy cache package by storing the module, rootfile, and args instead of a `PackageData`."
+    @+ setpackage!(m::Module, lazy) = PACK[m] = lazy
 end
 
+"""
+Register a package with Docile.
+
+**Note:** Initially just the module, rootfile and args are stored.
+
+Only when documentation is requested for a package is that package parsed and
+cached properly. This means registering packages does not impact load times
+significantly.
+
+Example:
+
+    Docile.Cache.register!(
+        Docile,
+        Pkg.dir("Docile", "src", "Docile.jl");
+        format = Docile.Formats.PlaintextFormatter
+    )
+
+"""
 function register!(modulename::Module, rootfile::AbstractString; args...)
-    package = Collector.PackageData(modulename, rootfile; args...)
-    setpackage!(modulename, package)
+    setpackage!(modulename, (modulename, rootfile, args))
     info("Registered package '$(modulename)'.")
 end
 
