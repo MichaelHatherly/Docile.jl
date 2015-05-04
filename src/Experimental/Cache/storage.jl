@@ -20,8 +20,16 @@ let
 
     "Get the `ModuleData` object associated with a module `m`."
     @+ function getmodule(m::Module)
-        hasmodule(m) || throw(ArgumentError("No module '$(m)' currently cached."))
-        MODS[m]
+        hasmodule(m) && return MODS[m]::ModuleData
+        p = m
+        while p != Main
+            if haspackage(p)
+                getpackage(p)
+                return MODS[m]::ModuleData
+            end
+            p = module_parent(p)
+        end
+        throw(ArgumentError("No module '$(m)' currently cached."))
     end
 
     "Has the package with root module `m` been registered with Docile?"
@@ -75,6 +83,7 @@ Example:
 
 """
 function register!(modulename::Module, rootfile::AbstractString; args...)
+    isfile(rootfile) || throw(ArgumentError("Cannot find file '$(rootfile)'."))
     setpackage!(modulename, (modulename, rootfile, args))
     info("Registered package '$(modulename)'.")
 end

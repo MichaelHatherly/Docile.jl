@@ -6,6 +6,7 @@ A rough sketch of future Docile with external documentation features.
 include("DocileExperimental.jl")
 
 # Register a package by specifying a root module and file. Use `PlaintextFormatter`.
+# The module to be registered must already been imported with `import` or `using`.
 DocileExperimental.Cache.register!(
     DocileExperimental,
     "/home/mike/.julia/v0.4/Docile/src/Experimental/DocileExperimental.jl";
@@ -15,12 +16,12 @@ DocileExperimental.Cache.register!(
 # Get the raw docstrings from the `Cache` module.
 DocileExperimental.Cache.getraw(DocileExperimental.Cache)
 
-# Parse all docstrings in the `Cache` module.
-DocileExperimental.Cache.parse!(DocileExperimental.Cache)
+# Parse all docstrings in the `Formats` module.
+DocileExperimental.Cache.parse!(DocileExperimental.Formats)
 
-# Get the parsed docstrings from the `Cache` module.
+# Get the parsed docstrings from the `Collector` module.
 # Since `PlaintextFormatter` is a simple passthrough the output is the same as above.
-DocileExperimental.Cache.getparsed(DocileExperimental.Cache)
+DocileExperimental.Cache.getparsed(DocileExperimental.Collector)
 ```
 
 ## Differences

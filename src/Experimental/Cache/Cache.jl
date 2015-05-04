@@ -5,7 +5,7 @@ module Cache
 using Compat
 
 import ..Utilities
-import ..Collector: Collector, PackageData
+import ..Collector: Collector, PackageData, ModuleData
 import ..Formats
 
 include("utilities.jl")
