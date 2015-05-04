@@ -21,6 +21,7 @@ DocileExperimental.Cache.parse!(DocileExperimental.Formats)
 
 # Get the parsed docstrings from the `Collector` module.
 # Since `PlaintextFormatter` is a simple passthrough the output is the same as above.
+DocileExperimental.Cache.parse!(DocileExperimental.Collector)
 DocileExperimental.Cache.getparsed(DocileExperimental.Collector)
 ```
 
