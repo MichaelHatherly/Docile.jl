@@ -105,6 +105,10 @@ type PackageData
         # Separate each submodule's data from the package's.
         modules = Dict{Module, ModuleData}()
         for m in mods
+
+            # Discard modules that don't have a rootfile.
+            haskey(roots, m) || continue
+
             name = module_name(m)
 
             mroot   = roots[m]
