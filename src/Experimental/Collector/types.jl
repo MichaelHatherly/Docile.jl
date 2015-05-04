@@ -63,17 +63,23 @@ type PackageData
     modules    :: Dict{Module, ModuleData}
     metadata   :: Dict{Symbol, Any}
 
+    # Find files and parse them to avoid duplication below.
     function PackageData(mod::Module, rootfile::AbstractString; kwargs...)
-
-        metadata = Dict(kwargs)
-
         candidates = matching(dirname(rootfile)) do f
             isfile(f) && endswith(f, ".jl")
         end
+        parsed = [file => parsefile(file) for file in candidates]
+        PackageData(mod, rootfile, candidates, parsed; kwargs...)
+    end
+
+    # Called directly by `findpackages` to avoid reparsing files.
+    function PackageData(mod::Module, rootfile::AbstractString, candidates, parsed; kwargs...)
+
+        metadata = Dict(kwargs)
+        haskey(metadata, :format) || (metadata[:format] = Formats.PlaintextFormatter)
 
         mods   = submodules(mod)
-        parsed = [file => parsefile(file) for file in candidates]
-        files  = [m    => includedfiles(m, candidates) for m in mods]
+        files  = [m => includedfiles(m, candidates) for m in mods]
 
         roots = Dict{Module, UTF8String}()
         for m in mods

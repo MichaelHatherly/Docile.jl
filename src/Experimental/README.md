@@ -3,15 +3,7 @@
 A rough sketch of future Docile with external documentation features.
 
 ```jl
-include("DocileExperimental.jl")
-
-# Register a package by specifying a root module and file. Use `PlaintextFormatter`.
-# The module to be registered must already been imported with `import` or `using`.
-DocileExperimental.Cache.register!(
-    DocileExperimental,
-    "/home/mike/.julia/v0.4/Docile/src/Experimental/DocileExperimental.jl";
-    format = DocileExperimental.Formats.PlaintextFormatter
-)
+require("DocileExperimental.jl")
 
 # Get the raw docstrings from the `Cache` module.
 DocileExperimental.Cache.getraw(DocileExperimental.Cache)
@@ -27,8 +19,8 @@ DocileExperimental.Cache.getparsed(DocileExperimental.Collector)
 
 ## Differences
 
-Able to document a module without being imported into it. This allows a package
-to be documented with a single action, `register!`.
+Able to automatically document a module without being imported into it. Checks
+the `Base.package_list` for newly added packages to document.
 
 No `Entry` objects. `category` is defined by a `metadata` field per object.
 

@@ -152,6 +152,49 @@ function findmodule(expr::Expr, mod::Symbol)
 end
 findmodule(other, mod) = Expr(:missing)
 
+"""
+Return the `PackageData` objects associated with a set of files.
+"""
+function findpackages(rootfiles::Set{UTF8String})
+    packages = Dict{Module, PackageData}()
+    parsed   = Dict{UTF8String, Expr}()
+    for root in rootfiles
+        files   = matching(f -> isfile(f) && endswith(f, ".jl"), dirname(root))
+        modules = Set{Module}()
+        for file in files
+            haskey(parsed, file) || (parsed[file] = parsefile(file))
+            definedmodules!(modules, parsed[file])
+        end
+        for mod in modules
+            packages[mod] = PackageData(mod, root, files, parsed)
+        end
+    end
+    packages
+end
+
+"""
+Return the set of toplevel modules that are defined in an expression.
+"""
+function definedmodules!(out, expr::Expr)
+    if isexpr(expr, :module)
+        name = expr.args[2]
+        if isdefined(Main, name)
+            object = getfield(Main, name)
+            isrootmodule(object) && push!(out, object)
+        end
+    end
+    for arg in expr.args
+        definedmodules!(out, arg)
+    end
+    out
+end
+definedmodules!(out, other) = out
+
+"""
+Is the module a toplevel one not including the module `Main`?
+"""
+isrootmodule(m::Module) = module_parent(m) == Main && m != Main
+isrootmodule(other)     = false
 
 """
 Does the expression `expr` represent the module name `mod`?

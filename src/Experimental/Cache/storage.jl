@@ -11,82 +11,82 @@ macro (+)(expr)
     end
 end
 
+
 let
+    const LOADED = Set{UTF8String}()
+    const COUNT  = Int[0]
+
+    # Diff the loaded packages with the packages that have been imported into
+    # Julia. Return the set of newly added packages. Cache all newly added
+    # packages.
+    function update!()
+        diff = Set{UTF8String}()
+        if length(Base.package_list) > COUNT[1]
+            info("Updating cached package list...")
+            # Find newly added packages.
+            loaded = Set{UTF8String}(keys(Base.package_list))
+            diff   = setdiff(loaded, LOADED)
+            # Update the current package stats.
+            LOADED   = loaded
+            COUNT[1] = length(loaded)
+        end
+        for (rootmodule, package) in Collector.findpackages(diff)
+            setpackage!(rootmodule, package)
+        end
+    end
+
+
     const PACK = ObjectIdDict() # Module => PackageData
     const MODS = ObjectIdDict() # Module => ModuleData
 
-    "Has the module `m` been registered with Docile."
-    @+ hasmodule(m::Module) = haskey(MODS, m)
+    """
+    Has the module `m` been registered with Docile.
 
-    "Get the `ModuleData` object associated with a module `m`."
+    When module isn't found then check for newly added packages first.
+    """
+    @+ hasmodule(m::Module) = haskey(MODS, m) ? true : (update!(); haskey(MODS, m))
+
+    """
+    Get the `ModuleData` object associated with a module `m`.
+    """
     @+ function getmodule(m::Module)
         hasmodule(m) && return MODS[m]::ModuleData
         p = m
         while p != Main
-            if haspackage(p)
-                getpackage(p)
-                return MODS[m]::ModuleData
-            end
+            haspackage(p) && return MODS[m]::ModuleData
             p = module_parent(p)
         end
         throw(ArgumentError("No module '$(m)' currently cached."))
     end
 
-    "Has the package with root module `m` been registered with Docile?"
-    @+ haspackage(m::Module) = haskey(PACK, m)
+    """
+    Has the package with root module `m` been registered with Docile?
 
-    "Return the `PackageData` object that represents a registered package."
+    When package isn't found then check for newly added packages first.
+    """
+    @+ haspackage(m::Module) = haskey(PACK, m) ? true : (update!(); haskey(PACK, m))
+
+    """
+    Return the `PackageData` object that represents a registered package.
+    """
     @+ function getpackage(m::Module)
+        mod = m
         while m != Main
-            if haspackage(m)
-                # Collect package data if not cached yet.
-                if !isa(PACK[m], PackageData)
-                    modulename, rootfile, args = PACK[m]
-                    setpackage!(m, Collector.PackageData(modulename, rootfile; args...))
-                end
-                return PACK[m]::PackageData
-            end
+            haspackage(m) && return PACK[m]::PackageData
             m = module_parent(m)
         end
-        throw(ArgumentError("'$(m)' is not a cached package."))
+        throw(ArgumentError("'$(mod)' is not a cached package."))
     end
 
-    "Register a package with Docile to allow for docstring parsing."
-    @+ function setpackage!(m::Module, p::PackageData)
-        (haspackage(m) && isa(PACK[m], PackageData)) && warn("Overwriting package '$(m)'.")
+    function setpackage!(m::Module, p::PackageData)
+        haspackage(m) && warn("Overwriting package '$(m)'.")
         for (mod, data) in p.modules
             MODS[mod] = data
         end
         PACK[m] = p
     end
-
-    "Lazy cache package by storing the module, rootfile, and args instead of a `PackageData`."
-    @+ setpackage!(m::Module, lazy) = PACK[m] = lazy
 end
 
-"""
-Register a package with Docile.
-
-**Note:** Initially just the module, rootfile and args are stored.
-
-Only when documentation is requested for a package is that package parsed and
-cached properly. This means registering packages does not impact load times
-significantly.
-
-Example:
-
-    Docile.Cache.register!(
-        Docile,
-        Pkg.dir("Docile", "src", "Docile.jl");
-        format = Docile.Formats.PlaintextFormatter
-    )
-
-"""
-function register!(modulename::Module, rootfile::AbstractString; args...)
-    isfile(rootfile) || throw(ArgumentError("Cannot find file '$(rootfile)'."))
-    setpackage!(modulename, (modulename, rootfile, args))
-    info("Registered package '$(modulename)'.")
-end
 
 let
     const DOCS = ObjectIdDict() # Module => DocsCache

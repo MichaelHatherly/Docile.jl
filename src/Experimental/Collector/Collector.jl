@@ -21,6 +21,8 @@ import ..Runner:
     pushscope!,
     popscope!
 
+import ..Formats
+
 include("utilities.jl")
 include("search.jl")
 include("types.jl")
