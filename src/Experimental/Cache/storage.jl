@@ -14,21 +14,18 @@ end
 
 let
     const LOADED = Set{UTF8String}()
-    const COUNT  = Int[0]
 
     # Diff the loaded packages with the packages that have been imported into
-    # Julia. Return the set of newly added packages. Cache all newly added
-    # packages.
+    # Julia. Cache all newly added packages.
     function update!()
         diff = Set{UTF8String}()
-        if length(Base.package_list) > COUNT[1]
+        if length(Base.package_list) > length(LOADED)
             info("Updating cached package list...")
             # Find newly added packages.
             loaded = Set{UTF8String}(keys(Base.package_list))
             diff   = setdiff(loaded, LOADED)
             # Update the current package stats.
-            LOADED   = loaded
-            COUNT[1] = length(loaded)
+            LOADED = loaded
         end
         for (rootmodule, package) in Collector.findpackages(diff)
             setpackage!(rootmodule, package)
@@ -85,21 +82,17 @@ let
         end
         PACK[m] = p
     end
+
+    # Empty all loaded packages and modules from cache.
+    @+ clearpackages!() = (map(empty!, (LOADED, PACK, MODS)); nothing)
 end
 
 
 let
     const DOCS = ObjectIdDict() # Module => DocsCache
 
-    """
-    Has the module `m` had it's documentation extracted with `Docile.Collector.docstrings`?
-    """
-    @+ hasdocs(m::Module) = haskey(DOCS, m)
-
-    """
-    Initialise the documentation cache for a module. Called automatically when getting docs.
-    """
-    @+ function initdocs!(m::Module)
+    # Initialise the documentation cache for a module. Called automatically when getting docs.
+    function initdocs!(m::Module)
         package = getpackage(m)
         info("Initialising cache for '$(package.rootmodule)' and related modules...")
         for (mod, data) in package.modules
@@ -117,6 +110,11 @@ let
     @+ modules() = collect(keys(DOCS))
 
     """
+    Has the module `m` had it's documentation extracted with `Docile.Collector.docstrings`?
+    """
+    @+ hasdocs(m::Module) = haskey(DOCS, m)
+
+    """
     Return documentation cache of a module `m`. Initialise an empty cache if needed.
     """
     @+ function getdocs(m::Module)
@@ -124,16 +122,11 @@ let
         DOCS[m]::DocsCache
     end
 
-    """
-    Empty all cached docstrings, parsed docs, and metadata from module `m`'s cache.
-    """
-    @+ function cleardocs!(m::Module)
-        hasdocs(m) || throw(ArgumentError("'$(m)' is not a documented module."))
-        empty!(DOCS[m])
-        nothing
-    end
+    # Empty cached docstrings, parsed docs, and metadata from all modules.
+    @+ cleardocs!() = (empty!(DOCS); nothing)
 end
 
+## Raw docstrings. ##
 
 """
 Return a reference to the raw docstring storage for a given module `m`.
@@ -149,11 +142,15 @@ function getraw(m::Module, obj)
     raw[obj]
 end
 
+## Parsed docstrings. ##
 
 """
 Return a reference to the parsed docstring cache for a given module `m`.
 """
-getparsed(m::Module) = getdocs(m).parsed
+function getparsed(m::Module)
+    out = getdocs(m).parsed
+    isempty(out) ? parse!(m) : out
+end
 
 """
 Return the parsed form of a docstring for object `obj` in module `m`.
@@ -177,13 +174,15 @@ Run the parser `Docile.Formats.parsedocs` over all raw docstrings in module `m`.
 Store the resulting parsed docstrings in the parsed cache for the module.
 """
 function parse!(m::Module)
-    parsed = getparsed(m)
+    parsed = getdocs(m).parsed
     for (obj, str) in getraw(m)
         format      = findmeta(m, obj, :format)
         parsed[obj] = Formats.parsedocs(Formats.Format{format}(), str, m, obj)
     end
+    parsed
 end
 
+## Metadata. ##
 
 """
 Return a reference to the metadata cache for a given module `m`.
@@ -198,6 +197,13 @@ function getmeta(m::Module, obj)
     haskey(meta, obj) || throw(ArgumentError("'$(obj)' not found."))
     meta[obj]::Dict{Symbol, Any}
 end
+
+## Misc. ##
+
+"""
+Remove all cached objects, modules and packages from storage.
+"""
+clear!() = (clearpackages!(); cleardocs!())
 
 """
 List of all documented objects in a module `m`.

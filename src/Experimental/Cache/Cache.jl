@@ -2,6 +2,8 @@ module Cache
 
 ["Caching of docstrings and package metadata."]
 
+export getraw, getparsed, getmeta, clear!, objects
+
 using Compat
 
 import ..Utilities
