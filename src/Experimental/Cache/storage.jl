@@ -83,15 +83,29 @@ let
         PACK[m] = p
     end
 
-    # Empty all loaded packages and modules from cache.
+    """
+    Empty all loaded packages and modules from cache.
+    """
     @+ clearpackages!() = (map(empty!, (LOADED, PACK, MODS)); nothing)
 end
 
-
 let
+    const PARSED = Set{Module}()
+
+    """
+    Has module `m` been parsed yet?
+    """
+    @+ hasparsed(m::Module) = m ∈ PARSED
+
+    """
+    Module `m` has had it's docstrings parsed.
+    """
+    @+ setparsed(m::Module) = push!(PARSED, m)
+
+
     const DOCS = ObjectIdDict() # Module => DocsCache
 
-    # Initialise the documentation cache for a module. Called automatically when getting docs.
+    # Initialise documentation cache for module. Called automatically when getting docs.
     function initdocs!(m::Module)
         package = getpackage(m)
         info("Initialising cache for '$(package.rootmodule)' and related modules...")
@@ -110,7 +124,7 @@ let
     @+ modules() = collect(keys(DOCS))
 
     """
-    Has the module `m` had it's documentation extracted with `Docile.Collector.docstrings`?
+    Has module `m` had documentation extracted with `Docile.Collector.docstrings`?
     """
     @+ hasdocs(m::Module) = haskey(DOCS, m)
 
@@ -122,8 +136,10 @@ let
         DOCS[m]::DocsCache
     end
 
-    # Empty cached docstrings, parsed docs, and metadata from all modules.
-    @+ cleardocs!() = (empty!(DOCS); nothing)
+    """
+    Empty cached docstrings, parsed docs, and metadata from all modules.
+    """
+    @+ cleardocs!() = (empty!(DOCS); empty!(PARSED); nothing)
 end
 
 ## Raw docstrings. ##
@@ -147,10 +163,7 @@ end
 """
 Return a reference to the parsed docstring cache for a given module `m`.
 """
-function getparsed(m::Module)
-    out = getdocs(m).parsed
-    isempty(out) ? parse!(m) : out
-end
+getparsed(m::Module) = (parse!(m); getdocs(m).parsed)
 
 """
 Return the parsed form of a docstring for object `obj` in module `m`.
@@ -160,26 +173,8 @@ user-definable `Docile.Formats.parsedocs` method.
 """
 function getparsed(m::Module, obj)
     parsed = getparsed(m)
-    if !haskey(parsed, obj)
-        raw         = getraw(m, obj)
-        format      = findmeta(m, obj, :format)
-        parsed[obj] = Formats.parsedocs(Formats.Format{format}(), raw, m, obj)
-    end
+    haskey(parsed, obj) || throw(ArgumentError("'$(obj)' not found."))
     parsed[obj]
-end
-
-"""
-Run the parser `Docile.Formats.parsedocs` over all raw docstrings in module `m`.
-
-Store the resulting parsed docstrings in the parsed cache for the module.
-"""
-function parse!(m::Module)
-    parsed = getdocs(m).parsed
-    for (obj, str) in getraw(m)
-        format      = findmeta(m, obj, :format)
-        parsed[obj] = Formats.parsedocs(Formats.Format{format}(), str, m, obj)
-    end
-    parsed
 end
 
 ## Metadata. ##
@@ -187,7 +182,7 @@ end
 """
 Return a reference to the metadata cache for a given module `m`.
 """
-getmeta(m::Module) = getdocs(m).meta
+getmeta(m::Module) = (parse!(m); getdocs(m).meta)
 
 """
 Return the metadata `Dict` for a given object `obj` found in module `m`.

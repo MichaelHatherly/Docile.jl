@@ -1,15 +1,17 @@
 module DocileExperimental
 
-include("Utilities.jl")           # Code useful across submodules.
+include("Utilities.jl")             # Code useful across submodules.
 
-include("Formats/Formats.jl")     # Format-dispatch for parsing docstrings.
+include("Formats/Formats.jl")       # Format-dispatch for parsing docstrings.
 
-include("Runner/Runner.jl")       # Execute expressions.
-include("Collector/Collector.jl") # Collect information from modules.
+include("Runner/Runner.jl")         # Execute expressions.
+include("Collector/Collector.jl")   # Collect information from modules.
 
-include("Cache/Cache.jl")         # Store collected information.
+include("Cache/Cache.jl")           # Store collected information.
 
-include("Interface.jl")           # Public interface to the package.
-include("Legacy.jl")              # Compatibilty with base and docile.
+include("Interface.jl")             # Public interface to the package.
+include("Legacy.jl")                # Compatibilty with base and docile.
+
+include("Extensions/Exntesions.jl")
 
 end

@@ -8,13 +8,12 @@ require("DocileExperimental.jl")
 # Get the raw docstrings from the `Cache` module.
 DocileExperimental.Cache.getraw(DocileExperimental.Cache)
 
-# Parse all docstrings in the `Formats` module.
-DocileExperimental.Cache.parse!(DocileExperimental.Formats)
-
 # Get the parsed docstrings from the `Collector` module.
 # Since `PlaintextFormatter` is a simple passthrough the output is the same as above.
-DocileExperimental.Cache.parse!(DocileExperimental.Collector)
 DocileExperimental.Cache.getparsed(DocileExperimental.Collector)
+
+# Get all metadata dictionaries for objects documented in module `Formats`.
+DocileExperimental.Cache.getmeta(DocileExperimental.Formats)
 ```
 
 ## Differences

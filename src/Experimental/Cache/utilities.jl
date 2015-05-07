@@ -28,3 +28,27 @@ function findmeta(m::Module, obj, key::Symbol)
     # Give up!
     throw(ArgumentError("No metadata found for '$(key)'."))
 end
+
+"""
+Parse raw docstrings in module `m` into their parsed form.
+
+Also extracts additional embedded metadata found in each raw docstring.
+"""
+function parse!(m::Module)
+    parsed = getdocs(m).parsed
+    hasparsed(m) && return
+    setparsed(m)
+    for (obj, str) in getraw(m)
+        parsed[obj] = extractor!(str, m, obj)
+    end
+end
+
+"""
+Extract metadata embedded in docstrings and run the `parsedocs` method defined
+for the docstring `raw`.
+"""
+function extractor!(raw::AbstractString, m::Module, obj)
+    str    = Formats.extractmeta!(raw, m, obj)
+    format = findmeta(m, obj, :format)
+    Formats.parsedocs(Formats.Format{format}(), str, m, obj)
+end
