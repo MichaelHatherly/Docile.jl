@@ -34,12 +34,12 @@ Parse raw docstrings in module `m` into their parsed form.
 
 Also extracts additional embedded metadata found in each raw docstring.
 """
-function parse!(m::Module)
+function parse!(m::Module; conf::AbstractConfig=EmptyConfig())
     parsed = getdocs(m).parsed
     hasparsed(m) && return
     setparsed(m)
     for (obj, str) in getraw(m)
-        parsed[obj] = extractor!(str, m, obj)
+        parsed[obj] = extractor!(str, m, obj; conf=conf)
     end
 end
 
@@ -47,8 +47,8 @@ end
 Extract metadata embedded in docstrings and run the `parsedocs` method defined
 for the docstring `raw`.
 """
-function extractor!(raw::AbstractString, m::Module, obj)
-    str    = Formats.extractmeta!(raw, m, obj)
+function extractor!(raw::AbstractString, m::Module, obj; conf::AbstractConfig=EmptyConfig())
+    str    = Formats.extractmeta!(raw, m, obj; conf=conf)
     format = findmeta(m, obj, :format)
     Formats.parsedocs(Formats.Format{format}(), str, m, obj)
 end

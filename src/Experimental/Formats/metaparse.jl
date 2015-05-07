@@ -6,20 +6,20 @@ Dispatch type for the `metamacro` function. `name` is a `Symbol`.
 immutable MetaMacro{name} end
 
 # Extensions to this method are found in `Extendions` module.
-metamacro(metamacro, body, mod, obj) = error("Undefined metamacro.")
+metamacro(metamacro, body, mod, obj; conf::AbstractConfig=EmptyConfig()) = error("Undefined metamacro.")
 
 """
 Run all 'metamacros' found in a raw docstring and return the resulting string.
 """
-extractmeta!(text::AbstractString, mod::Module, obj) =
-    extractmeta!(IOBuffer(text), mod, obj)
+extractmeta!(text::AbstractString, mod::Module, obj; conf::AbstractConfig=EmptyConfig()) =
+    extractmeta!(IOBuffer(text), mod, obj; conf=conf)
 
-function extractmeta!(raw::IO, mod::Module, obj)
+function extractmeta!(raw::IO, mod::Module, obj; conf::AbstractConfig=EmptyConfig())
     out = IOBuffer()
     while !eof(raw)
         name, body = tryextract(raw)
         write(out, name == symbol("") ? read(raw, Char) :
-                  metamacro(MetaMacro{name}(), body, mod, obj))
+                  metamacro(MetaMacro{name}(), body, mod, obj; conf=conf))
     end
     takebuf_string(out)
 end
