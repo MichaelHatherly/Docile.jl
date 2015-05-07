@@ -12,6 +12,6 @@ include("Cache/Cache.jl")           # Store collected information.
 include("Interface.jl")             # Public interface to the package.
 include("Legacy.jl")                # Compatibilty with base and docile.
 
-include("Extensions/Exntesions.jl")
+include("Extensions/Extensions.jl")
 
 end
