@@ -163,7 +163,8 @@ end
 """
 Return a reference to the parsed docstring cache for a given module `m`.
 """
-getparsed(m::Module) = (parse!(m); getdocs(m).parsed)
+getparsed(m::Module; conf::AbstractConfig=EmptyConfig()) = (parse!(m; conf=conf); getdocs(m).parsed)
+
 
 """
 Return the parsed form of a docstring for object `obj` in module `m`.
@@ -171,8 +172,8 @@ Return the parsed form of a docstring for object `obj` in module `m`.
 When the parsed docstring has never been accessed before, it is parsed using the
 user-definable `Docile.Formats.parsedocs` method.
 """
-function getparsed(m::Module, obj)
-    parsed = getparsed(m)
+function getparsed(m::Module, obj; conf::AbstractConfig=EmptyConfig())
+    parsed = getparsed(m; conf=conf)
     haskey(parsed, obj) || throw(ArgumentError("'$(obj)' not found."))
     parsed[obj]
 end
@@ -182,7 +183,7 @@ end
 """
 Return a reference to the metadata cache for a given module `m`.
 """
-getmeta(m::Module) = (parse!(m); getdocs(m).meta)
+getmeta(m::Module; conf::AbstractConfig=EmptyConfig()) = (parse!(m; conf=conf); getdocs(m).meta)
 
 """
 Return the metadata `Dict` for a given object `obj` found in module `m`.

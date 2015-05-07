@@ -7,6 +7,7 @@ export getraw, getparsed, getmeta, clear!, objects
 using Compat
 
 import ..Utilities
+import ..Utilities: AbstractConfig, EmptyConfig
 import ..Collector: Collector, PackageData, ModuleData
 import ..Formats
 

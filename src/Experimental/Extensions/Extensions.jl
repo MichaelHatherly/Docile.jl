@@ -12,14 +12,16 @@ Extensions
 
 import ..Formats
 import ..Cache
+import ..Utilities: AbstractConfig, EmptyConfig
+
 
 # Just add an entry in the metadata and return the stripped string.
-function Formats.metamacro{name}(::Formats.MetaMacro{name}, body, mod, obj)
+function Formats.metamacro{name}(::Formats.MetaMacro{name}, body, mod, obj; conf::AbstractConfig=EmptyConfig())
     Cache.getmeta(mod, obj)[name] = strip(body)
 end
 
 # TODO: this is just an example. Should be written better later.
-function Formats.metamacro(::Formats.MetaMacro{:format}, body, mod, obj)
+function Formats.metamacro(::Formats.MetaMacro{:format}, body, mod, obj; conf::AbstractConfig=EmptyConfig())
     options = [string(p) => p for p in subtypes(Formats.AbstractFormatter)]
     choice  = strip(body)
     for (s, t) in options
