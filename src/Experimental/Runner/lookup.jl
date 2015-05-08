@@ -14,6 +14,7 @@ function findmethods(state::State, ex::Expr)
     withscope(state, typevars(state, gettvars(fcall))) do
         args, numkws = argtypes(state, getargs(fcall))
         for m in allmethods(fname), n in 0:numkws
+            samemodule(state.mod, m) || continue
             issigmatch(fname, m, args[1:end - n]) && push!(mset, m)
             length(mset) > numkws && break
         end
@@ -21,6 +22,11 @@ function findmethods(state::State, ex::Expr)
     end
     mset
 end
+
+"""
+Is the method `meth` defined in the module `mod`?
+"""
+samemodule(mod, meth) = mod == getfield(meth.func.code, :module)
 
 """
 Find the `Method` objects referenced by `(...)` docstring syntax.

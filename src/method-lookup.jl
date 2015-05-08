@@ -273,6 +273,9 @@ function findmethods(state::State, ex::Expr)
     mset = Set{Method}()
 
     for m in allmethods(fname), n in 0:numkws
+        # Filter out methods not defined in the same module.
+       samemodule(state.mod, m) || continue
+
         # Try to match each subset of args tuple (left-to-right) with method signatures.
         issigmatch(fname, m, args[1:end - n]) && push!(mset, m)
 
@@ -289,6 +292,11 @@ function findmethods(state::State, ex::Expr)
 
     mset
 end
+
+"""
+Is the method `meth` defined in the module `mod`?
+"""
+samemodule(mod, meth) = mod == getfield(meth.func.code, :module)
 
 function allmethods(fname)
     out = Set{Method}()
