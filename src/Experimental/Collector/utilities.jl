@@ -236,3 +236,33 @@ end
 typeparams(s::Symbol)   = Any[]
 typeparams(ex::Expr)    = isexpr(ex, :(<:)) ?
     typeparams(ex.args[1]) : ex.args[2:end]
+
+"""
+Check for a `.docile` configuration file in the directory `dir`.
+
+Load the file if it is found. The file should end with a `Dict{Symbol, Any}`
+and can contain any additional Julia code such as method extensions for
+the `metamacro` function and custom docstring formatters.
+
+    import Docile: Formats
+
+    immutable MyCustomFormatter <: Formats.AbstractFormatter end
+
+    Formats.parsedocs(::Formats.Format, raw, mod, obj) = # ...
+
+    function Formats.metamacro(::Formats.MetaMacro{:custom}, body, mod, obj)
+        # ...
+    end
+
+    # Provide additional metadata to package and its modules. Must be last in file.
+    Dict(
+        :format => MyCustomFormatter,
+        # ...
+    )
+"""
+function getdotfile(dir::AbstractString)
+    file = joinpath(dir, ".docile")
+    isfile(file) ?
+        convert(Dict{Symbol, Any}, evalfile(file)) :
+        Dict{Symbol, Any}()
+end

@@ -76,6 +76,9 @@ type PackageData
     function PackageData(mod::Module, rootfile::AbstractString, candidates, parsed; kwargs...)
 
         metadata = Dict(kwargs)
+        # Execute the `.docile` file if found and merge it's configuration settings.
+        merge!(metadata, getdotfile(dirname(rootfile)))
+        # Provide a default formatter if none was specified.
         haskey(metadata, :format) || (metadata[:format] = Formats.PlaintextFormatter)
 
         mods   = submodules(mod)
