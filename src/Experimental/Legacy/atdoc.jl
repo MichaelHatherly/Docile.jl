@@ -4,7 +4,7 @@ Setup macro-style documentation datastructures.
 """
 macro init()
     META         = esc(:META)
-    __METADATA__ = esc(:__METADATA__)
+    __METADATA__ = esc(:__DOCILE__METADATA__)
     quote
         if !isdefined(:META)
             const $META         = ObjectIdDict()
@@ -15,7 +15,7 @@ macro init()
 end
 
 docs()     = current_module().META
-metadata() = current_module().__METADATA__
+metadata() = current_module().__DOCILE__METADATA__
 
 """
 Dictionary from keyword arguments.

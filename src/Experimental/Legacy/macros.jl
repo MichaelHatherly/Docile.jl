@@ -1,11 +1,20 @@
 
 export @docstrings, @document
 
+macro options(args...) :(options($(map(esc, args)...))) end
+options(; args...) = @compat(Dict{Symbol, Any}(args))
+
 macro docstrings(args...)
-    # TODO
+    ARGS = esc(:__DOCILE__ARGS__)
+    quote
+        const $(ARGS) = @options($(map(esc, args)...))
+    end
 end
 macro document(args...)
-    # TODO
+    ARGS = esc(:__DOCILE__ARGS__)
+    quote
+        const $(ARGS) = @options($(map(esc, args)...))
+    end
 end
 
 

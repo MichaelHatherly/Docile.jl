@@ -27,7 +27,12 @@ function docstrings(m::ModuleData)
     output.rawstrings, output.metadata # Unpack the results.
 end
 
-extract_atdocs(m::ModuleData) = (m.modname.META, m.modname.__METADATA__)
+function extract_atdocs(m::ModuleData)
+    if isdefined(m.modname, :__DOCILE__ARGS__)
+        merge!(m.metadata, m.modname.__DOCILE__ARGS__)
+    end
+    m.modname.META, m.modname.__DOCILE__METADATA__
+end
 
 "Extract all docstrings and metadata from a given file"; :process!
 
