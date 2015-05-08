@@ -125,6 +125,8 @@
 
 [rootast(meta)](Docile.md#method__rootast.1)  Extract docstrings from the AST found in the root file of a module.
 
+[samemodule(mod, meth)](Docile.md#method__samemodule.1)  Is the method `meth` defined in the module `mod`?
+
 [separate(expr)](Docile.md#method__separate.1)  Split the expressions passed to `@doc` into data and object. The docstring and
 
 [setmeta!(modname, object, category, source, code, args...)](Docile.md#method__setmeta.1)  Metatdata interface for *single* objects. `args` is the docstring and metadata dict.

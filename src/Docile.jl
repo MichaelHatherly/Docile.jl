@@ -78,16 +78,14 @@ metadata or to provide additional key/value pairs.
 
 **Examples:**
 
-```julia
+```julia_skip
 using Docile
 @document
-
 ```
 
-```julia
+```julia_skip
 using Docile
 @document(manual = ["../docs/manual.md"])
-
 ```
 """
 macro document(options...)

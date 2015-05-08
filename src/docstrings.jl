@@ -26,10 +26,9 @@ files written in markdown the extension must be `.md`.
 
 **Example:**
 
-```julia
+```julia_skip
 file"../docs/foobar.md"
 foobar(x) = 2x
-
 ```
 """
 macro file_str(path)
@@ -42,7 +41,7 @@ Add additional commentary to source code unrelated to any particular object.
 
 **Example:**
 
-```julia
+```julia_skip
 @comment \"\"\"
 ...
 \"\"\"
@@ -61,26 +60,23 @@ not specified.
 
 The syntax previously used (in versions prior to `0.3.2`) was
 
-```julia
+```julia_skip
 @doc "Documentation goes here..." [ :returns => (Int,) ] ->
 foobar(x) = 2x + 1
-
 ```
 
 This now becomes
 
-```julia
+```julia_skip
 @doc meta("Documentation goes here...", returns = (Int,)) ->
 foobar(x) = 2x + 1
-
 ```
 
 Specifying an external file as documentation can be done in the following way:
 
-```julia
+```julia_skip
 @doc meta(file = "../my/external/file.md") ->
 foobar(x) = 2x + 1
-
 ```
 
 **Note:** the `file` path is relative to the current source file.

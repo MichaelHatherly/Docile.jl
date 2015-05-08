@@ -1,3 +1,7 @@
+### v0.4.12
+
+* Fix methods in wrong modules being documented.
+
 ### v0.4.11
 
 * Fix for changes in import behaviour.

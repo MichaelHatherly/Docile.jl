@@ -185,11 +185,10 @@ Extension method for handling arbitrary docstring formats.
 
 Parsers for additional formats can be defined by extending this method as follows:
 
-```julia
+```julia_skip
 import Docile.Interface: parsedocs
 
 parsedocs(d::Docs{:format}) = Format.parse(data(d))
-
 ```
 
 where `:format` is the symbol representing the docstring's format and `Format.parse` is

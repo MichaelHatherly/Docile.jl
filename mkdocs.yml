@@ -2,7 +2,7 @@ site_name:           Docile.jl
 repo_url:            https://github.com/MichaelHatherly/Docile.jl
 site_description:    Julia package documentation system.
 site_author:         Michael Hatherly
-theme:               readthedocs
+theme:               flatly
 markdown_extensions: [tables, fenced_code]
 pages:
     - ['index.md', 'Introduction']

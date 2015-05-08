@@ -121,10 +121,9 @@ metadata.
 
 **Example:**
 
-```julia
+```julia_skip
 using Docile
 @docstrings(manual = ["../doc/manual.md"])
-
 ```
 
 Available keywords are `manual` and `format`. Others will become available in
@@ -154,7 +153,7 @@ additional metadata. See `meta` for further details.
 
 **Examples:**
 
-```julia
+```julia_skip
 @docstrings
 
 @doc "A single line method docstring with no metadata." ->
@@ -188,7 +187,6 @@ module is loaded.
 immutable G
     # ...
 end
-
 ```
 
 ### Documenting Functions and Methods
@@ -202,14 +200,13 @@ Documentation may be added *after* the first definition of a method. In the
 following example documentation is added to the method `f(x)` and then to the
 generic function `f`.
 
-```julia
+```julia_skip
 @doc "Method specific documentation." ->
 function f(x)
     x
 end
 
 @doc "Documentation for generic function `f`." -> f
-
 ```
 
 *Note:* The `f` may be written directly after the `->` or on the subsequent
@@ -222,12 +219,11 @@ method-specific. In this case the generic documentation may be written directly
 above one of the methods by using `@doc+`. The documentation will then be
 associated with the `Function` object rather than that particular `Method`.
 
-```julia
+```julia_skip
 @doc+ "Generic documentation for this function." ->
 function f(x)
     x
 end
-
 ```
 
 ### Documentation Formatting and Interpolation
