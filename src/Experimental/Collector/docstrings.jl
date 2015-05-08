@@ -14,6 +14,10 @@ end
 Extract all docstrings and basic metadata (file, line, & code) from a module.
 """
 function docstrings(m::ModuleData)
+    # Handle modules documented using `@doc`. Can't have both types in one.
+    isdefined(m.modname, :META) && return extract_atdocs(m)
+
+    # Handle plain docstring documented modules.
     output = Output()
     rexpr  = findmodule(m.parsed[m.rootfile], m.modname)
     process!(output, m, m.rootfile, rexpr.args[end])
@@ -22,6 +26,8 @@ function docstrings(m::ModuleData)
     end
     output.rawstrings, output.metadata # Unpack the results.
 end
+
+extract_atdocs(m::ModuleData) = (m.modname.META, m.modname.__METADATA__)
 
 "Extract all docstrings and metadata from a given file"; :process!
 

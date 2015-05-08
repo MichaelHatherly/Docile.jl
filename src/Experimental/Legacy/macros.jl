@@ -1,14 +1,10 @@
-module Legacy
 
-import ..Utilities
+export @docstrings, @document
 
-
-export @doc, @docstrings
-
-macro doc(args...)
+macro docstrings(args...)
     # TODO
 end
-macro docstrings(args...)
+macro document(args...)
     # TODO
 end
 
@@ -30,6 +26,4 @@ macro comment(text)
 end
 macro file_str(text)
     text
-end
-
 end
