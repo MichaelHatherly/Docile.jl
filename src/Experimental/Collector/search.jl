@@ -33,16 +33,23 @@ function includedfiles(mod::Module, candidates::Set)
             if isgeneric(object)
                 for def in methods(object)
                     file = location(def)
-                    file ∈ candidates && push!(out, file)
+                    if samemod(mod, def) && file ∈ candidates
+                        push!(out, file)
+                    end
                 end
             elseif isa(object, Function) && isdefined(object, :code)
                 file = location(object)
-                file ∈ candidates && push!(out, file)
+                if samemod(mod, object) && file ∈ candidates
+                    push!(out, file)
+                end
             end
         end
     end
     out
 end
+samemod(mod, def::Method)    = getfield(def.func.code, :module) == mod
+samemod(mod, func::Function) = getfield(func.code, :module) == mod
+samemod(mod, other)          = false
 
 """
 Path to definition of a julia object, only methods are searched for.

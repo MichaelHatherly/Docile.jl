@@ -82,8 +82,10 @@ function Metadata(m::Module)
     for (obj, raw) in rawdocs
 
         # Move the `:codesource` metadata to old `:source` field.
-        metadata[obj][:source] = metadata[obj][:codesource]
-        delete!(metadata[obj], :codesource)
+        if haskey(metadata[obj], :codesource)
+            metadata[obj][:source] = metadata[obj][:codesource]
+            delete!(metadata[obj], :codesource)
+        end
 
         # Conversion of `Aside` to `Comment`.
         newobj, newcat = isa(obj, Collector.Aside) ?
