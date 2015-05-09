@@ -91,17 +91,11 @@ isdocblock(block) =
 """
 Is the tuple a valid comment block?
 """
-is_aside(block) =
-    isline(block[1])              &&
-    is_aside_syntax(block[2])     &&
-    isdocstring(block[2].args[1])
+is_aside(block) = isline(block[1]) &&
+    (is_aside_syntax(block[2]) || is_comment_syntax(block[2]))
 
-"""
-Handle older `@comment` syntax for asides/comments.
-"""
-is_aside_syntax(ex) =
-    isexpr(ex, [:vect, vcat]) ||
-    (isexpr(ex, :macrocall) && ex.args[1] == symbol("@comment"))
+is_aside_syntax(ex)   = isvect(ex) && isdocstring(ex.args[1])
+is_comment_syntax(ex) = ismacrocall(ex) && ex.args[1] == symbol("@comment")
 
 isline(::LineNumberNode) = true
 isline(x::Expr)          = isexpr(x, :line)

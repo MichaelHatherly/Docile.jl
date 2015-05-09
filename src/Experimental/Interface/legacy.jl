@@ -15,12 +15,14 @@ export documented, isdocumented, metadata
 
 const DOCUMENTED = ObjectIdDict()
 
-documented() = Set{Module}(keys(DOCUMENTED))
+documented() = Cache.loadedmodules()
 
 isdocumented(mod::Module) = mod in documented()
 
 function metadata(mod::Module; rebuild = false)
-    isdocumented(mod) || (DOCUMENTED[mod] = Metadata(mod))
+    if isdocumented(mod) && !haskey(DOCUMENTED, mod)
+        DOCUMENTED[mod] = Metadata(mod)
+    end
     DOCUMENTED[mod]
 end
 

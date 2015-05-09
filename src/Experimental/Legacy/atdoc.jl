@@ -17,7 +17,7 @@ end
 docs()     = current_module().META
 metadata() = current_module().__DOCILE__METADATA__
 
-meta(docstring; kwargs...) =
+meta(docstring = ""; kwargs...) =
     (docstring, @compat(Dict{Symbol, Any}(kwargs)))
 
 """

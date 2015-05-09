@@ -36,6 +36,8 @@ let
     const PACK = ObjectIdDict() # Module => PackageData
     const MODS = ObjectIdDict() # Module => ModuleData
 
+    @+ loadedmodules() = (update!(); Set{Module}(keys(MODS)))
+
     """
     Has the module `m` been registered with Docile.
 
