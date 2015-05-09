@@ -1,3 +1,7 @@
+### v0.4.13
+
+* Rename files to account for case insentitive filesystems.
+
 ### v0.4.12
 
 * Fix methods in wrong modules being documented.
