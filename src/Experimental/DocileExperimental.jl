@@ -9,9 +9,33 @@ include("Collector/Collector.jl")   # Collect information from modules.
 
 include("Cache/Cache.jl")           # Store collected information.
 
-include("Interface.jl")             # Public interface to the package.
 include("Legacy/Legacy.jl")         # Compatibilty with base and docile.
+include("Interface/Interface.jl")   # Public interface to the package.
 
-include("Extensions/Extensions.jl")
+include("Extensions/Extensions.jl") # Additional formatters and parsers.
+
+## Direct Exports. ##
+
+import .Legacy:
+
+    @doc,
+
+    @document, @docstrings,
+
+    @doc_str, @doc_mstr, @file_str,
+
+    meta
+
+export
+
+    @doc,
+
+    @document, @docstrings,
+
+    @doc_str, @doc_mstr, @file_str,
+
+    meta,
+
+    Interface
 
 end

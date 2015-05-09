@@ -17,10 +17,22 @@ end
 docs()     = current_module().META
 metadata() = current_module().__DOCILE__METADATA__
 
+meta(docstring; kwargs...) =
+    (docstring, @compat(Dict{Symbol, Any}(kwargs)))
+
 """
-Dictionary from keyword arguments.
+Assign to docs to `n` and return a dictionary of keyword arguments.
 """
-data(; kwargs...) = @compat(Dict{Symbol, Any}(kwargs))
+function data(n, docstr; kwargs...)
+    dict = @compat(Dict{Symbol, Any}(kwargs))
+    if isa(docstr, AbstractString)
+        docs()[n] = docstr
+    else
+        docs()[n] = docstr[1]
+        merge!(dict, docstr[2])
+    end
+    dict
+end
 
 """
 Get the symbolic name of an expression.
@@ -95,8 +107,7 @@ function genericdocs(packed)
     quote
         @init
         $(o)
-        docs()[$(n)] = $(d)
-        metadata()[$(n)] = data(
+        metadata()[$(n)] = data($(n), $(d);
             category   = $(Expr(:quote, :function)),
             codesource = $(codesource),
             code       = $(Expr(:quote, object))
@@ -109,8 +120,7 @@ function symbolicdocs(packed)
     d, n = map(esc, (docs, name))
     quote
         @init
-        docs()[$(n)] = $(d)
-        metadata()[$(n)] = data(
+        metadata()[$(n)] = data($(n), $(d);
             category   = lateguess($(n)),
             codesource = $(codesource)
             )
@@ -125,8 +135,7 @@ function methoddocs(packed)
         old = isdefined($(Expr(:quote, name))) ? Set{Method}(methods($(n))) : Set{Method}()
         $(o)
         for m in setdiff(Set{Method}(methods($(n))), old)
-            docs()[m] = $(d)
-            metadata()[m] = data(
+            metadata()[m] = data(m, $(d);
                 category   = $(Expr(:quote, category)),
                 codesource = $(codesource),
                 code       = $(Expr(:quote, object))
@@ -142,8 +151,7 @@ function macrodocs(packed)
     quote
         @init
         $(o)
-        docs()[$(n)] = $(d)
-        metadata()[$(n)] = data(
+        metadata()[$(n)] = data($(n), $(d);
             category   = $(Expr(:quote, category)),
             codesource = $(codesource),
             code       = $(Expr(:quote, object)),
@@ -158,8 +166,8 @@ function globaldocs(packed)
     quote
         @init
         $(o)
-        docs()[$(Expr(:quote, name))] = $(d)
         metadata()[$(Expr(:quote, name))] = data(
+            $(Expr(:quote, name)), $(d);
             category   = $(Expr(:quote, category)),
             codesource = $(codesource)
             )
@@ -172,8 +180,7 @@ function typedocs(packed)
     quote
         @init
         $(o)
-        docs()[$(n)] = $(d)
-        metadata()[$(n)] = data(
+        metadata()[$(n)] = data($(n), $(d);
             category   = $(Expr(:quote, category)),
             codesource = $(codesource)
             )

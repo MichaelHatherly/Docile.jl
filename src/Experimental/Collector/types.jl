@@ -126,6 +126,9 @@ type PackageData
             # and removed from the package's metadata.
             mmeta = haskey(metadata, name) ? pop!(metadata, name) : Dict{Symbol, Any}()
 
+            # Add exports list to each module.
+            mmeta[:exports] = Set{Symbol}(names(m))
+
             modules[m] = ModuleData(m, mroot, mfiles, mparsed, mmeta)
         end
 
