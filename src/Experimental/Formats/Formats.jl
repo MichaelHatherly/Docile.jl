@@ -2,7 +2,7 @@ module Formats
 
 export Format, parsedocs
 
-include("formats.jl")
+include("formatting.jl")
 include("metaparse.jl")
 
 end
