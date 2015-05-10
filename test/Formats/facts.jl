@@ -14,8 +14,8 @@ facts("ExampleMeta1.") do
                     "example3: One escaped section meta: !!section(Lexicon.md/Exported/Methods/1)",
             "example4: One wrong half escaped section meta: \!!section(Lexicon.md/Exported/Methods/1)" =>
                     "example4: One wrong half escaped section meta: Lexicon.md/Exported/Methods/1",
-            "example5: unicode metaname: !!笔者(所以不多说了)" =>
-                    "example5: unicode metaname: 所以不多说了",
+#             "example5: unicode metaname: !!笔者(所以不多说了)" =>
+#                     "example5: unicode metaname: 所以不多说了",
             "example6: space between double ! and metaname: !! spacy(Is that wrong)" =>
                     "example6: space between double ! and metaname: !! spacy(Is that wrong)",
             "example7: space between metaname and opening bracket: !!spacy (Is that wrong)" =>

@@ -12,8 +12,8 @@ function example3() end
 "example4: One wrong half escaped section meta: \!!section(Lexicon.md/Exported/Methods/1)"
 function example4() end
 
-"example5: unicode metaname: !!笔者(所以不多说了)"
-function example5() end
+# "example5: unicode metaname: !!笔者(所以不多说了)"
+# function example5() end
 
 "example6: space between double ! and metaname: !! spacy(Is that wrong)"
 function example6() end
