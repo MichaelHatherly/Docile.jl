@@ -94,7 +94,7 @@ function Metadata(m::Module)
 
         # Build the `Entry` object and store it.
         entries[newobj] = Entry{newcat}(
-            Docs{format}(raw),
+            Docs{format}(Formats.extractmeta!(raw, modname, obj)),
             metadata[obj],
             modname
             )
