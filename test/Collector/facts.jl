@@ -2,26 +2,6 @@ require(joinpath(dirname(@__FILE__), "PlainDocs.jl"))
 
 import PlainDocs
 
-## Helpers. ##
-
-meth(f, args) = first(methods(f, args))
-
-fmeth(f) = first(methods(f))
-
-function rawdocs(entries, m)
-    m = entries[m]
-    Docile.Interface.data(Docile.Interface.docs(m))
-end
-
-function docsmeta(entries, k, m)
-    m = entries[m]
-    Docile.Interface.metadata(m)[k]
-end
-
-macrofunc(mod, s) = getfield(mod, symbol(string("@", s)))
-
-## End Helpers. ##
-
 facts("PlainDocs.") do
 
     metadata = Docile.Interface.metadata(PlainDocs)

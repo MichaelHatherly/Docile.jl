@@ -4,6 +4,8 @@ module DocileTests
 
 using FactCheck, Compat, Base.Test, Docile
 
+
+include("helpers.jl")
 include("Legacy/facts.jl")
 include("Collector/facts.jl")
 include("Interface/facts.jl")
