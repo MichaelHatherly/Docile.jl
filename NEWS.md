@@ -1,6 +1,6 @@
 ### v0.4.13
 
-* Rename files to account for case insentitive filesystems.
+* Rename files to account for case-insensitive filesystems.
 
 ### v0.4.12
 
