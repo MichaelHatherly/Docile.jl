@@ -5,6 +5,18 @@ Dispatch type for the `metamacro` function. `name` is a `Symbol`.
 """
 immutable MetaMacro{name} end
 
+immutable MetaMacroNameError <: Exception
+    msg :: AbstractString
+end
+
+"""
+Check that a `MetaMacro`'s `name` is a valid identifier.
+
+Throws a `MetaMacroNameError` if the string `s` is not valid.
+"""
+isvalid(s::AbstractString) = Base.isidentifier(s) ? s :
+    throw(MetaMacroNameError("'$(s)' is not a valid metamacro name."))
+
 """
 Shorthand syntax for defining `MetaMacro{<name>}`s as `META"<name>"`.
 
@@ -18,7 +30,7 @@ Example
         (Cache.getmeta(mod, obj)[:author = strip(body)]; "")
 
 """
-macro META_str(str) :(MetaMacro{$(Expr(:quote, symbol(str)))}) end
+macro META_str(str) :(MetaMacro{$(Expr(:quote, symbol(isvalid(str))))}) end
 
 # Extensions to this method are found in `Extendions` module.
 metamacro(metamacro, body, mod, obj) = error("Undefined metamacro.")
@@ -57,9 +69,9 @@ function tryextract(io::IO)
             c = read(io, Char)
             if c == BRACKET_OPENER
                 unmark(io) # We don't need the mark anymore.
-                return symbol(takebuf_array(name)), readbracketed(io)
+                return symbol(isvalid(takebuf_string(name))), readbracketed(io)
             end
-            isprint(c) && c != ' ' ? write(name, c) : break
+            isgraph(c) ? write(name, c) : break
         end
     end
     reset(io); mark(io)
