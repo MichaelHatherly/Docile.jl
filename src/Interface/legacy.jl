@@ -91,3 +91,10 @@ parsed(d::Docs) = isdefined(d, :obj) ? d.obj : (d.obj = parsedocs(d);)
 parsedocs{ext}(d::Docs{ext}) = error("Unknown documentation format: $(ext)")
 
 parsedocs(d::Docs{:txt}) = data(d)
+
+## Deprecated. ##
+
+export documentation
+
+documentation(mod::Module) = metadata(mod)
+
