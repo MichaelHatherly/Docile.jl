@@ -5,6 +5,21 @@ Dispatch type for the `metamacro` function. `name` is a `Symbol`.
 """
 immutable MetaMacro{name} end
 
+"""
+Shorthand syntax for defining `MetaMacro{<name>}`s as `META"<name>"`.
+
+Example
+
+    import Docile: Cache
+    import Docile.Formats: metamacro, @META_str
+
+    metamacro(::META"author", body, mod, obj) = isempty(body) ?
+        Cache.findmeta(mod, obj, :author) :
+        (Cache.getmeta(mod, obj)[:author = strip(body)]; "")
+
+"""
+macro META_str(str) :(MetaMacro{$(Expr(:quote, symbol(str)))}) end
+
 # Extensions to this method are found in `Extendions` module.
 metamacro(metamacro, body, mod, obj) = error("Undefined metamacro.")
 
