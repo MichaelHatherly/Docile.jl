@@ -2,7 +2,11 @@
 
 A rough sketch of future Docile with external documentation features.
 
+From `Docile.jl/Experimental/src`
+
 ```jl
+cd(joinpath(Pkg.dir("Docile"), "Experimental", "src"))
+
 require("DocileExperimental.jl")
 
 # Get the raw docstrings from the `Cache` module.

@@ -24,6 +24,7 @@ function extractmeta!(raw::IO, mod::Module, obj)
     takebuf_string(out)
 end
 
+const METADATA_SKIP_PREFIX = ('\\', '!', '!')
 const METADATA_PREFIX = ('!', '!')
 const BRACKET_OPENER  = '('
 
@@ -43,8 +44,14 @@ function tryextract(io::IO)
                 unmark(io) # We don't need the mark anymore.
                 return symbol(takebuf_array(name)), readbracketed(io)
             end
-            isalpha(c) ? write(name, c) : break
+            isprint(c) && c != ' ' ? write(name, c) : break
         end
+    end
+    reset(io); mark(io)
+    if isprefix(io, METADATA_SKIP_PREFIX)
+        reset(io); unmark(io)
+        read(io, Char)          # just read one char `\\` but do not validate the brackets
+        return symbol(""), ""
     end
     # Give up trying to extract and return "nothing".
     reset(io); unmark(io)
