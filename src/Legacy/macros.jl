@@ -5,13 +5,13 @@ macro options(args...) :(options($(map(esc, args)...))) end
 options(; args...) = @compat(Dict{Symbol, Any}(args))
 
 macro docstrings(args...)
-    ARGS = esc(:__DOCILE__ARGS__)
+    ARGS = esc(:__DOCILE_ARGS__)
     quote
         const $(ARGS) = @options($(map(esc, args)...))
     end
 end
 macro document(args...)
-    ARGS = esc(:__DOCILE__ARGS__)
+    ARGS = esc(:__DOCILE_ARGS__)
     quote
         const $(ARGS) = @options($(map(esc, args)...))
     end

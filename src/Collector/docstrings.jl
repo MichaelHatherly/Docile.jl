@@ -15,9 +15,9 @@ Extract all docstrings and basic metadata (file, line, & code) from a module.
 """
 function docstrings(m::ModuleData)
     # Handle `@document` and `@docstrings` argument lists
-    isdefined(m.modname, :__DOCILE__ARGS__) && extract_args!(m)
+    isdefined(m.modname, :__DOCILE_ARGS__) && extract_args!(m)
     # Handle modules documented using `@doc`. Can't have both types in one.
-    isdefined(m.modname, :META) && return extract_atdocs(m)
+    isdefined(m.modname, :__DOCILE_STRINGS__) && return extract_atdocs(m)
 
     # Handle plain docstring documented modules.
     output = Output()
@@ -30,10 +30,10 @@ function docstrings(m::ModuleData)
 end
 
 extract_args!(m::ModuleData) =
-    merge!(m.metadata, m.modname.__DOCILE__ARGS__)
+    merge!(m.metadata, m.modname.__DOCILE_ARGS__)
 
 extract_atdocs(m::ModuleData) =
-    (m.modname.META, m.modname.__DOCILE__METADATA__)
+    (m.modname.__DOCILE_STRINGS__, m.modname.__DOCILE_METADATA__)
 
 "Extract all docstrings and metadata from a given file"; :process!
 

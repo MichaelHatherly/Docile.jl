@@ -3,19 +3,19 @@
 Setup macro-style documentation datastructures.
 """
 macro init()
-    META         = esc(:META)
-    __METADATA__ = esc(:__DOCILE__METADATA__)
+    STRINGS  = esc(:__DOCILE_STRINGS__)
+    METADATA = esc(:__DOCILE_METADATA__)
     quote
-        if !isdefined(:META)
-            const $META         = ObjectIdDict()
-            const $__METADATA__ = ObjectIdDict()
+        if !isdefined(:__DOCILE_STRINGS__)
+            const $STRINGS  = ObjectIdDict()
+            const $METADATA = ObjectIdDict()
             nothing
         end
     end
 end
 
-docs()     = current_module().META
-metadata() = current_module().__DOCILE__METADATA__
+docs()     = current_module().__DOCILE_STRINGS__
+metadata() = current_module().__DOCILE_METADATA__
 
 meta(docstring = ""; kwargs...) =
     (docstring, @compat(Dict{Symbol, Any}(kwargs)))

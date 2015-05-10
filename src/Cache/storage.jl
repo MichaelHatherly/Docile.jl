@@ -20,7 +20,7 @@ let
     function update!()
         diff = Set{UTF8String}()
         if length(Base.package_list) > length(LOADED)
-            info("Updating cached package list...")
+            Utilities.message("updating package list…")
             # Find newly added packages.
             loaded = Set{UTF8String}(keys(Base.package_list))
             diff   = setdiff(loaded, LOADED)
@@ -109,16 +109,18 @@ let
 
     # Initialise documentation cache for module. Called automatically when getting docs.
     function initdocs!(m::Module)
-        package = getpackage(m)
-        info("Initialising cache for '$(package.rootmodule)' and related modules...")
+        package  = getpackage(m)
+        maxwidth = longest_module(package)
+        Utilities.message("caching '$(package.rootmodule)'…")
         for (mod, data) in package.modules
-            print(" $(mod) ")
+            print(" - $(mod) ", padding(maxwidth, mod))
             raw, meta = Collector.docstrings(data)
             DOCS[mod] = DocsCache(raw, meta)
             println("✓")
         end
-        info("Succcessfully initialised package cache.")
     end
+    longest_module(pack) = maximum([length(string(mod)) for (mod, data) in pack.modules])
+    padding(width, mod)  = " "^(width - length(string(mod)))
 
     """
     List of all documented modules currently stored by Docile.

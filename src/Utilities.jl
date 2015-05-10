@@ -23,4 +23,9 @@ function parsefile(file)
     end
 end
 
+"""
+Print a 'Docile'-formatted message to ``STDOUT``.
+"""
+message(msg::AbstractString) = print_with_color(:magenta, "Docile: ", msg, "\n")
+
 end
