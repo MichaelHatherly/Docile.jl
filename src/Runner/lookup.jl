@@ -3,35 +3,50 @@
 """
 Find all methods defined by an method definition expression.
 
-    "A docstring for the methods `f(::Any)` and `f(::Any, ::Any)`"
+    "A docstring for the methods ``f(::Any)`` and ``f(::Any, ::Any)``"
     f(x, y = 1) = x + y
 
 """
-function findmethods(state::State, ex::Expr)
-    fname = funcname(state, ex)
-    fcall = funccall(ex)
-    mset  = Set{Method}()
-    withscope(state, typevars(state, gettvars(fcall))) do
-        args, numkws = argtypes(state, getargs(fcall))
-        for m in allmethods(fname), n in 0:numkws
-            samemodule(state.mod, m) || continue
-            issigmatch(fname, m, args[1:end - n]) && push!(mset, m)
-            length(mset) > numkws && break
-        end
-        length(mset) == (numkws + 1) || detailed_error(fname, numkws, args, mset)
+function findmethods(state::State, ex::Expr, codesource)
+    source = (adjustline(ex, codesource[1]), symbol(codesource[2]))
+    fname  = funcname(state, ex)
+    mset   = Set{Method}()
+    for m in allmethods(fname)
+        samemodule(state.mod, m) || continue
+        lineinfo(m) == source && push!(mset, m)
     end
     mset
 end
 
 """
-Is the method `meth` defined in the module `mod`?
+Function expressions have different line numbers depending on whether
+they are "full" or "short":
+
+    f(x) = x
+
+    function g(x)
+        x
+    end
+
+``f`` will have a ``.line`` value pointing to the start of the expression, while
+``g``'s ``.line`` value will point at the first line of the function's body.
+"""
+adjustline(ex::Expr, line) = isexpr(ex, :function) ? line + 1 : line
+
+"""
+Line number and file name pair for a method ``m``.
+"""
+lineinfo(m::Method) = (m.func.code.line, m.func.code.file)
+
+"""
+Is the method ``meth`` defined in the module ``mod``?
 """
 samemodule(mod, meth) = mod == getfield(meth.func.code, :module)
 
 """
-Find the `Method` objects referenced by `(...)` docstring syntax.
+Find the ``Method`` objects referenced by ``(...)`` docstring syntax.
 
-    "Shared docstring for all 2 argument methods, first argument an `Int`."
+    "Shared docstring for all 2 argument methods, first argument an ``Int``."
     (foo, Int, Any)
 
 """
@@ -48,7 +63,7 @@ else
 end
 
 """
-Find the `Function` and `Method` objects referenced by `[...]` docstring syntax.
+Find ``Function`` and ``Method`` objects referenced by ``[...]`` syntax.
 
     "Shared docstring for differently named functions."
     [foobar, foobar!]
@@ -62,41 +77,10 @@ function findvcats(state::State, expr::Expr)
         elseif isexpr(arg, :tuple)
             union!(methods, findtuples(state, arg))
         else
-            error("Invalid [objects...] syntax.")
+            error("Invalid '[objects...]' syntax.")
         end
     end
     funcs, methods
-end
-
-function detailed_error(fname, numkws, args, mset)
-    println("""
-    Failed to find the correct method signatures. Stopping.
-
-    **Details:**
-
-    * `fname`:  `$(fname)`
-    * `numkws`: `$(numkws)`
-    * `args`:   `$(args)`
-
-    * `mset`:
-    ```
-    $(join([string(m) for m in mset], "\n"))
-    ```
-
-    * `allmethods`:
-    ```
-    $(join([string(m) for m in allmethods(fname)], "\n"))
-    ```
-
-    **Version Info:**
-    ```""")
-    versioninfo()
-    println("```")
-
-    error("""
-    Please file a bug report including the above information at
-    https://github.com/MichaelHatherly/Docile.jl/issues.
-    """)
 end
 
 # End lookup methods.
@@ -105,7 +89,7 @@ end
 # Sandboxed execution of a subset of possible Julian expressions.
 
 """
-Evaluate the expression `expr` within the context provided by `state`.
+Evaluate the expression ``expr`` within the context provided by ``state``.
 """
 exec(state::State, expr::Expr) = exec(Head{expr.head}(), state, expr)
 
@@ -180,7 +164,7 @@ funccall(::Head, ex)  = ex.args[1]
 funccall(H"call", ex) = ex
 
 """
-Extract the expressions from a `{}` in a function definition.
+Extract the expressions from a ``{}`` in a function definition.
 """
 gettvars(expr::Expr) = isexpr(expr.args[1], :curly) ? expr.args[1].args[2:end] : Any[]
 
@@ -191,7 +175,7 @@ getargs(expr::Expr) = expr.args[2:end]
 
 
 """
-Return the `Function` object represented by a method definition expression.
+Return the ``Function`` object represented by a method definition expression.
 """
 funcname(state::State, expr::Expr) = funcname(Head{expr.head}(), state, expr)
 
@@ -207,19 +191,20 @@ funcname(::State, other) = other
 
 
 """
-Given an expression representing a `TypeVar`, create the equivalent object.
+Given an expression representing a ``TypeVar``, create the equivalent object.
 """
 typevar(state::State, x::Expr)   = ((q = x.args[1];), TypeVar(q, exec(state, x.args[2])))
 typevar(state::State, q::Symbol) = (q, TypeVar(q, Any))
 
 """
-Build a dictionary mapping `Symbol` to `TypeVar`.
+Build a dictionary mapping ``Symbol`` to ``TypeVar``.
 """
 typevars(state::State, args) = Dict{Symbol, TypeVar}([typevar(state, a) for a in args])
 typevars(::State, ::Symbol)  = Dict{Symbol, TypeVar}()
 
 """
-Find the type of an argument from a `::` signature expression or `Any` from an untyped one.
+Find the type of an argument from a ``::`` signature expression or ``Any`` from
+an untyped one.
 """
 argtype(::State, ::Symbol)        = Any # Untyped argument.
 argtype(state::State, expr::Expr) =
@@ -227,7 +212,8 @@ argtype(state::State, expr::Expr) =
     Vararg{Any} : exec(state, expr)
 
 """
-Return `DataType` tuple from an function signature expression and number of optional arguments.
+Return ``DataType`` tuple from an function signature expression and number of
+optional arguments.
 """
 function argtypes(state, args)
     types, numkws = Any[], 0

@@ -3,15 +3,96 @@
 """
 Find all objects described by an expression.
 """
-getobject(cat::Symbol, moduledata, state, expr) =
-    getobject(Head{cat}(), moduledata, state, expr)
+getobject(cat::Symbol, moduledata, state, expr, codesource) =
+    getobject(Head{cat}(), moduledata, state, expr, codesource)
 
-getobject(H"method", m, s, x)            = findmethods(s, x)
-getobject(H"global, typealias", m, s, x) = getvar(s, name(x))
-getobject(H"type, symbol", m, s, x)      = getfield(m.modname, getvar(s, name(x)))
-getobject(H"macro", m, s, x)             = getfield(m.modname, macroname(getvar(s, name(x))))
-getobject(H"tuple", m, s, x)             = findtuples(s, x)
-getobject(H"vcat, vect", m, s, x)        = findvcats(s, x)
+"""
+Find all `Method` objects defined by a given expression.
+
+Used to associate a docstring with one or more methods or inner constructors of
+a type.
+
+    " ... "
+    f(x, y = 1) = x + y
+
+    type T
+        x :: Int
+        " ... "
+        T(x, y) = new(x + y)
+    end
+
+"""
+getobject(H"method", moduledata, state, expr, codesource) =
+    findmethods(state, expr, codesource)
+
+getobject(H"global, typealias", ::Any, state, expr, ::Any) =
+    getvar(state, name(expr))
+
+getobject(H"type, symbol", moduledata, state, expr, ::Any) =
+    getfield(moduledata.modname, getvar(state, name(expr)))
+
+"""
+Get the `(anonymous function)` object defined by a macro expression.
+
+Used to associate docstrings with macros
+
+    " ... "
+    macro mac(args...)
+
+    end
+
+"""
+getobject(H"macro", moduledata, state, expr, ::Any) =
+    getfield(moduledata.modname, macroname(getvar(state, name(expr))))
+
+"""
+Find group of methods that match a provided signature.
+
+Syntax example
+
+    " ... "
+    (a, Any, Vararg{Int})
+
+defines a docstring `" ... "` for all `Method` objects of `Function` `a`
+that match the signature `(Any, Int...)`.
+
+If `a` is not yet defined at the point where the docstring is placed, then quote
+the function name as follows:
+
+    " ... "
+    (:a, Any, Vararg{Int})
+
+"""
+getobject(H"tuple", ::Any, state, expr, ::Any) = findtuples(state, expr)
+
+"""
+Find a set of methods and a set of functions that match the provided vector.
+
+Syntax example
+
+    " ... "
+    [a, :b, (d, Any, Int)]
+
+will associate the docstring `" ... "` with the functions `a` and `b` as well as
+all methods of function `d` matching the signature `(Any, Int)`.
+
+This syntax is a generalisation of the single symbol syntax
+
+    " ... "
+    a
+
+or
+
+    " ... "
+    :b
+
+and the method syntax using a tuple
+
+    " ... "
+    (d, Any, Int)
+
+"""
+getobject(H"vcat, vect", ::Any, state, expr, ::Any) = findvcats(state, expr)
 
 
 "Convert category from `:symbol` to either `:module` or `:function`."; :recheck

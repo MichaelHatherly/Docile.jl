@@ -9,7 +9,7 @@ facts("PlainDocs.") do
 
     context("General.") do
 
-        @fact length(entries) => 78
+        @fact length(entries) => 82
 
         @fact Docile.Interface.metadata(metadata) => @compat(
             Dict{Symbol, Any}(
@@ -137,6 +137,26 @@ facts("PlainDocs.") do
                       meth(PlainDocs.T_IC_2{Any},
                            PlainDocs.tup(Any, Any))
                       ) => "T_IC_2/1-2"
+
+        @fact rawdocs(entries, PlainDocs.T_IC_3) => "T_IC_3"
+
+        @fact rawdocs(entries,
+                      meth(PlainDocs.T_IC_3{Real},
+                           PlainDocs.tup(Integer)
+                           )
+                      ) => "T_IC_3/1"
+        @fact rawdocs(entries,
+                      meth(PlainDocs.T_IC_3{Real},
+                           PlainDocs.tup(Real,Real)
+                           )
+                      ) => "T_IC_3/2"
+        @fact rawdocs(entries,
+                      meth(PlainDocs.T_IC_3{Real},
+                           PlainDocs.tup(Type{Matrix{Real}},
+                                         Vector{Real},
+                                         Vararg{Int})
+                           )
+                      ) => "T_IC_3/3"
 
     end
 

@@ -10,10 +10,12 @@ f_2(x) = ()
 
 "f_3/1"
 function f_3(x)
+    ()
 end
 
 """f_4/1"""
 function f_4(x)
+    ()
 end
 
 # Complex type signatures.

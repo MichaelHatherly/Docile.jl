@@ -58,4 +58,18 @@ immutable T_IC_2{T}
 
 end
 
+"T_IC_3"
+type T_IC_3{T <: Real}
+
+    "T_IC_3/1"
+    T_IC_3(::Integer) = new()
+
+    "T_IC_3/2"
+    T_IC_3(::T, ::T) = new()
+
+    "T_IC_3/3"
+    T_IC_3(::Type{Matrix{T}}, ::Array{T, 1}, a::Int...) = new()
+
+end
+
 dummy_3() = ()

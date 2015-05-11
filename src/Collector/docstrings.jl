@@ -104,7 +104,7 @@ function get_docs!(output, moduledata, state, file, block)
 
     category = getcategory(expr)
 
-    object   = getobject(category, moduledata, state, expr)
+    object   = getobject(category, moduledata, state, expr, codesource)
     metadata = @compat(Dict(:textsource => textsource,
                             :codesource => codesource,
                             :category   => category))
