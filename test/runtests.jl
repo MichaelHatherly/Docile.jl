@@ -11,6 +11,7 @@ include(joinpath("Collector", "facts.jl"))
 include(joinpath("Interface", "facts.jl"))
 include(joinpath("Runner", "facts.jl"))
 include(joinpath("Formats", "facts.jl"))
+include(joinpath("Extensions", "facts.jl"))
 
 isinteractive() || FactCheck.exitstatus()
 
