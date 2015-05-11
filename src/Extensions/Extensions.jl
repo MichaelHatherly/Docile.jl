@@ -34,7 +34,7 @@ Formats.metamacro(::META"get", body, mod, obj) =  Cache.findmeta(mod, obj, symbo
 The key in this example is ``:author`` and the value is ``"Author's Name"``.
 """
 function Formats.metamacro(::META"set", body, mod, obj)
-    key, value = split(body, ':', limit = 2)
+    key, value = @compat(split(body, ':', limit = 2))
     Cache.getmeta(mod, obj)[symbol(key)] = value
     ""
 end
