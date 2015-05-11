@@ -10,11 +10,11 @@ import Docile: @doc, @docstrings, @doc_str, @doc_mstr, meta
 
 @docstrings(manual = ["../../docs/manual.md"])
 
-include("MacroDocs/macro-spec.jl")
+include(joinpath("MacroDocs", "macro-spec.jl"))
 
-include("MacroDocs/functions.jl")
-include("MacroDocs/globals.jl")
-include("MacroDocs/macros.jl")
-include("MacroDocs/types.jl")
+include(joinpath("MacroDocs", "functions.jl"))
+include(joinpath("MacroDocs", "globals.jl"))
+include(joinpath("MacroDocs", "macros.jl"))
+include(joinpath("MacroDocs", "types.jl"))
 
 end

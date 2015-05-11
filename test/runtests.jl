@@ -6,11 +6,11 @@ using FactCheck, Compat, Base.Test, Docile
 
 
 include("helpers.jl")
-include("Legacy/facts.jl")
-include("Collector/facts.jl")
-include("Interface/facts.jl")
-include("Runner/facts.jl")
-include("Formats/facts.jl")
+include(joinpath("Legacy", "facts.jl"))
+include(joinpath("Collector", "facts.jl"))
+include(joinpath("Interface", "facts.jl"))
+include(joinpath("Runner", "facts.jl"))
+include(joinpath("Formats", "facts.jl"))
 
 isinteractive() || FactCheck.exitstatus()
 

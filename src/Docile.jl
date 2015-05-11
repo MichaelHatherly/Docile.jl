@@ -1,18 +1,18 @@
 module Docile
 
-include("Utilities.jl")             # Code useful across submodules.
+include("Utilities.jl")                          # Code useful across submodules.
 
-include("Formats/Formats.jl")       # Format-dispatch for parsing docstrings.
+include(joinpath("Formats", "Formats.jl"))       # Format-dispatch for parsing docstrings.
 
-include("Runner/Runner.jl")         # Execute expressions.
-include("Collector/Collector.jl")   # Collect information from modules.
+include(joinpath("Runner", "Runner.jl"))         # Execute expressions.
+include(joinpath("Collector", "Collector.jl"))   # Collect information from modules.
 
-include("Cache/Cache.jl")           # Store collected information.
+include(joinpath("Cache", "Cache.jl"))           # Store collected information.
 
-include("Legacy/Legacy.jl")         # Compatibilty with base and docile.
-include("Interface/Interface.jl")   # Public interface to the package.
+include(joinpath("Legacy", "Legacy.jl"))         # Compatibilty with base and docile.
+include(joinpath("Interface", "Interface.jl"))   # Public interface to the package.
 
-include("Extensions/Extensions.jl") # Additional formatters and parsers.
+include(joinpath("Extensions", "Extensions.jl")) # Additional formatters and parsers.
 
 ## Direct Exports. ##
 

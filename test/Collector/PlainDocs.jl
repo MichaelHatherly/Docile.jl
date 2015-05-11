@@ -13,10 +13,10 @@ else
     tup(args...) = Tuple{args...}
 end
 
-include("PlainDocs/functions.jl")
-include("PlainDocs/globals.jl")
-include("PlainDocs/macros.jl")
-include("PlainDocs/types.jl")
+include(joinpath("PlainDocs", "functions.jl"))
+include(joinpath("PlainDocs", "globals.jl"))
+include(joinpath("PlainDocs", "macros.jl"))
+include(joinpath("PlainDocs", "types.jl"))
 
 "f_0/0"
 f_0() = ()
