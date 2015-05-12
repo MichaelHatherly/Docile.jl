@@ -156,14 +156,6 @@ end
 # Helper methods for lookup methods `findmethods` and friends.
 
 """
-Extract the call expression from a function definition's expression.
-"""
-funccall(ex::Expr)    = funccall(Head{ex.head}(), ex)
-
-funccall(::Head, ex)  = ex.args[1]
-funccall(H"call", ex) = ex
-
-"""
 Extract the expressions from a ``{}`` in a function definition.
 """
 gettvars(expr::Expr) = isexpr(expr.args[1], :curly) ? expr.args[1].args[2:end] : Any[]
@@ -202,28 +194,6 @@ Build a dictionary mapping ``Symbol`` to ``TypeVar``.
 typevars(state::State, args) = Dict{Symbol, TypeVar}([typevar(state, a) for a in args])
 typevars(::State, ::Symbol)  = Dict{Symbol, TypeVar}()
 
-"""
-Find the type of an argument from a ``::`` signature expression or ``Any`` from
-an untyped one.
-"""
-argtype(::State, ::Symbol)        = Any # Untyped argument.
-argtype(state::State, expr::Expr) =
-    (isexpr(expr, :(...)) && issymbol(expr.args[1])) ?
-    Vararg{Any} : exec(state, expr)
-
-"""
-Return ``DataType`` tuple from an function signature expression and number of
-optional arguments.
-"""
-function argtypes(state, args)
-    types, numkws = Any[], 0
-    for arg in args
-        isexpr(arg, :parameters) && continue # We don't need to check keyword arguments.
-        push!(types, argtype(state, isexpr(arg, :kw) ? (numkws += 1; arg.args[1]) : arg))
-    end
-    tuple(types...), numkws
-end
-
 
 mostgeneral(T::DataType) = T{[tvar.ub for tvar in T.parameters]...}
 mostgeneral(other)       = other
@@ -239,26 +209,3 @@ function allmethods(fname)
     end
     out
 end
-
-if VERSION < v"0.4-dev+4319"
-    tcollect(sig) = collect(sig)
-else
-    tcollect(sig) = collect(sig.parameters)
-end
-
-if VERSION < v"0.4-dev"
-    issigmatch(fname::DataType, method, args) = issigmatch(tcollect(method.sig), args)
-else
-    issigmatch(fname::DataType, method, args) = issigmatch(tcollect(method.sig)[2:end], args)
-end
-issigmatch(fname, method, args) = issigmatch(tcollect(method.sig), args)
-
-function issigmatch(sig, args)
-    same = length(sig) == length(args)
-    for (a, b) in zip(sig, args)
-        same &= eq(a, b)
-    end
-    same
-end
-eq(a, b) = a == b
-eq(a::TypeVar, b::TypeVar) = a.name == b.name && a.lb == b.lb && a.ub == b.ub
