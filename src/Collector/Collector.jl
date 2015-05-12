@@ -4,6 +4,7 @@ using Compat
 
 import ..Utilities:
 
+    Utilities,
     isexpr,
     parsefile,
     Head,

@@ -23,9 +23,29 @@ function parsefile(file)
     end
 end
 
+
 """
 Print a 'Docile'-formatted message to ``STDOUT``.
 """
 message(msg::AbstractString) = print_with_color(:magenta, "Docile: ", msg, "\n")
+
+
+"""
+Is the module where a function/method is defined the same as ``mod``?
+"""
+samemodule(mod, def::Method)    = getfield(def.func.code, :module) == mod
+samemodule(mod, func::Function) = getfield(func.code, :module) == mod
+samemodule(mod, other)          = false
+
+
+"""
+Path to Julia's base source code.
+"""
+const BASE = abspath(joinpath(JULIA_HOME, "..", "..", "base"))
+
+"""
+Convert a path to absolute. Relative paths are guessed to be from Julia ``/base``.
+"""
+expandpath(path) = abspath(isabspath(path) ? path : joinpath(BASE, path))
 
 end

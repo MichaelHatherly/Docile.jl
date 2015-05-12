@@ -2,7 +2,7 @@ module Runner
 
 using Compat
 
-import ..Utilities: Head, @H_str, issymbol, isexpr
+import ..Utilities: Utilities, Head, @H_str, issymbol, isexpr
 
 export State, withscope, withref, findmethods, findtuples, findvcats
 

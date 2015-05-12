@@ -13,17 +13,29 @@ end
 
 
 let
+    const INCLUDE_BASE = [false]
+
+    """
+    !!summary(Switch on/off documenting of ``Base`` and it's submodules.)
+
+    **Note:** This is an experimental feature and so is initially disabled.
+    """
+    @+ togglebase() = INCLUDE_BASE[1] = !INCLUDE_BASE[1]
+
+
     const LOADED = Set{UTF8String}()
 
     # Diff the loaded packages with the packages that have been imported into
     # Julia. Cache all newly added packages.
     function update!()
-        diff = Set{UTF8String}()
-        if length(Base.package_list) > length(LOADED)
+        diff   = Set{UTF8String}()
+        loaded = Set{UTF8String}(keys(Base.package_list))
+        # Do we want to include ``Base`` in the list?
+        INCLUDE_BASE[1] && push!(loaded, Utilities.expandpath("sysimg.jl"))
+        # Find newly added packages.
+        if length(loaded) > length(LOADED)
             Utilities.message("updating package list…")
-            # Find newly added packages.
-            loaded = Set{UTF8String}(keys(Base.package_list))
-            diff   = setdiff(loaded, LOADED)
+            diff = setdiff(loaded, LOADED)
             # Update the current package stats.
             LOADED = loaded
         end

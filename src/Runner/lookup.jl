@@ -8,11 +8,11 @@ Find all methods defined by an method definition expression.
 
 """
 function findmethods(state::State, ex::Expr, codesource)
-    source = (adjustline(ex, codesource[1]), symbol(codesource[2]))
+    source = (adjustline(ex, codesource[1]), codesource[2])
     fname  = funcname(state, ex)
     mset   = Set{Method}()
     for m in allmethods(fname)
-        samemodule(state.mod, m) || continue
+        Utilities.samemodule(state.mod, m) || continue
         lineinfo(m) == source && push!(mset, m)
     end
     mset
@@ -36,12 +36,7 @@ adjustline(ex::Expr, line) = isexpr(ex, :function) ? line + 1 : line
 """
 Line number and file name pair for a method ``m``.
 """
-lineinfo(m::Method) = (m.func.code.line, m.func.code.file)
-
-"""
-Is the method ``meth`` defined in the module ``mod``?
-"""
-samemodule(mod, meth) = mod == getfield(meth.func.code, :module)
+lineinfo(m::Method) = (m.func.code.line, Utilities.expandpath(string(m.func.code.file)))
 
 """
 Find the ``Method`` objects referenced by ``(...)`` docstring syntax.

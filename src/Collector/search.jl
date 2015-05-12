@@ -17,9 +17,6 @@ end
 validmodule(mod::Module, object::Module) = object ≠ mod && object ≠ Main
 validmodule(::Module, other)             = false
 
-"Path to Julia's base source code."
-const BASE = joinpath(JULIA_HOME, "..", "..", "base")
-
 """
 Which source files are known to be included in a module.
 
@@ -33,13 +30,13 @@ function includedfiles(mod::Module, candidates::Set)
             if isgeneric(object)
                 for def in methods(object)
                     file = location(def)
-                    if samemod(mod, def) && file ∈ candidates
+                    if Utilities.samemodule(mod, def) && file ∈ candidates
                         push!(out, file)
                     end
                 end
             elseif isa(object, Function) && isdefined(object, :code)
                 file = location(object)
-                if samemod(mod, object) && file ∈ candidates
+                if Utilities.samemodule(mod, object) && file ∈ candidates
                     push!(out, file)
                 end
             end
@@ -47,18 +44,13 @@ function includedfiles(mod::Module, candidates::Set)
     end
     out
 end
-samemod(mod, def::Method)    = getfield(def.func.code, :module) == mod
-samemod(mod, func::Function) = getfield(func.code, :module) == mod
-samemod(mod, other)          = false
 
 """
 Path to definition of a julia object, only methods are searched for.
 """
-location(object::Method) = expandpath(string(object.func.code.file))
-location(func::Function) = expandpath(string(func.code.file))
+location(object::Method) = Utilities.expandpath(string(object.func.code.file))
+location(func::Function) = Utilities.expandpath(string(func.code.file))
 location(other)          = ""
-
-expandpath(path) = abspath(isabspath(path) ? path : joinpath(BASE, path))
 
 """
 Is the file the root for a module `mod`. Check for `Expr(:module, ...)`.
