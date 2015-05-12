@@ -1,16 +1,23 @@
 require(joinpath(dirname(@__FILE__), "MetadataSyntax.jl"))
 require(joinpath(dirname(@__FILE__), "UndefinedMetaMacro.jl"))
+require(joinpath(dirname(@__FILE__), "UnmatchedBrackets.jl"))
 
-import MetadataSyntax, UndefinedMetaMacro
+import MetadataSyntax, UndefinedMetaMacro, UnmatchedBrackets
 import Docile: Cache, Formats
 
 Cache.getmeta(MetadataSyntax)[:format] = Formats.PlaintextFormatter
 
 facts("Formats.") do
 
-    context("UndefinedMetaMacro.") do
+    context("Undefined MetaMacro.") do
 
         @fact_throws ErrorException Docile.Cache.getparsed(UndefinedMetaMacro, :undefined)
+
+    end
+
+    context("Unmatched Brackets.") do
+
+        @fact_throws ParseError Docile.Cache.getparsed(UnmatchedBrackets, :unmatched_brackets)
 
     end
 
@@ -52,6 +59,13 @@ facts("Formats.") do
 
         @fact Cache.getparsed(MetadataSyntax, :chinese_unicode)     => "所以不多说了"
         @fact Cache.getmeta(MetadataSyntax, :chinese_unicode)[:笔者] => "所以不多说了"
+
+    end
+
+    context("\\\\!!setget") do
+
+        @fact Cache.getparsed(MetadataSyntax, :backslash_escaped_meta)         => "!!setget(russian:бежал мета)"
+        @fact_throws KeyError Cache.getmeta(MetadataSyntax, :backslash_escaped_meta)[:russian]
 
     end
 

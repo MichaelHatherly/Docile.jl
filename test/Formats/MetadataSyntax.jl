@@ -18,4 +18,7 @@ brackets_within_meta = ()
 "!!setget(笔者:所以不多说了)"
 chinese_unicode = ()
 
+"\\!!setget(russian:бежал мета)"
+backslash_escaped_meta = ()
+
 end
