@@ -97,4 +97,19 @@ function Formats.metamacro(::META"include", body, mod, obj)
     readall(filename)
 end
 
+"""
+!!summary(Creates an link suitable for markdown format.)
+
+    !!href(MkDocs:http://www.mkdocs.org/)
+
+The example will create ``[Mkdocs](http://www.mkdocs.org/)`` and spliced back
+into the docstring in place of it.
+Additionally the *metadata* `:MkDocs` is set to `http://www.mkdocs.org/`.
+"""
+function Formats.metamacro(::META"href", body, mod, obj)
+    key, value = @compat(split(body, ':', limit = 2))
+    Cache.getmeta(mod, obj)[symbol(key)] = value
+    return "[$(key)]($(value))"
+end
+
 end

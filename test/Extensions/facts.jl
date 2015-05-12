@@ -41,4 +41,11 @@ facts("Extensions.") do
 
     end
 
+    context("!!href") do
+
+        @fact Cache.getparsed(ExtensionTests, :do_href)        => "[MkDocs](http://www.mkdocs.org/)"
+        @fact Cache.getmeta(ExtensionTests, :do_href)[:MkDocs] => "http://www.mkdocs.org/"
+
+    end
+
 end
