@@ -18,7 +18,6 @@ import ..Runner:
     findvcats,
     exec,
     getvar,
-    typevars,
     pushscope!,
     popscope!
 

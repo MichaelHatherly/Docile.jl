@@ -177,19 +177,6 @@ funcname(state::State, q::Symbol)    = exec(state, exec(state, q))
 funcname(::State, other) = other
 
 
-"""
-Given an expression representing a ``TypeVar``, create the equivalent object.
-"""
-typevar(state::State, x::Expr)   = ((q = x.args[1];), TypeVar(q, exec(state, x.args[2])))
-typevar(state::State, q::Symbol) = (q, TypeVar(q, Any))
-
-"""
-Build a dictionary mapping ``Symbol`` to ``TypeVar``.
-"""
-typevars(state::State, args) = Dict{Symbol, TypeVar}([typevar(state, a) for a in args])
-typevars(::State, ::Symbol)  = Dict{Symbol, TypeVar}()
-
-
 mostgeneral(T::DataType) = T{[tvar.ub for tvar in T.parameters]...}
 mostgeneral(other)       = other
 

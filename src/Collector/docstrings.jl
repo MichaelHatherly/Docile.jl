@@ -43,28 +43,27 @@ end
 function process!(output, moduledata, state, file, expr::Expr)
     # Don't search through non-toplevel expressions.
     skipexpr(expr) && return output
-    # Add type parameters to the scope for inner constructor usage when in a type.
-    scoped(state, expr) do
-        for n in 1:(length(expr.args) - 3)
-            block = expr.args[n:(n + 3)]
-            if is_aside(block)
-                get_aside!(output, moduledata, state, file, block)
-            elseif isdocblock(block)
-                get_docs!(output, moduledata, state, file, block)
-            end
-            process!(output, moduledata, state, file, block[1])
+
+    for n in 1:(length(expr.args) - 3)
+        block = expr.args[n:(n + 3)]
+        if is_aside(block)
+            get_aside!(output, moduledata, state, file, block)
+        elseif isdocblock(block)
+            get_docs!(output, moduledata, state, file, block)
         end
-        # Since we partition the argument list into overlapping blocks of 4, the
-        # last 3 arguments are not passed to `processast`. Do that now if needed.
-        for arg in expr.args[max(length(expr.args) - 3, 1):end]
-            process!(output, moduledata, state, file, arg)
-        end
-        # Check for an aside at the end of a file.
-        if length(expr.args) >= 2
-            block = (expr.args[end-1], expr.args[end], LineNumberNode(0), nothing) # Dummy line node.
-            is_aside(block) && get_aside!(output, moduledata, state, file, block)
-        end
+        process!(output, moduledata, state, file, block[1])
     end
+    # Since we partition the argument list into overlapping blocks of 4, the
+    # last 3 arguments are not passed to `processast`. Do that now if needed.
+    for arg in expr.args[max(length(expr.args) - 3, 1):end]
+        process!(output, moduledata, state, file, arg)
+    end
+    # Check for an aside at the end of a file.
+    if length(expr.args) >= 2
+        block = (expr.args[end-1], expr.args[end], LineNumberNode(0), nothing) # Dummy line node.
+        is_aside(block) && get_aside!(output, moduledata, state, file, block)
+    end
+
     output
 end
 process!(output, moduledata, state, file, other) = output # Skip non-expressions.

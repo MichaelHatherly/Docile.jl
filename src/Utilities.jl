@@ -41,7 +41,7 @@ samemodule(mod, other)          = false
 """
 Path to Julia's base source code.
 """
-const BASE = abspath(joinpath(JULIA_HOME, "..", "..", "base"))
+const BASE = abspath(joinpath(JULIA_HOME, "..", "share", "julia", "base"))
 
 """
 Convert a path to absolute. Relative paths are guessed to be from Julia ``/base``.

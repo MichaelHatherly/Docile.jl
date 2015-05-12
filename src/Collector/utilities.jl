@@ -297,22 +297,6 @@ name(s::Symbol)    = s
 
 
 """
-Add and remove a type parameter scope for a function block.
-"""
-function scoped(func::Function, state::State, ex::Expr)
-    (t = isconcretetype(ex)) && pushscope!(state, typevars(state, typeparams(ex.args[2])))
-    func()
-    t && popscope!(state)
-end
-
-
-"Extract the type parameters from an expression."; :typeparams
-
-typeparams(s::Symbol)   = Any[]
-typeparams(ex::Expr)    = isexpr(ex, :(<:)) ?
-    typeparams(ex.args[1]) : ex.args[2:end]
-
-"""
 Check for a `.docile` configuration file in the directory `dir`.
 
 Load the file if it is found. The file should end with a `Dict{Symbol, Any}`
