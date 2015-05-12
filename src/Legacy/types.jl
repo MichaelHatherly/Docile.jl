@@ -109,3 +109,8 @@ function Metadata(m::Module)
         loaded
         )
 end
+
+function Base.copy(m::Metadata)
+    Metadata(m.modname, copy(m.entries), m.root,
+             copy(m.files), copy(m.data), m.loaded)
+end
