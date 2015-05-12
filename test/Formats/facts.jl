@@ -1,113 +1,72 @@
-require(joinpath(dirname(@__FILE__), "ExampleMeta1.jl"))
+require(joinpath(dirname(@__FILE__), "MetadataSyntax.jl"))
+require(joinpath(dirname(@__FILE__), "UndefinedMetaMacro.jl"))
+require(joinpath(dirname(@__FILE__), "UnmatchedBrackets.jl"))
 
-using ExampleMeta1
+import MetadataSyntax, UndefinedMetaMacro, UnmatchedBrackets
+import Docile: Cache, Formats
 
-facts("ExampleMeta1.") do
+Cache.getmeta(MetadataSyntax)[:format] = Formats.PlaintextFormatter
 
-    context("Check getparsed metadata replacement.") do
+facts("Formats.") do
 
-        expected_results = @compat(Dict(
-            "example1: No meta-syntax." => "example1: No meta-syntax.",
-            "example2: One section meta: !!section(Lexicon.md/Exported/Methods/1)" =>
-                    "example2: One section meta: Lexicon.md/Exported/Methods/1",
-            "example3: One escaped section meta: \\!!section(Lexicon.md/Exported/Methods/1)" =>
-                    "example3: One escaped section meta: !!section(Lexicon.md/Exported/Methods/1)",
-            "example4: One wrong half escaped section meta: \!!section(Lexicon.md/Exported/Methods/1)" =>
-                    "example4: One wrong half escaped section meta: Lexicon.md/Exported/Methods/1",
-#             "example5: unicode metaname: !!笔者(所以不多说了)" =>
-#                     "example5: unicode metaname: 所以不多说了",
-            "example6: space between double ! and metaname: !! spacy(Is that wrong)" =>
-                    "example6: space between double ! and metaname: !! spacy(Is that wrong)",
-            "example7: space between metaname and opening bracket: !!spacy (Is that wrong)" =>
-                    "example7: space between metaname and opening bracket: !!spacy (Is that wrong)",
-            "example8: meta within meta: !!multimeta(here is another meta: !!inner(This is the inner meta!))" =>
-                    "example8: meta within meta: here is another meta: !!inner(This is the inner meta!)",
-            "example9: meta within escaped meta: \\!!multimeta(here is another meta: !!inner(This is the inner meta!))" =>
-                    "example9: meta within escaped meta: !!multimeta(here is another meta: This is the inner meta!)",
-            "example10: usage of double ! within text: Ah I thought so!! That is why I like julia." =>
-                    "example10: usage of double ! within text: Ah I thought so!! That is why I like julia.",
-            "example11: reference to push method: use the push!(a, b,) method." =>
-                    "example11: reference to push method: use the push!(a, b,) method.",
-            "example12: brackets within meta: !!license([MIT](https://github.com/MichaelHatherly/Lexicon.jl/blob/master/LICENSE.md))" =>
-                    "example12: brackets within meta: [MIT](https://github.com/MichaelHatherly/Lexicon.jl/blob/master/LICENSE.md)",
-            "example13: `!!` is the prefix tag followed by a name and  open bracket ( and some text and closing bracket )." =>
-                    "example13: `!!` is the prefix tag followed by a name and  open bracket ( and some text and closing bracket ).",
-"""
-example14: Mixed metadata - long example
-!!site_name(Lexicon.jl)
-!!site_description(Julia package documentation generator.)
-!!repo_url(https://github.com/MichaelHatherly/Lexicon.jl)
+    context("Undefined MetaMacro.") do
 
-!!site_author(Michael Hatherly)
-!!copyright((c) Michael Hatherly and other contributors.)
-!!license([MIT](https://github.com/MichaelHatherly/Lexicon.jl/blob/master/LICENSE.md))
+        @fact_throws ErrorException Docile.Cache.getparsed(UndefinedMetaMacro, :undefined)
 
+    end
 
-## Overview
+    context("Unmatched Brackets.") do
 
-*Lexicon* is a [Julia](http://www.julialang.org) package documentation generator
-and viewer.
+        @fact_throws ParseError Docile.Cache.getparsed(UnmatchedBrackets, :unmatched_brackets)
 
-It provides access to the documentation created by the `@doc` macro from
-[*Docile*][docile-url]. *Lexicon* allows querying of package documentation from
-the Julia REPL and building standalone documentation that can be hosted on GitHub
-Pages or [Read the Docs](https://readthedocs.org/).
+    end
 
-You can use metadata in the documentation by including the `Docile metadata syntax` like this:
+    context("No meta-syntax.") do
 
-Example:
+        @fact Cache.getparsed(MetadataSyntax, :no_meta_syntax) => "No meta-syntax."
+        @fact_throws KeyError Cache.getmeta(MetadataSyntax, :no_meta_syntax)[:no_meta_syntax]
 
-    \\!!section(Lexicon.md/Exported/Methods/1) this will be used to extract the final Section for the defined docstring.
+    end
 
-`!!` is the prefix tag followed by a name and  open bracket ( and some text and closing bracket ).
+    context("\\!!setget.") do
+        @fact Cache.getparsed(MetadataSyntax, :one_backslash_escape)                        => "One backslash is skipped and treated like a normal meta syntax."
+        @fact Cache.getmeta(MetadataSyntax, :one_backslash_escape)[:one_backslash_escape]   => "One backslash is skipped and treated like a normal meta syntax."
 
-!!args(
-* `remove`: Bool if true the directory will be first removed.
-* `modname`: Module name to add to the processed entries.
-)
+    end
 
-!!section(Lexicon.md/Exported/Methods/1)
-""" =>
-"""
-example14: Mixed metadata - long example
-Lexicon.jl
-Julia package documentation generator.
-https://github.com/MichaelHatherly/Lexicon.jl
+    context("!! setget.") do
 
-Michael Hatherly
-(c) Michael Hatherly and other contributors.
-[MIT](https://github.com/MichaelHatherly/Lexicon.jl/blob/master/LICENSE.md)
+        @fact Cache.getparsed(MetadataSyntax, :space_between_backslash_metaname) => "!! setget(space_between_backslash_metaname:Space between double ! and metaname is not a metasyntax.)"
+        @fact_throws KeyError Cache.getmeta(MetadataSyntax, :space_between_backslash_metaname)[:space_between_backslash_metaname]
 
+    end
 
-## Overview
+    context("!!setget (.") do
 
-*Lexicon* is a [Julia](http://www.julialang.org) package documentation generator
-and viewer.
+        @fact Cache.getparsed(MetadataSyntax, :space_between_metaname_bracket) => "!!setget (space_between_metaname_bracket:Space between metaname and bracket is not a metasyntax.)"
+        @fact_throws KeyError Cache.getmeta(MetadataSyntax, :space_between_metaname_bracket)[:space_between_metaname_bracket]
 
-It provides access to the documentation created by the `@doc` macro from
-[*Docile*][docile-url]. *Lexicon* allows querying of package documentation from
-the Julia REPL and building standalone documentation that can be hosted on GitHub
-Pages or [Read the Docs](https://readthedocs.org/).
+    end
 
-You can use metadata in the documentation by including the `Docile metadata syntax` like this:
+    context("brackets within meta: [MIT]()") do
 
-Example:
+        @fact Cache.getparsed(MetadataSyntax, :brackets_within_meta)         => "[MIT](https://github.com/MichaelHatherly/Lexicon.jl/blob/master/LICENSE.md)"
+        @fact Cache.getmeta(MetadataSyntax, :brackets_within_meta)[:license] => "[MIT](https://github.com/MichaelHatherly/Lexicon.jl/blob/master/LICENSE.md)"
 
-    !!section(Lexicon.md/Exported/Methods/1) this will be used to extract the final Section for the defined docstring.
+    end
 
-`!!` is the prefix tag followed by a name and  open bracket ( and some text and closing bracket ).
+    context("!!setget(笔者:所以不多说了)") do
 
-* `remove`: Bool if true the directory will be first removed.
-* `modname`: Module name to add to the processed entries.
+        @fact Cache.getparsed(MetadataSyntax, :chinese_unicode)     => "所以不多说了"
+        @fact Cache.getmeta(MetadataSyntax, :chinese_unicode)[:笔者] => "所以不多说了"
 
-Lexicon.md/Exported/Methods/1
-"""
-            ))
+    end
 
+    context("\\\\!!setget") do
 
-        for (obj, txt) in Docile.Cache.getraw(ExampleMeta1)
-            @fact Docile.Cache.getparsed(ExampleMeta1, obj) => expected_results[txt]
-       end
+        @fact Cache.getparsed(MetadataSyntax, :backslash_escaped_meta)         => "!!setget(russian:бежал мета)"
+        @fact_throws KeyError Cache.getmeta(MetadataSyntax, :backslash_escaped_meta)[:russian]
+
     end
 
 end
