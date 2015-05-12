@@ -1,5 +1,7 @@
 # Docile
 
+Any questions about using this package? Ask them in the Gitter linked below:
+
 [![Join the chat at https://gitter.im/MichaelHatherly/Docile.jl](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MichaelHatherly/Docile.jl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 **Documentation**
