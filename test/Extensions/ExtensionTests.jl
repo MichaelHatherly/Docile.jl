@@ -3,6 +3,9 @@ module ExtensionTests
 "!!set(name:test)!!get(name)"
 set_and_get = ()
 
+"!!get(notset)"
+get_notset = ()
+
 "!!setget(name:test)"
 setget = ()
 

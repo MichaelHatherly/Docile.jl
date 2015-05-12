@@ -21,10 +21,16 @@ spliced back into the docstring in place of it:
 
     \\!!get(author)
 
-When no field in found in the metadata for the object, the module and package
+When no field is found in the metadata for the object, the module and package
 metadata are searched in turn.
 """
-Formats.metamacro(::META"get", body, mod, obj) =  Cache.findmeta(mod, obj, symbol(body))
+function Formats.metamacro(::META"get", body, mod, obj)
+    try
+        Cache.findmeta(mod, obj, symbol(body))
+    catch
+        "ERROR: No metadata found for ':$(symbol(strip(body)))'"
+    end
+end
 
 """
 !!summary(Set the value for a field in an object's metadata.)

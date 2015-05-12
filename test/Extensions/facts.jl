@@ -14,6 +14,13 @@ facts("Extensions.") do
 
     end
 
+    context("!!get(notset)") do
+
+        @fact Cache.getparsed(ExtensionTests, :get_notset) => "ERROR: No metadata found for ':notset'"
+        @fact_throws KeyError Cache.getmeta(ExtensionTests, :get_notset)[:notset]
+
+    end
+
     context("!!setget") do
 
         @fact Cache.getparsed(ExtensionTests, :setget)      => "test"
