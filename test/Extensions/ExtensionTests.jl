@@ -18,4 +18,7 @@ includes = ()
 "!!set(name:test) !!include(includes/file.md) !!get(name)"
 set_includes_get = ()
 
+"!!href(MkDocs:http://www.mkdocs.org/)"
+do_href = ()
+
 end
