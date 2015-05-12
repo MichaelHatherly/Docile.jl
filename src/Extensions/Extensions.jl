@@ -40,6 +40,18 @@ function Formats.metamacro(::META"set", body, mod, obj)
 end
 
 """
+!!summary(Equivalent to ``!!set`` followed by ``!!get`` for the provided key.)
+
+    \\!!setget(author:Author's Name)
+
+The key in this example is ``:author`` and the value is ``"Author's Name"``.
+"""
+function Formats.metamacro(::META"setget", body, mod, obj)
+    key, value = @compat(split(body, ':', limit = 2))
+    Cache.getmeta(mod, obj)[symbol(key)] = value
+end
+
+"""
 !!summary(Specify a short (120 character) summary for a docstring.)
 
     \\!!summary(...)

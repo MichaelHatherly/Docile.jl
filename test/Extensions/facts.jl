@@ -14,6 +14,13 @@ facts("Extensions.") do
 
     end
 
+    context("!!setget") do
+
+        @fact Cache.getparsed(ExtensionTests, :setget)      => "test"
+        @fact Cache.getmeta(ExtensionTests, :setget)[:name] => "test"
+
+    end
+
     context("!!summary") do
 
         @fact Cache.getparsed(ExtensionTests, :summary)         => "summary"

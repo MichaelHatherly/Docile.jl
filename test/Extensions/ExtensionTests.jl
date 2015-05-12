@@ -1,18 +1,21 @@
 module ExtensionTests
 
 "!!set(name:test)!!get(name)"
-set_and_get = 1
+set_and_get = ()
+
+"!!setget(name:test)"
+setget = ()
 
 "!!summary(summary)"
-summary = 2
+summary = ()
 
 "!!longform(...)"
-longform = 3
+longform = ()
 
 "!!include(includes/file.md)"
-includes = 4
+includes = ()
 
 "!!set(name:test) !!include(includes/file.md) !!get(name)"
-set_includes_get = 5
+set_includes_get = ()
 
 end
