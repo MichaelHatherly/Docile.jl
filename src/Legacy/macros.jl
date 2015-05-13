@@ -31,16 +31,26 @@ end
 export @comment, @file_str
 
 """
-Deprecated macro for adding object-independant docstrings to a module.
+Deprecated macro for adding object-independent docstrings to a module.
 
 Use the following syntax instead:
 
     ["..."]
 
+!!set(status:deprecated)
 """
 macro comment(text)
     [text]
 end
+
+"""
+The text found in the file ``text`` is used as the docstring content.
+
+Deprecated in favour of automatically using a file's content if the docstring
+matches a file path.
+
+!!set(status:deprecated)
+"""
 macro file_str(text)
     text
 end
