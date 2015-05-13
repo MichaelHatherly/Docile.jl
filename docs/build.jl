@@ -1,7 +1,7 @@
 using Docile, Lexicon
 
 const api_directory = "api"
-const modules = [Docile, Docile.Interface]
+const modules = Docile.Collector.submodules(Docile)
 
 cd(dirname(@__FILE__)) do
 

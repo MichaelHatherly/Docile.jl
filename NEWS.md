@@ -1,3 +1,9 @@
+## v0.5.0
+
+* Move to autoextracted docstrings. ``@doc`` and ``@document`` remain as before.
+* Rename and split ``__METADATA__`` as ``__DOCILE_STRINGS__`` and ``__DOCILE_METADATA__``.
+* Stable modules are ``Docile`` and ``Docile.Interface``. Other modules are subject to change.
+
 ### v0.4.13
 
 * Rename files to account for case-insensitive filesystems.

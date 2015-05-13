@@ -1,40 +1,67 @@
 # Docile.Interface
 
-Utility methods for working with `Entry` and `Metadata` types from the `Docile`
-module (documentation available [here](api/Docile)).
 
+## Functions [Exported]
+
+---
+
+<a id="function__parsedocs.1" class="lexicon_definition"></a>
+#### parsedocs [¶](#function__parsedocs.1)
+Parsing hook for specifying how to parse raw docstrings into formatted text.
+
+
+*source:*
+[Docile/src/Interface/legacy.jl:188](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L188)
 
 ## Methods [Exported]
 
 ---
 
 <a id="method__category.1" class="lexicon_definition"></a>
-#### category{C}(e::Docile.Entry{C}) [¶](#method__category.1)
-Symbol representing the category that an `Entry` belongs to.
+#### category{C}(::Docile.Legacy.Entry{C}) [¶](#method__category.1)
+What category does an ``Entry`` object belong to?
+
+
 
 
 *source:*
-[Docile/src/interface.jl:147](https://github.com/MichaelHatherly/Docile.jl/tree/729b3ce8a074360a25f5fa5440c909ad8b9c5003/src/interface.jl#L147)
+[Docile/src/Interface/legacy.jl:137](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L137)
 
 ---
 
 <a id="method__data.1" class="lexicon_definition"></a>
-#### data(d::Docile.Docs{format}) [¶](#method__data.1)
-The raw content stored in a docstring.
+#### data(d::Docile.Legacy.Docs{format}) [¶](#method__data.1)
+Raw docstring associated with a ``Docs`` object ``d``.
+
+
 
 
 *source:*
-[Docile/src/interface.jl:171](https://github.com/MichaelHatherly/Docile.jl/tree/729b3ce8a074360a25f5fa5440c909ad8b9c5003/src/interface.jl#L171)
+[Docile/src/Interface/legacy.jl:169](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L169)
 
 ---
 
 <a id="method__docs.1" class="lexicon_definition"></a>
-#### docs(e::Docile.Entry{category}) [¶](#method__docs.1)
-Documentation related to the entry.
+#### docs(e::Docile.Legacy.Entry{category}) [¶](#method__docs.1)
+The ``Docs`` object for an ``Entry`` object ``e``.
+
+
 
 
 *source:*
-[Docile/src/interface.jl:162](https://github.com/MichaelHatherly/Docile.jl/tree/729b3ce8a074360a25f5fa5440c909ad8b9c5003/src/interface.jl#L162)
+[Docile/src/Interface/legacy.jl:158](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L158)
+
+---
+
+<a id="method__documentation.1" class="lexicon_definition"></a>
+#### documentation(mod::Module) [¶](#method__documentation.1)
+The ``Metadata`` object associated with a module ``mod``.
+
+
+
+
+*source:*
+[Docile/src/Interface/legacy.jl:203](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L203)
 
 ---
 
@@ -44,171 +71,196 @@ Returns the modules that are currently documented by Docile.
 
 
 *source:*
-[Docile/src/interface.jl:41](https://github.com/MichaelHatherly/Docile.jl/tree/729b3ce8a074360a25f5fa5440c909ad8b9c5003/src/interface.jl#L41)
+[Docile/src/Interface/legacy.jl:26](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L26)
 
 ---
 
 <a id="method__entries.1" class="lexicon_definition"></a>
-#### entries(meta::Docile.Metadata) [¶](#method__entries.1)
-Dictionary associating objects and documentation entries.
+#### entries(meta::Docile.Legacy.Metadata) [¶](#method__entries.1)
+``ObjectIdDict`` containing documented objects and their associated ``Entry``s.
+
+
 
 
 *source:*
-[Docile/src/interface.jl:86](https://github.com/MichaelHatherly/Docile.jl/tree/729b3ce8a074360a25f5fa5440c909ad8b9c5003/src/interface.jl#L86)
+[Docile/src/Interface/legacy.jl:68](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L68)
 
 ---
 
 <a id="method__files.1" class="lexicon_definition"></a>
-#### files(meta::Docile.Metadata) [¶](#method__files.1)
-All files `include`d in the module documented with the `meta` object.
+#### files(meta::Docile.Legacy.Metadata) [¶](#method__files.1)
+List of all ``include``d files in a module documented by ``Metadata`` object ``meta``.
+
+
 
 
 *source:*
-[Docile/src/interface.jl:96](https://github.com/MichaelHatherly/Docile.jl/tree/729b3ce8a074360a25f5fa5440c909ad8b9c5003/src/interface.jl#L96)
+[Docile/src/Interface/legacy.jl:82](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L82)
 
 ---
 
 <a id="method__format.1" class="lexicon_definition"></a>
-#### format{F}(d::Docile.Docs{F}) [¶](#method__format.1)
-Return the format that a docstring is written in.
+#### format{F}(d::Docile.Legacy.Docs{F}) [¶](#method__format.1)
+The format that a docstring is written in.
+
+
 
 
 *source:*
-[Docile/src/interface.jl:176](https://github.com/MichaelHatherly/Docile.jl/tree/729b3ce8a074360a25f5fa5440c909ad8b9c5003/src/interface.jl#L176)
+[Docile/src/Interface/legacy.jl:176](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L176)
 
 ---
 
 <a id="method__isdocumented.1" class="lexicon_definition"></a>
 #### isdocumented(mod::Module) [¶](#method__isdocumented.1)
-Is the given module `modname` documented using Docile?
+Is the module ``mod`` documented by Docile?
 
 
 *source:*
-[Docile/src/interface.jl:46](https://github.com/MichaelHatherly/Docile.jl/tree/729b3ce8a074360a25f5fa5440c909ad8b9c5003/src/interface.jl#L46)
+[Docile/src/Interface/legacy.jl:31](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L31)
 
 ---
 
 <a id="method__isexported.1" class="lexicon_definition"></a>
 #### isexported(modname::Module, object) [¶](#method__isexported.1)
-Check whether `object` has been exported from a *documented* module `modname`.
+Is the documented object ``object`` been exported from the given module ``modname``?
 
 
 *source:*
-[Docile/src/interface.jl:111](https://github.com/MichaelHatherly/Docile.jl/tree/729b3ce8a074360a25f5fa5440c909ad8b9c5003/src/interface.jl#L111)
+[Docile/src/Interface/legacy.jl:101](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L101)
 
 ---
 
 <a id="method__isloaded.1" class="lexicon_definition"></a>
-#### isloaded(meta::Docile.Metadata) [¶](#method__isloaded.1)
-Has the documentation contained in a module been loaded into the `meta` object?
+#### isloaded(meta::Docile.Legacy.Metadata) [¶](#method__isloaded.1)
+Have the docstrings contained in a module been collected yet?
+
+
 
 
 *source:*
-[Docile/src/interface.jl:101](https://github.com/MichaelHatherly/Docile.jl/tree/729b3ce8a074360a25f5fa5440c909ad8b9c5003/src/interface.jl#L101)
+[Docile/src/Interface/legacy.jl:89](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L89)
 
 ---
 
 <a id="method__manual.1" class="lexicon_definition"></a>
-#### manual(meta::Docile.Metadata) [¶](#method__manual.1)
-The `Manual` object containing a module's manual pages.
+#### manual(meta::Docile.Legacy.Metadata) [¶](#method__manual.1)
+The manual files for a ``Metadata`` object ``meta``.
+
+
 
 
 *source:*
-[Docile/src/interface.jl:81](https://github.com/MichaelHatherly/Docile.jl/tree/729b3ce8a074360a25f5fa5440c909ad8b9c5003/src/interface.jl#L81)
+[Docile/src/Interface/legacy.jl:61](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L61)
 
 ---
 
 <a id="method__metadata.1" class="lexicon_definition"></a>
-#### metadata(e::Docile.Entry{category}) [¶](#method__metadata.1)
-Dictionary containing arbitrary metadata related to an entry.
+#### metadata(e::Docile.Legacy.Entry{category}) [¶](#method__metadata.1)
+Arbitrary additional metadata associated with a particular ``Entry`` ``e``.
+
+
 
 
 *source:*
-[Docile/src/interface.jl:157](https://github.com/MichaelHatherly/Docile.jl/tree/729b3ce8a074360a25f5fa5440c909ad8b9c5003/src/interface.jl#L157)
+[Docile/src/Interface/legacy.jl:151](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L151)
 
 ---
 
 <a id="method__metadata.2" class="lexicon_definition"></a>
-#### metadata(meta::Docile.Metadata) [¶](#method__metadata.2)
-A dictionary containing configuration settings related to the `meta` object.
+#### metadata(meta::Docile.Legacy.Metadata) [¶](#method__metadata.2)
+The ``Dict{Symbol, Any}`` containing arbitrary additional data about a ``Metadata`` object.
+
+
 
 
 *source:*
-[Docile/src/interface.jl:106](https://github.com/MichaelHatherly/Docile.jl/tree/729b3ce8a074360a25f5fa5440c909ad8b9c5003/src/interface.jl#L106)
+[Docile/src/Interface/legacy.jl:96](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L96)
 
 ---
 
 <a id="method__metadata.3" class="lexicon_definition"></a>
 #### metadata(mod::Module) [¶](#method__metadata.3)
-Returns the `Metadata` object stored in a module `modname` by Docile.
+Get the ``Metadata`` object associated with a module ``mod``.
 
-Throws an `ArgumentError` when the module has not been documented.
 
-If the `Metadata` is not loaded yet (`isloaded` returns `false`) then that is
-done first, and the resulting documentation is returned.
 
 
 *source:*
-[Docile/src/interface.jl:56](https://github.com/MichaelHatherly/Docile.jl/tree/729b3ce8a074360a25f5fa5440c909ad8b9c5003/src/interface.jl#L56)
+[Docile/src/Interface/legacy.jl:38](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L38)
 
 ---
 
 <a id="method__modulename.1" class="lexicon_definition"></a>
-#### modulename(e::Docile.Entry{category}) [¶](#method__modulename.1)
-Module where the entry is defined.
+#### modulename(e::Docile.Legacy.Entry{category}) [¶](#method__modulename.1)
+Which module does the ``Entry`` object come from?
+
+
 
 
 *source:*
-[Docile/src/interface.jl:152](https://github.com/MichaelHatherly/Docile.jl/tree/729b3ce8a074360a25f5fa5440c909ad8b9c5003/src/interface.jl#L152)
+[Docile/src/Interface/legacy.jl:144](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L144)
 
 ---
 
 <a id="method__modulename.2" class="lexicon_definition"></a>
-#### modulename(meta::Docile.Metadata) [¶](#method__modulename.2)
-Module where the `Metadata` object is defined.
+#### modulename(meta::Docile.Legacy.Metadata) [¶](#method__modulename.2)
+The ``Module`` that a ``Metadata`` object documents.
+
+
 
 
 *source:*
-[Docile/src/interface.jl:76](https://github.com/MichaelHatherly/Docile.jl/tree/729b3ce8a074360a25f5fa5440c909ad8b9c5003/src/interface.jl#L76)
+[Docile/src/Interface/legacy.jl:54](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L54)
 
 ---
 
 <a id="method__parsed.1" class="lexicon_definition"></a>
-#### parsed(d::Docile.Docs{format}) [¶](#method__parsed.1)
-The parsed documentation for an object. Lazy parsing.
+#### parsed(d::Docile.Legacy.Docs{format}) [¶](#method__parsed.1)
+Get the parsed docstring for a ``Docs`` object ``d``.
+
+
 
 
 *source:*
-[Docile/src/interface.jl:181](https://github.com/MichaelHatherly/Docile.jl/tree/729b3ce8a074360a25f5fa5440c909ad8b9c5003/src/interface.jl#L181)
-
----
-
-<a id="method__parsedocs.1" class="lexicon_definition"></a>
-#### parsedocs{ext}(d::Docile.Docs{ext}) [¶](#method__parsedocs.1)
-Extension method for handling arbitrary docstring formats.
-
-Parsers for additional formats can be defined by extending this method as follows:
-
-```julia_skip
-import Docile.Interface: parsedocs
-
-parsedocs(d::Docs{:format}) = Format.parse(data(d))
-```
-
-where `:format` is the symbol representing the docstring's format and `Format.parse` is
-the desired parser.
-
-
-*source:*
-[Docile/src/interface.jl:197](https://github.com/MichaelHatherly/Docile.jl/tree/729b3ce8a074360a25f5fa5440c909ad8b9c5003/src/interface.jl#L197)
+[Docile/src/Interface/legacy.jl:183](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L183)
 
 ---
 
 <a id="method__root.1" class="lexicon_definition"></a>
-#### root(meta::Docile.Metadata) [¶](#method__root.1)
-File containing the module definition documented with the `meta` object.
+#### root(meta::Docile.Legacy.Metadata) [¶](#method__root.1)
+The rootfile of the module documented by a ``Metadata`` object ``meta``.
+
+
 
 
 *source:*
-[Docile/src/interface.jl:91](https://github.com/MichaelHatherly/Docile.jl/tree/729b3ce8a074360a25f5fa5440c909ad8b9c5003/src/interface.jl#L91)
+[Docile/src/Interface/legacy.jl:75](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L75)
+
+
+## Functions [Internal]
+
+---
+
+<a id="function__name.1" class="lexicon_definition"></a>
+#### name [¶](#function__name.1)
+Get the ``Symbol`` representing an object such as ``Function`` or ``Method``.
+
+
+*source:*
+[Docile/src/Interface/legacy.jl:120](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L120)
+
+## Globals [Internal]
+
+---
+
+<a id="global__documented.1" class="lexicon_definition"></a>
+#### DOCUMENTED [¶](#global__documented.1)
+Storage for deprecated ``Metadata`` documentation.
+
+
+
+
+*source:*
+[Docile/src/Interface/legacy.jl:21](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Interface/legacy.jl#L21)
 

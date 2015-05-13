@@ -2,12 +2,19 @@ site_name:           Docile.jl
 repo_url:            https://github.com/MichaelHatherly/Docile.jl
 site_description:    Julia package documentation system.
 site_author:         Michael Hatherly
-theme:               flatly
+theme:               readthedocs
 markdown_extensions: [tables, fenced_code]
 pages:
     - ['index.md', 'Introduction']
     - ['manual.md', 'Manual', 'Overview']
     - ['syntax.md', 'Manual', 'Syntax']
     - ['api/Docile.md', 'API', 'Docile']
+    - ['api/Docile.Cache.md', 'API', 'Docile.Cache']
+    - ['api/Docile.Collector.md', 'API', 'Docile.Collector']
+    - ['api/Docile.Extensions.md', 'API', 'Docile.Extensions']
+    - ['api/Docile.Formats.md', 'API', 'Docile.Formats']
     - ['api/Docile.Interface.md', 'API', 'Docile.Interface']
+    - ['api/Docile.Legacy.md', 'API', 'Docile.Legacy']
+    - ['api/Docile.Runner.md', 'API', 'Docile.Runner']
+    - ['api/Docile.Utilities.md', 'API', 'Docile.Utilities']
     - ['api/index.md', 'API', 'Index']
