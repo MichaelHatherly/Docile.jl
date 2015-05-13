@@ -21,7 +21,7 @@ facts("Interface.") do
         @fact isempty(Docile.Interface.manual(meta)) => true
         @fact typeof(Docile.Interface.manual(meta))  => Vector{UTF8String}
 
-        @fact isempty(Docile.Interface.entries(meta))                                    => true
+        @fact isempty(Docile.Interface.entries(meta))                                    => false
         @fact isempty(Docile.Interface.entries(Docile.Interface.metadata(Docile.Cache))) => false
 
         @fact typeof(Docile.Interface.entries(meta)) => ObjectIdDict
