@@ -241,6 +241,7 @@ function findpackages(rootfiles::Set{UTF8String})
     packages = Dict{Module, PackageData}()
     parsed   = Dict{UTF8String, Expr}()
     for root in rootfiles
+        root    = normpath(root)
         files   = matching(f -> isfile(f) && endswith(f, ".jl"), dirname(root))
         modules = Set{Module}()
         for file in files
