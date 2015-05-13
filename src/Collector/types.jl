@@ -40,7 +40,7 @@ end
 
 
 """
-Extract information from a package for documentation perposes.
+Extract information from a package for documentation purposes.
 
 Example:
 
