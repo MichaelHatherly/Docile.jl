@@ -8,6 +8,7 @@ pages:
     - ['index.md', 'Introduction']
     - ['manual.md', 'Manual', 'Overview']
     - ['syntax.md', 'Manual', 'Syntax']
+    - ['metamacros.md', 'Manual', 'Metamacros']
     - ['api/Docile.md', 'API', 'Docile']
     - ['api/Docile.Cache.md', 'API', 'Docile.Cache']
     - ['api/Docile.Collector.md', 'API', 'Docile.Collector']
