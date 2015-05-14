@@ -1,3 +1,8 @@
+### v0.5.2
+
+* Fix escaping bug.
+* Re-add deprecated ``@md_str`` and ``@md_mstr`` and warn on usage.
+
 ### v0.5.1
 
 * Fix ``@doc`` bug for qualified methods.
