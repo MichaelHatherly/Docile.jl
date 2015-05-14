@@ -138,7 +138,7 @@ function methoddocs(packed)
     d, o, n = map(esc, (docs, object, name))
     quote
         @init
-        old = $(defined(name)) ? Set{Method}(methods($(n))) : Set{Method}()
+        old = $(esc(defined(name))) ? Set{Method}(methods($(n))) : Set{Method}()
         $(o)
         for m in setdiff(Set{Method}(methods($(n))), old)
             metadata()[m] = data(m, $(d);

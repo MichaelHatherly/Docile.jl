@@ -61,7 +61,7 @@ import .Legacy:
 
     @document, @docstrings,
 
-    @doc_str, @doc_mstr, @file_str,
+    @doc_str, @doc_mstr, @file_str, @md_str, @md_mstr,
 
     meta
 
@@ -71,7 +71,7 @@ export
 
     @document, @docstrings,
 
-    @doc_str, @doc_mstr, @file_str,
+    @doc_str, @doc_mstr, @file_str, @md_str, @md_mstr,
 
     meta,
 

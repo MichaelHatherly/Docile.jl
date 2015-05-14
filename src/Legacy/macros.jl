@@ -28,6 +28,18 @@ macro doc_mstr(text)
 end
 
 
+export @md_str, @md_mstr
+
+macro md_str(text)
+    Base.warn_once("'@md_str' is deprecated, please use '@doc_str' instead.")
+    text
+end
+macro md_mstr(text)
+    Base.warn_once("'@md_mstr' is deprecated, please use '@doc_mstr' instead.")
+    Base.triplequoted(text)
+end
+
+
 export @comment, @file_str
 
 """
