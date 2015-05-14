@@ -94,7 +94,7 @@ function Formats.metamacro(::META"include", body, mod, obj)
     meta = Cache.getmeta(mod, obj)
     filename = abspath(joinpath(dirname(meta[:textsource][2]), body))
     isfile(filename) || error("Unknown '!!include(...)' file: $(filename)")
-    readall(filename)
+    Formats.extractmeta!(readall(filename), m, obj)
 end
 
 end
