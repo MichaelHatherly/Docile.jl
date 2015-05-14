@@ -29,7 +29,7 @@ Arguments:
 
 
 *source:*
-[Docile/src/Formats/formatting.jl:28](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Formats/formatting.jl#L28)
+[Docile/src/Formats/formatting.jl:28](https://github.com/MichaelHatherly/Docile.jl/tree/7701224579bea92e6ad5f70a3c2da426c0a1dce7/src/Formats/formatting.jl#L28)
 
 
 ## Methods [Internal]
@@ -42,7 +42,7 @@ Run all 'metamacros' found in a raw docstring and return the resulting string.
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:41](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Formats/metaparse.jl#L41)
+[Docile/src/Formats/metaparse.jl:41](https://github.com/MichaelHatherly/Docile.jl/tree/7701224579bea92e6ad5f70a3c2da426c0a1dce7/src/Formats/metaparse.jl#L41)
 
 ---
 
@@ -52,7 +52,7 @@ Does the buffer `io` begin with the given prefix chars?
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:91](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Formats/metaparse.jl#L91)
+[Docile/src/Formats/metaparse.jl:91](https://github.com/MichaelHatherly/Docile.jl/tree/7701224579bea92e6ad5f70a3c2da426c0a1dce7/src/Formats/metaparse.jl#L91)
 
 ---
 
@@ -64,7 +64,7 @@ Throws a `MetaMacroNameError` if the string `s` is not valid.
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:17](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Formats/metaparse.jl#L17)
+[Docile/src/Formats/metaparse.jl:17](https://github.com/MichaelHatherly/Docile.jl/tree/7701224579bea92e6ad5f70a3c2da426c0a1dce7/src/Formats/metaparse.jl#L17)
 
 ---
 
@@ -76,7 +76,7 @@ Throws a `ParseError` when unmatched brackets are encountered.
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:103](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Formats/metaparse.jl#L103)
+[Docile/src/Formats/metaparse.jl:103](https://github.com/MichaelHatherly/Docile.jl/tree/7701224579bea92e6ad5f70a3c2da426c0a1dce7/src/Formats/metaparse.jl#L103)
 
 ---
 
@@ -89,7 +89,7 @@ of an embedded metadata entry.
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:64](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Formats/metaparse.jl#L64)
+[Docile/src/Formats/metaparse.jl:64](https://github.com/MichaelHatherly/Docile.jl/tree/7701224579bea92e6ad5f70a3c2da426c0a1dce7/src/Formats/metaparse.jl#L64)
 
 ## Types [Internal]
 
@@ -101,7 +101,7 @@ Dispatch type for the `metamacro` function. `name` is a `Symbol`.
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:6](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Formats/metaparse.jl#L6)
+[Docile/src/Formats/metaparse.jl:6](https://github.com/MichaelHatherly/Docile.jl/tree/7701224579bea92e6ad5f70a3c2da426c0a1dce7/src/Formats/metaparse.jl#L6)
 
 ## Macros [Internal]
 
@@ -123,13 +123,5 @@ Example
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:33](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Formats/metaparse.jl#L33)
-
-## Comments [Internal]
-
----
-
-<a id="comment__comment.1" class="lexicon_definition"></a>
-#### Docile.Legacy.Comment(symbol("##comment#3522")) [¶](#comment__comment.1)
-Extraction of metadata from docstrings prior to formatting them.
+[Docile/src/Formats/metaparse.jl:33](https://github.com/MichaelHatherly/Docile.jl/tree/7701224579bea92e6ad5f70a3c2da426c0a1dce7/src/Formats/metaparse.jl#L33)
 
