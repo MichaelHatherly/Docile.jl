@@ -17,7 +17,8 @@ cd(dirname(@__FILE__)) do
 
     # Generate and save the contents of docstrings as markdown files.
     index  = Index()
-    config = Config(md_subheader = :category)
+    config = Config(md_subheader = :category, category_order = [:module,    :function, :method, :type,
+                                                                :typealias, :macro,    :global])
     for mod in modules
         update!(index, save(joinpath(api_directory, "$(mod).md"), mod, config))
     end
