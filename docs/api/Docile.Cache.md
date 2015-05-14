@@ -11,7 +11,7 @@ Remove all cached objects, modules and packages from storage.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:217](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L217)
+[Docile/src/Cache/storage.jl:217](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L217)
 
 ---
 
@@ -21,7 +21,7 @@ Return a reference to the metadata cache for a given module `m`.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:201](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L201)
+[Docile/src/Cache/storage.jl:201](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L201)
 
 ---
 
@@ -31,7 +31,7 @@ Return the metadata `Dict` for a given object `obj` found in module `m`.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:206](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L206)
+[Docile/src/Cache/storage.jl:206](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L206)
 
 ---
 
@@ -41,7 +41,7 @@ Return a reference to the parsed docstring cache for a given module `m`.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:182](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L182)
+[Docile/src/Cache/storage.jl:182](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L182)
 
 ---
 
@@ -54,7 +54,7 @@ user-definable `Docile.Formats.parsedocs` method.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:190](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L190)
+[Docile/src/Cache/storage.jl:190](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L190)
 
 ---
 
@@ -64,7 +64,7 @@ Return a reference to the raw docstring storage for a given module `m`.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:166](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L166)
+[Docile/src/Cache/storage.jl:166](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L166)
 
 ---
 
@@ -74,7 +74,7 @@ Return the raw docstring for a given `obj` in the module `m`.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:171](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L171)
+[Docile/src/Cache/storage.jl:171](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L171)
 
 ---
 
@@ -84,7 +84,7 @@ List of all documented objects in a module `m`.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:222](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L222)
+[Docile/src/Cache/storage.jl:222](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L222)
 
 
 ## Methods [Internal]
@@ -97,7 +97,7 @@ Empty cached docstrings, parsed docs, and metadata from all modules.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:158](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L158)
+[Docile/src/Cache/storage.jl:158](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L158)
 
 ---
 
@@ -107,7 +107,7 @@ Empty all loaded packages and modules from cache.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:103](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L103)
+[Docile/src/Cache/storage.jl:103](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L103)
 
 ---
 
@@ -118,7 +118,7 @@ for the docstring `raw`.
 
 
 *source:*
-[Docile/src/Cache/utilities.jl:50](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/utilities.jl#L50)
+[Docile/src/Cache/utilities.jl:50](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/utilities.jl#L50)
 
 ---
 
@@ -128,7 +128,7 @@ Return documentation cache of a module `m`. Initialise an empty cache if needed.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:150](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L150)
+[Docile/src/Cache/storage.jl:150](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L150)
 
 ---
 
@@ -138,7 +138,7 @@ Get the `ModuleData` object associated with a module `m`.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:63](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L63)
+[Docile/src/Cache/storage.jl:63](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L63)
 
 ---
 
@@ -148,7 +148,7 @@ Return the `PackageData` object that represents a registered package.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:83](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L83)
+[Docile/src/Cache/storage.jl:83](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L83)
 
 ---
 
@@ -158,7 +158,7 @@ Has module `m` had documentation extracted with `Docile.Collector.docstrings`?
 
 
 *source:*
-[Docile/src/Cache/storage.jl:145](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L145)
+[Docile/src/Cache/storage.jl:145](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L145)
 
 ---
 
@@ -170,7 +170,7 @@ When module isn't found then check for newly added packages first.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:58](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L58)
+[Docile/src/Cache/storage.jl:58](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L58)
 
 ---
 
@@ -182,7 +182,7 @@ When package isn't found then check for newly added packages first.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:78](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L78)
+[Docile/src/Cache/storage.jl:78](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L78)
 
 ---
 
@@ -192,7 +192,7 @@ Has module `m` been parsed yet?
 
 
 *source:*
-[Docile/src/Cache/storage.jl:112](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L112)
+[Docile/src/Cache/storage.jl:112](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L112)
 
 ---
 
@@ -202,7 +202,7 @@ List of all documented modules currently stored by Docile.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:140](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L140)
+[Docile/src/Cache/storage.jl:140](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L140)
 
 ---
 
@@ -214,7 +214,7 @@ Also extracts additional embedded metadata found in each raw docstring.
 
 
 *source:*
-[Docile/src/Cache/utilities.jl:37](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/utilities.jl#L37)
+[Docile/src/Cache/utilities.jl:37](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/utilities.jl#L37)
 
 ---
 
@@ -224,7 +224,7 @@ Module `m` has had it's docstrings parsed.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:117](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L117)
+[Docile/src/Cache/storage.jl:117](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L117)
 
 ---
 
@@ -236,7 +236,7 @@ Switch on/off documenting of ``Base`` and it's submodules.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:23](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L23)
+[Docile/src/Cache/storage.jl:23](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L23)
 
 ## Macros [Internal]
 
@@ -248,25 +248,25 @@ Macro to make a function definition global. Used in `let`-blocks.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:6](https://github.com/MichaelHatherly/Docile.jl/tree/c46b4ecce0490f7dca72500c1749baba31650210/src/Cache/storage.jl#L6)
+[Docile/src/Cache/storage.jl:6](https://github.com/MichaelHatherly/Docile.jl/tree/480e42d83ca456d56827d0f3c518ee109b0fef3b/src/Cache/storage.jl#L6)
 
 ## Comments [Internal]
 
 ---
 
 <a id="comment__comment.1" class="lexicon_definition"></a>
-#### Docile.Legacy.Comment(symbol("##comment#3530")) [¶](#comment__comment.1)
+#### Docile.Legacy.Comment(symbol("##comment#3505")) [¶](#comment__comment.1)
 Caching of docstrings and package metadata.
 
 ---
 
 <a id="comment__comment.2" class="lexicon_definition"></a>
-#### Docile.Legacy.Comment(symbol("##comment#3531")) [¶](#comment__comment.2)
+#### Docile.Legacy.Comment(symbol("##comment#3506")) [¶](#comment__comment.2)
 Helper functions related to documentation and package metadata caching.
 
 ---
 
 <a id="comment__comment.3" class="lexicon_definition"></a>
-#### Docile.Legacy.Comment(symbol("##comment#3532")) [¶](#comment__comment.3)
+#### Docile.Legacy.Comment(symbol("##comment#3507")) [¶](#comment__comment.3)
 Global documentation caches and their associated getters and setters.
 
