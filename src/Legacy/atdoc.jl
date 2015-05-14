@@ -39,6 +39,8 @@ Get the symbolic name of an expression.
 """
 nameof(x::Expr) = isa(x.args[1], Bool) ?
     nameof(x.args[2]) :
+    isexpr(x.args[1], :(.)) ?
+    x.args[1] :
     nameof(x.args[1])
 
 nameof(s::Symbol) = s
@@ -127,12 +129,16 @@ function symbolicdocs(packed)
         $(n)
     end
 end
+
+defined(ex::Expr)  = :(isdefined($(ex.args[1]), $(Expr(:quote, ex.args[2].args[1]))))
+defined(s::Symbol) = :(isdefined($(Expr(:quote, s))))
+
 function methoddocs(packed)
     docs, object, category, name, codesource = packed
     d, o, n = map(esc, (docs, object, name))
     quote
         @init
-        old = isdefined($(Expr(:quote, name))) ? Set{Method}(methods($(n))) : Set{Method}()
+        old = $(defined(name)) ? Set{Method}(methods($(n))) : Set{Method}()
         $(o)
         for m in setdiff(Set{Method}(methods($(n))), old)
             metadata()[m] = data(m, $(d);

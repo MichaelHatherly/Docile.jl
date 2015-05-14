@@ -131,3 +131,10 @@ f_36() = ()
 
 @doc doc"""f_37""" ->
 f_37() = ()
+
+# Qualified docs.
+
+type FooType end
+
+@doc "f_38" ->
+Base.Pkg.add(::FooType) = 1

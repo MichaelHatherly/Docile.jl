@@ -137,7 +137,7 @@ facts("MacroDocs.") do
 
     context("General.") do
 
-        @fact length(entries) => 53
+        @fact length(entries) => 54
 
         @fact Docile.Interface.metadata(metadata) => @compat(
             Dict{Symbol, Any}(
@@ -196,6 +196,8 @@ facts("MacroDocs.") do
 
         @fact rawdocs(entries, fmeth(MacroDocs.f_36)) => "f_36"
         @fact rawdocs(entries, fmeth(MacroDocs.f_37)) => "f_37"
+
+        @fact rawdocs(entries, first(methods(Base.Pkg.add, @compat(Tuple{MacroDocs.FooType})))) => "f_38"
 
     end
 
