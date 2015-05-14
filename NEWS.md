@@ -1,3 +1,7 @@
+### v0.5.1
+
+* Fix ``@doc`` bug for qualified methods.
+
 ## v0.5.0
 
 * Move to autoextracted docstrings. ``@doc`` and ``@document`` remain as before.
