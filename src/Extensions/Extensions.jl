@@ -73,11 +73,9 @@ end
     ...
     )
 
-In the REPL the text is not displayed. Other ``metamacro`` calls can be nested
-inside a ``\\!!longform(...)`` call, such as ``\\!!include(...)``.
+In the REPL the text is not displayed.
 """
 function Formats.metamacro(::META"longform", body, mod, obj)
-    body = Formats.extractmeta!(body, mod, obj) # Make nestable.
     Cache.getmeta(mod, obj)[:longform] = body
     isinteractive() ? "" : body
 end
@@ -94,7 +92,7 @@ function Formats.metamacro(::META"include", body, mod, obj)
     meta = Cache.getmeta(mod, obj)
     filename = abspath(joinpath(dirname(meta[:textsource][2]), body))
     isfile(filename) || error("Unknown '!!include(...)' file: $(filename)")
-    readall(filename)
+    Formats.extractmeta!(readall(filename), mod, obj)
 end
 
 end

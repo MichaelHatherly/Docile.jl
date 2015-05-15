@@ -37,10 +37,32 @@ Example:
 """
 ```
 
+Metamacros can be nested.
+
+Example:
+
+```julia
+"""
+
+!!summary(Set the value for a field in an object's metadata. !!set(url:https://github.com/MichaelHatherly/Docile.jl))
+
+
+!!setget(outer:Outer
+    !!setget(level1:Level1
+        !!setget(level2:Level2
+            !!setget(level3:Level3
+                !!setget(level4:Level4
+                    !!setget(level5:Level5
+                        !!setget(level6:Level6)))))))
+
+"""
+```
+
+
 ##### Escape for the metamacro syntax
 
 To escape the metamacro syntax a double backslash is used immidiately before the `!!` double
-exclamation mark.
+exclamation mark. This does not escape any nested metamacros.
 
 Example:
 
@@ -50,6 +72,8 @@ Example:
 \\!!hypothetical()
 
 \\!!set(author:Author's Name)
+
+!!summary(Set the value for a field in an object's metadata. \\!!set(url:https://github.com/MichaelHatherly/Docile.jl))
 
 """
 ```

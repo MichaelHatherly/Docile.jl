@@ -46,7 +46,7 @@ function extractmeta!(raw::IO, mod::Module, obj)
     while !eof(raw)
         name, body = tryextract(raw)
         write(out, name == symbol("") ? read(raw, Char) :
-                  metamacro(MetaMacro{name}(), body, mod, obj))
+                   metamacro(MetaMacro{name}(), extractmeta!(body, mod, obj), mod, obj))
     end
     takebuf_string(out)
 end

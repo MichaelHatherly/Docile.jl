@@ -69,4 +69,42 @@ facts("Formats.") do
 
     end
 
+    context("!!setget(meta_in_meta:Here we have an !!setget(inner:inner meta))") do
+
+        @fact Cache.getparsed(MetadataSyntax, :meta_in_meta)              => "Here we have an inner meta"
+        @fact Cache.getmeta(MetadataSyntax, :meta_in_meta)[:meta_in_meta] => "Here we have an inner meta"
+        @fact Cache.getmeta(MetadataSyntax, :meta_in_meta)[:inner]        => "inner meta"
+
+    end
+
+    context("unicode meta_in_meta") do
+
+        @fact Cache.getparsed(MetadataSyntax, :unicode_meta_in_meta)                      => "所以不多说了 бежал мета"
+        @fact Cache.getmeta(MetadataSyntax, :unicode_meta_in_meta)[:unicode_meta_in_meta] => "所以不多说了 бежал мета"
+        @fact Cache.getmeta(MetadataSyntax, :unicode_meta_in_meta)[:笔者_inner]            => "бежал мета"
+
+    end
+
+    context("deep_nested_meta: 6 levels") do
+
+        @fact Cache.getparsed(MetadataSyntax, :deep_nested_meta) => "Outer\nLevel1\nLevel2\nLevel3\nLevel4\nLevel5\nLevel6\n"
+
+        @fact Cache.getmeta(MetadataSyntax, :deep_nested_meta)[:outer]  => "Outer\nLevel1\nLevel2\nLevel3\nLevel4\nLevel5\nLevel6"
+        @fact Cache.getmeta(MetadataSyntax, :deep_nested_meta)[:level1] => "Level1\nLevel2\nLevel3\nLevel4\nLevel5\nLevel6"
+        @fact Cache.getmeta(MetadataSyntax, :deep_nested_meta)[:level2] => "Level2\nLevel3\nLevel4\nLevel5\nLevel6"
+        @fact Cache.getmeta(MetadataSyntax, :deep_nested_meta)[:level3] => "Level3\nLevel4\nLevel5\nLevel6"
+        @fact Cache.getmeta(MetadataSyntax, :deep_nested_meta)[:level4] => "Level4\nLevel5\nLevel6"
+        @fact Cache.getmeta(MetadataSyntax, :deep_nested_meta)[:level5] => "Level5\nLevel6"
+        @fact Cache.getmeta(MetadataSyntax, :deep_nested_meta)[:level6] => "Level6"
+
+    end
+
+    context("backslash_escaped_nested_meta") do
+
+        @fact Cache.getparsed(MetadataSyntax, :backslash_escaped_nested_meta) => "!!setget(unicode_meta_in_meta:所以不多说了 бежал мета)"
+        @fact_throws KeyError Cache.getmeta(MetadataSyntax, :backslash_escaped_nested_meta)[:unicode_meta_in_meta]
+        @fact Cache.getmeta(MetadataSyntax, :backslash_escaped_nested_meta)[:笔者_inner] => "бежал мета"
+
+    end
+
 end
