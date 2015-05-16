@@ -1,8 +1,9 @@
 require(joinpath(dirname(@__FILE__), "MetadataSyntax.jl"))
 require(joinpath(dirname(@__FILE__), "UndefinedMetaMacro.jl"))
 require(joinpath(dirname(@__FILE__), "UnmatchedBrackets.jl"))
+require(joinpath(dirname(@__FILE__), "RawMetaMacros.jl"))
 
-import MetadataSyntax, UndefinedMetaMacro, UnmatchedBrackets
+import MetadataSyntax, UndefinedMetaMacro, UnmatchedBrackets, RawMetaMacros
 import Docile: Cache, Formats
 
 Cache.getmeta(MetadataSyntax)[:format] = Formats.PlaintextFormatter
@@ -66,6 +67,14 @@ facts("Formats.") do
 
         @fact Cache.getparsed(MetadataSyntax, :backslash_escaped_meta)         => "!!setget(russian:бежал мета)"
         @fact_throws KeyError Cache.getmeta(MetadataSyntax, :backslash_escaped_meta)[:russian]
+
+    end
+
+    context("Raw Metamacros.") do
+
+        @fact Cache.getparsed(RawMetaMacros, :raw_metamacro)                     => "!!undefined()"
+        @fact Cache.getparsed(RawMetaMacros, :nested_metamacro)                  => "nestable"
+        @fact Cache.getmeta(RawMetaMacros,   :nested_metamacro)[:metamacro_type] => "nestable"
 
     end
 

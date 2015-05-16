@@ -2,8 +2,19 @@
 
 """
 Dispatch type for the `metamacro` function. `name` is a `Symbol`.
+
+When ``raw == true`` the metamacro with identifier ``name`` with not behave as a
+standard metamacro. Nesting will be disabled and must be implemented explicitly
+using ``Docile.Formats.extractmeta!`` as follows:
+
+    function Formats.metamacro(::META"name"raw, body, mod, obj)
+        # ...
+        body = Docile.Formats.extractmeta!(body, mod, obj)
+        # ...
+    end
+
 """
-immutable MetaMacro{name} end
+immutable MetaMacro{name, raw} end
 
 immutable MetaMacroNameError <: Exception
     msg :: AbstractString
@@ -29,11 +40,22 @@ Example
         Cache.findmeta(mod, obj, :author) :
         (Cache.getmeta(mod, obj)[:author = strip(body)]; "")
 
+By default metamacros are 'nestable', which means that an author may
+write metamacros within metamacros. In some cases this may not be the
+behaviour that is desired. Nesting can be disabled on a per-definition
+basis by using the ``raw`` modifier:
+
+    metamacro(::META"name"raw, body, mod, obj) = ...
+
 """
-macro META_str(str) :(MetaMacro{$(Expr(:quote, symbol(isvalid(str))))}) end
+macro META_str(args...)
+    name = symbol(args[1])
+    raw  = length(args) == 2 && args[2] == "raw"
+    :(MetaMacro{$(Expr(:quote, name)), $(raw)})
+end
 
 # Extensions to this method are found in `Extendions` module.
-metamacro(metamacro, body, mod, obj) = error("Undefined metamacro.")
+metamacro(::Union()) = error("Undefined metamacro.")
 
 """
 Run all 'metamacros' found in a raw docstring and return the resulting string.
@@ -45,10 +67,21 @@ function extractmeta!(raw::IO, mod::Module, obj)
     out = IOBuffer()
     while !eof(raw)
         name, body = tryextract(raw)
-        write(out, name == symbol("") ? read(raw, Char) :
-                  metamacro(MetaMacro{name}(), body, mod, obj))
+        result = name ≡ symbol("") ? read(raw, Char) : applymeta(name, body, mod, obj)
+        write(out, result)
     end
     takebuf_string(out)
+end
+
+"""
+Apply nesting to body of metamacro when defined otherwise treat as raw text.
+"""
+function applymeta(name, body, mod, obj)
+    applicable(metamacro, (m = MetaMacro{name, false}();), body, mod, obj) &&
+        return metamacro(m, extractmeta!(body, mod, obj), mod, obj)
+    applicable(metamacro, (m = MetaMacro{name, true}();), body, mod, obj) &&
+        return metamacro(m, body, mod, obj)
+    error("Undefined metamacro: '!!$(name)(...)'.")
 end
 
 const METADATA_SKIP_PREFIX = ('\\', '!', '!')
