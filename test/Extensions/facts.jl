@@ -41,4 +41,13 @@ facts("Extensions.") do
 
     end
 
+    context("!!include with metas") do
+
+        @fact Cache.getparsed(ExtensionTests, :includes_nested) =>
+            string("Text with Outer\nLevel1\nLevel2\nLevel3\nLevel4\nLevel5\nLevel6\n\n",
+                   "Some unicode 所以不多说了 бежал мета\n Get the inner again: бежал мета")
+        @fact Cache.getmeta(ExtensionTests, :includes_nested)[:level6] => "Level6"
+
+    end
+
 end

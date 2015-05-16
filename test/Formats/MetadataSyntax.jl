@@ -21,4 +21,7 @@ chinese_unicode = ()
 "\\!!setget(russian:бежал мета)"
 backslash_escaped_meta = ()
 
+"\\!!setget(unicode_meta_in_meta:所以不多说了 !!setget(笔者_inner:бежал мета))"
+backslash_escaped_nested_meta = ()
+
 end

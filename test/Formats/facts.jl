@@ -49,7 +49,7 @@ facts("Formats.") do
 
     end
 
-    context("brackets within meta: [MIT]()") do
+    context("Brackets within meta: [MIT]().") do
 
         @fact Cache.getparsed(MetadataSyntax, :brackets_within_meta)         => "[MIT](https://github.com/MichaelHatherly/Lexicon.jl/blob/master/LICENSE.md)"
         @fact Cache.getmeta(MetadataSyntax, :brackets_within_meta)[:license] => "[MIT](https://github.com/MichaelHatherly/Lexicon.jl/blob/master/LICENSE.md)"
@@ -65,8 +65,16 @@ facts("Formats.") do
 
     context("\\\\!!setget") do
 
-        @fact Cache.getparsed(MetadataSyntax, :backslash_escaped_meta)         => "!!setget(russian:бежал мета)"
+        @fact Cache.getparsed(MetadataSyntax, :backslash_escaped_meta)  => "!!setget(russian:бежал мета)"
         @fact_throws KeyError Cache.getmeta(MetadataSyntax, :backslash_escaped_meta)[:russian]
+
+    end
+
+    context("Escaped nested metamacros.") do
+
+        @fact Cache.getparsed(MetadataSyntax, :backslash_escaped_nested_meta) => "!!setget(unicode_meta_in_meta:所以不多说了 бежал мета)"
+        @fact_throws KeyError Cache.getmeta(MetadataSyntax, :backslash_escaped_nested_meta)[:unicode_meta_in_meta]
+        @fact Cache.getmeta(MetadataSyntax, :backslash_escaped_nested_meta)[:笔者_inner] => "бежал мета"
 
     end
 
