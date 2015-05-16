@@ -54,7 +54,7 @@ macro META_str(args...)
     :(MetaMacro{$(Expr(:quote, name)), $(raw)})
 end
 
-# Extensions to this method are found in `Extendions` module.
+# Extensions to this method are found in `Extensions` module.
 metamacro(::Union()) = error("Undefined metamacro.")
 
 """
