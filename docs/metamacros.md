@@ -19,7 +19,6 @@ Example:
 
 ```julia
 """
-
 !!hypothetical()
 
 !!set(author:Author's Name)
@@ -34,23 +33,26 @@ Example:
 ...
 )
 
+!!include(includes/file.md)
+
+Nested: !!setget(license:[MIT](!!setget(license_url:https://github.com/LICENSE.md)))
 """
 ```
 
 ##### Escape for the metamacro syntax
 
 To escape the metamacro syntax a double backslash is used immidiately before the `!!` double
-exclamation mark.
+exclamation mark. This does not escape any nested metamacros.
 
 Example:
 
 ```julia
 """
-
 \\!!hypothetical()
 
 \\!!set(author:Author's Name)
 
+\\!!setget(license:[MIT](\\!!setget(license_url:https://github.com/LICENSE.md)))
 """
 ```
 
