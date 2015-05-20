@@ -176,3 +176,14 @@ f_42(x) = ()
  (f_41, Any),
  (f_42,),
  (f_42, Any)]
+
+# Multiline Signatures.
+
+"f_43"
+function f_43(
+        a,
+        b,
+        c
+        )
+    ()
+end

@@ -8,30 +8,27 @@ Find all methods defined by an method definition expression.
 
 """
 function findmethods(state::State, ex::Expr, codesource)
-    source = (adjustline(ex, codesource[1]), codesource[2])
-    fname  = funcname(state, ex)
-    mset   = Set{Method}()
+    line, file  = codesource
+    fname, mset = funcname(state, ex), Set{Method}()
+    Δ = typemax(Int)
     for m in allmethods(fname)
+        # Skip methods defined in other modules.
         Utilities.samemodule(state.mod, m) || continue
-        lineinfo(m) == source && push!(mset, m)
+        # Get the file and line information for the current method ``m``.
+        line′, file′ = lineinfo(m)
+        # Filter out methods defined in different files.
+        file′ == file || continue
+        # Calculate the line distance and update ``mset`` accordingly.
+        Δ′ = line′ - line
+        if 0 ≤ Δ′ < Δ
+            Δ = Δ′
+            empty!(mset); push!(mset, m)
+        elseif Δ′ == Δ
+            push!(mset, m)
+        end
     end
     mset
 end
-
-"""
-Function expressions have different line numbers depending on whether
-they are "full" or "short":
-
-    f(x) = x
-
-    function g(x)
-        x
-    end
-
-``f`` will have a ``.line`` value pointing to the start of the expression, while
-``g``'s ``.line`` value will point at the first line of the function's body.
-"""
-adjustline(ex::Expr, line) = isexpr(ex, :function) ? line + 1 : line
 
 """
 Line number and file name pair for a method ``m``.
