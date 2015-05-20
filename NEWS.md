@@ -1,3 +1,7 @@
+### v0.5.3
+
+* Fix method finding bug for multiline signatures.
+
 ### v0.5.2
 
 * Fix escaping bug.

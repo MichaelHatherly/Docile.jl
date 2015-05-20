@@ -11,7 +11,7 @@ Convert a path to absolute. Relative paths are guessed to be from Julia ``/base`
 
 
 *source:*
-[Docile/src/Utilities.jl:49](https://github.com/MichaelHatherly/Docile.jl/tree/7701224579bea92e6ad5f70a3c2da426c0a1dce7/src/Utilities.jl#L49)
+[Docile/src/Utilities.jl:49](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Utilities.jl#L49)
 
 ---
 
@@ -21,7 +21,7 @@ Print a 'Docile'-formatted message to ``STDOUT``.
 
 
 *source:*
-[Docile/src/Utilities.jl:30](https://github.com/MichaelHatherly/Docile.jl/tree/7701224579bea92e6ad5f70a3c2da426c0a1dce7/src/Utilities.jl#L30)
+[Docile/src/Utilities.jl:30](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Utilities.jl#L30)
 
 ---
 
@@ -31,7 +31,7 @@ Is the module where a function/method is defined the same as ``mod``?
 
 
 *source:*
-[Docile/src/Utilities.jl:36](https://github.com/MichaelHatherly/Docile.jl/tree/7701224579bea92e6ad5f70a3c2da426c0a1dce7/src/Utilities.jl#L36)
+[Docile/src/Utilities.jl:36](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Utilities.jl#L36)
 
 ## Globals [Internal]
 
@@ -43,5 +43,5 @@ Path to Julia's base source code.
 
 
 *source:*
-[Docile/src/Utilities.jl:44](https://github.com/MichaelHatherly/Docile.jl/tree/7701224579bea92e6ad5f70a3c2da426c0a1dce7/src/Utilities.jl#L44)
+[Docile/src/Utilities.jl:44](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Utilities.jl#L44)
 
