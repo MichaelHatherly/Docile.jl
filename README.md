@@ -59,6 +59,7 @@ package please install the package [*Lexicon*][lexicon-url].
 * [SDT.jl](https://github.com/sam81/SDT.jl) Signal detection theory measures with Julia.
 * [Sims.jl](https://github.com/tshort/Sims.jl) Experiments with non-causal, equation-based modeling in Julia.
 * [TargetedLearning.jl](https://github.com/lendle/TargetedLearning.jl) General framework for constructing regular, asymptotically linear estimators for pathwise differentiable parameters.
+* [TradingLogic.jl](https://github.com/JuliaQuant/TradingLogic.jl) A unified event-driven backtesting and live algorithmic trading framework using Julia reactive programming.
 
 If you use Docile / Lexicon please file an issue or send a pull request through GitHub to be listed here.
 
