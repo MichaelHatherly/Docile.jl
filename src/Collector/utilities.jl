@@ -212,7 +212,7 @@ macroname(ex) = symbol("@$(ex)")
 
 
 """
-Check whether a docstring is acutally a file path. Read that instead if it is.
+Check whether a docstring is acutally a file path. Read that instead if it.
 """
 findexternal(docs) = (length(docs) < 256 && isfile(docs)) ? readall(docs) : docs
 
