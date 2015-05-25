@@ -54,6 +54,7 @@ package please install the package [*Lexicon*][lexicon-url].
 * [BrainWave.jl](https://github.com/sam81/BrainWave.jl) Julia functions to process electroencephalographic recordings.
 * [Diversity.jl](https://github.com/richardreeve/Diversity.jl) Julia package for diversity measurement.
 * [Docile.jl](https://github.com/MichaelHatherly/Docile.jl) Julia package documentation system.
+* [EvolvingGraphs.jl](https://github.com/weijianzhang/EvolvingGraphs.jl) Dynamic graph analysis framework in Julia.
 * [IterativeSolvers.jl](https://github.com/JuliaLang/IterativeSolvers.jl) Implement Arnoldi and Lanczos methods for svds and eigs.
 * [Lexicon.jl](https://github.com/MichaelHatherly/Lexicon.jl) Julia package documentation generator.
 * [SDT.jl](https://github.com/sam81/SDT.jl) Signal detection theory measures with Julia.
