@@ -3,19 +3,25 @@ repo_url:            https://github.com/MichaelHatherly/Docile.jl
 site_description:    Julia package documentation system.
 site_author:         Michael Hatherly
 theme:               readthedocs
-markdown_extensions: [tables, fenced_code]
+
 pages:
-    - ['index.md', 'Introduction']
-    - ['manual.md', 'Manual', 'Overview']
-    - ['syntax.md', 'Manual', 'Syntax']
-    - ['metamacros.md', 'Manual', 'Metamacros']
-    - ['api/Docile.md', 'API', 'Docile']
-    - ['api/Docile.Cache.md', 'API', 'Docile.Cache']
-    - ['api/Docile.Collector.md', 'API', 'Docile.Collector']
-    - ['api/Docile.Extensions.md', 'API', 'Docile.Extensions']
-    - ['api/Docile.Formats.md', 'API', 'Docile.Formats']
-    - ['api/Docile.Interface.md', 'API', 'Docile.Interface']
-    - ['api/Docile.Legacy.md', 'API', 'Docile.Legacy']
-    - ['api/Docile.Runner.md', 'API', 'Docile.Runner']
-    - ['api/Docile.Utilities.md', 'API', 'Docile.Utilities']
-    - ['api/index.md', 'API', 'Index']
+- Introduction:     index.md
+- Manual:
+    - Overview:     manual.md
+    - Syntax:       syntax.md
+    - Metamacros:   metamacros.md
+- API:
+    - Docile:               api/Docile.md
+    - Docile.Cache:         api/Docile.Cache.md
+    - Docile.Collector:     api/Docile.Collector.md
+    - Docile.Extensions:    api/Docile.Extensions.md
+    - Docile.Formats:       api/Docile.Formats.md
+    - Docile.Interface:     api/Docile.Interface.md
+    - Docile.Legacy:        api/Docile.Legacy.md
+    - Docile.Runner:        api/Docile.Runner.md
+    - Docile.Utilities:     api/Docile.Utilities.md
+    - Index:                api/index.md
+
+markdown_extensions:
+    - tables
+    - fenced_code
