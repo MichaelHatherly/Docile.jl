@@ -79,7 +79,7 @@ type PackageData
         # Execute the `.docile` file if found and merge it's configuration settings.
         merge!(metadata, getdotfile(dirname(rootfile)))
         # Provide a default formatter if none was specified.
-        haskey(metadata, :format) || (metadata[:format] = Formats.PlaintextFormatter)
+        haskey(metadata, :format) || (metadata[:format] = Formats.MarkdownFormatter)
 
         mods   = submodules(mod)
         files  = [m => includedfiles(m, candidates) for m in mods]

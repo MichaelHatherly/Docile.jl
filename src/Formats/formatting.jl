@@ -1,6 +1,7 @@
 abstract AbstractFormatter
 
 immutable PlaintextFormatter <: AbstractFormatter end
+immutable MarkdownFormatter  <: AbstractFormatter end
 
 immutable Format{F <: AbstractFormatter} end
 
@@ -12,9 +13,7 @@ Example:
     import Docile.Formats, Markdown
     const (fmt, md) = (Docile.Formats, Markdown)
 
-    immutable MarkdownFormatter <: fmt.AbstractFormatter end
-
-    fmt.parsedocs(::fmt.Format{MarkdownFormatter}, raw, mod, obj) = md.parse(raw)
+    fmt.parsedocs(::fmt.Format{fmt.MarkdownFormatter}, raw, mod, obj) = md.parse(raw)
 
 When registering a package the format is then provided to `PackageData`.
 

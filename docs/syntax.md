@@ -165,7 +165,7 @@ f(x)            = x
 f(x, y, z)      = x + y + z
 f(x, y::Int, z) = x + y + z
 
-" ... """
+" ... "
 (f, Any, Int, Any)
 ```
 
