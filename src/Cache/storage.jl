@@ -1,7 +1,7 @@
 ["Global documentation caches and their associated getters and setters."]
 
 """
-Macro to make a function definition global. Used in `let`-blocks.
+Macro to make a function definition global. Used in ``let``-blocks.
 """
 macro (+)(expr)
     name = expr.args[1].args[1]
@@ -51,14 +51,14 @@ let
     @+ loadedmodules() = (update!(); Set{Module}(keys(MODS)))
 
     """
-    Has the module `m` been registered with Docile.
+    Has the module ``m`` been registered with Docile.
 
     When module isn't found then check for newly added packages first.
     """
     @+ hasmodule(m::Module) = haskey(MODS, m) ? true : (update!(); haskey(MODS, m))
 
     """
-    Get the `ModuleData` object associated with a module `m`.
+    Get the ``ModuleData`` object associated with a module ``m``.
     """
     @+ function getmodule(m::Module)
         hasmodule(m) && return MODS[m]::ModuleData
@@ -71,14 +71,14 @@ let
     end
 
     """
-    Has the package with root module `m` been registered with Docile?
+    Has the package with root module ``m`` been registered with Docile?
 
     When package isn't found then check for newly added packages first.
     """
     @+ haspackage(m::Module) = haskey(PACK, m) ? true : (update!(); haskey(PACK, m))
 
     """
-    Return the `PackageData` object that represents a registered package.
+    Return the ``PackageData`` object that represents a registered package.
     """
     @+ function getpackage(m::Module)
         mod = m
@@ -107,12 +107,12 @@ let
     const PARSED = Set{Module}()
 
     """
-    Has module `m` been parsed yet?
+    Has module ``m`` been parsed yet?
     """
     @+ hasparsed(m::Module) = m ∈ PARSED
 
     """
-    Module `m` has had it's docstrings parsed.
+    Module ``m`` has had it's docstrings parsed.
     """
     @+ setparsed(m::Module) = push!(PARSED, m)
 
@@ -140,12 +140,12 @@ let
     @+ modules() = collect(keys(DOCS))
 
     """
-    Has module `m` had documentation extracted with `Docile.Collector.docstrings`?
+    Has module ``m`` had documentation extracted with ``Docile.Collector.docstrings``?
     """
     @+ hasdocs(m::Module) = haskey(DOCS, m)
 
     """
-    Return documentation cache of a module `m`. Initialise an empty cache if needed.
+    Return documentation cache of a module ``m``. Initialise an empty cache if needed.
     """
     @+ function getdocs(m::Module)
         hasdocs(m) || initdocs!(m)
@@ -161,12 +161,12 @@ end
 ## Raw docstrings. ##
 
 """
-Return a reference to the raw docstring storage for a given module `m`.
+Return a reference to the raw docstring storage for a given module ``m``.
 """
 getraw(m::Module) = getdocs(m).raw
 
 """
-Return the raw docstring for a given `obj` in the module `m`.
+Return the raw docstring for a given ``obj`` in the module ``m``.
 """
 function getraw(m::Module, obj)
     raw = getraw(m)
@@ -177,15 +177,15 @@ end
 ## Parsed docstrings. ##
 
 """
-Return a reference to the parsed docstring cache for a given module `m`.
+Return a reference to the parsed docstring cache for a given module ``m``.
 """
 getparsed(m::Module) = (parse!(m); getdocs(m).parsed)
 
 """
-Return the parsed form of a docstring for object `obj` in module `m`.
+Return the parsed form of a docstring for object ``obj`` in module ``m``.
 
 When the parsed docstring has never been accessed before, it is parsed using the
-user-definable `Docile.Formats.parsedocs` method.
+user-definable ``Docile.Formats.parsedocs`` method.
 """
 function getparsed(m::Module, obj)
     parsed = getparsed(m)
@@ -196,12 +196,28 @@ end
 ## Metadata. ##
 
 """
-Return a reference to the metadata cache for a given module `m`.
+Return metadata ``Dict`` stored in ``ModuleData`` and ``PackageData`` objects.
+
+Example:
+
+    import Docile.Cache
+
+    package_data = Cache.getpackage(Docile)
+    module_data  = Cache.getmodule(Docile.Formats)
+
+    Cache.getmeta(package_data)
+    Cache.getmeta(module_data)
+
+"""
+getmeta(obj::Union(ModuleData, PackageData)) = obj.metadata
+
+"""
+Return reference to object metadata cache for module ``m``.
 """
 getmeta(m::Module) = (parse!(m); getdocs(m).meta)
 
 """
-Return the metadata `Dict` for a given object `obj` found in module `m`.
+Return metadata ``Dict`` for object ``obj`` found in module ``m``.
 """
 function getmeta(m::Module, obj)
     meta = getmeta(m)
@@ -217,6 +233,6 @@ Remove all cached objects, modules and packages from storage.
 clear!() = (clearpackages!(); cleardocs!())
 
 """
-List of all documented objects in a module `m`.
+List of all documented objects in a module ``m``.
 """
 objects(m::Module) = collect(keys(getraw(m)))

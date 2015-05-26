@@ -15,7 +15,21 @@ facts("PlainDocs.") do
             Dict{Symbol, Any}(
                 :format  => :md,
                 :exports => Set([:PlainDocs]),
-                :manual  => UTF8String[]
+                :manual  => UTF8String[],
+                )
+            )
+
+        package_data = Docile.Cache.getpackage(PlainDocs)
+        module_data  = Docile.Cache.getmodule(PlainDocs)
+
+        @fact Docile.Cache.getmeta(package_data) => @compat(
+            Dict{Symbol, Any}(
+                :format => Docile.Formats.MarkdownFormatter,
+                )
+            )
+        @fact Docile.Cache.getmeta(module_data) => @compat(
+            Dict{Symbol, Any}(
+                :exports => Set([:PlainDocs]),
                 )
             )
 
