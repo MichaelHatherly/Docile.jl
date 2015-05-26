@@ -174,3 +174,31 @@ facts("Base") do
     end
 
 end
+
+## 'function <name> end' syntax tests. ##
+
+if VERSION >= v"0.4-dev+4989"
+    require(joinpath(dirname(@__FILE__), "FunctionSyntax", "FunctionSyntax.jl"))
+    import FunctionSyntax
+
+    facts("Function Syntax.") do
+        metadata = Docile.Interface.metadata(FunctionSyntax)
+        entries  = Docile.Interface.entries(metadata)
+
+        @fact length(entries) => 2
+
+        @fact Docile.Interface.metadata(metadata) => @compat(
+            Dict{Symbol, Any}(
+                :format  => :md,
+                :exports => Set([:FunctionSyntax]),
+                :manual  => UTF8String[]
+                )
+            )
+
+        @fact rawdocs(entries, FunctionSyntax.f_1) => "f_1"
+        @fact rawdocs(entries, FunctionSyntax.f_2) => "f_2\n"
+
+        @fact docsmeta(entries, :category, FunctionSyntax.f_1) => :function
+        @fact docsmeta(entries, :category, FunctionSyntax.f_2) => :function
+    end
+end

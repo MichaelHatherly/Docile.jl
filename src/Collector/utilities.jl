@@ -113,6 +113,7 @@ getcategory(x) =
     isalias(x)  ? :typealias :
     isglobal(x) ? :global    :
     issymbol(x) ? :symbol    :
+    isfunc(x)   ? :symbol    :
     istuple(x)  ? :tuple     :
     isvcat(x)   ? :vcat      :
     isvect(x)   ? :vect      :
@@ -135,6 +136,7 @@ skipexpr(x) =
 
 ismethod(x)       = isexpr(x, [:function, :(=)])       &&  isexpr(x.args[1], :call)
 isglobal(x)       = isexpr(x, [:global, :const, :(=)]) && !isexpr(x.args[1], :call)
+isfunc(x)         = isexpr(x, :function) && isa(x.args[1], Symbol)
 istype(x)         = isexpr(x, [:type, :abstract])
 isconcretetype(x) = isexpr(x, :type)
 isalias(x)        = isexpr(x, :typealias)
@@ -192,6 +194,7 @@ isdocumentable(ex) =
     isalias(ex)     ||
     isglobal(ex)    ||
     issymbol(ex)    ||
+    isfunc(ex)      ||
     isquote(ex)     ||
     ismacrocall(ex) ||
     istuple(ex)     ||
