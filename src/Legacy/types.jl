@@ -87,10 +87,8 @@ function Metadata(m::Module)
             delete!(metadata[obj], :codesource)
         end
 
-        # Conversion of `Aside` to `Comment`.
-        newobj, newcat = isa(obj, Collector.Aside) ?
-            (Comment(), :comment) :
-            (obj, metadata[obj][:category])
+        # Match old-style object storage.
+        newobj, newcat = reconstruct(obj, metadata)
 
         # Build the `Entry` object and store it.
         entries[newobj] = Entry{newcat}(
@@ -109,6 +107,10 @@ function Metadata(m::Module)
         loaded
         )
 end
+
+reconstruct(obj::Collector.Aside, ::Any)              = (Comment(), :comment)
+reconstruct(obj::Collector.QualifiedSymbol, metadata) = (obj.sym, metadata[obj][:category])
+reconstruct(obj, metadata)                            = (obj, metadata[obj][:category])
 
 function Base.copy(m::Metadata)
     Metadata(m.modname, copy(m.entries), m.root,

@@ -21,6 +21,17 @@ end
 
 
 """
+``Symbol`` / ``Module`` pair for storing documented 'global' and 'typealias' objects.
+"""
+immutable QualifiedSymbol
+    mod :: Module
+    sym :: Symbol
+end
+
+Base.show(io::IO, qs::QualifiedSymbol) = print(io, string(qs.mod, '.', qs.sym))
+
+
+"""
 Stores the data related to a single `Module` object found in a package.
 
 `include`d files and their associated parsed forms are stored here. Additional

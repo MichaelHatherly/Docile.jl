@@ -26,7 +26,7 @@ getobject(H"method", moduledata, state, expr, codesource) =
     findmethods(state, expr, codesource)
 
 getobject(H"global, typealias", ::Any, state, expr, ::Any) =
-    getvar(state, name(expr))
+    QualifiedSymbol(state.mod, getvar(state, name(expr)))
 
 getobject(H"type, symbol", moduledata, state, expr, ::Any) =
     getfield(moduledata.modname, getvar(state, name(expr)))

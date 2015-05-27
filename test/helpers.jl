@@ -15,3 +15,5 @@ function docsmeta(entries, k, m)
 end
 
 macrofunc(mod, s) = getfield(mod, symbol(string("@", s)))
+
+qs(mod, sym) = (mod, Docile.Collector.QualifiedSymbol(mod, sym))
