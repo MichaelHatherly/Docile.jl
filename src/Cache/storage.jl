@@ -225,6 +225,15 @@ function getmeta(m::Module, obj)
     meta[obj]::Dict{Symbol, Any}
 end
 
+"""
+Adds new metadata key ``k`` with value ``v`` for object ``obj`` found in module ``m``.
+"""
+function addmeta(m::Module, obj, k::Symbol, v)
+    meta = getmeta(m, obj)
+    haskey(meta, k) && throw(ArgumentError("'$(obj)' metada has already a key '$(k)'."))
+    meta[k] = v
+end
+
 ## Misc. ##
 
 """
