@@ -6,7 +6,7 @@
 ---
 
 <a id="method__parsedocs.1" class="lexicon_definition"></a>
-#### parsedocs(::Docile.Formats.Format{F<:Docile.Formats.AbstractFormatter}, raw, mod, obj) [¶](#method__parsedocs.1)
+#### parsedocs(::Docile.Formats.Format{F<:Docile.Formats.AbstractFormatter},  raw,  mod,  obj) [¶](#method__parsedocs.1)
 Parsing hook for docstring parsing.
 
 Example:
@@ -14,9 +14,7 @@ Example:
     import Docile.Formats, Markdown
     const (fmt, md) = (Docile.Formats, Markdown)
 
-    immutable MarkdownFormatter <: fmt.AbstractFormatter end
-
-    fmt.parsedocs(::fmt.Format{MarkdownFormatter}, raw, mod, obj) = md.parse(raw)
+    fmt.parsedocs(::fmt.Format{fmt.MarkdownFormatter}, raw, mod, obj) = md.parse(raw)
 
 When registering a package the format is then provided to `PackageData`.
 
@@ -29,7 +27,7 @@ Arguments:
 
 
 *source:*
-[Docile/src/Formats/formatting.jl:28](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Formats/formatting.jl#L28)
+[Docile/src/Formats/formatting.jl:27](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Formats/formatting.jl#L27)
 
 
 ## Methods [Internal]
@@ -37,32 +35,32 @@ Arguments:
 ---
 
 <a id="method__applymeta.1" class="lexicon_definition"></a>
-#### applymeta(name, body, mod, obj) [¶](#method__applymeta.1)
+#### applymeta(name,  body,  mod,  obj) [¶](#method__applymeta.1)
 Apply nesting to body of metamacro when defined otherwise treat as raw text.
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:79](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Formats/metaparse.jl#L79)
+[Docile/src/Formats/metaparse.jl:79](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Formats/metaparse.jl#L79)
 
 ---
 
 <a id="method__extractmeta.1" class="lexicon_definition"></a>
-#### extractmeta!(text::AbstractString, mod::Module, obj) [¶](#method__extractmeta.1)
+#### extractmeta!(text::AbstractString,  mod::Module,  obj) [¶](#method__extractmeta.1)
 Run all 'metamacros' found in a raw docstring and return the resulting string.
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:63](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Formats/metaparse.jl#L63)
+[Docile/src/Formats/metaparse.jl:63](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Formats/metaparse.jl#L63)
 
 ---
 
 <a id="method__isprefix.1" class="lexicon_definition"></a>
-#### isprefix(io::IO, chars) [¶](#method__isprefix.1)
+#### isprefix(io::IO,  chars) [¶](#method__isprefix.1)
 Does the buffer `io` begin with the given prefix chars?
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:124](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Formats/metaparse.jl#L124)
+[Docile/src/Formats/metaparse.jl:124](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Formats/metaparse.jl#L124)
 
 ---
 
@@ -74,7 +72,7 @@ Throws a `MetaMacroNameError` if the string `s` is not valid.
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:28](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Formats/metaparse.jl#L28)
+[Docile/src/Formats/metaparse.jl:28](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Formats/metaparse.jl#L28)
 
 ---
 
@@ -86,7 +84,7 @@ Throws a `ParseError` when unmatched brackets are encountered.
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:136](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Formats/metaparse.jl#L136)
+[Docile/src/Formats/metaparse.jl:136](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Formats/metaparse.jl#L136)
 
 ---
 
@@ -99,7 +97,7 @@ of an embedded metadata entry.
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:97](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Formats/metaparse.jl#L97)
+[Docile/src/Formats/metaparse.jl:97](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Formats/metaparse.jl#L97)
 
 ## Types [Internal]
 
@@ -122,7 +120,7 @@ using ``Docile.Formats.extractmeta!`` as follows:
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:17](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Formats/metaparse.jl#L17)
+[Docile/src/Formats/metaparse.jl:17](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Formats/metaparse.jl#L17)
 
 ## Macros [Internal]
 
@@ -151,5 +149,5 @@ basis by using the ``raw`` modifier:
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:51](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Formats/metaparse.jl#L51)
+[Docile/src/Formats/metaparse.jl:51](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Formats/metaparse.jl#L51)
 

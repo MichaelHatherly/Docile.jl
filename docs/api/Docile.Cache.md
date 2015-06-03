@@ -11,80 +11,101 @@ Remove all cached objects, modules and packages from storage.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:217](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L217)
+[Docile/src/Cache/storage.jl:233](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L233)
 
 ---
 
 <a id="method__getmeta.1" class="lexicon_definition"></a>
 #### getmeta(m::Module) [¶](#method__getmeta.1)
-Return a reference to the metadata cache for a given module `m`.
+Return reference to object metadata cache for module ``m``.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:201](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L201)
+[Docile/src/Cache/storage.jl:217](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L217)
 
 ---
 
 <a id="method__getmeta.2" class="lexicon_definition"></a>
-#### getmeta(m::Module, obj) [¶](#method__getmeta.2)
-Return the metadata `Dict` for a given object `obj` found in module `m`.
+#### getmeta(m::Module,  obj) [¶](#method__getmeta.2)
+Return metadata ``Dict`` for object ``obj`` found in module ``m``.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:206](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L206)
+[Docile/src/Cache/storage.jl:222](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L222)
+
+---
+
+<a id="method__getmeta.3" class="lexicon_definition"></a>
+#### getmeta(obj::Union(Docile.Collector.ModuleData, Docile.Collector.PackageData)) [¶](#method__getmeta.3)
+Return metadata ``Dict`` stored in ``ModuleData`` and ``PackageData`` objects.
+
+Example:
+
+    import Docile.Cache
+
+    package_data = Cache.getpackage(Docile)
+    module_data  = Cache.getmodule(Docile.Formats)
+
+    Cache.getmeta(package_data)
+    Cache.getmeta(module_data)
+
+
+
+*source:*
+[Docile/src/Cache/storage.jl:212](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L212)
 
 ---
 
 <a id="method__getparsed.1" class="lexicon_definition"></a>
 #### getparsed(m::Module) [¶](#method__getparsed.1)
-Return a reference to the parsed docstring cache for a given module `m`.
+Return a reference to the parsed docstring cache for a given module ``m``.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:182](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L182)
+[Docile/src/Cache/storage.jl:182](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L182)
 
 ---
 
 <a id="method__getparsed.2" class="lexicon_definition"></a>
-#### getparsed(m::Module, obj) [¶](#method__getparsed.2)
-Return the parsed form of a docstring for object `obj` in module `m`.
+#### getparsed(m::Module,  obj) [¶](#method__getparsed.2)
+Return the parsed form of a docstring for object ``obj`` in module ``m``.
 
 When the parsed docstring has never been accessed before, it is parsed using the
-user-definable `Docile.Formats.parsedocs` method.
+user-definable ``Docile.Formats.parsedocs`` method.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:190](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L190)
+[Docile/src/Cache/storage.jl:190](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L190)
 
 ---
 
 <a id="method__getraw.1" class="lexicon_definition"></a>
 #### getraw(m::Module) [¶](#method__getraw.1)
-Return a reference to the raw docstring storage for a given module `m`.
+Return a reference to the raw docstring storage for a given module ``m``.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:166](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L166)
+[Docile/src/Cache/storage.jl:166](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L166)
 
 ---
 
 <a id="method__getraw.2" class="lexicon_definition"></a>
-#### getraw(m::Module, obj) [¶](#method__getraw.2)
-Return the raw docstring for a given `obj` in the module `m`.
+#### getraw(m::Module,  obj) [¶](#method__getraw.2)
+Return the raw docstring for a given ``obj`` in the module ``m``.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:171](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L171)
+[Docile/src/Cache/storage.jl:171](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L171)
 
 ---
 
 <a id="method__objects.1" class="lexicon_definition"></a>
 #### objects(m::Module) [¶](#method__objects.1)
-List of all documented objects in a module `m`.
+List of all documented objects in a module ``m``.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:222](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L222)
+[Docile/src/Cache/storage.jl:238](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L238)
 
 
 ## Methods [Internal]
@@ -97,7 +118,7 @@ Empty cached docstrings, parsed docs, and metadata from all modules.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:158](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L158)
+[Docile/src/Cache/storage.jl:158](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L158)
 
 ---
 
@@ -107,23 +128,23 @@ Empty all loaded packages and modules from cache.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:103](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L103)
+[Docile/src/Cache/storage.jl:103](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L103)
 
 ---
 
 <a id="method__extractor.1" class="lexicon_definition"></a>
-#### extractor!(raw::AbstractString, m::Module, obj) [¶](#method__extractor.1)
+#### extractor!(raw::AbstractString,  m::Module,  obj) [¶](#method__extractor.1)
 Extract metadata embedded in docstrings and run the `parsedocs` method defined
 for the docstring `raw`.
 
 
 *source:*
-[Docile/src/Cache/utilities.jl:50](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/utilities.jl#L50)
+[Docile/src/Cache/utilities.jl:50](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/utilities.jl#L50)
 
 ---
 
 <a id="method__findmeta.1" class="lexicon_definition"></a>
-#### findmeta(m::Module, obj, key::Symbol) [¶](#method__findmeta.1)
+#### findmeta(m::Module,  obj,  key::Symbol) [¶](#method__findmeta.1)
 Find the most relevant metadata with key `key`.
 
 Search path begins with the object `obj` itself, then the module's `ModuleData`,
@@ -132,81 +153,81 @@ rootmodule's `PackageData` is searched.
 
 
 *source:*
-[Docile/src/Cache/utilities.jl:10](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/utilities.jl#L10)
+[Docile/src/Cache/utilities.jl:10](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/utilities.jl#L10)
 
 ---
 
 <a id="method__getdocs.1" class="lexicon_definition"></a>
 #### getdocs(m::Module) [¶](#method__getdocs.1)
-Return documentation cache of a module `m`. Initialise an empty cache if needed.
+Return documentation cache of a module ``m``. Initialise an empty cache if needed.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:150](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L150)
+[Docile/src/Cache/storage.jl:150](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L150)
 
 ---
 
 <a id="method__getmodule.1" class="lexicon_definition"></a>
 #### getmodule(m::Module) [¶](#method__getmodule.1)
-Get the `ModuleData` object associated with a module `m`.
+Get the ``ModuleData`` object associated with a module ``m``.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:63](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L63)
+[Docile/src/Cache/storage.jl:63](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L63)
 
 ---
 
 <a id="method__getpackage.1" class="lexicon_definition"></a>
 #### getpackage(m::Module) [¶](#method__getpackage.1)
-Return the `PackageData` object that represents a registered package.
+Return the ``PackageData`` object that represents a registered package.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:83](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L83)
+[Docile/src/Cache/storage.jl:83](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L83)
 
 ---
 
 <a id="method__hasdocs.1" class="lexicon_definition"></a>
 #### hasdocs(m::Module) [¶](#method__hasdocs.1)
-Has module `m` had documentation extracted with `Docile.Collector.docstrings`?
+Has module ``m`` had documentation extracted with ``Docile.Collector.docstrings``?
 
 
 *source:*
-[Docile/src/Cache/storage.jl:145](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L145)
+[Docile/src/Cache/storage.jl:145](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L145)
 
 ---
 
 <a id="method__hasmodule.1" class="lexicon_definition"></a>
 #### hasmodule(m::Module) [¶](#method__hasmodule.1)
-Has the module `m` been registered with Docile.
+Has the module ``m`` been registered with Docile.
 
 When module isn't found then check for newly added packages first.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:58](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L58)
+[Docile/src/Cache/storage.jl:58](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L58)
 
 ---
 
 <a id="method__haspackage.1" class="lexicon_definition"></a>
 #### haspackage(m::Module) [¶](#method__haspackage.1)
-Has the package with root module `m` been registered with Docile?
+Has the package with root module ``m`` been registered with Docile?
 
 When package isn't found then check for newly added packages first.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:78](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L78)
+[Docile/src/Cache/storage.jl:78](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L78)
 
 ---
 
 <a id="method__hasparsed.1" class="lexicon_definition"></a>
 #### hasparsed(m::Module) [¶](#method__hasparsed.1)
-Has module `m` been parsed yet?
+Has module ``m`` been parsed yet?
 
 
 *source:*
-[Docile/src/Cache/storage.jl:112](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L112)
+[Docile/src/Cache/storage.jl:112](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L112)
 
 ---
 
@@ -216,7 +237,7 @@ List of all documented modules currently stored by Docile.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:140](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L140)
+[Docile/src/Cache/storage.jl:140](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L140)
 
 ---
 
@@ -228,17 +249,17 @@ Also extracts additional embedded metadata found in each raw docstring.
 
 
 *source:*
-[Docile/src/Cache/utilities.jl:37](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/utilities.jl#L37)
+[Docile/src/Cache/utilities.jl:37](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/utilities.jl#L37)
 
 ---
 
 <a id="method__setparsed.1" class="lexicon_definition"></a>
 #### setparsed(m::Module) [¶](#method__setparsed.1)
-Module `m` has had it's docstrings parsed.
+Module ``m`` has had it's docstrings parsed.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:117](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L117)
+[Docile/src/Cache/storage.jl:117](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L117)
 
 ---
 
@@ -250,7 +271,7 @@ Switch on/off documenting of ``Base`` and it's submodules.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:23](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L23)
+[Docile/src/Cache/storage.jl:23](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L23)
 
 ## Macros [Internal]
 
@@ -258,9 +279,9 @@ Switch on/off documenting of ``Base`` and it's submodules.
 
 <a id="macro____.1" class="lexicon_definition"></a>
 #### @+expr [¶](#macro____.1)
-Macro to make a function definition global. Used in `let`-blocks.
+Macro to make a function definition global. Used in ``let``-blocks.
 
 
 *source:*
-[Docile/src/Cache/storage.jl:6](https://github.com/MichaelHatherly/Docile.jl/tree/9e4400cceb561a35e708b94e33e3992298437d7a/src/Cache/storage.jl#L6)
+[Docile/src/Cache/storage.jl:6](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Cache/storage.jl#L6)
 
