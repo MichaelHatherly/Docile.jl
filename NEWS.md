@@ -1,3 +1,7 @@
+### v0.5.4
+
+* Add ``MarkdownFormatter``.
+
 ### v0.5.3
 
 * Fix method finding bug for multiline signatures.
