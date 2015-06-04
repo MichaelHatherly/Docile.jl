@@ -77,7 +77,7 @@ function get_aside!(output, moddata, state, file, block)
 
     docs   = findexternal(first(exec(state, comment)))
     source = (linenumber(line), file)
-    object = Aside(file, source[1])
+    object = Aside(state.mod, file, source[1])
 
     output.rawstrings[object] = docs
     output.metadata[object]   = @compat(Dict(:textsource => source,

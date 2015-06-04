@@ -15,6 +15,7 @@ The term "aside" is taken from theater where it is defined as:
 >  onstage or the action of the plot.
 """
 immutable Aside
+    mod  :: Module
     file :: UTF8String
     line :: Int
 end

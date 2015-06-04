@@ -1,6 +1,19 @@
 require(joinpath(dirname(@__FILE__), "PlainDocs.jl"))
+require(joinpath(dirname(@__FILE__), "ExampleAside.jl"))
 
+import ExampleAside
 import PlainDocs
+
+facts("ExampleAside.") do
+
+    context("Module field") do
+
+        obj = Docile.Cache.objects(ExampleAside)[1]
+        @fact obj.mod => ExampleAside
+
+    end
+
+end
 
 facts("PlainDocs.") do
 
