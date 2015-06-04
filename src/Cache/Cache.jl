@@ -10,8 +10,9 @@ import ..Utilities
 import ..Collector: Collector, PackageData, ModuleData
 import ..Formats
 
-include("utilities.jl")
 include("types.jl")
+include("utilities.jl")
 include("storage.jl")
+include("interface.jl")
 
 end
