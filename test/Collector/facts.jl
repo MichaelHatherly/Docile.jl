@@ -1,19 +1,10 @@
 require(joinpath(dirname(@__FILE__), "PlainDocs.jl"))
 require(joinpath(dirname(@__FILE__), "ExampleAside.jl"))
+require(joinpath(dirname(@__FILE__), "NoNewline.jl"))
 
-import ExampleAside
 import PlainDocs
-
-facts("ExampleAside.") do
-
-    context("Module field") do
-
-        obj = Docile.Cache.objects(ExampleAside)[1]
-        @fact obj.mod => ExampleAside
-
-    end
-
-end
+import ExampleAside
+import NoNewline
 
 facts("PlainDocs.") do
 
@@ -228,4 +219,22 @@ if VERSION >= v"0.4-dev+4989"
         @fact docsmeta(entries, :category, FunctionSyntax.f_1) => :function
         @fact docsmeta(entries, :category, FunctionSyntax.f_2) => :function
     end
+end
+
+facts("Misc.") do
+
+    context("Module field") do
+
+        obj = Docile.Cache.objects(ExampleAside)[1]
+        @fact obj.mod => ExampleAside
+
+    end
+
+    context("No Newline.") do
+
+        obj = Docile.Cache.objects(NoNewline)[1]
+        @fact Docile.Cache.getraw(NoNewline, obj) => "f"
+
+    end
+
 end

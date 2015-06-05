@@ -14,9 +14,9 @@ issymbol(::Symbol) = true
 issymbol(::Any)    = false
 
 function parsefile(file)
-    text   = readall(file)
+    text = readall(file)
     try
-        result = parse("begin $(text) end")
+        result = parse("begin $(text)\n end")
         isexpr(result, :incomplete) ? parse(text) : result
     catch
         Expr(:block)
