@@ -42,7 +42,7 @@ function update!(cache::GlobalCache)
     cache.base && push!(loaded, Utilities.expandpath("sysimg.jl"))
     # Find newly added packages.
     if length(loaded) > length(cache.loaded)
-        Utilities.message("updating package list…")
+        Utilities.message("updating package list...")
         diff = setdiff(loaded, cache.loaded)
         # Update the loaded packages list.
         cache.loaded = loaded

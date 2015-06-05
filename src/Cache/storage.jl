@@ -38,18 +38,15 @@ hasparsed(cache::GlobalCache, m::Module) = m ∈ cache.parsed
 setparsed(cache::GlobalCache, m::Module) = push!(cache.parsed, m)
 
 function initdocs!(cache::GlobalCache, m::Module)
-    package  = getpackage(cache, m)
-    maxwidth = longest_module(package)
-    Utilities.message("caching '$(package.rootmodule)'…")
+    package = getpackage(cache, m)
+    total   = length(package.modules)
+    text    = string(total, " module", total > 1 ? "s" : "")
+    Utilities.message("caching $(text) from '$(package.rootmodule)'.")
     for (modulename, data) in package.modules
-        print(" - $(modulename) ", padding(maxwidth, modulename))
         raw, meta = Collector.docstrings(data)
         cache.docs[modulename] = DocsCache(raw, meta)
-        println("✓")
     end
 end
-longest_module(pack) = maximum([length(string(m)) for m in keys(pack.modules)])
-padding(width, m)    = " "^(width - length(string(m)))
 
 hasdocs(cache::GlobalCache, m::Module) = haskey(cache.docs, m)
 
