@@ -61,3 +61,22 @@ end
 ```
 
 Note that some Docile features, like `@doc+`, are not present in julia 0.4.
+
+### Loading Documented Modules
+
+Docile is designed to document whole packages rather than individual source files.
+This means that calling ``include("mymodule.jl")`` where ``"mymodule.jl"`` contains:
+
+```julia
+module MyModule
+
+# ...
+
+end
+```
+
+will not pickup any of ``MyModule``'s docstrings.
+
+**The solution** is to either make the file ``"mymodule.jl"`` into a proper
+Julia package using ``Pkg.generate`` so that ``using MyModule`` works, or use
+``require`` instead of ``include`` when loading the file.
