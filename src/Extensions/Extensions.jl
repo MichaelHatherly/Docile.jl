@@ -24,7 +24,11 @@ spliced back into the docstring in place of it:
 When no field is found in the metadata for the object, the module and package
 metadata are searched in turn.
 """
-Formats.metamacro(::META"get", body, mod, obj) =  Cache.findmeta(mod, obj, symbol(body))
+function Formats.metamacro(::META"get", body, mod, obj)
+    out = Cache.findmeta(mod, obj, symbol(body), Any)
+    isnull(out) && throw(KeyError("No metadata found in $(obj) for '$(body)'."))
+    get(out)
+end
 
 """
 !!summary(Set the value for a field in an object's metadata.)
