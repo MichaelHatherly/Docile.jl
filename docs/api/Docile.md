@@ -45,5 +45,5 @@ part of Docile for the foreseeable future to allow for backward compatibility.
 
 
 *source:*
-[Docile/src/Docile.jl:40](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Docile.jl#L40)
+[Docile/src/Docile.jl:40](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Docile.jl#L40)
 

@@ -10,7 +10,7 @@
 Does the expression represent a docstring?
 
 *source:*
-[Docile/src/Collector/utilities.jl:154](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/utilities.jl#L154)
+[Docile/src/Collector/utilities.jl:154](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/utilities.jl#L154)
 
 ---
 
@@ -19,7 +19,7 @@ Does the expression represent a docstring?
 Extract the symbol identifying an expression.
 
 *source:*
-[Docile/src/Collector/utilities.jl:291](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/utilities.jl#L291)
+[Docile/src/Collector/utilities.jl:291](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/utilities.jl#L291)
 
 ---
 
@@ -28,7 +28,7 @@ Extract the symbol identifying an expression.
 Extract all docstrings and metadata from a given file
 
 *source:*
-[Docile/src/Collector/docstrings.jl:38](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/docstrings.jl#L38)
+[Docile/src/Collector/docstrings.jl:38](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/docstrings.jl#L38)
 
 ---
 
@@ -37,7 +37,7 @@ Extract all docstrings and metadata from a given file
 Convert category from `:symbol` to either `:module` or `:function`.
 
 *source:*
-[Docile/src/Collector/utilities.jl:98](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/utilities.jl#L98)
+[Docile/src/Collector/utilities.jl:98](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/utilities.jl#L98)
 
 ## Methods [Internal]
 
@@ -49,7 +49,7 @@ Return the set of toplevel modules that are defined in an expression.
 
 
 *source:*
-[Docile/src/Collector/utilities.jl:264](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/utilities.jl#L264)
+[Docile/src/Collector/utilities.jl:264](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/utilities.jl#L264)
 
 ---
 
@@ -59,7 +59,7 @@ Extract all docstrings and basic metadata (file, line, & code) from a module.
 
 
 *source:*
-[Docile/src/Collector/docstrings.jl:16](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/docstrings.jl#L16)
+[Docile/src/Collector/docstrings.jl:16](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/docstrings.jl#L16)
 
 ---
 
@@ -69,7 +69,7 @@ Check whether a docstring is acutally a file path. Read that instead if it is.
 
 
 *source:*
-[Docile/src/Collector/utilities.jl:220](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/utilities.jl#L220)
+[Docile/src/Collector/utilities.jl:220](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/utilities.jl#L220)
 
 ---
 
@@ -79,7 +79,7 @@ Extract the module expression corresponding to a `Module` object.
 
 
 *source:*
-[Docile/src/Collector/utilities.jl:226](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/utilities.jl#L226)
+[Docile/src/Collector/utilities.jl:226](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/utilities.jl#L226)
 
 ---
 
@@ -89,7 +89,7 @@ Return the `PackageData` objects associated with a set of files.
 
 
 *source:*
-[Docile/src/Collector/utilities.jl:243](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/utilities.jl#L243)
+[Docile/src/Collector/utilities.jl:243](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/utilities.jl#L243)
 
 ---
 
@@ -99,7 +99,7 @@ Extract the comment block from expressions and capture metadata.
 
 
 *source:*
-[Docile/src/Collector/docstrings.jl:75](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/docstrings.jl#L75)
+[Docile/src/Collector/docstrings.jl:75](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/docstrings.jl#L75)
 
 ---
 
@@ -109,7 +109,7 @@ Extract a docstring and associated object(s) as well as metadata.
 
 
 *source:*
-[Docile/src/Collector/docstrings.jl:92](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/docstrings.jl#L92)
+[Docile/src/Collector/docstrings.jl:92](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/docstrings.jl#L92)
 
 ---
 
@@ -119,7 +119,7 @@ The category of an expression. `:symbol` is resolved at a later stage by `rechec
 
 
 *source:*
-[Docile/src/Collector/utilities.jl:109](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/utilities.jl#L109)
+[Docile/src/Collector/utilities.jl:109](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/utilities.jl#L109)
 
 ---
 
@@ -149,7 +149,7 @@ the `metamacro` function and custom docstring formatters.
 
 
 *source:*
-[Docile/src/Collector/utilities.jl:326](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/utilities.jl#L326)
+[Docile/src/Collector/utilities.jl:326](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/utilities.jl#L326)
 
 ---
 
@@ -167,7 +167,7 @@ Used to associate docstrings with macros
 
 
 *source:*
-[Docile/src/Collector/utilities.jl:45](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/utilities.jl#L45)
+[Docile/src/Collector/utilities.jl:45](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/utilities.jl#L45)
 
 ---
 
@@ -190,7 +190,7 @@ a type.
 
 
 *source:*
-[Docile/src/Collector/utilities.jl:25](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/utilities.jl#L25)
+[Docile/src/Collector/utilities.jl:25](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/utilities.jl#L25)
 
 ---
 
@@ -215,12 +215,12 @@ the function name as follows:
 
 
 *source:*
-[Docile/src/Collector/utilities.jl:66](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/utilities.jl#L66)
+[Docile/src/Collector/utilities.jl:66](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/utilities.jl#L66)
 
 ---
 
 <a id="method__getobject.4" class="lexicon_definition"></a>
-#### getobject(::Union(Docile.Utilities.Head{:vect}, Docile.Utilities.Head{:vcat}),  ::Any,  state,  expr,  ::Any) [¶](#method__getobject.4)
+#### getobject(::Union(Docile.Utilities.Head{:vcat}, Docile.Utilities.Head{:vect}),  ::Any,  state,  expr,  ::Any) [¶](#method__getobject.4)
 Find a set of methods and a set of functions that match the provided vector.
 
 Syntax example
@@ -249,7 +249,7 @@ and the method syntax using a tuple
 
 
 *source:*
-[Docile/src/Collector/utilities.jl:95](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/utilities.jl#L95)
+[Docile/src/Collector/utilities.jl:95](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/utilities.jl#L95)
 
 ---
 
@@ -259,7 +259,7 @@ Find all objects described by an expression.
 
 
 *source:*
-[Docile/src/Collector/utilities.jl:6](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/utilities.jl#L6)
+[Docile/src/Collector/utilities.jl:6](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/utilities.jl#L6)
 
 ---
 
@@ -271,7 +271,7 @@ Which source files are known to be included in a module.
 
 
 *source:*
-[Docile/src/Collector/search.jl:25](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/search.jl#L25)
+[Docile/src/Collector/search.jl:25](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/search.jl#L25)
 
 ---
 
@@ -281,7 +281,7 @@ Is the tuple a valid comment block?
 
 
 *source:*
-[Docile/src/Collector/utilities.jl:177](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/utilities.jl#L177)
+[Docile/src/Collector/utilities.jl:177](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/utilities.jl#L177)
 
 ---
 
@@ -291,7 +291,7 @@ Does the tuple of expressions represent a valid docstring and associated object?
 
 
 *source:*
-[Docile/src/Collector/utilities.jl:168](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/utilities.jl#L168)
+[Docile/src/Collector/utilities.jl:168](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/utilities.jl#L168)
 
 ---
 
@@ -303,7 +303,7 @@ Is the file the root for a module `mod`. Check for `Expr(:module, ...)`.
 
 
 *source:*
-[Docile/src/Collector/search.jl:60](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/search.jl#L60)
+[Docile/src/Collector/search.jl:60](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/search.jl#L60)
 
 ---
 
@@ -313,7 +313,7 @@ Is the module a toplevel one not including the module `Main`?
 
 
 *source:*
-[Docile/src/Collector/utilities.jl:282](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/utilities.jl#L282)
+[Docile/src/Collector/utilities.jl:282](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/utilities.jl#L282)
 
 ---
 
@@ -323,7 +323,7 @@ Path to definition of a julia object, only methods are searched for.
 
 
 *source:*
-[Docile/src/Collector/search.jl:51](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/search.jl#L51)
+[Docile/src/Collector/search.jl:51](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/search.jl#L51)
 
 ---
 
@@ -333,7 +333,7 @@ Add some additional metadata for macros and method definitions.
 
 
 *source:*
-[Docile/src/Collector/docstrings.jl:121](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/docstrings.jl#L121)
+[Docile/src/Collector/docstrings.jl:121](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/docstrings.jl#L121)
 
 ---
 
@@ -343,7 +343,7 @@ Does the expression `expr` represent the module name `mod`?
 
 
 *source:*
-[Docile/src/Collector/utilities.jl:288](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/utilities.jl#L288)
+[Docile/src/Collector/utilities.jl:288](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/utilities.jl#L288)
 
 ---
 
@@ -353,7 +353,7 @@ Blacklist some expressions so search doesn't decend into them.
 
 
 *source:*
-[Docile/src/Collector/utilities.jl:126](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/utilities.jl#L126)
+[Docile/src/Collector/utilities.jl:126](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/utilities.jl#L126)
 
 ---
 
@@ -363,7 +363,7 @@ Save docstrings and metadata for the objects that have been found.
 
 
 *source:*
-[Docile/src/Collector/docstrings.jl:138](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/docstrings.jl#L138)
+[Docile/src/Collector/docstrings.jl:138](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/docstrings.jl#L138)
 
 ---
 
@@ -373,7 +373,7 @@ Return the set of all submodules of a given module `mod`.
 
 
 *source:*
-[Docile/src/Collector/search.jl:6](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/search.jl#L6)
+[Docile/src/Collector/search.jl:6](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/search.jl#L6)
 
 ## Types [Internal]
 
@@ -385,5 +385,5 @@ Temporary container used for docstring processing. Not the final storage.
 
 
 *source:*
-[Docile/src/Collector/docstrings.jl:6](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Collector/docstrings.jl#L6)
+[Docile/src/Collector/docstrings.jl:6](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Collector/docstrings.jl#L6)
 

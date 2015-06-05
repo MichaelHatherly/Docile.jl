@@ -27,7 +27,7 @@ Arguments:
 
 
 *source:*
-[Docile/src/Formats/formatting.jl:27](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Formats/formatting.jl#L27)
+[Docile/src/Formats/formatting.jl:27](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Formats/formatting.jl#L27)
 
 
 ## Methods [Internal]
@@ -40,7 +40,7 @@ Apply nesting to body of metamacro when defined otherwise treat as raw text.
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:79](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Formats/metaparse.jl#L79)
+[Docile/src/Formats/metaparse.jl:79](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Formats/metaparse.jl#L79)
 
 ---
 
@@ -50,7 +50,7 @@ Run all 'metamacros' found in a raw docstring and return the resulting string.
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:63](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Formats/metaparse.jl#L63)
+[Docile/src/Formats/metaparse.jl:63](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Formats/metaparse.jl#L63)
 
 ---
 
@@ -60,7 +60,7 @@ Does the buffer `io` begin with the given prefix chars?
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:124](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Formats/metaparse.jl#L124)
+[Docile/src/Formats/metaparse.jl:124](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Formats/metaparse.jl#L124)
 
 ---
 
@@ -72,7 +72,7 @@ Throws a `MetaMacroNameError` if the string `s` is not valid.
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:28](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Formats/metaparse.jl#L28)
+[Docile/src/Formats/metaparse.jl:28](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Formats/metaparse.jl#L28)
 
 ---
 
@@ -84,7 +84,7 @@ Throws a `ParseError` when unmatched brackets are encountered.
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:136](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Formats/metaparse.jl#L136)
+[Docile/src/Formats/metaparse.jl:136](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Formats/metaparse.jl#L136)
 
 ---
 
@@ -97,7 +97,7 @@ of an embedded metadata entry.
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:97](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Formats/metaparse.jl#L97)
+[Docile/src/Formats/metaparse.jl:97](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Formats/metaparse.jl#L97)
 
 ## Types [Internal]
 
@@ -120,7 +120,7 @@ using ``Docile.Formats.extractmeta!`` as follows:
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:17](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Formats/metaparse.jl#L17)
+[Docile/src/Formats/metaparse.jl:17](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Formats/metaparse.jl#L17)
 
 ## Macros [Internal]
 
@@ -149,5 +149,5 @@ basis by using the ``raw`` modifier:
 
 
 *source:*
-[Docile/src/Formats/metaparse.jl:51](https://github.com/MichaelHatherly/Docile.jl/tree/9ddacb32c08c02ce7cfa4549878ac4df2405196b/src/Formats/metaparse.jl#L51)
+[Docile/src/Formats/metaparse.jl:51](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Formats/metaparse.jl#L51)
 
