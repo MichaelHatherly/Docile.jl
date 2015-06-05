@@ -3,8 +3,8 @@ module ExtensionTests
 "!!set(name:test)!!get(name)"
 set_and_get = ()
 
-"!!setget(name:test)"
-setget = ()
+"!!var(name:test)"
+var = ()
 
 "!!summary(summary)"
 summary = ()

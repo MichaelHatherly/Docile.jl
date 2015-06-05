@@ -14,10 +14,10 @@ facts("Extensions.") do
 
     end
 
-    context("!!setget") do
+    context("!!var") do
 
-        @fact Cache.getparsed(qs(ExtensionTests, :setget)...)      => "test"
-        @fact Cache.getmeta(qs(ExtensionTests, :setget)...)[:name] => "test"
+        @fact Cache.getparsed(qs(ExtensionTests, :var)...)      => "test"
+        @fact Cache.getmeta(qs(ExtensionTests, :var)...)[:name] => "test"
 
     end
 

@@ -13,7 +13,7 @@ end
 "!!raw_meta(!!undefined())"
 raw_metamacro = ()
 
-"!!nested_meta(!!setget(metamacro_type:nestable))"
+"!!nested_meta(!!var(metamacro_type:nestable))"
 nested_metamacro = ()
 
 end

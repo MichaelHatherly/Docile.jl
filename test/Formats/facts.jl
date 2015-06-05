@@ -31,7 +31,7 @@ facts("Formats.") do
 
     end
 
-    context("\\!!setget.") do
+    context("\\!!var.") do
 
         @fact Cache.getparsed(qs(MetadataSyntax, :one_backslash_escape)...) =>
             "One backslash is skipped and treated like a normal meta syntax."
@@ -41,10 +41,10 @@ facts("Formats.") do
 
     end
 
-    context("!! setget.") do
+    context("!! var.") do
 
         @fact Cache.getparsed(qs(MetadataSyntax, :space_between_backslash_metaname)...) =>
-            "!! setget(space_between_backslash_metaname:Space between double ! and metaname is not a metasyntax.)"
+            "!! var(space_between_backslash_metaname:Space between double ! and metaname is not a metasyntax.)"
 
         @fact_throws(
             KeyError,
@@ -53,10 +53,10 @@ facts("Formats.") do
 
     end
 
-    context("!!setget (.") do
+    context("!!var (.") do
 
         @fact Cache.getparsed(qs(MetadataSyntax, :space_between_metaname_bracket)...) =>
-            "!!setget (space_between_metaname_bracket:Space between metaname and bracket is not a metasyntax.)"
+            "!!var (space_between_metaname_bracket:Space between metaname and bracket is not a metasyntax.)"
 
         @fact_throws(
             KeyError,
@@ -75,7 +75,7 @@ facts("Formats.") do
 
     end
 
-    context("!!setget(笔者:所以不多说了)") do
+    context("!!var(笔者:所以不多说了)") do
 
         @fact Cache.getparsed(qs(MetadataSyntax, :chinese_unicode)...) =>
             "所以不多说了"
@@ -85,10 +85,10 @@ facts("Formats.") do
 
     end
 
-    context("\\\\!!setget") do
+    context("\\\\!!var") do
 
         @fact Cache.getparsed(qs(MetadataSyntax, :backslash_escaped_meta)...) =>
-            "!!setget(russian:бежал мета)"
+            "!!var(russian:бежал мета)"
 
         @fact_throws(
             KeyError,
@@ -100,7 +100,7 @@ facts("Formats.") do
     context("Escaped nested metamacros.") do
 
         @fact Cache.getparsed(qs(MetadataSyntax, :backslash_escaped_nested_meta)...) =>
-            "!!setget(unicode_meta_in_meta:所以不多说了 бежал мета)"
+            "!!var(unicode_meta_in_meta:所以不多说了 бежал мета)"
 
         @fact_throws(
             KeyError,

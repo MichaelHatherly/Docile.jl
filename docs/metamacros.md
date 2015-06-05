@@ -25,7 +25,7 @@ Example:
 
 !!get(author)
 
-!!setget(author:Author's Name)
+!!var(author:Author's Name)
 
 !!summary(Set the value for a field in an object's metadata.)
 
@@ -35,7 +35,7 @@ Example:
 
 !!include(includes/file.md)
 
-Nested: !!setget(license:[MIT](!!setget(license_url:https://github.com/LICENSE.md)))
+Nested: !!var(license:[MIT](!!var(license_url:https://github.com/LICENSE.md)))
 """
 ```
 
@@ -52,7 +52,7 @@ Example:
 
 \\!!set(author:Author's Name)
 
-\\!!setget(license:[MIT](\\!!setget(license_url:https://github.com/LICENSE.md)))
+\\!!var(license:[MIT](\\!!var(license_url:https://github.com/LICENSE.md)))
 """
 ```
 
