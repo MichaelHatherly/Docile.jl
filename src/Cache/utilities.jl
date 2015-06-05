@@ -3,24 +3,25 @@
 function findmeta(cache::GlobalCache, m::Module, obj, key::Symbol, T)
     # Stage 1: object's metadata.
     meta = getmeta(cache, m, obj)
-    haskey(meta, key) && return Nullable{T}(meta[key])
+    haskey(meta, key) && return asnull(T, meta, key)
 
     # Stage 2: Module's metadata.
     local root
     while m != Main
         root = m
         meta = getmodule(cache, m).metadata
-        haskey(meta, key) && return Nullable{T}(meta[key])
+        haskey(meta, key) && return asnull(T, meta, key)
         m = module_parent(m)
     end
 
     # Stage 3: Package's metadata.
     meta = getpackage(cache, root).metadata
-    haskey(meta, key) && return Nullable{T}(meta[key])
+    haskey(meta, key) && return asnull(T, meta, key)
 
     # Give up!
     Nullable{T}()
 end
+asnull(T, meta, key) = Nullable{T}(convert(T, meta[key]))
 
 """
 Parse raw docstrings in module `m` into their parsed form.
