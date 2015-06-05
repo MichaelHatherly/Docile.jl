@@ -64,9 +64,9 @@ Find the metadata for ``key`` associated with an object ``obj`` in module ``m``.
 Returns a ``Nullable{T}`` object. ``isnull`` must be called to determine whether
 an object was actually found or not.
 
-When ``obj`` does not contain the field ``field`` then the module's metadata
+When ``obj`` does not contain the field ``key`` then the module's metadata
 and all it's parents are searched in turn. Finally the package's metadata is
-searched for ``field``.
+searched for ``key``.
 """
 findmeta(m::Module, obj, key::Symbol, T) = findmeta(CACHE, m, obj, key, T)
 
