@@ -1,43 +1,79 @@
 # API-INDEX
 
 
-## MODULE: Docile.Runner
+## MODULE: Docile.Collector
 
 ---
 
-## Methods [Exported]
+## Functions [Internal]
 
-[findmethods(state::Docile.Runner.State,  ex::Expr,  codesource)](Docile.Runner.md#method__findmethods.1)  Find all methods defined by an method definition expression.
+[isdocstring](Docile.Collector.md#function__isdocstring.1)  Does the expression represent a docstring?
 
-[findtuples(state::Docile.Runner.State,  expr::Expr)](Docile.Runner.md#method__findtuples.1)  Find the ``Method`` objects referenced by ``(...)`` docstring syntax.
+[name](Docile.Collector.md#function__name.1)  Extract the symbol identifying an expression.
 
-[findvcats(state::Docile.Runner.State,  expr::Expr)](Docile.Runner.md#method__findvcats.1)  Find ``Function`` and ``Method`` objects referenced by ``[...]`` syntax.
+[process!](Docile.Collector.md#function__process.1)  Extract all docstrings and metadata from a given file
 
-[withref(fn,  state,  ref)](Docile.Runner.md#method__withref.1)  Push reference onto `state`, run function block, and pop reference afterwards.
-
-[withscope(fn,  state,  scope)](Docile.Runner.md#method__withscope.1)  Push scope onto `state`, run function block, and pop scope afterwards.
-
----
-
-## Types [Exported]
-
-[Docile.Runner.State](Docile.Runner.md#type__state.1)  Hold state for use with `exec` to determine the objects referenced by symbols.
+[recheck](Docile.Collector.md#function__recheck.1)  Convert category from `:symbol` to either `:module` or `:function`.
 
 ---
 
 ## Methods [Internal]
 
-[addtoscope!(state,  var,  value)](Docile.Runner.md#method__addtoscope.1)  Add new variable and it's value to topmost scope.
+[definedmodules!(out,  expr::Expr)](Docile.Collector.md#method__definedmodules.1)  Return the set of toplevel modules that are defined in an expression.
 
-[exec(state::Docile.Runner.State,  expr::Expr)](Docile.Runner.md#method__exec.1)  Evaluate the expression ``expr`` within the context provided by ``state``.
+[docstrings(m::Docile.Collector.ModuleData)](Docile.Collector.md#method__docstrings.1)  Extract all docstrings and basic metadata (file, line, & code) from a module.
 
-[funcname(state::Docile.Runner.State,  expr::Expr)](Docile.Runner.md#method__funcname.1)  Return the ``Function`` object represented by a method definition expression.
+[findexternal(docs)](Docile.Collector.md#method__findexternal.1)  Check whether a docstring is acutally a file path. Read that instead if it is.
 
-[getargs(expr::Expr)](Docile.Runner.md#method__getargs.1)  Extract the expressions representing a method definition's arguments.
+[findmodule(expr::Expr,  mod::Module)](Docile.Collector.md#method__findmodule.1)  Extract the module expression corresponding to a `Module` object.
 
-[gettvars(expr::Expr)](Docile.Runner.md#method__gettvars.1)  Extract the expressions from a ``{}`` in a function definition.
+[findpackages(rootfiles::Set{UTF8String})](Docile.Collector.md#method__findpackages.1)  Return the `PackageData` objects associated with a set of files.
 
-[lineinfo(m::Method)](Docile.Runner.md#method__lineinfo.1)  Line number and file name pair for a method ``m``.
+[get_aside!(output,  moddata,  state,  file,  block)](Docile.Collector.md#method__get_aside.1)  Extract the comment block from expressions and capture metadata.
+
+[get_docs!(output,  moduledata,  state,  file,  block)](Docile.Collector.md#method__get_docs.1)  Extract a docstring and associated object(s) as well as metadata.
+
+[getcategory(x)](Docile.Collector.md#method__getcategory.1)  The category of an expression. `:symbol` is resolved at a later stage by `recheck`.
+
+[getdotfile(dir::AbstractString)](Docile.Collector.md#method__getdotfile.1)  Check for a `.docile` configuration file in the directory `dir`.
+
+[getobject(::Docile.Utilities.Head{:macro},  moduledata,  state,  expr,  ::Any)](Docile.Collector.md#method__getobject.1)  Get the `(anonymous function)` object defined by a macro expression.
+
+[getobject(::Docile.Utilities.Head{:method},  moduledata,  state,  expr,  codesource)](Docile.Collector.md#method__getobject.2)  Find all `Method` objects defined by a given expression.
+
+[getobject(::Docile.Utilities.Head{:tuple},  ::Any,  state,  expr,  ::Any)](Docile.Collector.md#method__getobject.3)  Find group of methods that match a provided signature.
+
+[getobject(::Union(Docile.Utilities.Head{:vect}, Docile.Utilities.Head{:vcat}),  ::Any,  state,  expr,  ::Any)](Docile.Collector.md#method__getobject.4)  Find a set of methods and a set of functions that match the provided vector.
+
+[getobject(cat::Symbol,  moduledata,  state,  expr,  codesource)](Docile.Collector.md#method__getobject.5)  Find all objects described by an expression.
+
+[includedfiles(mod::Module,  candidates::Set{T})](Docile.Collector.md#method__includedfiles.1)  Which source files are known to be included in a module.
+
+[is_aside(block)](Docile.Collector.md#method__is_aside.1)  Is the tuple a valid comment block?
+
+[isdocblock(block)](Docile.Collector.md#method__isdocblock.1)  Does the tuple of expressions represent a valid docstring and associated object?
+
+[isrootfile(mod::Symbol,  parsed::Expr)](Docile.Collector.md#method__isrootfile.1)  Is the file the root for a module `mod`. Check for `Expr(:module, ...)`.
+
+[isrootmodule(m::Module)](Docile.Collector.md#method__isrootmodule.1)  Is the module a toplevel one not including the module `Main`?
+
+[location(object::Method)](Docile.Collector.md#method__location.1)  Path to definition of a julia object, only methods are searched for.
+
+[postprocess!(cat::Symbol,  metadata,  ex)](Docile.Collector.md#method__postprocess.1)  Add some additional metadata for macros and method definitions.
+
+[samemodule(expr,  mod)](Docile.Collector.md#method__samemodule.1)  Does the expression `expr` represent the module name `mod`?
+
+[skipexpr(x)](Docile.Collector.md#method__skipexpr.1)  Blacklist some expressions so search doesn't decend into them.
+
+[store!(output,  object,  docs,  metadata)](Docile.Collector.md#method__store.1)  Save docstrings and metadata for the objects that have been found.
+
+[submodules(mod::Module)](Docile.Collector.md#method__submodules.1)  Return the set of all submodules of a given module `mod`.
+
+---
+
+## Types [Internal]
+
+[Docile.Collector.Output](Docile.Collector.md#type__output.1)  Temporary container used for docstring processing. Not the final storage.
 
 ## MODULE: Docile
 
@@ -46,6 +82,92 @@
 ## Modules [Exported]
 
 [Docile](Docile.md#module__docile.1)  Documentation extraction package for the Julia Language.
+
+## MODULE: Docile.Cache
+
+---
+
+## Methods [Exported]
+
+[clear!()](Docile.Cache.md#method__clear.1)  Empty the documentation cache of all data.
+
+[getmeta(m::Module)](Docile.Cache.md#method__getmeta.1)  Get the metadata dictionaries for all documented objects in a module.
+
+[getmeta(m::Module,  obj)](Docile.Cache.md#method__getmeta.2)  Get the ``Dict{Symbol, Any}`` containing an object's metadata.
+
+[getparsed(m::Module)](Docile.Cache.md#method__getparsed.1)  Get the parsed docstrings associated with all documented objects in a module.
+
+[getparsed(m::Module,  obj)](Docile.Cache.md#method__getparsed.2)  Get the parsed form of a docstring associated with an object ``obj``.
+
+[getraw(m::Module)](Docile.Cache.md#method__getraw.1)  Get the raw docstrings associated with all documented objects in a module.
+
+[getraw(m::Module,  obj)](Docile.Cache.md#method__getraw.2)  Get the raw docstring associated with a documented object ``obj`` in module ``m``.
+
+[objects(m::Module)](Docile.Cache.md#method__objects.1)  Return all documented objects found in a module ``m``.
+
+---
+
+## Methods [Internal]
+
+[extractor!(cache::Docile.Cache.GlobalCache,  raw::AbstractString,  m::Module,  obj)](Docile.Cache.md#method__extractor.1)  Extract metadata embedded in docstrings and run the `parsedocs` method defined
+
+[findmeta(m::Module,  obj,  key::Symbol,  T)](Docile.Cache.md#method__findmeta.1)  Find the metadata for ``key`` associated with an object ``obj`` in module ``m``.
+
+[getmodule(m::Module)](Docile.Cache.md#method__getmodule.1)  Get the ``ModuleData`` object associated with a module ``m``.
+
+[getpackage(m::Module)](Docile.Cache.md#method__getpackage.1)  Get the ``PackageData`` object associated with a module ``m``.
+
+[loadedmodules()](Docile.Cache.md#method__loadedmodules.1)  Returns the set of all loaded modules.
+
+[parse!(cache::Docile.Cache.GlobalCache,  m::Module)](Docile.Cache.md#method__parse.1)  Parse raw docstrings in module `m` into their parsed form.
+
+[togglebase()](Docile.Cache.md#method__togglebase.1)  Turn on documenting of ``Base`` and it's submodules. Off by default.
+
+---
+
+## Types [Internal]
+
+[Docile.Cache.DocsCache](Docile.Cache.md#type__docscache.1)  For a single module store raw docstrings, parsed docs, and metadata.
+
+## MODULE: Docile.Legacy
+
+---
+
+## Macros [Exported]
+
+[@comment(text)](Docile.Legacy.md#macro___comment.1)  Deprecated macro for adding object-independent docstrings to a module.
+
+[@file_str(text)](Docile.Legacy.md#macro___file_str.1)  The text found in the file ``text`` is used as the docstring content.
+
+---
+
+## Methods [Internal]
+
+[call(::Type{Docile.Legacy.Manual},  ::Void,  files)](Docile.Legacy.md#method__call.1)  Usage from REPL, use current directory as root.
+
+[data(n,  docstr)](Docile.Legacy.md#method__data.1)  Assign to docs to `n` and return a dictionary of keyword arguments.
+
+[doc(expr::Expr)](Docile.Legacy.md#method__doc.1)  Main documentation generation routine.
+
+[doc(expr::Expr,  generic)](Docile.Legacy.md#method__doc.2)  Main documentation generation routine.
+
+[doc(s::Symbol,  ex::Expr)](Docile.Legacy.md#method__doc.3)  Detect '@doc+' syntax in macro call.
+
+[lateguess(::Function)](Docile.Legacy.md#method__lateguess.1)  Return the category of an object.
+
+[nameof(x::Expr)](Docile.Legacy.md#method__nameof.1)  Get the symbolic name of an expression.
+
+[unarrow(x::Expr)](Docile.Legacy.md#method__unarrow.1)  Extract the docstring and expression to be documented from an `->` expression.
+
+[unblock(x::Expr)](Docile.Legacy.md#method__unblock.1)  Extract the line number and documented object expression from a block.
+
+---
+
+## Macros [Internal]
+
+[@doc(ex)](Docile.Legacy.md#macro___doc.1)  Document an object.
+
+[@init()](Docile.Legacy.md#macro___init.1)  Setup macro-style documentation datastructures.
 
 ## MODULE: Docile.Interface
 
@@ -109,45 +231,43 @@
 
 [DOCUMENTED](Docile.Interface.md#global__documented.1)  Storage for deprecated ``Metadata`` documentation.
 
-## MODULE: Docile.Legacy
+## MODULE: Docile.Runner
 
 ---
 
-## Macros [Exported]
+## Methods [Exported]
 
-[@comment(text)](Docile.Legacy.md#macro___comment.1)  Deprecated macro for adding object-independent docstrings to a module.
+[findmethods(state::Docile.Runner.State,  ex::Expr,  codesource)](Docile.Runner.md#method__findmethods.1)  Find all methods defined by an method definition expression.
 
-[@file_str(text)](Docile.Legacy.md#macro___file_str.1)  The text found in the file ``text`` is used as the docstring content.
+[findtuples(state::Docile.Runner.State,  expr::Expr)](Docile.Runner.md#method__findtuples.1)  Find the ``Method`` objects referenced by ``(...)`` docstring syntax.
+
+[findvcats(state::Docile.Runner.State,  expr::Expr)](Docile.Runner.md#method__findvcats.1)  Find ``Function`` and ``Method`` objects referenced by ``[...]`` syntax.
+
+[withref(fn,  state,  ref)](Docile.Runner.md#method__withref.1)  Push reference onto `state`, run function block, and pop reference afterwards.
+
+[withscope(fn,  state,  scope)](Docile.Runner.md#method__withscope.1)  Push scope onto `state`, run function block, and pop scope afterwards.
+
+---
+
+## Types [Exported]
+
+[Docile.Runner.State](Docile.Runner.md#type__state.1)  Hold state for use with `exec` to determine the objects referenced by symbols.
 
 ---
 
 ## Methods [Internal]
 
-[call(::Type{Docile.Legacy.Manual},  ::Void,  files)](Docile.Legacy.md#method__call.1)  Usage from REPL, use current directory as root.
+[addtoscope!(state,  var,  value)](Docile.Runner.md#method__addtoscope.1)  Add new variable and it's value to topmost scope.
 
-[data(n,  docstr)](Docile.Legacy.md#method__data.1)  Assign to docs to `n` and return a dictionary of keyword arguments.
+[exec(state::Docile.Runner.State,  expr::Expr)](Docile.Runner.md#method__exec.1)  Evaluate the expression ``expr`` within the context provided by ``state``.
 
-[doc(expr::Expr)](Docile.Legacy.md#method__doc.1)  Main documentation generation routine.
+[funcname(state::Docile.Runner.State,  expr::Expr)](Docile.Runner.md#method__funcname.1)  Return the ``Function`` object represented by a method definition expression.
 
-[doc(expr::Expr,  generic)](Docile.Legacy.md#method__doc.2)  Main documentation generation routine.
+[getargs(expr::Expr)](Docile.Runner.md#method__getargs.1)  Extract the expressions representing a method definition's arguments.
 
-[doc(s::Symbol,  ex::Expr)](Docile.Legacy.md#method__doc.3)  Detect '@doc+' syntax in macro call.
+[gettvars(expr::Expr)](Docile.Runner.md#method__gettvars.1)  Extract the expressions from a ``{}`` in a function definition.
 
-[lateguess(::Function)](Docile.Legacy.md#method__lateguess.1)  Return the category of an object.
-
-[nameof(x::Expr)](Docile.Legacy.md#method__nameof.1)  Get the symbolic name of an expression.
-
-[unarrow(x::Expr)](Docile.Legacy.md#method__unarrow.1)  Extract the docstring and expression to be documented from an `->` expression.
-
-[unblock(x::Expr)](Docile.Legacy.md#method__unblock.1)  Extract the line number and documented object expression from a block.
-
----
-
-## Macros [Internal]
-
-[@doc(ex)](Docile.Legacy.md#macro___doc.1)  Document an object.
-
-[@init()](Docile.Legacy.md#macro___init.1)  Setup macro-style documentation datastructures.
+[lineinfo(m::Method)](Docile.Runner.md#method__lineinfo.1)  Line number and file name pair for a method ``m``.
 
 ## MODULE: Docile.Formats
 
@@ -202,126 +322,6 @@
 ## Globals [Internal]
 
 [BASE](Docile.Utilities.md#global__base.1)  Path to Julia's base source code.
-
-## MODULE: Docile.Collector
-
----
-
-## Functions [Internal]
-
-[isdocstring](Docile.Collector.md#function__isdocstring.1)  Does the expression represent a docstring?
-
-[name](Docile.Collector.md#function__name.1)  Extract the symbol identifying an expression.
-
-[process!](Docile.Collector.md#function__process.1)  Extract all docstrings and metadata from a given file
-
-[recheck](Docile.Collector.md#function__recheck.1)  Convert category from `:symbol` to either `:module` or `:function`.
-
----
-
-## Methods [Internal]
-
-[definedmodules!(out,  expr::Expr)](Docile.Collector.md#method__definedmodules.1)  Return the set of toplevel modules that are defined in an expression.
-
-[docstrings(m::Docile.Collector.ModuleData)](Docile.Collector.md#method__docstrings.1)  Extract all docstrings and basic metadata (file, line, & code) from a module.
-
-[findexternal(docs)](Docile.Collector.md#method__findexternal.1)  Check whether a docstring is acutally a file path. Read that instead if it is.
-
-[findmodule(expr::Expr,  mod::Module)](Docile.Collector.md#method__findmodule.1)  Extract the module expression corresponding to a `Module` object.
-
-[findpackages(rootfiles::Set{UTF8String})](Docile.Collector.md#method__findpackages.1)  Return the `PackageData` objects associated with a set of files.
-
-[get_aside!(output,  moddata,  state,  file,  block)](Docile.Collector.md#method__get_aside.1)  Extract the comment block from expressions and capture metadata.
-
-[get_docs!(output,  moduledata,  state,  file,  block)](Docile.Collector.md#method__get_docs.1)  Extract a docstring and associated object(s) as well as metadata.
-
-[getcategory(x)](Docile.Collector.md#method__getcategory.1)  The category of an expression. `:symbol` is resolved at a later stage by `recheck`.
-
-[getdotfile(dir::AbstractString)](Docile.Collector.md#method__getdotfile.1)  Check for a `.docile` configuration file in the directory `dir`.
-
-[getobject(::Docile.Utilities.Head{:macro},  moduledata,  state,  expr,  ::Any)](Docile.Collector.md#method__getobject.1)  Get the `(anonymous function)` object defined by a macro expression.
-
-[getobject(::Docile.Utilities.Head{:method},  moduledata,  state,  expr,  codesource)](Docile.Collector.md#method__getobject.2)  Find all `Method` objects defined by a given expression.
-
-[getobject(::Docile.Utilities.Head{:tuple},  ::Any,  state,  expr,  ::Any)](Docile.Collector.md#method__getobject.3)  Find group of methods that match a provided signature.
-
-[getobject(::Union(Docile.Utilities.Head{:vcat}, Docile.Utilities.Head{:vect}),  ::Any,  state,  expr,  ::Any)](Docile.Collector.md#method__getobject.4)  Find a set of methods and a set of functions that match the provided vector.
-
-[getobject(cat::Symbol,  moduledata,  state,  expr,  codesource)](Docile.Collector.md#method__getobject.5)  Find all objects described by an expression.
-
-[includedfiles(mod::Module,  candidates::Set{T})](Docile.Collector.md#method__includedfiles.1)  Which source files are known to be included in a module.
-
-[is_aside(block)](Docile.Collector.md#method__is_aside.1)  Is the tuple a valid comment block?
-
-[isdocblock(block)](Docile.Collector.md#method__isdocblock.1)  Does the tuple of expressions represent a valid docstring and associated object?
-
-[isrootfile(mod::Symbol,  parsed::Expr)](Docile.Collector.md#method__isrootfile.1)  Is the file the root for a module `mod`. Check for `Expr(:module, ...)`.
-
-[isrootmodule(m::Module)](Docile.Collector.md#method__isrootmodule.1)  Is the module a toplevel one not including the module `Main`?
-
-[location(object::Method)](Docile.Collector.md#method__location.1)  Path to definition of a julia object, only methods are searched for.
-
-[postprocess!(cat::Symbol,  metadata,  ex)](Docile.Collector.md#method__postprocess.1)  Add some additional metadata for macros and method definitions.
-
-[samemodule(expr,  mod)](Docile.Collector.md#method__samemodule.1)  Does the expression `expr` represent the module name `mod`?
-
-[skipexpr(x)](Docile.Collector.md#method__skipexpr.1)  Blacklist some expressions so search doesn't decend into them.
-
-[store!(output,  object,  docs,  metadata)](Docile.Collector.md#method__store.1)  Save docstrings and metadata for the objects that have been found.
-
-[submodules(mod::Module)](Docile.Collector.md#method__submodules.1)  Return the set of all submodules of a given module `mod`.
-
----
-
-## Types [Internal]
-
-[Docile.Collector.Output](Docile.Collector.md#type__output.1)  Temporary container used for docstring processing. Not the final storage.
-
-## MODULE: Docile.Cache
-
----
-
-## Methods [Exported]
-
-[clear!()](Docile.Cache.md#method__clear.1)  Empty the documentation cache of all data.
-
-[getmeta(m::Module)](Docile.Cache.md#method__getmeta.1)  Get the metadata dictionaries for all documented objects in a module.
-
-[getmeta(m::Module,  obj)](Docile.Cache.md#method__getmeta.2)  Get the ``Dict{Symbol, Any}`` containing an object's metadata.
-
-[getparsed(m::Module)](Docile.Cache.md#method__getparsed.1)  Get the parsed docstrings associated with all documented objects in a module.
-
-[getparsed(m::Module,  obj)](Docile.Cache.md#method__getparsed.2)  Get the parsed form of a docstring associated with an object ``obj``.
-
-[getraw(m::Module)](Docile.Cache.md#method__getraw.1)  Get the raw docstrings associated with all documented objects in a module.
-
-[getraw(m::Module,  obj)](Docile.Cache.md#method__getraw.2)  Get the raw docstring associated with a documented object ``obj`` in module ``m``.
-
-[objects(m::Module)](Docile.Cache.md#method__objects.1)  Return all documented objects found in a module ``m``.
-
----
-
-## Methods [Internal]
-
-[extractor!(cache::Docile.Cache.GlobalCache,  raw::AbstractString,  m::Module,  obj)](Docile.Cache.md#method__extractor.1)  Extract metadata embedded in docstrings and run the `parsedocs` method defined
-
-[findmeta(m::Module,  obj,  key::Symbol,  T)](Docile.Cache.md#method__findmeta.1)  Find the metadata for ``key`` associated with an object ``obj`` in module ``m``.
-
-[getmodule(m::Module)](Docile.Cache.md#method__getmodule.1)  Get the ``ModuleData`` object associated with a module ``m``.
-
-[getpackage(m::Module)](Docile.Cache.md#method__getpackage.1)  Get the ``PackageData`` object associated with a module ``m``.
-
-[loadedmodules()](Docile.Cache.md#method__loadedmodules.1)  Returns the set of all loaded modules.
-
-[parse!(cache::Docile.Cache.GlobalCache,  m::Module)](Docile.Cache.md#method__parse.1)  Parse raw docstrings in module `m` into their parsed form.
-
-[togglebase()](Docile.Cache.md#method__togglebase.1)  Turn on documenting of ``Base`` and it's submodules. Off by default.
-
----
-
-## Types [Internal]
-
-[Docile.Cache.DocsCache](Docile.Cache.md#type__docscache.1)  For a single module store raw docstrings, parsed docs, and metadata.
 
 ## MODULE: Docile.Extensions
 

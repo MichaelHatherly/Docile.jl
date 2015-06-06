@@ -1,3 +1,9 @@
+### v0.5.5
+
+* Fix parsing bug for files with no newline at end of file.
+* Reduce REPL output from caching.
+* Rename ``!!setget`` to ``!!var``.
+
 ### v0.5.4
 
 * Add ``MarkdownFormatter``.

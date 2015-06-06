@@ -11,7 +11,7 @@ Parsing hook for specifying how to parse raw docstrings into formatted text.
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:188](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L188)
+[Docile/src/Interface/legacy.jl:188](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L188)
 
 ## Methods [Exported]
 
@@ -25,7 +25,7 @@ What category does an ``Entry`` object belong to?
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:137](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L137)
+[Docile/src/Interface/legacy.jl:137](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L137)
 
 ---
 
@@ -37,7 +37,7 @@ Raw docstring associated with a ``Docs`` object ``d``.
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:169](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L169)
+[Docile/src/Interface/legacy.jl:169](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L169)
 
 ---
 
@@ -49,7 +49,7 @@ The ``Docs`` object for an ``Entry`` object ``e``.
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:158](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L158)
+[Docile/src/Interface/legacy.jl:158](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L158)
 
 ---
 
@@ -61,7 +61,7 @@ The ``Metadata`` object associated with a module ``mod``.
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:203](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L203)
+[Docile/src/Interface/legacy.jl:203](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L203)
 
 ---
 
@@ -71,7 +71,7 @@ Returns the modules that are currently documented by Docile.
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:26](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L26)
+[Docile/src/Interface/legacy.jl:26](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L26)
 
 ---
 
@@ -83,7 +83,7 @@ Returns the modules that are currently documented by Docile.
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:68](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L68)
+[Docile/src/Interface/legacy.jl:68](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L68)
 
 ---
 
@@ -95,7 +95,7 @@ List of all ``include``d files in a module documented by ``Metadata`` object ``m
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:82](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L82)
+[Docile/src/Interface/legacy.jl:82](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L82)
 
 ---
 
@@ -107,7 +107,7 @@ The format that a docstring is written in.
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:176](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L176)
+[Docile/src/Interface/legacy.jl:176](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L176)
 
 ---
 
@@ -117,7 +117,7 @@ Is the module ``mod`` documented by Docile?
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:31](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L31)
+[Docile/src/Interface/legacy.jl:31](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L31)
 
 ---
 
@@ -127,7 +127,7 @@ Is the documented object ``object`` been exported from the given module ``modnam
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:101](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L101)
+[Docile/src/Interface/legacy.jl:101](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L101)
 
 ---
 
@@ -139,7 +139,7 @@ Have the docstrings contained in a module been collected yet?
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:89](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L89)
+[Docile/src/Interface/legacy.jl:89](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L89)
 
 ---
 
@@ -151,7 +151,7 @@ The manual files for a ``Metadata`` object ``meta``.
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:61](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L61)
+[Docile/src/Interface/legacy.jl:61](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L61)
 
 ---
 
@@ -163,7 +163,7 @@ Arbitrary additional metadata associated with a particular ``Entry`` ``e``.
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:151](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L151)
+[Docile/src/Interface/legacy.jl:151](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L151)
 
 ---
 
@@ -175,7 +175,7 @@ The ``Dict{Symbol, Any}`` containing arbitrary additional data about a ``Metadat
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:96](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L96)
+[Docile/src/Interface/legacy.jl:96](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L96)
 
 ---
 
@@ -187,7 +187,7 @@ Get the ``Metadata`` object associated with a module ``mod``.
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:38](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L38)
+[Docile/src/Interface/legacy.jl:38](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L38)
 
 ---
 
@@ -199,7 +199,7 @@ Which module does the ``Entry`` object come from?
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:144](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L144)
+[Docile/src/Interface/legacy.jl:144](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L144)
 
 ---
 
@@ -211,7 +211,7 @@ The ``Module`` that a ``Metadata`` object documents.
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:54](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L54)
+[Docile/src/Interface/legacy.jl:54](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L54)
 
 ---
 
@@ -223,7 +223,7 @@ Get the parsed docstring for a ``Docs`` object ``d``.
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:183](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L183)
+[Docile/src/Interface/legacy.jl:183](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L183)
 
 ---
 
@@ -235,7 +235,7 @@ The rootfile of the module documented by a ``Metadata`` object ``meta``.
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:75](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L75)
+[Docile/src/Interface/legacy.jl:75](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L75)
 
 
 ## Functions [Internal]
@@ -248,7 +248,7 @@ Get the ``Symbol`` representing an object such as ``Function`` or ``Method``.
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:120](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L120)
+[Docile/src/Interface/legacy.jl:120](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L120)
 
 ## Globals [Internal]
 
@@ -262,5 +262,5 @@ Storage for deprecated ``Metadata`` documentation.
 
 
 *source:*
-[Docile/src/Interface/legacy.jl:21](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Interface/legacy.jl#L21)
+[Docile/src/Interface/legacy.jl:21](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Interface/legacy.jl#L21)
 

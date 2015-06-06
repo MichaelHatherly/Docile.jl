@@ -15,7 +15,7 @@ Find all methods defined by an method definition expression.
 
 
 *source:*
-[Docile/src/Runner/lookup.jl:10](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Runner/lookup.jl#L10)
+[Docile/src/Runner/lookup.jl:10](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Runner/lookup.jl#L10)
 
 ---
 
@@ -29,7 +29,7 @@ Find the ``Method`` objects referenced by ``(...)`` docstring syntax.
 
 
 *source:*
-[Docile/src/Runner/lookup.jl:45](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Runner/lookup.jl#L45)
+[Docile/src/Runner/lookup.jl:45](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Runner/lookup.jl#L45)
 
 ---
 
@@ -43,7 +43,7 @@ Find ``Function`` and ``Method`` objects referenced by ``[...]`` syntax.
 
 
 *source:*
-[Docile/src/Runner/lookup.jl:64](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Runner/lookup.jl#L64)
+[Docile/src/Runner/lookup.jl:64](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Runner/lookup.jl#L64)
 
 ---
 
@@ -53,7 +53,7 @@ Push reference onto `state`, run function block, and pop reference afterwards.
 
 
 *source:*
-[Docile/src/Runner/state.jl:35](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Runner/state.jl#L35)
+[Docile/src/Runner/state.jl:35](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Runner/state.jl#L35)
 
 ---
 
@@ -63,7 +63,7 @@ Push scope onto `state`, run function block, and pop scope afterwards.
 
 
 *source:*
-[Docile/src/Runner/state.jl:20](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Runner/state.jl#L20)
+[Docile/src/Runner/state.jl:20](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Runner/state.jl#L20)
 
 ## Types [Exported]
 
@@ -75,7 +75,7 @@ Hold state for use with `exec` to determine the objects referenced by symbols.
 
 
 *source:*
-[Docile/src/Runner/state.jl:4](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Runner/state.jl#L4)
+[Docile/src/Runner/state.jl:4](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Runner/state.jl#L4)
 
 
 ## Methods [Internal]
@@ -88,7 +88,7 @@ Add new variable and it's value to topmost scope.
 
 
 *source:*
-[Docile/src/Runner/state.jl:52](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Runner/state.jl#L52)
+[Docile/src/Runner/state.jl:52](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Runner/state.jl#L52)
 
 ---
 
@@ -98,7 +98,7 @@ Evaluate the expression ``expr`` within the context provided by ``state``.
 
 
 *source:*
-[Docile/src/Runner/lookup.jl:86](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Runner/lookup.jl#L86)
+[Docile/src/Runner/lookup.jl:86](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Runner/lookup.jl#L86)
 
 ---
 
@@ -108,7 +108,7 @@ Return the ``Function`` object represented by a method definition expression.
 
 
 *source:*
-[Docile/src/Runner/lookup.jl:164](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Runner/lookup.jl#L164)
+[Docile/src/Runner/lookup.jl:164](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Runner/lookup.jl#L164)
 
 ---
 
@@ -118,7 +118,7 @@ Extract the expressions representing a method definition's arguments.
 
 
 *source:*
-[Docile/src/Runner/lookup.jl:158](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Runner/lookup.jl#L158)
+[Docile/src/Runner/lookup.jl:158](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Runner/lookup.jl#L158)
 
 ---
 
@@ -128,7 +128,7 @@ Extract the expressions from a ``{}`` in a function definition.
 
 
 *source:*
-[Docile/src/Runner/lookup.jl:153](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Runner/lookup.jl#L153)
+[Docile/src/Runner/lookup.jl:153](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Runner/lookup.jl#L153)
 
 ---
 
@@ -138,5 +138,5 @@ Line number and file name pair for a method ``m``.
 
 
 *source:*
-[Docile/src/Runner/lookup.jl:36](https://github.com/MichaelHatherly/Docile.jl/tree/950375199c1c691902d2b2254a33d92fc7f2b552/src/Runner/lookup.jl#L36)
+[Docile/src/Runner/lookup.jl:36](https://github.com/MichaelHatherly/Docile.jl/tree/1ea0a71f4a2ded1ccda0b5716a09050175a8e93e/src/Runner/lookup.jl#L36)
 
