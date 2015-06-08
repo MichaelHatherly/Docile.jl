@@ -1,3 +1,8 @@
+### v0.5.6
+
+* Implement automatic caching of parsed expressions. Improves loading time of help.
+* Turn on caching of ``Base`` by default.
+
 ### v0.5.5
 
 * Fix parsing bug for files with no newline at end of file.

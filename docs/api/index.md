@@ -75,60 +75,6 @@
 
 [Docile.Collector.Output](Docile.Collector.md#type__output.1)  Temporary container used for docstring processing. Not the final storage.
 
-## MODULE: Docile
-
----
-
-## Modules [Exported]
-
-[Docile](Docile.md#module__docile.1)  Documentation extraction package for the Julia Language.
-
-## MODULE: Docile.Cache
-
----
-
-## Methods [Exported]
-
-[clear!()](Docile.Cache.md#method__clear.1)  Empty the documentation cache of all data.
-
-[getmeta(m::Module)](Docile.Cache.md#method__getmeta.1)  Get the metadata dictionaries for all documented objects in a module.
-
-[getmeta(m::Module,  obj)](Docile.Cache.md#method__getmeta.2)  Get the ``Dict{Symbol, Any}`` containing an object's metadata.
-
-[getparsed(m::Module)](Docile.Cache.md#method__getparsed.1)  Get the parsed docstrings associated with all documented objects in a module.
-
-[getparsed(m::Module,  obj)](Docile.Cache.md#method__getparsed.2)  Get the parsed form of a docstring associated with an object ``obj``.
-
-[getraw(m::Module)](Docile.Cache.md#method__getraw.1)  Get the raw docstrings associated with all documented objects in a module.
-
-[getraw(m::Module,  obj)](Docile.Cache.md#method__getraw.2)  Get the raw docstring associated with a documented object ``obj`` in module ``m``.
-
-[objects(m::Module)](Docile.Cache.md#method__objects.1)  Return all documented objects found in a module ``m``.
-
----
-
-## Methods [Internal]
-
-[extractor!(cache::Docile.Cache.GlobalCache,  raw::AbstractString,  m::Module,  obj)](Docile.Cache.md#method__extractor.1)  Extract metadata embedded in docstrings and run the `parsedocs` method defined
-
-[findmeta(m::Module,  obj,  key::Symbol,  T)](Docile.Cache.md#method__findmeta.1)  Find the metadata for ``key`` associated with an object ``obj`` in module ``m``.
-
-[getmodule(m::Module)](Docile.Cache.md#method__getmodule.1)  Get the ``ModuleData`` object associated with a module ``m``.
-
-[getpackage(m::Module)](Docile.Cache.md#method__getpackage.1)  Get the ``PackageData`` object associated with a module ``m``.
-
-[loadedmodules()](Docile.Cache.md#method__loadedmodules.1)  Returns the set of all loaded modules.
-
-[parse!(cache::Docile.Cache.GlobalCache,  m::Module)](Docile.Cache.md#method__parse.1)  Parse raw docstrings in module `m` into their parsed form.
-
-[togglebase()](Docile.Cache.md#method__togglebase.1)  Turn on documenting of ``Base`` and it's submodules. Off by default.
-
----
-
-## Types [Internal]
-
-[Docile.Cache.DocsCache](Docile.Cache.md#type__docscache.1)  For a single module store raw docstrings, parsed docs, and metadata.
-
 ## MODULE: Docile.Legacy
 
 ---
@@ -168,6 +114,52 @@
 [@doc(ex)](Docile.Legacy.md#macro___doc.1)  Document an object.
 
 [@init()](Docile.Legacy.md#macro___init.1)  Setup macro-style documentation datastructures.
+
+## MODULE: Docile.Utilities
+
+---
+
+## Methods [Exported]
+
+[parsefile(file::AbstractString)](Docile.Utilities.md#method__parsefile.1)  Retrieve the ``Expr`` object from a Julia source file ``file``.
+
+---
+
+## Methods [Internal]
+
+[__init_cache__()](Docile.Utilities.md#method____init_cache__.1)  Check cache directory for up to date version directory. Remove older version
+
+[__init_cache__(cache)](Docile.Utilities.md#method____init_cache__.2)  Check cache directory for up to date version directory. Remove older version
+
+[__init_cache__(cache,  current)](Docile.Utilities.md#method____init_cache__.3)  Check cache directory for up to date version directory. Remove older version
+
+[expandpath(path)](Docile.Utilities.md#method__expandpath.1)  Convert a path to absolute. Relative paths are guessed to be from Julia ``/base``.
+
+[message(msg::AbstractString)](Docile.Utilities.md#method__message.1)  Print a 'Docile'-formatted message to ``STDOUT``.
+
+[path_id(file::AbstractString)](Docile.Utilities.md#method__path_id.1)  Returns the cache path for a given file ``file``.
+
+[samemodule(mod,  def::Method)](Docile.Utilities.md#method__samemodule.1)  Is the module where a function/method is defined the same as ``mod``?
+
+---
+
+## Globals [Internal]
+
+[BASE](Docile.Utilities.md#global__base.1)  Path to Julia's base source code.
+
+[CACHE_CUR](Docile.Utilities.md#global__cache_cur.1)  The current versioned cache subdirectory set by ``CACHE_VER``
+
+[CACHE_DIR](Docile.Utilities.md#global__cache_dir.1)  Path to Docile's main cache folder.
+
+[CACHE_VER](Docile.Utilities.md#global__cache_ver.1)  Internal version of the cache structure.
+
+## MODULE: Docile
+
+---
+
+## Modules [Exported]
+
+[Docile](Docile.md#module__docile.1)  Documentation extraction package for the Julia Language.
 
 ## MODULE: Docile.Interface
 
@@ -269,6 +261,30 @@
 
 [lineinfo(m::Method)](Docile.Runner.md#method__lineinfo.1)  Line number and file name pair for a method ``m``.
 
+## MODULE: Docile.Extensions
+
+---
+
+## Modules [Exported]
+
+[Docile.Extensions](Docile.Extensions.md#module__extensions.1)  Methods to extend how Docile handles parsing of docstrings.
+
+---
+
+## Methods [Internal]
+
+[metamacro(::Docile.Formats.MetaMacro{:get, false},  body,  mod,  obj)](Docile.Extensions.md#method__metamacro.1)  Get the value stored in an object's metadata field.
+
+[metamacro(::Docile.Formats.MetaMacro{:include, false},  body,  mod,  obj)](Docile.Extensions.md#method__metamacro.2)  Splice the contents of a file in place of the ``metamacro`` call.
+
+[metamacro(::Docile.Formats.MetaMacro{:longform, false},  body,  mod,  obj)](Docile.Extensions.md#method__metamacro.3)  Make the contained text only appear in non-interactive output.
+
+[metamacro(::Docile.Formats.MetaMacro{:set, false},  body,  mod,  obj)](Docile.Extensions.md#method__metamacro.4)  Set the value for a field in an object's metadata.
+
+[metamacro(::Docile.Formats.MetaMacro{:summary, false},  body,  mod,  obj)](Docile.Extensions.md#method__metamacro.5)  Specify a short (120 character) summary for a docstring.
+
+[metamacro(::Docile.Formats.MetaMacro{:var, false},  body,  mod,  obj)](Docile.Extensions.md#method__metamacro.6)  Equivalent to ``!!set`` followed by ``!!get`` for the provided key.
+
 ## MODULE: Docile.Formats
 
 ---
@@ -305,45 +321,49 @@
 
 [@META_str(args...)](Docile.Formats.md#macro___meta_str.1)  Shorthand syntax for defining `MetaMacro{<name>}`s as `META"<name>"`.
 
-## MODULE: Docile.Utilities
+## MODULE: Docile.Cache
+
+---
+
+## Methods [Exported]
+
+[clear!()](Docile.Cache.md#method__clear.1)  Empty the documentation cache of all data.
+
+[getmeta(m::Module)](Docile.Cache.md#method__getmeta.1)  Get the metadata dictionaries for all documented objects in a module.
+
+[getmeta(m::Module,  obj)](Docile.Cache.md#method__getmeta.2)  Get the ``Dict{Symbol, Any}`` containing an object's metadata.
+
+[getparsed(m::Module)](Docile.Cache.md#method__getparsed.1)  Get the parsed docstrings associated with all documented objects in a module.
+
+[getparsed(m::Module,  obj)](Docile.Cache.md#method__getparsed.2)  Get the parsed form of a docstring associated with an object ``obj``.
+
+[getraw(m::Module)](Docile.Cache.md#method__getraw.1)  Get the raw docstrings associated with all documented objects in a module.
+
+[getraw(m::Module,  obj)](Docile.Cache.md#method__getraw.2)  Get the raw docstring associated with a documented object ``obj`` in module ``m``.
+
+[objects(m::Module)](Docile.Cache.md#method__objects.1)  Return all documented objects found in a module ``m``.
 
 ---
 
 ## Methods [Internal]
 
-[expandpath(path)](Docile.Utilities.md#method__expandpath.1)  Convert a path to absolute. Relative paths are guessed to be from Julia ``/base``.
+[extractor!(cache::Docile.Cache.GlobalCache,  raw::AbstractString,  m::Module,  obj)](Docile.Cache.md#method__extractor.1)  Extract metadata embedded in docstrings and run the `parsedocs` method defined
 
-[message(msg::AbstractString)](Docile.Utilities.md#method__message.1)  Print a 'Docile'-formatted message to ``STDOUT``.
+[findmeta(m::Module,  obj,  key::Symbol,  T)](Docile.Cache.md#method__findmeta.1)  Find the metadata for ``key`` associated with an object ``obj`` in module ``m``.
 
-[samemodule(mod,  def::Method)](Docile.Utilities.md#method__samemodule.1)  Is the module where a function/method is defined the same as ``mod``?
+[getmodule(m::Module)](Docile.Cache.md#method__getmodule.1)  Get the ``ModuleData`` object associated with a module ``m``.
 
----
+[getpackage(m::Module)](Docile.Cache.md#method__getpackage.1)  Get the ``PackageData`` object associated with a module ``m``.
 
-## Globals [Internal]
+[loadedmodules()](Docile.Cache.md#method__loadedmodules.1)  Returns the set of all loaded modules.
 
-[BASE](Docile.Utilities.md#global__base.1)  Path to Julia's base source code.
+[parse!(cache::Docile.Cache.GlobalCache,  m::Module)](Docile.Cache.md#method__parse.1)  Parse raw docstrings in module `m` into their parsed form.
 
-## MODULE: Docile.Extensions
-
----
-
-## Modules [Exported]
-
-[Docile.Extensions](Docile.Extensions.md#module__extensions.1)  Methods to extend how Docile handles parsing of docstrings.
+[togglebase()](Docile.Cache.md#method__togglebase.1)  Turn on documenting of ``Base`` and it's submodules. Off by default.
 
 ---
 
-## Methods [Internal]
+## Types [Internal]
 
-[metamacro(::Docile.Formats.MetaMacro{:get, false},  body,  mod,  obj)](Docile.Extensions.md#method__metamacro.1)  Get the value stored in an object's metadata field.
-
-[metamacro(::Docile.Formats.MetaMacro{:include, false},  body,  mod,  obj)](Docile.Extensions.md#method__metamacro.2)  Splice the contents of a file in place of the ``metamacro`` call.
-
-[metamacro(::Docile.Formats.MetaMacro{:longform, false},  body,  mod,  obj)](Docile.Extensions.md#method__metamacro.3)  Make the contained text only appear in non-interactive output.
-
-[metamacro(::Docile.Formats.MetaMacro{:set, false},  body,  mod,  obj)](Docile.Extensions.md#method__metamacro.4)  Set the value for a field in an object's metadata.
-
-[metamacro(::Docile.Formats.MetaMacro{:summary, false},  body,  mod,  obj)](Docile.Extensions.md#method__metamacro.5)  Specify a short (120 character) summary for a docstring.
-
-[metamacro(::Docile.Formats.MetaMacro{:var, false},  body,  mod,  obj)](Docile.Extensions.md#method__metamacro.6)  Equivalent to ``!!set`` followed by ``!!get`` for the provided key.
+[Docile.Cache.DocsCache](Docile.Cache.md#type__docscache.1)  For a single module store raw docstrings, parsed docs, and metadata.
 
