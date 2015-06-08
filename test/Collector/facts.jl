@@ -186,8 +186,7 @@ facts("Base") do
 
     context("Cache Base and it's submodules.") do
 
-        @fact Docile.Cache.togglebase()             => true
-        @fact isempty(Docile.Cache.getparsed(Base)) => true
+        @fact Docile.Cache.getparsed(Base) => anything
 
     end
 

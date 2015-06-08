@@ -19,7 +19,7 @@ type GlobalCache
     modules  :: Dict{Module, ModuleData}
     docs     :: Dict{Module, DocsCache}
 
-    GlobalCache(base = false) = new(
+    GlobalCache(base = true) = new(
         base, Set{UTF8String}(), Set{Module}(),
         Dict{Module, PackageData}(),
         Dict{Module, ModuleData}(),
