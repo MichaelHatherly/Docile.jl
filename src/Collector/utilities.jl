@@ -150,6 +150,7 @@ isvcat(x)         = isexpr(x, :vcat)
 isvect(x)         = isexpr(x, :vect)
 iswhile(x)        = isexpr(x, :while)
 isloop(x)         = isexpr(x, [:for, :while])
+isparameters(x)   = isexpr(x, :parameters)
 
 "Does the expression represent a docstring?"; :isdocstring
 
