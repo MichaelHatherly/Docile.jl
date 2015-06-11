@@ -14,16 +14,6 @@ end
 pushscope!(state, scope) = push!(state.scopes, scope)
 popscope!(state)         = pop!(state.scopes)
 
-"""
-Push scope onto `state`, run function block, and pop scope afterwards.
-"""
-function withscope(fn, state, scope)
-    pushscope!(state, scope)
-    result = fn()
-    popscope!(state)
-    result
-end
-
 # Ref manipulations.
 
 pushref!(state, ref) = push!(state.refs, ref)

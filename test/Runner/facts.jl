@@ -29,6 +29,8 @@ facts("Runner.") do
         Docile.Runner.addtoscope!(s, :T, TypeVar(:T, Integer))
         @fact length(s.scopes) => 1
 
+        @fact Docile.Runner.getvar(s, :T) => TypeVar(:T, Integer)
+
         @fact Docile.Runner.exec(s, :(Matrix{T})) => Matrix{TypeVar(:T, Integer)}
         @fact Docile.Runner.exec(s, :(Type{Complex{T}})) => Type{Complex{TypeVar(:T, Integer)}}
 
