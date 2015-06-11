@@ -43,6 +43,16 @@ facts("Interface.") do
         @fact Docile.Interface.name(isempty)                 => :isempty
         @fact Docile.Interface.name(:isempty)                => :isempty
         @fact Docile.Interface.name(first(methods(isempty))) => :isempty
+        @fact Docile.Interface.name(Docile)                  => :Docile
+        @fact Docile.Interface.name(Docile.Legacy.Metadata)  => :Metadata
+
+        @fact Docile.Interface.files(meta)                => Set{UTF8String}()
+        @fact Docile.Interface.isloaded(meta)             => true
+        @fact Docile.Interface.isexported(Docile, Docile) => true
+
+        cache = Docile.Interface.metadata(Docile.Cache)
+        comment = first(filter(k -> isa(k, Docile.Legacy.Comment), keys(Docile.Interface.entries(cache))))
+        @fact Docile.Interface.isexported(Docile.Cache, comment) => false
 
     end
 
@@ -50,6 +60,8 @@ facts("Interface.") do
 
         meta = Docile.Interface.metadata(Docile.Cache)
         doc =  Docile.Interface.entries(meta)[first(methods(Docile.Cache.clear!))]
+
+        @fact Docile.Interface.category(doc) => :method
 
         @fact Docile.Interface.modulename(doc) => Docile.Cache
 
@@ -71,9 +83,17 @@ facts("Interface.") do
 
         @fact Docile.Interface.format(doc) => :md
 
+        @fact Docile.Interface.parsedocs(Docile.Interface.Docs{:txt}("")) => ""
+
         @fact_throws Docile.Interface.parsed(doc)
 
         @fact_throws Docile.Interface.parsedocs(Docile.Interface.Docs{:md}(""))
+
+    end
+
+    context("Deprecated.") do
+
+        @fact typeof(Docile.Interface.documentation(Docile)) => Docile.Legacy.Metadata
 
     end
 
