@@ -72,4 +72,10 @@ type T_IC_3{T <: Real}
 
 end
 
+"BT_1"
+bitstype 8 BT_1
+
+"""BT_2"""
+bitstype 16 BT_2
+
 dummy_3() = ()

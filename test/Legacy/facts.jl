@@ -137,7 +137,7 @@ facts("MacroDocs.") do
 
     context("General.") do
 
-        @fact length(entries) => 54
+        @fact length(entries) => 58
 
         @fact Docile.Interface.metadata(metadata) => @compat(
             Dict{Symbol, Any}(
@@ -228,6 +228,18 @@ facts("MacroDocs.") do
 
         @fact rawdocs(entries, MacroDocs.T_I_1) => "T_I_1"
         @fact rawdocs(entries, MacroDocs.T_I_2) => "T_I_2"
+
+        @fact rawdocs(entries, MacroDocs.BT_1)  => "BT_1"
+        @fact docsmeta(entries, :category, MacroDocs.BT_1)  => :bitstype
+
+        @fact rawdocs(entries, MacroDocs.BT_2)  => "BT_2"
+        @fact docsmeta(entries, :category, MacroDocs.BT_2)  => :bitstype
+
+        @fact rawdocs(entries, :TA_1)  => "TA_1"
+        @fact docsmeta(entries, :category, :TA_1)  => :typealias
+
+        @fact rawdocs(entries, :TA_2)  => "TA_2"
+        @fact docsmeta(entries, :category, :TA_2)  => :typealias
 
     end
 

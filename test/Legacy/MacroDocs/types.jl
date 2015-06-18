@@ -19,3 +19,15 @@ end
 @doc """T_I_2""" ->
 immutable T_I_2
 end
+
+@doc "BT_1" ->
+bitstype 8 BT_1
+
+@doc """BT_2""" ->
+bitstype 16 BT_2
+
+@doc "TA_1" ->
+typealias TA_1 Int
+
+@doc """TA_2""" ->
+typealias TA_2 Int

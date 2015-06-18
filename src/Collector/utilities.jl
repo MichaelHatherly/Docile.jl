@@ -31,6 +31,9 @@ getobject(H"global, typealias", ::Any, state, expr, ::Any) =
 getobject(H"type, symbol", moduledata, state, expr, ::Any) =
     getfield(moduledata.modname, getvar(state, name(expr)))
 
+getobject(H"bitstype", moduledata, state, expr, ::Any) =
+   getfield(moduledata.modname, expr.args[2])
+
 """
 Get the `(anonymous function)` object defined by a macro expression.
 
@@ -107,16 +110,17 @@ recheck(::Method,        ::Symbol) = :method
 The category of an expression. `:symbol` is resolved at a later stage by `recheck`.
 """
 getcategory(x) =
-    ismethod(x) ? :method    :
-    ismacro(x)  ? :macro     :
-    istype(x)   ? :type      :
-    isalias(x)  ? :typealias :
-    isglobal(x) ? :global    :
-    issymbol(x) ? :symbol    :
-    isfunc(x)   ? :symbol    :
-    istuple(x)  ? :tuple     :
-    isvcat(x)   ? :vcat      :
-    isvect(x)   ? :vect      :
+    ismethod(x)   ? :method    :
+    ismacro(x)    ? :macro     :
+    istype(x)     ? :type      :
+    isalias(x)    ? :typealias :
+    isbitstype(x) ? :bitstype  :
+    isglobal(x)   ? :global    :
+    issymbol(x)   ? :symbol    :
+    isfunc(x)     ? :symbol    :
+    istuple(x)    ? :tuple     :
+    isvcat(x)     ? :vcat      :
+    isvect(x)     ? :vect      :
     error("@doc: cannot document object:\n$(ex)")
 
 
@@ -138,6 +142,7 @@ ismethod(x)       = isexpr(x, [:function, :(=)])       &&  isexpr(x.args[1], :ca
 isglobal(x)       = isexpr(x, [:global, :const, :(=)]) && !isexpr(x.args[1], :call)
 isfunc(x)         = isexpr(x, :function) && isa(x.args[1], Symbol)
 istype(x)         = isexpr(x, [:type, :abstract])
+isbitstype(x)     = isexpr(x, :bitstype)
 isconcretetype(x) = isexpr(x, :type)
 isalias(x)        = isexpr(x, :typealias)
 ismacro(x)        = isexpr(x, :macro)
@@ -191,6 +196,7 @@ isdocumentable(ex) =
     ismethod(ex)    ||
     ismacro(ex)     ||
     istype(ex)      ||
+    isbitstype(ex)  ||
     isalias(ex)     ||
     isglobal(ex)    ||
     issymbol(ex)    ||

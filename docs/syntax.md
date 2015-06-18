@@ -66,10 +66,11 @@ documented in the same way as shown above:
 function f end
 ```
 
-**Macros**, **types**, **inner constructors**, **typealiases**, **modules**, and
-**globals** are documented in much the same way as for ``Function`` and ``Method``
-objects. This example illustrates all of the possible ways to document Julia code. The
-docstring text describes what is being documented in each case:
+**Macros**, **types**, **bitstypes**, **inner constructors**, **typealiases**,
+**modules**, and **globals** are documented in much the same way as for
+``Function`` and ``Method`` objects. This example illustrates all of the
+possible ways to document Julia code. The docstring text describes what is being
+documented in each case:
 
 ```julia
 module Example
@@ -117,6 +118,11 @@ end
 Typealias ``TA``.
 """
 typealias TA Int
+
+"""
+Bitstype ``BT``.
+"""
+bitstype 8 BT
 
 """
 Macro ``@mac``.

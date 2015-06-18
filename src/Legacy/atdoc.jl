@@ -37,11 +37,12 @@ end
 """
 Get the symbolic name of an expression.
 """
-nameof(x::Expr) = isa(x.args[1], Bool) ?
-    nameof(x.args[2]) :
-    isexpr(x.args[1], :(.)) ?
-    x.args[1] :
+function nameof(x::Expr)
+    isa(x.args[1], Bool)    && return nameof(x.args[2])
+    isexpr(x, :bitstype)    && return x.args[2]
+    isexpr(x.args[1], :(.)) && return x.args[1]
     nameof(x.args[1])
+end
 
 nameof(s::Symbol) = s
 
@@ -93,12 +94,12 @@ function doc(expr::Expr, generic = false)
         )
 
     # Branch to category-specific expression generation.
-    generic                           && return  genericdocs(packed)
-    category == :symbol               && return symbolicdocs(packed)
-    category == :method               && return   methoddocs(packed)
-    category == :macro                && return    macrodocs(packed)
-    category in (:global, :typealias) && return   globaldocs(packed)
-    category in (:type, :abstract)    && return     typedocs(packed)
+    generic                                   && return  genericdocs(packed)
+    category == :symbol                       && return symbolicdocs(packed)
+    category == :method                       && return   methoddocs(packed)
+    category == :macro                        && return    macrodocs(packed)
+    category in (:global, :typealias)         && return   globaldocs(packed)
+    category in (:type, :abstract, :bitstype) && return     typedocs(packed)
 
     error("Cannot use '@doc' on object.")
 end

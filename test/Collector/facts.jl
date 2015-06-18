@@ -13,7 +13,7 @@ facts("PlainDocs.") do
 
     context("General.") do
 
-        @fact length(entries) => 83
+        @fact length(entries) => 85
 
         @fact Docile.Interface.metadata(metadata) => @compat(
             Dict{Symbol, Any}(
@@ -177,6 +177,12 @@ facts("PlainDocs.") do
                                          Vararg{Int})
                            )
                       ) => "T_IC_3/3"
+
+        @fact rawdocs(entries, PlainDocs.BT_1)             => "BT_1"
+        @fact docsmeta(entries, :category, PlainDocs.BT_1) => :bitstype
+
+        @fact rawdocs(entries, PlainDocs.BT_2)             => "BT_2"
+        @fact docsmeta(entries, :category, PlainDocs.BT_2) => :bitstype
 
     end
 
