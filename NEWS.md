@@ -1,3 +1,7 @@
+### v0.5.7
+
+* Add support for ``bitstype`` documentation.
+
 ### v0.5.6
 
 * Implement automatic caching of parsed expressions. Improves loading time of help.

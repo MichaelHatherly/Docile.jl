@@ -14,7 +14,7 @@ for package authors to customise how their documentation is presented to users.
 
 
 *source:*
-[Docile/src/Extensions/Extensions.jl:11](https://github.com/MichaelHatherly/Docile.jl/tree/af11a47f0b15300bf69117c6e0bdcfe966f53056/src/Extensions/Extensions.jl#L11)
+[Docile/src/Extensions/Extensions.jl:11](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Extensions/Extensions.jl#L11)
 
 
 ## Methods [Internal]
@@ -35,7 +35,7 @@ metadata are searched in turn.
 
 
 *source:*
-[Docile/src/Extensions/Extensions.jl:27](https://github.com/MichaelHatherly/Docile.jl/tree/af11a47f0b15300bf69117c6e0bdcfe966f53056/src/Extensions/Extensions.jl#L27)
+[Docile/src/Extensions/Extensions.jl:27](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Extensions/Extensions.jl#L27)
 
 ---
 
@@ -50,7 +50,7 @@ where the ``metamacro`` is called from.
 
 
 *source:*
-[Docile/src/Extensions/Extensions.jl:102](https://github.com/MichaelHatherly/Docile.jl/tree/af11a47f0b15300bf69117c6e0bdcfe966f53056/src/Extensions/Extensions.jl#L102)
+[Docile/src/Extensions/Extensions.jl:102](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Extensions/Extensions.jl#L102)
 
 ---
 
@@ -67,7 +67,7 @@ inside a ``!!longform(...)`` call, such as ``!!include(...)``.
 
 
 *source:*
-[Docile/src/Extensions/Extensions.jl:88](https://github.com/MichaelHatherly/Docile.jl/tree/af11a47f0b15300bf69117c6e0bdcfe966f53056/src/Extensions/Extensions.jl#L88)
+[Docile/src/Extensions/Extensions.jl:88](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Extensions/Extensions.jl#L88)
 
 ---
 
@@ -81,7 +81,7 @@ The key in this example is ``:author`` and the value is ``"Author's Name"``.
 
 
 *source:*
-[Docile/src/Extensions/Extensions.jl:40](https://github.com/MichaelHatherly/Docile.jl/tree/af11a47f0b15300bf69117c6e0bdcfe966f53056/src/Extensions/Extensions.jl#L40)
+[Docile/src/Extensions/Extensions.jl:40](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Extensions/Extensions.jl#L40)
 
 ---
 
@@ -97,7 +97,7 @@ A warning is printed when a summary exceeds the character limit.
 
 
 *source:*
-[Docile/src/Extensions/Extensions.jl:72](https://github.com/MichaelHatherly/Docile.jl/tree/af11a47f0b15300bf69117c6e0bdcfe966f53056/src/Extensions/Extensions.jl#L72)
+[Docile/src/Extensions/Extensions.jl:72](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Extensions/Extensions.jl#L72)
 
 ---
 
@@ -111,5 +111,5 @@ The key in this example is ``:author`` and the value is ``"Author's Name"``.
 
 
 *source:*
-[Docile/src/Extensions/Extensions.jl:58](https://github.com/MichaelHatherly/Docile.jl/tree/af11a47f0b15300bf69117c6e0bdcfe966f53056/src/Extensions/Extensions.jl#L58)
+[Docile/src/Extensions/Extensions.jl:58](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Extensions/Extensions.jl#L58)
 
