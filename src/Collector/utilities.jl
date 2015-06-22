@@ -223,7 +223,18 @@ macroname(ex) = symbol("@$(ex)")
 """
 Check whether a docstring is acutally a file path. Read that instead if it is.
 """
-findexternal(docs) = (length(docs) < 256 && isfile(docs)) ? readall(docs) : docs
+function findexternal(docs)
+    try
+        if length(docs) < 256 && isfile(docs)
+            readall(docs)
+        else
+            docs
+        end
+    catch err
+        isa(err, Base.UVError) || throw(err)
+        docs
+    end
+end
 
 
 """
