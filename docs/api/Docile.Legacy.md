@@ -17,7 +17,7 @@ Use the following syntax instead:
 
 
 *source:*
-[Docile/src/Legacy/macros.jl:54](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Legacy/macros.jl#L54)
+[Docile/src/Legacy/macros.jl:54](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Legacy/macros.jl#L54)
 
 ---
 
@@ -32,7 +32,7 @@ matches a file path.
 
 
 *source:*
-[Docile/src/Legacy/macros.jl:66](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Legacy/macros.jl#L66)
+[Docile/src/Legacy/macros.jl:66](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Legacy/macros.jl#L66)
 
 
 ## Methods [Internal]
@@ -44,7 +44,7 @@ matches a file path.
 Usage from REPL, use current directory as root.
 
 *source:*
-[Docile/src/Legacy/types.jl:49](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Legacy/types.jl#L49)
+[Docile/src/Legacy/types.jl:49](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Legacy/types.jl#L49)
 
 ---
 
@@ -54,7 +54,7 @@ Assign to docs to `n` and return a dictionary of keyword arguments.
 
 
 *source:*
-[Docile/src/Legacy/atdoc.jl:26](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Legacy/atdoc.jl#L26)
+[Docile/src/Legacy/atdoc.jl:26](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Legacy/atdoc.jl#L26)
 
 ---
 
@@ -64,7 +64,7 @@ Main documentation generation routine.
 
 
 *source:*
-[Docile/src/Legacy/atdoc.jl:73](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Legacy/atdoc.jl#L73)
+[Docile/src/Legacy/atdoc.jl:73](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Legacy/atdoc.jl#L73)
 
 ---
 
@@ -74,7 +74,7 @@ Main documentation generation routine.
 
 
 *source:*
-[Docile/src/Legacy/atdoc.jl:73](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Legacy/atdoc.jl#L73)
+[Docile/src/Legacy/atdoc.jl:73](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Legacy/atdoc.jl#L73)
 
 ---
 
@@ -84,7 +84,7 @@ Detect '@doc+' syntax in macro call.
 
 
 *source:*
-[Docile/src/Legacy/atdoc.jl:201](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Legacy/atdoc.jl#L201)
+[Docile/src/Legacy/atdoc.jl:201](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Legacy/atdoc.jl#L201)
 
 ---
 
@@ -94,7 +94,7 @@ Return the category of an object.
 
 
 *source:*
-[Docile/src/Legacy/atdoc.jl:66](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Legacy/atdoc.jl#L66)
+[Docile/src/Legacy/atdoc.jl:66](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Legacy/atdoc.jl#L66)
 
 ---
 
@@ -104,7 +104,7 @@ Get the symbolic name of an expression.
 
 
 *source:*
-[Docile/src/Legacy/atdoc.jl:40](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Legacy/atdoc.jl#L40)
+[Docile/src/Legacy/atdoc.jl:40](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Legacy/atdoc.jl#L40)
 
 ---
 
@@ -114,7 +114,7 @@ Extract the docstring and expression to be documented from an `->` expression.
 
 
 *source:*
-[Docile/src/Legacy/atdoc.jl:59](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Legacy/atdoc.jl#L59)
+[Docile/src/Legacy/atdoc.jl:59](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Legacy/atdoc.jl#L59)
 
 ---
 
@@ -124,7 +124,7 @@ Extract the line number and documented object expression from a block.
 
 
 *source:*
-[Docile/src/Legacy/atdoc.jl:52](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Legacy/atdoc.jl#L52)
+[Docile/src/Legacy/atdoc.jl:52](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Legacy/atdoc.jl#L52)
 
 ## Macros [Internal]
 
@@ -143,7 +143,7 @@ Document an object.
 
 
 *source:*
-[Docile/src/Legacy/atdoc.jl:217](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Legacy/atdoc.jl#L217)
+[Docile/src/Legacy/atdoc.jl:217](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Legacy/atdoc.jl#L217)
 
 ---
 
@@ -153,5 +153,5 @@ Setup macro-style documentation datastructures.
 
 
 *source:*
-[Docile/src/Legacy/atdoc.jl:5](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Legacy/atdoc.jl#L5)
+[Docile/src/Legacy/atdoc.jl:5](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Legacy/atdoc.jl#L5)
 

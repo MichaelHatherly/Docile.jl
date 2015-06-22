@@ -1,3 +1,7 @@
+### v0.5.8
+
+* Fix implicit "external file as docstring" validation code.
+
 ### v0.5.7
 
 * Add support for ``bitstype`` documentation.

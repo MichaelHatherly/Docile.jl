@@ -13,7 +13,7 @@ Caches the expression based on it's file name and ``mtime`` value.
 
 
 *source:*
-[Docile/src/Utilities.jl:57](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Utilities.jl#L57)
+[Docile/src/Utilities.jl:57](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Utilities.jl#L57)
 
 
 ## Methods [Internal]
@@ -27,7 +27,7 @@ directories if any are found. Should be called on module initialisation.
 
 
 *source:*
-[Docile/src/Utilities.jl:30](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Utilities.jl#L30)
+[Docile/src/Utilities.jl:30](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Utilities.jl#L30)
 
 ---
 
@@ -38,7 +38,7 @@ directories if any are found. Should be called on module initialisation.
 
 
 *source:*
-[Docile/src/Utilities.jl:30](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Utilities.jl#L30)
+[Docile/src/Utilities.jl:30](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Utilities.jl#L30)
 
 ---
 
@@ -49,7 +49,7 @@ directories if any are found. Should be called on module initialisation.
 
 
 *source:*
-[Docile/src/Utilities.jl:30](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Utilities.jl#L30)
+[Docile/src/Utilities.jl:30](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Utilities.jl#L30)
 
 ---
 
@@ -59,7 +59,7 @@ Convert a path to absolute. Relative paths are guessed to be from Julia ``/base`
 
 
 *source:*
-[Docile/src/Utilities.jl:107](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Utilities.jl#L107)
+[Docile/src/Utilities.jl:107](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Utilities.jl#L107)
 
 ---
 
@@ -69,7 +69,7 @@ Print a 'Docile'-formatted message to ``STDOUT``.
 
 
 *source:*
-[Docile/src/Utilities.jl:87](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Utilities.jl#L87)
+[Docile/src/Utilities.jl:87](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Utilities.jl#L87)
 
 ---
 
@@ -79,7 +79,7 @@ Returns the cache path for a given file ``file``.
 
 
 *source:*
-[Docile/src/Utilities.jl:46](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Utilities.jl#L46)
+[Docile/src/Utilities.jl:46](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Utilities.jl#L46)
 
 ---
 
@@ -89,7 +89,7 @@ Is the module where a function/method is defined the same as ``mod``?
 
 
 *source:*
-[Docile/src/Utilities.jl:92](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Utilities.jl#L92)
+[Docile/src/Utilities.jl:92](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Utilities.jl#L92)
 
 ## Globals [Internal]
 
@@ -101,7 +101,7 @@ Path to Julia's base source code.
 
 
 *source:*
-[Docile/src/Utilities.jl:102](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Utilities.jl#L102)
+[Docile/src/Utilities.jl:102](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Utilities.jl#L102)
 
 ---
 
@@ -110,7 +110,7 @@ Path to Julia's base source code.
 The current versioned cache subdirectory set by ``CACHE_VER``
 
 *source:*
-[Docile/src/Utilities.jl:24](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Utilities.jl#L24)
+[Docile/src/Utilities.jl:24](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Utilities.jl#L24)
 
 ---
 
@@ -119,7 +119,7 @@ The current versioned cache subdirectory set by ``CACHE_VER``
 Path to Docile's main cache folder.
 
 *source:*
-[Docile/src/Utilities.jl:21](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Utilities.jl#L21)
+[Docile/src/Utilities.jl:21](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Utilities.jl#L21)
 
 ---
 
@@ -128,5 +128,5 @@ Path to Docile's main cache folder.
 Internal version of the cache structure.
 
 *source:*
-[Docile/src/Utilities.jl:18](https://github.com/MichaelHatherly/Docile.jl/tree/97ae2f5b73219df03bb61b77eae68932348f4c95/src/Utilities.jl#L18)
+[Docile/src/Utilities.jl:18](https://github.com/MichaelHatherly/Docile.jl/tree/fa34584d41d129e20520714426cffb98352b3a57/src/Utilities.jl#L18)
 
