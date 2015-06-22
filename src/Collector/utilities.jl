@@ -225,16 +225,15 @@ Check whether a docstring is acutally a file path. Read that instead if it is.
 """
 function findexternal(docs)
     try
-        if length(docs) < 256 && isfile(docs)
-            readall(docs)
-        else
-            docs
-        end
+        validfile(docs) ? readall(docs) : docs
     catch err
         isa(err, Base.UVError) || throw(err)
         docs
     end
 end
+
+# https://github.com/MichaelHatherly/Docile.jl/issues/140#issuecomment-114070589
+validfile(path) = (length(pwd()) + length(path)) < 144  && isfile(path)
 
 
 """
