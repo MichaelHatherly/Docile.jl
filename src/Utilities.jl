@@ -15,7 +15,7 @@ end
 # File parsing and caching. #
 
 "Internal version of the cache structure."
-const CACHE_VER = v"0.0.1"
+const CACHE_VER = v"0.0.2"
 
 "Path to Docile's main cache folder."
 const CACHE_DIR = normpath(joinpath(dirname(@__FILE__), "..", "cache"))

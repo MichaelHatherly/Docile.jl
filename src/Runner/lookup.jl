@@ -100,8 +100,12 @@ exec(H"call", state, expr)  = exec(state, expr.args[1])(exec(state, expr.args[2:
 exec(H"macrocall", state, expr) =
     exec(state, exec(state, expr.args[1])(exec(state, expr.args[2:end])...))
 
-exec(H"triple_quoted_string", state, expr) =
-    exec(state, Expr(:macrocall, symbol("@mstr"), expr.args...))
+if VERSION < v"0.4-dev+5551"
+    exec(H"triple_quoted_string", state, expr) =
+        exec(state, Expr(:macrocall, symbol("@mstr"), expr.args...))
+else
+    exec(H"triple_quoted_string", state, expr) = string(expr.args...)
+end
 
 exec(H"string", state, expr) = string(exec(state, expr.args)...)
 exec(H"tuple", state, expr)  = tuple(exec(state, expr.args)...)
