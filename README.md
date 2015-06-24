@@ -57,6 +57,7 @@ package please install the package [*Lexicon*][lexicon-url].
 * [EvolvingGraphs.jl](https://github.com/weijianzhang/EvolvingGraphs.jl) Dynamic graph analysis framework in Julia.
 * [IterativeSolvers.jl](https://github.com/JuliaLang/IterativeSolvers.jl) Implement Arnoldi and Lanczos methods for svds and eigs.
 * [Lexicon.jl](https://github.com/MichaelHatherly/Lexicon.jl) Julia package documentation generator.
+* [QuantEcon.jl](https://github.com/QuantEcon/QuantEcon.jl) quantitative economics (see also [http://quant-econ.net](http://quant-econ.net) )
 * [SDT.jl](https://github.com/sam81/SDT.jl) Signal detection theory measures with Julia.
 * [Sims.jl](https://github.com/tshort/Sims.jl) Experiments with non-causal, equation-based modeling in Julia.
 * [TargetedLearning.jl](https://github.com/lendle/TargetedLearning.jl) General framework for constructing regular, asymptotically linear estimators for pathwise differentiable parameters.
