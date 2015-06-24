@@ -46,7 +46,7 @@ Returns the cache path for a given file ``file``.
 path_id(file::AbstractString) = joinpath(
     CACHE_CUR,
     string(hash(file)),
-    string(hash(mtime(file)))
+    string(hash(mtime(file), hash(VERSION)))
     )
 
 """
