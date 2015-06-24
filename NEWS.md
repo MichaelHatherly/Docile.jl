@@ -1,3 +1,7 @@
+### v0.5.9
+
+* Fix for removal of ``@mstr`` from ``Base``.
+
 ### v0.5.8
 
 * Fix implicit "external file as docstring" validation code.
