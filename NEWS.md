@@ -1,3 +1,7 @@
+### v0.5.10
+
+* Fixes for Julia 0.4 bare docstring syntax.
+
 ### v0.5.9
 
 * Fix for removal of ``@mstr`` from ``Base``.
