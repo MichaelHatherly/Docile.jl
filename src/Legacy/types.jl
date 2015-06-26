@@ -45,7 +45,7 @@ type Manual
     Manual(root, files) = new([Page(abspath(joinpath(root, file))) for file in files])
 end
 
-"Usage from REPL, use current directory as root."
+"Usage from REPL, use current directory as root.";
 Manual(::Nothing, files) = Manual(pwd(), files)
 
 ## Metadata. ##

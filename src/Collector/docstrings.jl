@@ -46,7 +46,9 @@ function process!(output, moduledata, state, file, expr::Expr)
 
     for n in 1:(length(expr.args) - 3)
         block = expr.args[n:(n + 3)]
-        if is_aside(block)
+        if is_atdoc(block)
+            get_atdoc!(output, moduledata, state, file, block)
+        elseif is_aside(block)
             get_aside!(output, moduledata, state, file, block)
         elseif isdocblock(block)
             get_docs!(output, moduledata, state, file, block)
@@ -58,16 +60,45 @@ function process!(output, moduledata, state, file, expr::Expr)
     for arg in expr.args[max(length(expr.args) - 3, 1):end]
         process!(output, moduledata, state, file, arg)
     end
-    # Check for an aside at the end of a file.
+    # Check for an aside or atdoc at the end of a file.
     if length(expr.args) >= 2
         block = (expr.args[end-1], expr.args[end], LineNumberNode(0), nothing) # Dummy line node.
-        is_aside(block) && get_aside!(output, moduledata, state, file, block)
+        if is_atdoc(block)
+            get_atdoc!(output, moduledata, state, file, block)
+        elseif is_aside(block)
+            get_aside!(output, moduledata, state, file, block)
+        end
     end
 
     output
 end
 process!(output, moduledata, state, file, other) = output # Skip non-expressions.
 
+
+function get_atdoc!(output, moduledata, state, file, block)
+    aboveline, atdoc, _, _ = block
+
+    expr = unwrap_macrocall(extract_quoted(atdoc.args[3]))
+
+    # Escape if we haven't unwrapped a documentable object!
+    (isdocumentable(expr) && !ismacrocall(expr)) || return output
+
+    docs       = findexternal(exec(state, atdoc.args[2]))
+    textsource = (linenumber(aboveline), file)
+    codesource = (computeline(aboveline, docs), file)
+
+    category = getcategory(expr)
+
+    object   = getobject(category, moduledata, state, expr, codesource)
+    metadata = @compat(Dict(:textsource => textsource,
+                            :codesource => codesource,
+                            :category   => category))
+
+    postprocess!(category, metadata, expr)
+    store!(output, object, docs, metadata)
+
+    output
+end
 
 """
 Extract the comment block from expressions and capture metadata.

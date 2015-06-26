@@ -25,7 +25,7 @@ Check that a `MetaMacro`'s `name` is a valid identifier.
 
 Throws a `MetaMacroNameError` if the string `s` is not valid.
 """
-isvalid(s::AbstractString) = Base.isidentifier(s) ? s :
+validname(s::AbstractString) = Base.isidentifier(s) ? s :
     throw(MetaMacroNameError("'$(s)' is not a valid metamacro name."))
 
 """
@@ -102,7 +102,7 @@ function tryextract(io::IO)
             c = read(io, Char)
             if c == BRACKET_OPENER
                 unmark(io) # We don't need the mark anymore.
-                return symbol(isvalid(takebuf_string(name))), readbracketed(io)
+                return symbol(validname(takebuf_string(name))), readbracketed(io)
             end
             isgraph(c) ? write(name, c) : break
         end

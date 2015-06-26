@@ -18,9 +18,6 @@ include(joinpath("PlainDocs", "globals.jl"))
 include(joinpath("PlainDocs", "macros.jl"))
 include(joinpath("PlainDocs", "types.jl"))
 
-"f_0/0"
-f_0() = ()
-
 module Inner_Module()
 
 ""

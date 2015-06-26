@@ -176,6 +176,11 @@ isdocblock(block) =
     isline(block[3])         &&
     isdocumentable(block[4])
 
+is_atdoc(block) =
+    ismacrocall(block[2]) &&
+    length(block[2].args) == 3 &&
+    block[2].args[1] == Expr(:(.), :Base, QuoteNode(symbol("@doc")))
+
 """
 Is the tuple a valid comment block?
 """
@@ -211,11 +216,13 @@ isdocumentable(ex) =
 extract_quoted(qn::QuoteNode) = qn.value
 extract_quoted(other)         = other
 
-unwrap_macrocall(expr::Expr) = (ismacrocall(expr) && (expr = expr.args[2]); expr)
-unwrap_macrocall(other)      = other
+unwrap_macrocall(x::Expr) = ismacrocall(x) && length(x.args) > 1 ? x.args[2] : x
+unwrap_macrocall(other)   = other
 
 linenumber(x::LineNumberNode) = x.line
 linenumber(x::Expr)           = x.args[1]
+
+computeline(aboveline, docs) = linenumber(aboveline) + length(matchall(r"$"m, docs)) - 1
 
 macroname(ex) = symbol("@$(ex)")
 
