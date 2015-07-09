@@ -1,3 +1,7 @@
+### v0.5.11
+
+* Fix for pre-compilation error.
+
 ### v0.5.10
 
 * Fixes for Julia 0.4 bare docstring syntax.
