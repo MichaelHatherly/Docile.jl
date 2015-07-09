@@ -99,12 +99,12 @@ issymbol(::Any)    = false
 """
 Path to Julia's base source code.
 """
-const BASE = abspath(joinpath(JULIA_HOME, "..", "share", "julia", "base"))
+basepath() = abspath(joinpath(JULIA_HOME, "..", "share", "julia", "base"))
 
 """
 Convert a path to absolute. Relative paths are guessed to be from Julia ``/base``.
 """
-expandpath(path) = normpath(isabspath(path) ? path : joinpath(BASE, path))
+expandpath(path) = normpath(isabspath(path) ? path : joinpath(basepath(), path))
 
 # Module initialization. #
 
