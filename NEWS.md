@@ -1,3 +1,7 @@
+### v0.5.12
+
+* Manually initialise cache rather than by using ``__init__``.
+
 ### v0.5.11
 
 * Fix for pre-compilation error.
