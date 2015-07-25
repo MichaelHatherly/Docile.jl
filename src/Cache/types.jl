@@ -35,9 +35,24 @@ end
 
 togglebase(cache::GlobalCache) = cache.base = !cache.base
 
+const registered_modules = Set{UTF8String}()
+register_module(path) = push!(registered_modules, path)
+
+function find_loaded_packages()
+    paths = Set{UTF8String}()
+    for sym in names(Main)
+        mod = getfield(Main, sym)
+        if isa(mod, Module)
+            path = Base.find_in_path(string(mod))
+            path == nothing || push!(paths, path)
+        end
+    end
+    union(paths, registered_modules)
+end
+
 function update!(cache::GlobalCache)
     diff   = Set{UTF8String}()
-    loaded = Set{UTF8String}(keys(Base.package_list))
+    loaded = find_loaded_packages()
     # Do we want to include ``Base`` in the cache?
     cache.base && push!(loaded, Utilities.expandpath("sysimg.jl"))
     # Find newly added packages.
@@ -61,4 +76,3 @@ function loadedmodules(cache::GlobalCache)
     update!(cache)
     Set{Module}(keys(cache.modules))
 end
-

@@ -1,6 +1,7 @@
-require(joinpath(dirname(@__FILE__), "MacroDocs.jl"))
+include(joinpath(dirname(@__FILE__), "MacroDocs.jl"))
+Docile.Cache.register_module(joinpath(dirname(@__FILE__), "MacroDocs.jl"))
 
-import MacroDocs: MacroDocs, MacroSpec
+import .MacroDocs: MacroDocs, MacroSpec
 
 facts("MacroSpec.") do
 

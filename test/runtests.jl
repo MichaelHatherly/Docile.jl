@@ -1,7 +1,5 @@
 OS_NAME == :Windows && Pkg.add("FactCheck")
 
-module DocileTests
-
 using FactCheck, Compat, Base.Test, Docile
 
 
@@ -14,5 +12,3 @@ include(joinpath("Formats", "facts.jl"))
 include(joinpath("Extensions", "facts.jl"))
 
 isinteractive() || FactCheck.exitstatus()
-
-end

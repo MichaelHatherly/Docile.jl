@@ -1,6 +1,11 @@
-require(joinpath(dirname(@__FILE__), "PlainDocs.jl"))
-require(joinpath(dirname(@__FILE__), "ExampleAside.jl"))
-require(joinpath(dirname(@__FILE__), "NoNewline.jl"))
+
+include(joinpath(dirname(@__FILE__), "PlainDocs.jl"))
+include(joinpath(dirname(@__FILE__), "ExampleAside.jl"))
+include(joinpath(dirname(@__FILE__), "NoNewline.jl"))
+
+Docile.Cache.register_module(joinpath(dirname(@__FILE__), "PlainDocs.jl"))
+Docile.Cache.register_module(joinpath(dirname(@__FILE__), "ExampleAside.jl"))
+Docile.Cache.register_module(joinpath(dirname(@__FILE__), "NoNewline.jl"))
 
 import PlainDocs
 import ExampleAside
@@ -201,7 +206,8 @@ end
 ## 'function <name> end' syntax tests. ##
 
 if VERSION >= v"0.4-dev+4989"
-    require(joinpath(dirname(@__FILE__), "FunctionSyntax", "FunctionSyntax.jl"))
+    include(joinpath(dirname(@__FILE__), "FunctionSyntax", "FunctionSyntax.jl"))
+    Docile.Cache.register_module(joinpath(dirname(@__FILE__), "FunctionSyntax", "FunctionSyntax.jl"))
     import FunctionSyntax
 
     facts("Function Syntax.") do

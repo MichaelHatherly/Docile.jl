@@ -1,4 +1,6 @@
-require(joinpath(dirname(@__FILE__), "ExtensionTests.jl"))
+include(joinpath(dirname(@__FILE__), "ExtensionTests.jl"))
+
+Docile.Cache.register_module(joinpath(dirname(@__FILE__), "ExtensionTests.jl"))
 
 import ExtensionTests
 import Docile: Cache, Formats

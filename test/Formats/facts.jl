@@ -1,7 +1,12 @@
-require(joinpath(dirname(@__FILE__), "MetadataSyntax.jl"))
-require(joinpath(dirname(@__FILE__), "UndefinedMetaMacro.jl"))
-require(joinpath(dirname(@__FILE__), "UnmatchedBrackets.jl"))
-require(joinpath(dirname(@__FILE__), "RawMetaMacros.jl"))
+include(joinpath(dirname(@__FILE__), "MetadataSyntax.jl"))
+include(joinpath(dirname(@__FILE__), "UndefinedMetaMacro.jl"))
+include(joinpath(dirname(@__FILE__), "UnmatchedBrackets.jl"))
+include(joinpath(dirname(@__FILE__), "RawMetaMacros.jl"))
+
+Docile.Cache.register_module(joinpath(dirname(@__FILE__), "MetadataSyntax.jl"))
+Docile.Cache.register_module(joinpath(dirname(@__FILE__), "UndefinedMetaMacro.jl"))
+Docile.Cache.register_module(joinpath(dirname(@__FILE__), "UnmatchedBrackets.jl"))
+Docile.Cache.register_module(joinpath(dirname(@__FILE__), "RawMetaMacros.jl"))
 
 import MetadataSyntax, UndefinedMetaMacro, UnmatchedBrackets, RawMetaMacros
 import Docile: Cache, Formats
