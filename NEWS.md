@@ -1,3 +1,7 @@
+### v0.5.13
+
+* Fix module loading error.
+
 ### v0.5.12
 
 * Manually initialise cache rather than by using ``__init__``.

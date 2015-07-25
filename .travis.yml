@@ -4,6 +4,7 @@ os:
 julia:
     - release
     - nightly
+sudo: false
 notifications:
     email: false
 script:
