@@ -1,3 +1,7 @@
+### v0.5.14
+
+* Fix external documentation checking.
+
 ### v0.5.13
 
 * Fix module loading error.
