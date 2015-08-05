@@ -161,6 +161,9 @@ isloop(x)         = isexpr(x, [:for, :while])
 isdocstring(x) = ismacrocall(x) && ismatch(r"(_|_m|m)str", string(x.args[1]))
 isdocstring(::AbstractString) = true
 
+getstr(x::AbstractString) = x
+getstr(x::Expr) = x.args[end]
+
 isstring(::AbstractString) = true
 isstring(::Any)            = false
 

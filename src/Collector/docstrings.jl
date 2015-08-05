@@ -128,7 +128,7 @@ function get_docs!(output, moduledata, state, file, block)
     # Escape if we haven't unwrapped a documentatable object!
     (isdocumentable(expr) && !ismacrocall(expr)) || return output
 
-    docs       = findexternal(exec(state, docstring))
+    docs       = findexternal(exec(state, getstr(docstring)))
     textsource = (linenumber(aboveline), file)
     codesource = (linenumber(underline), file)
 
