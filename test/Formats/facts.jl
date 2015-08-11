@@ -29,8 +29,7 @@ facts("Formats.") do
 
     context("No meta-syntax.") do
 
-        @fact Cache.getparsed(qs(MetadataSyntax, :no_meta_syntax)...) =>
-            "No meta-syntax."
+        @fact Cache.getparsed(qs(MetadataSyntax, :no_meta_syntax)...) --> "No meta-syntax."
 
         @fact_throws KeyError Cache.getmeta(qs(MetadataSyntax, :no_meta_syntax)...)[:no_meta_syntax]
 
@@ -38,17 +37,17 @@ facts("Formats.") do
 
     context("\\!!var.") do
 
-        @fact Cache.getparsed(qs(MetadataSyntax, :one_backslash_escape)...) =>
+        @fact Cache.getparsed(qs(MetadataSyntax, :one_backslash_escape)...) -->
             "One backslash is skipped and treated like a normal meta syntax."
 
-        @fact Cache.getmeta(qs(MetadataSyntax, :one_backslash_escape)...)[:one_backslash_escape] =>
+        @fact Cache.getmeta(qs(MetadataSyntax, :one_backslash_escape)...)[:one_backslash_escape] -->
             "One backslash is skipped and treated like a normal meta syntax."
 
     end
 
     context("!! var.") do
 
-        @fact Cache.getparsed(qs(MetadataSyntax, :space_between_backslash_metaname)...) =>
+        @fact Cache.getparsed(qs(MetadataSyntax, :space_between_backslash_metaname)...) -->
             "!! var(space_between_backslash_metaname:Space between double ! and metaname is not a metasyntax.)"
 
         @fact_throws(
@@ -60,7 +59,7 @@ facts("Formats.") do
 
     context("!!var (.") do
 
-        @fact Cache.getparsed(qs(MetadataSyntax, :space_between_metaname_bracket)...) =>
+        @fact Cache.getparsed(qs(MetadataSyntax, :space_between_metaname_bracket)...) -->
             "!!var (space_between_metaname_bracket:Space between metaname and bracket is not a metasyntax.)"
 
         @fact_throws(
@@ -72,27 +71,27 @@ facts("Formats.") do
 
     context("Brackets within meta: [MIT]().") do
 
-        @fact Cache.getparsed(qs(MetadataSyntax, :brackets_within_meta)...) =>
+        @fact Cache.getparsed(qs(MetadataSyntax, :brackets_within_meta)...) -->
             "[MIT](https://github.com/MichaelHatherly/Lexicon.jl/blob/master/LICENSE.md)"
 
-        @fact Cache.getmeta(qs(MetadataSyntax, :brackets_within_meta)...)[:license] =>
+        @fact Cache.getmeta(qs(MetadataSyntax, :brackets_within_meta)...)[:license] -->
             "[MIT](https://github.com/MichaelHatherly/Lexicon.jl/blob/master/LICENSE.md)"
 
     end
 
     context("!!var(笔者:所以不多说了)") do
 
-        @fact Cache.getparsed(qs(MetadataSyntax, :chinese_unicode)...) =>
+        @fact Cache.getparsed(qs(MetadataSyntax, :chinese_unicode)...) -->
             "所以不多说了"
 
-        @fact Cache.getmeta(qs(MetadataSyntax, :chinese_unicode)...)[:笔者] =>
+        @fact Cache.getmeta(qs(MetadataSyntax, :chinese_unicode)...)[:笔者] -->
             "所以不多说了"
 
     end
 
     context("\\\\!!var") do
 
-        @fact Cache.getparsed(qs(MetadataSyntax, :backslash_escaped_meta)...) =>
+        @fact Cache.getparsed(qs(MetadataSyntax, :backslash_escaped_meta)...) -->
             "!!var(russian:бежал мета)"
 
         @fact_throws(
@@ -104,7 +103,7 @@ facts("Formats.") do
 
     context("Escaped nested metamacros.") do
 
-        @fact Cache.getparsed(qs(MetadataSyntax, :backslash_escaped_nested_meta)...) =>
+        @fact Cache.getparsed(qs(MetadataSyntax, :backslash_escaped_nested_meta)...) -->
             "!!var(unicode_meta_in_meta:所以不多说了 бежал мета)"
 
         @fact_throws(
@@ -112,20 +111,20 @@ facts("Formats.") do
             Cache.getmeta(qs(MetadataSyntax, :backslash_escaped_nested_meta)...)[:unicode_meta_in_meta]
             )
 
-        @fact Cache.getmeta(qs(MetadataSyntax, :backslash_escaped_nested_meta)...)[:笔者_inner] =>
+        @fact Cache.getmeta(qs(MetadataSyntax, :backslash_escaped_nested_meta)...)[:笔者_inner] -->
             "бежал мета"
 
     end
 
     context("Raw Metamacros.") do
 
-        @fact Cache.getparsed(qs(RawMetaMacros, :raw_metamacro)...) =>
+        @fact Cache.getparsed(qs(RawMetaMacros, :raw_metamacro)...) -->
             "!!undefined()"
 
-        @fact Cache.getparsed(qs(RawMetaMacros, :nested_metamacro)...) =>
+        @fact Cache.getparsed(qs(RawMetaMacros, :nested_metamacro)...) -->
             "nestable"
 
-        @fact Cache.getmeta(qs(RawMetaMacros, :nested_metamacro)...)[:metamacro_type] =>
+        @fact Cache.getmeta(qs(RawMetaMacros, :nested_metamacro)...)[:metamacro_type] -->
             "nestable"
 
     end
