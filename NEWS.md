@@ -1,3 +1,7 @@
+### v0.5.15
+
+* Fix deprecation warnings.
+
 ### v0.5.14
 
 * Fix external documentation checking.
