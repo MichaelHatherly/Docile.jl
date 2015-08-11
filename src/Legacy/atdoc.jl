@@ -204,6 +204,7 @@ doc(s::Symbol, ex::Expr) = s ≡ :(+) ?
 
 doc(other...) = throw(ArgumentError("Invalid '@doc' syntax."))
 
+if VERSION < v"0.4-dev+6619"
 """
 Document an object.
 
@@ -215,3 +216,4 @@ Document an object.
 
 """
 macro doc(ex) isexpr(ex, :call) ? doc(ex.args...) : doc(ex) end
+end

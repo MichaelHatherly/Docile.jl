@@ -182,7 +182,7 @@ isdocblock(block) =
 is_atdoc(block) =
     ismacrocall(block[2]) &&
     length(block[2].args) == 3 &&
-    block[2].args[1] == Expr(:(.), :Base, QuoteNode(symbol("@doc")))
+    block[2].args[1] ∈ (Expr(:(.), :Base, QuoteNode(symbol("@doc"))), symbol("@doc"))
 
 """
 Is the tuple a valid comment block?

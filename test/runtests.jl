@@ -4,7 +4,7 @@ using FactCheck, Compat, Base.Test, Docile
 
 
 include("helpers.jl")
-include(joinpath("Legacy", "facts.jl"))
+VERSION < v"0.4-dev+6619" && include(joinpath("Legacy", "facts.jl"))
 include(joinpath("Collector", "facts.jl"))
 include(joinpath("Interface", "facts.jl"))
 include(joinpath("Runner", "facts.jl"))
