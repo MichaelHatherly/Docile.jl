@@ -1,6 +1,6 @@
 ### v0.5.16
 
-* Add support for docomenting multiple functions with a single docstring using tuple syntax:
+* Add support for documenting multiple functions with a single docstring using tuple syntax:
 
   ```julia
   "..."
