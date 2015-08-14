@@ -18,7 +18,7 @@ facts("PlainDocs.") do
 
     context("General.") do
 
-        @fact length(entries) --> 85
+        @fact length(entries) --> 87
 
         @fact Docile.Interface.metadata(metadata) --> @compat(
             Dict{Symbol, Any}(
@@ -109,6 +109,9 @@ facts("PlainDocs.") do
         @fact rawdocs(entries, meth(PlainDocs.f_42, PlainDocs.tup(Any))) --> "f_41/f_42"
 
         @fact rawdocs(entries, meth(PlainDocs.f_43, PlainDocs.tup(Any, Any, Any))) --> "f_43"
+
+        @fact rawdocs(entries, PlainDocs.f_44) --> "f_44, f_45"
+        @fact rawdocs(entries, PlainDocs.f_45) --> "f_44, f_45"
 
     end
 

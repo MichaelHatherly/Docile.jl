@@ -44,8 +44,12 @@ Find the ``Method`` objects referenced by ``(...)`` docstring syntax.
 """
 function findtuples(state::State, expr::Expr)
     fname = exec(state, exec(state, expr.args[1])) # Run twice to get rid of `QuoteNode`s.
-    types = tup([exec(state, arg) for arg in expr.args[2:end]]...)
-    Set{Method}(methods(fname, types))
+    args = [exec(state, exec(state, arg)) for arg in expr.args[2:end]]
+    if isa(fname, Function) && all(x -> isa(x, DataType), args)
+        Set{Method}(methods(fname, args))
+    else
+        Set(unshift!(args, fname))
+    end
 end
 
 if VERSION < v"0.4-dev+4319"
