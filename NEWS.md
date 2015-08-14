@@ -1,3 +1,21 @@
+### v0.5.16
+
+* Add support for docomenting multiple functions with a single docstring using tuple syntax:
+
+  ```julia
+  "..."
+  f, f!
+  ```
+
+  The current vector syntax:
+
+  ```julia
+  "..."
+  [f, f!]
+  ```
+
+  will continue to work in 0.3, but will raise an error in 0.4's docsystem.
+
 ### v0.5.15
 
 * Fix deprecation warnings.
