@@ -46,7 +46,7 @@ function findtuples(state::State, expr::Expr)
     fname = exec(state, exec(state, expr.args[1])) # Run twice to get rid of `QuoteNode`s.
     args = [exec(state, exec(state, arg)) for arg in expr.args[2:end]]
     if isa(fname, Function) && all(x -> isa(x, DataType), args)
-        Set{Method}(methods(fname, args))
+        Set{Method}(methods(fname, tup(args...)))
     else
         Set(unshift!(args, fname))
     end
