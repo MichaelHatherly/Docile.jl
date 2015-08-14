@@ -191,8 +191,8 @@ function f_43(
     ()
 end
 
-function f_44 end
-function f_45 end
+f_44() = 44
+f_45() = 45
 
 "f_44, f_45";
 f_44, f_45
