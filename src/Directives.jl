@@ -10,6 +10,15 @@ export @directive_str, build, parsebracket, withdefault
 
 immutable Directive{name} end
 
+"""
+    directive""
+
+> Shorthand syntax for defining a directive.
+
+```julia
+parsebracket(:: directive"", text) = ...
+```
+"""
 macro directive_str(text) :(Directive{$(quot(symbol(text)))}) end
 
 const DIRECTIVE_MARKER = r"^(\w+):\s*(?s)(.*)"
