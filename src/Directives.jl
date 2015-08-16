@@ -21,7 +21,7 @@ parsebracket(:: directive"", text) = ...
 """
 macro directive_str(text) :(Directive{$(quot(symbol(text)))}) end
 
-const DIRECTIVE_MARKER = r"^(\w+)(:|\s*\n)((?s).*)$"
+const DIRECTIVE_MARKER = r"^(\w+)(:|\s*\n)((?s).+)$"
 
 const DEFAULT = Ref{Directive}(directive"docs"())
 
@@ -43,7 +43,9 @@ withdefault(func :: Function, directive :: Symbol) =
 
 function getdirective(text)
     m = match(DIRECTIVE_MARKER, text)
-    m ≡ nothing ? (DEFAULT.x, text) : (Directive{symbol(m[1])}(), m[3])
+    m ≡ nothing && return (DEFAULT.x, text)
+    D = m[1] !== nothing ? Directive{symbol(m[1])}() : DEFAULT
+    (D, m[2], m[3])
 end
 
 
@@ -56,7 +58,7 @@ function buildeach(s :: Str, out)
     # TODO parse these rather than use a regex
     # This regex still has some false positives
     # e.g. a line ending in Union{Int, MyType{Int}}
-    for (n, part) in enumerate(split(s, r"^{{|\n{{|}}\s*(\n|$)"))
+    for (n, part) in enumerate(split(s, r"^{{|(?<=[\n]){{|}}\s*(\n|$)"))
         concat!(out, isodd(n) ? part : parsebracket(part))
     end
 end
@@ -81,7 +83,9 @@ Directives.parsebracket(:: directive"reverse", text) = reverse(text)
 Now when
 
 ```md
-{{reverse:hello world}}
+{{reverse
+hello world
+}}
 ```
 
 is parsed it will result in the following output:
@@ -95,11 +99,20 @@ function parsebracket end
 parsebracket(text :: AbstractString) = parsebracket(getdirective(text)...)
 parsebracket{D}(:: Directive{D}, text) = error("Unknown directive: '$D'")
 
+function parsebracket{D}(TD :: Directive{D}, arg, text)
+    if strip(arg) == ""
+        parsebracket(TD, text)
+    else
+        error("parsebracket not defined for directive '$D' with positional argument.")
+    end
+end
+
 function parsebracket(:: directive"docs", text)
+    eval(Expr(:toplevel, Expr(:using, :Lexicon)))
     out = []
     for each in split(text, "\n")
         s = strip(each)
-        isempty(s) || push!(out, :(stringmime("text/markdown", @doc($(parse(s))))))
+        isempty(s) || push!(out, :(stringmime("text/markdown", $(Docile.Docs.local_doc(parse(s))))))
     end
     out
 end
