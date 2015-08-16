@@ -21,7 +21,7 @@ parsebracket(:: directive"", text) = ...
 """
 macro directive_str(text) :(Directive{$(quot(symbol(text)))}) end
 
-const DIRECTIVE_MARKER = r"^(\w+):\s*(?s)(.*)"
+const DIRECTIVE_MARKER = r"^(\w+)(:|\s*\n)((?s).*)$"
 
 const DEFAULT = Ref{Directive}(directive"docs"())
 
@@ -43,7 +43,7 @@ withdefault(func :: Function, directive :: Symbol) =
 
 function getdirective(text)
     m = match(DIRECTIVE_MARKER, text)
-    m ≡ nothing ? (DEFAULT.x, text) : (Directive{symbol(m[1])}(), m[2])
+    m ≡ nothing ? (DEFAULT.x, text) : (Directive{symbol(m[1])}(), m[3])
 end
 
 
@@ -53,7 +53,10 @@ build(s :: Str)  = build(Expr(:string, s))
 build(x :: Expr) = (v = []; for a in x.args buildeach(a, v) end; v)
 
 function buildeach(s :: Str, out)
-    for (n, part) in enumerate(split(s, r"{{|}}"))
+    # TODO parse these rather than use a regex
+    # This regex still has some false positives
+    # e.g. a line ending in Union{Int, MyType{Int}}
+    for (n, part) in enumerate(split(s, r"^{{|\n{{|}}\s*(\n|$)"))
         concat!(out, isodd(n) ? part : parsebracket(part))
     end
 end
