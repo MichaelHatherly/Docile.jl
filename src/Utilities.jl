@@ -3,7 +3,10 @@
 """
 module Utilities
 
+using Base.Meta
+
 export Str, concat!, tryget, @with
+
 
 typealias Str AbstractString
 
@@ -22,6 +25,27 @@ macro with(var, func)
             nothing
         end
     end |> esc
+end
+
+"""
+    @object(ex)
+
+> Return the object/binding that an expression represents.
+
+"""
+macro object(ex)
+    if isexpr(ex, :call)
+        name = esc(Base.Docs.namify(ex.args[1]))
+        if any(x -> isexpr(x, :(::)), ex.args)
+            :(methods($(name), $(esc(Base.Docs.signature(ex))))[1])
+        else
+            :(@which($(esc(ex))))
+        end
+    elseif Base.Docs.isvar(ex)
+        :(Base.Docs.@var($(esc(ex))))
+    else
+        esc(ex)
+    end
 end
 
 end
