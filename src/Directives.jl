@@ -153,7 +153,7 @@ is parsed it will result in the following output:
 dlrow olleh
 ```
 """
-function directive end
+function parsebracket end
 
 parsebracket(text :: AbstractString) = parsebracket(getdirective(text)...)
 parsebracket{D}(:: Directive{D}, text) = error("Unknown directive: '$D'")
