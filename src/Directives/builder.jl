@@ -1,6 +1,10 @@
 
 immutable Directive{name} end
 
+immutable DirectiveError <: Exception
+    msg :: Str
+end
+
 macro D_str(text) :(Directive{$(quot(symbol(text)))}) end
 
 const DEFAULT_DIRECTIVE = Ref(:docs)
