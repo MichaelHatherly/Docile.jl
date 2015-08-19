@@ -1,5 +1,8 @@
 """
     Docs
+
+> Provides docstring hooks for modifying the behaviour of the Julia documentation system.
+
 """
 module Docs
 

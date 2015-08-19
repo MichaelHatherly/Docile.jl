@@ -30,7 +30,7 @@ immutable REPL
     results :: Vector
 
     function REPL(modname, lines)
-        results = [eval(modname, parse(line)) for line in lines]
+        results = [evalblock(modname, line) for line in lines]
         new(modname, lines, results)
     end
 end
@@ -61,15 +61,7 @@ immutable Example
     source  :: UTF8String
     result  :: Any
 
-    function Example(modname, source)
-        result = nothing
-        cursor = 1
-        while cursor < length(source)
-            expr, cursor = parse(source, cursor)
-            result = eval(modname, expr)
-        end
-        new(modname, source, result)
-    end
+    Example(modname, source) = new(modname, source, evalblock(modname, source))
 end
 
 function Base.writemime(io :: IO, mime :: MIME"text/plain", ex :: Example)

@@ -1,5 +1,8 @@
 """
     Directives
+
+> Run arbitrary user-defined code inside documentation.
+
 """
 module Directives
 

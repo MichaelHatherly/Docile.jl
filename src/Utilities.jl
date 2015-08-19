@@ -1,11 +1,14 @@
 """
     Utilities
+
+> Common utility methods and macros for the package.
+
 """
 module Utilities
 
 using Base.Meta
 
-export Str, concat!, tryget, @with
+export Str, concat!, tryget, @with, evalblock
 
 
 typealias Str AbstractString
@@ -46,6 +49,16 @@ macro object(ex)
     else
         esc(ex)
     end
+end
+
+function evalblock(modname, block)
+    result = nothing
+    cursor = 1
+    while cursor < length(block)
+        expr, cursor = parse(block, cursor)
+        result = eval(modname, expr)
+    end
+    result
 end
 
 end
