@@ -8,7 +8,7 @@ module Utilities
 
 using Base.Meta
 
-export Str, concat!, tryget, @with, evalblock
+export Str, concat!, tryget, @with, evalblock, submodules
 
 
 typealias Str AbstractString
@@ -60,5 +60,19 @@ function evalblock(modname, block)
     end
     result
 end
+
+function submodules(mod :: Module, out = Set())
+    push!(out, mod)
+    for name in names(mod, true)
+        if isdefined(mod, name)
+            object = getfield(mod, name)
+            validmodule(mod, object) && submodules(object, out)
+        end
+    end
+    out
+end
+
+validmodule(a :: Module, b :: Module) = b ≠ a && b ≠ Main
+validmodule(a, b) = false
 
 end

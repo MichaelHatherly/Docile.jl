@@ -9,12 +9,12 @@
 ```julia
 module MyModule
 
-using Docile.Docs
+using Docile, Docile.Docs
 
 addhook(directives)
 
-"@{...}"
-f(x) = ...
+"@{@time}"
+f(x) = x
 
 end
 ```
