@@ -80,6 +80,7 @@ function Base.writemime(io :: IO, mime :: MIME"text/plain", ex :: Example)
     ```
     **>>>**
     ```
+    \e[37m
     $(stringmime(mime, ex.result))
     ```
     """
