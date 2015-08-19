@@ -8,7 +8,7 @@ module Utilities
 
 using Base.Meta
 
-export Str, concat!, tryget, @with, evalblock, submodules
+export Str, concat!, tryget, @with, evalblock, submodules, files
 
 
 typealias Str AbstractString
@@ -74,5 +74,24 @@ end
 
 validmodule(a :: Module, b :: Module) = b ≠ a && b ≠ Main
 validmodule(a, b) = false
+
+"""
+    files(cond, root)
+
+> Collect all files from a directory matching a condition ``cond``.
+
+By default the file search is recursive. This can be disabled using the keyword
+argument ``recursive = false``.
+"""
+function files(cond, root, out = Set(); recursive = true)
+    for f in readdir(root)
+        f = joinpath(root, f)
+        isdir(f)  && recursive && files(cond, f, out)
+        isfile(f) && cond(f)   && push!(out, f)
+    end
+    out
+end
+
+exportlist(m) = join(["- `$(n)`" for n in filter(x -> x ≠ module_name(m), names(m))], "\n")
 
 end

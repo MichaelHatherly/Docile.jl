@@ -11,7 +11,7 @@ export addhook, directives
 **Usage:**
 
 ```julia
-using Docile.Docs
+using Docile
 
 reverser(str, def) = (reverse(str), def)
 
