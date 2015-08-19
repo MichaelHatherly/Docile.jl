@@ -56,7 +56,7 @@ end
 """
     directives(str, def)
 
-> Docsystem hook for executing ``{{...}}`` directives embedded in docstrings.
+> Docsystem hook for executing ``@{...}`` directives embedded in docstrings.
 
 **Usage:**
 
@@ -67,13 +67,13 @@ using Docile.Docs
 
 addhook(directives)
 
-"{{...}}"
+"@{...}"
 f(x) = ...
 
 end
 ```
 """
-directives(str, def) = (build(:string, str), def)
+directives(str, def) = :(Markdown.parse($(build("text/plain", str)))), def
 
 """
     typefielddocs(str, def)

@@ -40,7 +40,7 @@ function Base.writemime(io :: IO, mime :: MIME"text/plain", r :: REPL)
     for (line, result) in zip(r.lines, r.results)
         println(io, "julia> ", line)
         endswith(line, ";") || writemime(io, mime, result)
-        println(io)
+        println(io, "\n")
     end
     println(io, "```")
 end
