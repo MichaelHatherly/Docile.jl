@@ -53,3 +53,37 @@ function directive(:: D"repl", text)
     end
     :(Docile.Directives.REPL(Module(), $(out)))
 end
+
+# Example.
+
+immutable Example
+    modname :: Module
+    source  :: UTF8String
+    result  :: Any
+
+    function Example(modname, source)
+        result = nothing
+        cursor = 1
+        while cursor < length(source)
+            expr, cursor = parse(source, cursor)
+            result = eval(modname, expr)
+        end
+        new(modname, source, result)
+    end
+end
+
+function Base.writemime(io :: IO, mime :: MIME"text/plain", ex :: Example)
+    output =
+    """
+    ```julia
+    $(ex.source)
+    ```
+    **>>>**
+    ```
+    $(stringmime(mime, ex.result))
+    ```
+    """
+    print(io, output)
+end
+
+directive(:: D"example", text) = :(Docile.Directives.Example(Module(), $(strip(text))))
