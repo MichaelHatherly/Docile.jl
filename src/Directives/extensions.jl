@@ -1,6 +1,14 @@
 
 directive{D}(:: Directive{D}, text) = throw(DirectiveError("Unknown directive '$D'."))
 
+immutable Escape
+    text :: UTF8String
+end
+
+Base.writemime(io :: IO, :: MIME"text/plain", esc :: Escape) = print(io, esc.text)
+
+directive(:: D"esc", text) = :(Docile.Directives.Escape($(string("@{", text, "}"))))
+
 # Documentation.
 
 immutable Documentation
