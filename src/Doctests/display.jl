@@ -20,8 +20,7 @@ end
 """
     details(results, all = false)
 
-> Display details of a doctest.
-
+Display details of a doctest.
 """
 details(rs :: Results; all = false) = details(STDOUT, rs, all)
 

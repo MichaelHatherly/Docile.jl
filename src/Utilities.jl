@@ -1,8 +1,11 @@
 """
     Utilities
 
-> Common utility methods and macros for the package.
+Common utility methods and macros for the package.
 
+**Module Exports:**
+
+$(Utilities.exportlist(Utilities))
 """
 module Utilities
 
@@ -33,8 +36,7 @@ end
 """
     @object(ex)
 
-> Return the object/binding that an expression represents.
-
+Return the object/binding that an expression represents.
 """
 macro object(ex)
     if isexpr(ex, :call)
@@ -78,7 +80,7 @@ validmodule(a, b) = false
 """
     files(cond, root)
 
-> Collect all files from a directory matching a condition ``cond``.
+Collect all files from a directory matching a condition ``cond``.
 
 By default the file search is recursive. This can be disabled using the keyword
 argument ``recursive = false``.

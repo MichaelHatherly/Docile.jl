@@ -1,12 +1,11 @@
 """
     Docile
 
-> Documentation extensions for Julia.
+Documentation extensions for Julia.
 
 **Package Exports:**
 
 $(Utilities.exportlist(Docile))
-
 """
 module Docile
 

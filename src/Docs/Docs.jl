@@ -1,8 +1,11 @@
 """
     Docs
 
-> Provides docstring hooks for modifying the behaviour of the Julia documentation system.
+Provides docstring hooks for modifying the behaviour of Julia's documentation system.
 
+**Module Exports:**
+
+$(Utilities.exportlist(Docs))
 """
 module Docs
 

@@ -1,8 +1,11 @@
 """
     Directives
 
-> Run arbitrary user-defined code inside documentation.
+Run arbitrary user-defined code inside documentation.
 
+**Module Exports:**
+
+$(Utilities.exportlist(Directives))
 """
 module Directives
 

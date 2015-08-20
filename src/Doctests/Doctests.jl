@@ -1,5 +1,11 @@
 """
     Doctests
+
+Test Julia code blocks found in docstrings.
+
+**Module Exports:**
+
+$(Utilities.exportlist(Doctests))
 """
 module Doctests
 

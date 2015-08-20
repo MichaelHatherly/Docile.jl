@@ -6,7 +6,7 @@ export addhook, directives
 """
     addhook(func)
 
-> Register a function to be called on each docstring prior to storing it.
+Register a function to be called on each docstring prior to storing it.
 
 **Usage:**
 

@@ -2,7 +2,7 @@
 """
     makedocs()
 
-> Generate markdown documentation from templated files.
+Generate markdown documentation from templated files.
 
 **Keyword Arguments:**
 

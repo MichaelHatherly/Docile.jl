@@ -1,8 +1,11 @@
 """
     Build
 
-> Generate static markdown documentation from templated files.
+Generate static markdown documentation from templated files.
 
+**Module Exports:**
+
+$(Utilities.exportlist(Build))
 """
 module Build
 

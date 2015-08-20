@@ -23,7 +23,7 @@ update!(rs :: Results, r :: Nothing) = nothing
 """
     doctest(mod, submodules = true)
 
-> Test all Julia code blocks found in a module's docstrings.
+Test all Julia code blocks found in a module's docstrings.
 
 By default all submodules are also checked. This can be disabled by setting the
 ``submodules`` keyword to ``false``.

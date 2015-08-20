@@ -2,7 +2,7 @@
 """
     directives(str, def)
 
-> Docsystem hook for executing ``@{...}`` directives embedded in docstrings.
+Docsystem hook for executing ``@{...}`` directives embedded in docstrings.
 
 **Usage:**
 
