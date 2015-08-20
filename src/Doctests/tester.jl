@@ -21,7 +21,7 @@ update!(rs :: Results, r :: Vector)  = for each in r update!(rs, each) end
 update!(rs :: Results, r :: Nothing) = nothing
 
 """
-    doctest(mod, submodules = true)
+    doctest(mod; submodules = true)
 
 Test all Julia code blocks found in a module's docstrings.
 

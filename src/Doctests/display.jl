@@ -18,9 +18,17 @@ function details(io :: IO, rs :: Results, all)
 end
 
 """
-    details(results, all = false)
+    details(results; all = false)
 
-Display details of a doctest.
+Display details of a doctest. Information provided includes:
+
+- status of the test (either ``Passed`` or ``Failed``)
+- module and object names
+- value returned after evaluating the code block
+- contents of the code block
+
+By default only the failed code blocks will be displayed when calling ``details``. To see
+all the results pass the keyword argument ``all = true``.
 """
 details(rs :: Results; all = false) = details(STDOUT, rs, all)
 

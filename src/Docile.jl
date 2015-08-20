@@ -1,7 +1,10 @@
 """
-    Docile
+# Docile
 
 Documentation extensions for Julia.
+
+The public documentation is available in [public.md](doc/build/public.md), while internals
+are documented in [internals.md](doc/build/internals.md).
 
 **Package Exports:**
 
