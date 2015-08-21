@@ -47,6 +47,7 @@ function makedocs(;
     build    = "build",
     clean    = false,
     external = EXTERNAL_FILES,
+    mkdocs = true
     )
     cd(Base.source_dir()) do
         clean && isdir(build) && rm(build, recursive = true)
@@ -61,6 +62,7 @@ function makedocs(;
             loadfile(each, out)
         end
     end
+    mkdocs && makemkdocs(build)
 end
 
 message(a, b, w) = println("Building: $(rpad(string("'", a, "'"), w + 2)) --> '$(b)'")

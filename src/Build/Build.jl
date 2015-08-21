@@ -15,5 +15,6 @@ export makedocs
 
 include("loadfile.jl")
 include("makedocs.jl")
+include("mkdocs.jl")
 
 end
