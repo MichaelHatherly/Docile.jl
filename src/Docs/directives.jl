@@ -20,7 +20,38 @@ end
 
 # Default directives.
 
-type DOCS
+"""
+Directives refer to the syntax ``@{...}`` which can be used to embed arbitrary user-defined
+code and domain specific languages inside docstrings and external documentation read be
+``makedocs``.
+
+## Usage
+
+Directives are called using the syntax ``@{<name>:<text>}`` where ``<name>`` is some valid
+Julia identifier containing only letters and ``<text>`` is the content to be passed to the
+directive. If no ``<name>`` is provided then the default directive, ``docs`` is called.
+
+To enable directives inside docstrings ``addhook(directives)`` must be called at the start
+of the module before any docstrings.
+"""
+abstract Directive
+
+"""
+### ``docs``
+
+Retrieve documentation from the Julia help system and embed it in place of the directive.
+The syntax is the same as that used in the REPL ``?`` mode. This is the default directive
+and does not require the directive name, ``docs``, to be specified.
+
+**Example:**
+
+```
+@{foobar}
+
+@{docs:foobar}
+```
+"""
+type DOCS <: Directive
     object :: Any
     docs   :: Union{Markdown.MD, LazyDoc}
     file   :: File
@@ -46,19 +77,54 @@ end
 
 define(DOCS, :docs)
 
-type TEXT
+type TEXT <: Directive
     text :: ByteString
 end
 
 define((text, file) -> TEXT(text), :text)
 
-type ESC
+"""
+### ``esc``
+
+Escape directive syntax.
+
+**Example:**
+
+```
+@{esc:foobar:
+...
+}
+```
+
+will result in
+
+```
+@{foobar:
+...
+}
+```
+"""
+type ESC <: Directive
     text :: ByteString
 end
 
 define((text, file) -> ESC(text), :esc)
 
-type REF
+"""
+### ``ref``
+
+Automatic cross referencing link to a ``docs`` directive. Uses the same ``?`` mode syntax
+as ``docs`` directive does.
+
+**Example:**
+
+```
+@{ref:foobar}
+
+@{foobar}
+```
+"""
+type REF <: Directive
     text   :: ByteString
     object :: Any
     refs   :: Dict
@@ -68,7 +134,22 @@ end
 
 define(REF, :ref)
 
-type REPL
+"""
+### ``repl``
+
+Simulate a Julia REPL session within a docstring. A new module is defined for each ``repl``
+block so that variables do not leak between them. Lines ending with ``;`` will not display
+their output.
+
+```
+@{repl:
+julia> a = 1;
+julia> b = 2
+julia> a + b
+}
+```
+"""
+type REPL <: Directive
     mod     :: Module
     lines   :: Vector{ByteString}
     results :: Vector
@@ -88,7 +169,21 @@ end
 
 define(REPL, :repl)
 
-type EXAMPLE
+"""
+### ``example``
+
+Run a code block and display it's result afterwards. A new module is used for each
+``example`` block in the same way as for ``repl`` blocks.
+
+```
+@{example:
+A = [x + y for x = 1:3, y = 2:4]
+b = [1, 2, 4]
+A \ b
+}
+```
+"""
+type EXAMPLE <: Directive
     mod    :: Module
     source :: ByteString
     result :: Any
