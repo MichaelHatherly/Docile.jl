@@ -40,4 +40,21 @@ facts("Docsystem hooks.") do
 
 end
 
+facts("Build docs.") do
+    makedocs(
+        source = "test-source",
+        build  = "test-build",
+        clean  = true,
+    )
+
+    @fact isdir(joinpath(Base.source_dir(), "test-source")) --> true
+    @fact isdir(joinpath(Base.source_dir(), "test-build")) --> true
+    @fact isdir(joinpath(Base.source_dir(), "test-build", "c")) --> true
+
+    @fact isfile(joinpath(Base.source_dir(), "test-build", "a.md")) --> true
+    @fact isfile(joinpath(Base.source_dir(), "test-build", "b.md")) --> true
+    @fact isfile(joinpath(Base.source_dir(), "test-build", "c", "a.md")) --> true
+    @fact isfile(joinpath(Base.source_dir(), "test-build", "c", "b.md")) --> true
+end
+
 end
