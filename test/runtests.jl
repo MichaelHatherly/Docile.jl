@@ -5,6 +5,7 @@ module DocileTests
 using Docile, FactCheck
 
 include("TestModule.jl")
+include("HookTests.jl")
 
 facts("Directive parsing.") do
     @fact Docile.Docs.parsebrackets("@{}") --> [(:docs, "")]
@@ -36,6 +37,20 @@ facts("Docsystem hooks.") do
         (:text, "\n"),
     ]
     @fact doc.blocks --> blocks
+
+    typedoc = TypeFieldDocs.__META__[TypeFieldDocs.T]
+    @fact typedoc.main --> doc"T"
+    @fact typedoc.fields[:x] --> doc"x"
+
+    funcdoc = VecDoc.__META__[VecDoc.f]
+    @fact funcdoc.main --> doc"f, g"
+
+    funcdoc = VecDoc.__META__[VecDoc.g]
+    @fact funcdoc.main --> doc"f, g"
+
+    typedoc = DocMeta.__META__[DocMeta.T]
+    @fact typedoc.main --> doc"T"
+
 end
 
 facts("Directives.") do
