@@ -105,6 +105,72 @@ facts("Directives.") do
     @fact directive.result --> 3
 end
 
+facts("Object display methods.") do
+    buffer = IOBuffer()
+
+    path = joinpath(Base.source_dir(), "test-source", "a.md")
+    root = Docile.Docs.Root(path => "")
+    writemime(buffer, "text/plain", root)
+    @fact takebuf_string(buffer) -->
+    """
+    Root(
+     files
+      \"$(path)\"=>\"\"
+     refs
+      Base.@time (\"$(path)\"=>\"\",1)
+    )"""
+
+    lazydoc = Docile.Docs.LazyDoc("@{esc:foo:...}")
+    writemime(buffer, "text/plain", lazydoc)
+    @fact takebuf_string(buffer) --> "@{foo:...}\n"
+
+    lazydoc = Docile.Docs.LazyDoc("""
+    @{repl:
+    julia> a = 1;
+    julia> b = 2
+    julia> a + b
+    }
+    """)
+    writemime(buffer, "text/plain", lazydoc)
+    @fact takebuf_string(buffer) -->
+    """
+    ```
+    julia> a = 1;
+
+    julia> b = 2
+    2
+
+    julia> a + b
+    3
+
+    ```
+    """
+
+    lazydoc = Docile.Docs.LazyDoc("""
+    @{example:
+    a = 1
+    b = 2
+    a + b
+    }
+    """)
+    writemime(buffer, "text/plain", lazydoc)
+    @fact takebuf_string(buffer) -->
+    """
+    ```
+    a = 1
+    b = 2
+    a + b
+    ```
+
+    *Result*
+
+    ```
+    3
+    ```
+    """
+
+end
+
 facts("Build docs.") do
     makedocs(
         source = "test-source",
