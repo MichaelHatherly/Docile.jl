@@ -11,7 +11,7 @@ module Utilities
 
 using Base.Meta
 
-export Str, concat!, tryget, @with, evalblock, submodules, files
+export Str, concat!, tryget, @with, evalblock, submodules, files, usemodule, getobject, getdocs, @object
 
 
 typealias Str AbstractString
@@ -42,7 +42,7 @@ macro object(ex)
     if isexpr(ex, :call)
         name = esc(Base.Docs.namify(ex.args[1]))
         if any(x -> isexpr(x, :(::)), ex.args)
-            :(methods($(name), $(esc(Base.Docs.signature(ex))))[1])
+            :(methods($(name), $(esc(Base.Docs.signature(ex))))[end])
         else
             :(@which($(esc(ex))))
         end
@@ -51,6 +51,11 @@ macro object(ex)
     else
         esc(ex)
     end
+end
+
+function usemodule(mod, sandbox)
+    mod == Main && return # Avoid segfaulting.
+    eval(sandbox, Expr(:toplevel, Expr(:using, fullname(mod)...)))
 end
 
 function evalblock(modname, block)
@@ -62,6 +67,9 @@ function evalblock(modname, block)
     end
     result
 end
+
+getobject(m, t) = eval(m, :(Docile.Utilities.@object($(parse(t)))))
+getdocs(m, t)   = eval(m, :(Base.@doc($(parse(t)))))
 
 function submodules(mod :: Module, out = Set())
     push!(out, mod)

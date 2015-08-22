@@ -9,11 +9,10 @@ $(Utilities.exportlist(Build))
 """
 module Build
 
-using Base.Meta, ..Utilities, ..Docs, ..Directives
+using Base.Meta, ..Utilities
 
-export makedocs
+import ..Docs: Root, process!
 
-include("loadfile.jl")
 include("makedocs.jl")
 
 end

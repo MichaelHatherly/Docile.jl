@@ -16,6 +16,7 @@ end
 
 passed(rs) = filter(r -> r.status == Passed, rs.results)
 failed(rs) = filter(r -> r.status == Failed, rs.results)
+
 update!(rs :: Results, r :: Result)  = push!(rs.results, r)
 update!(rs :: Results, r :: Vector)  = for each in r update!(rs, each) end
 update!(rs :: Results, r :: Nothing) = nothing

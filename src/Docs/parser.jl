@@ -1,5 +1,6 @@
 
-const DIRECTIVE_CHARS = ('@', '{')
+const DEFAULT_DIRECTIVE = Ref(:docs)
+const DIRECTIVE_CHARS   = ('@', '{')
 
 parsebrackets(s :: Str) = parsebrackets(IOBuffer(s))
 parsebrackets(other)    = other
@@ -29,7 +30,7 @@ end
 
 writechar!(into, from) = (c = read(from, Char); write(into, c); c)
 
-store!(xs, buf) = position(buf) > 0 ? push!(xs, takebuf_string(buf)) : xs
+store!(xs, buf) = position(buf) > 0 ? push!(xs, (:text, takebuf_string(buf))) : xs
 
 function matchchars(buf, chars)
     mark(buf)
@@ -51,10 +52,10 @@ function directive(buf :: IOBuffer)
         if c == ':'
             name = symbol(takebuf_string(t))
             text = readall(buf); takebuf_array(buf)
-            Base.isidentifier(name) && return directive(Directive{name}(), text)
+            Base.isidentifier(name) && return (name, text)
             throw(ArgumentError("Invalid directive name '$(name)'."))
         end
         isalpha(c) ? write(t, c) : break
     end
-    directive(Directive{DEFAULT_DIRECTIVE.x}(), takebuf_string(buf))
+    DEFAULT_DIRECTIVE.x, takebuf_string(buf)
 end

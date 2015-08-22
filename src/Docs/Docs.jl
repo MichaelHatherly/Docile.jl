@@ -9,11 +9,13 @@ $(Utilities.exportlist(Docs))
 """
 module Docs
 
-using ..Utilities
-using ..Directives
-using Base.Meta
+using Base.Meta, ..Utilities
 
 include("hooks.jl")
-include("extensions.jl")
+include("parser.jl")
+include("doctypes.jl")
+include("directives.jl")
+include("process.jl")
+include("display.jl")
 
 end
