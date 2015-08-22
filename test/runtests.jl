@@ -57,4 +57,13 @@ facts("Build docs.") do
     @fact isfile(joinpath(Base.source_dir(), "test-build", "c", "b.md")) --> true
 end
 
+facts("Doctests.") do
+    doctest(Docile, submodules = false)
+    results = doctest(Docile)
+    @fact typeof(results) --> Docile.Testing.Results
+    details(IOBuffer(), results, false)
+    details(IOBuffer(), results, true)
+    @fact length(Docile.Testing.failed(results)) --> 0
+end
+
 end

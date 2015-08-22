@@ -100,7 +100,7 @@ Choose expression to document in macro-generated code.
 
 **Usage:**
 
-```julia
+```jl
 using Docile
 addhook(Docile.Docs.docmeta)
 
