@@ -20,7 +20,6 @@ facts("Directive parsing.") do
 end
 
 facts("Docsystem hooks.") do
-
     doc = @doc(TestModule.TestModule)
     @fact typeof(doc) --> Docile.Docs.LazyDoc
 
@@ -37,7 +36,73 @@ facts("Docsystem hooks.") do
         (:text, "\n"),
     ]
     @fact doc.blocks --> blocks
+end
 
+facts("Directives.") do
+    source = "@{Base.@time}"
+    name, text = Docile.Docs.parsebrackets(source)[1]
+    directive = Docile.Docs.exec(name, text, Docile.Docs.File())
+    @fact directive.object --> Docile.Utilities.@object(Base.@time)
+    @fact directive.docs --> @doc(Base.@time)
+    @fact directive.id --> 1
+
+    source = "..."
+    name, text = Docile.Docs.parsebrackets(source)[1]
+    directive = Docile.Docs.exec(name, text, Docile.Docs.File())
+    @fact directive.text --> "..."
+
+    source = "@{esc:foobar:...}"
+    name, text = Docile.Docs.parsebrackets(source)[1]
+    directive = Docile.Docs.exec(name, text, Docile.Docs.File())
+    @fact directive.text --> "foobar:..."
+
+    source = "@{ref:Base.@time}"
+    name, text = Docile.Docs.parsebrackets(source)[1]
+    directive = Docile.Docs.exec(name, text, Docile.Docs.File())
+    @fact directive.text --> "Base.@time"
+    @fact directive.object --> Docile.Utilities.@object(Base.@time)
+    @fact directive.refs --> Dict()
+
+    source =
+    """
+    @{repl:
+    julia> a = 1;
+    julia> b = 2
+    julia> a + b
+    }
+    """
+    name, text = Docile.Docs.parsebrackets(source)[1]
+    directive = Docile.Docs.exec(name, text, Docile.Docs.File())
+    @fact typeof(directive.mod) --> Module
+    @fact isdefined(directive.mod, :a) --> true
+    @fact isdefined(directive.mod, :b) --> true
+    @fact directive.lines --> [
+        "a = 1;",
+        "b = 2",
+        "a + b",
+    ]
+    @fact directive.results --> [
+        1,
+        2,
+        3,
+    ]
+
+    source =
+    """
+    @{example:
+    a = 1
+    b = 2
+    c = a + b
+    }
+    """
+    name, text = Docile.Docs.parsebrackets(source)[1]
+    directive = Docile.Docs.exec(name, text, Docile.Docs.File())
+    @fact typeof(directive.mod) --> Module
+    @fact isdefined(directive.mod, :a) --> true
+    @fact isdefined(directive.mod, :b) --> true
+    @fact isdefined(directive.mod, :c) --> true
+    @fact directive.source --> "a = 1\nb = 2\nc = a + b"
+    @fact directive.result --> 3
 end
 
 facts("Build docs.") do
