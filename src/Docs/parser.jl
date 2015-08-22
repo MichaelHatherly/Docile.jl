@@ -52,10 +52,9 @@ function directive(buf :: IOBuffer)
         if c == ':'
             name = symbol(takebuf_string(t))
             text = readall(buf); takebuf_array(buf)
-            Base.isidentifier(name) && return (name, text)
-            throw(ArgumentError("Invalid directive name '$(name)'."))
+            return name, text
         end
-        isalpha(c) ? write(t, c) : break
+        isalnum(c) ? write(t, c) : break
     end
     DEFAULT_DIRECTIVE.x, takebuf_string(buf)
 end
