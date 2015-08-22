@@ -171,6 +171,23 @@ facts("Object display methods.") do
 
 end
 
+facts("Utilities module.") do
+    f(x) = x
+    f(x, y) = x + y
+
+    @fact Docile.Utilities.@object(f(::Any)) --> methods(f, Tuple{Any})[1]
+    @fact Docile.Utilities.@object(f(::Any, ::Any)) --> methods(f, Tuple{Any, Any})[1]
+
+    @fact Docile.Utilities.@object(f(1)) --> methods(f, Tuple{Any})[1]
+    @fact Docile.Utilities.@object(f(1, 1)) --> methods(f, Tuple{Any, Any})[1]
+
+    @fact Docile.Utilities.@object(1) --> 1
+
+    xs = [1, 2, 3]
+    @fact Docile.Utilities.concat!(xs, 1) --> [1, 2, 3, 1]
+    @fact Docile.Utilities.concat!(xs, [1, 2]) --> [1, 2, 3, 1, 1, 2]
+end
+
 facts("Build docs.") do
     makedocs(
         source = "test-source",

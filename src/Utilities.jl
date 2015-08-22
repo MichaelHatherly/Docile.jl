@@ -53,11 +53,6 @@ macro object(ex)
     end
 end
 
-function usemodule(mod, sandbox)
-    mod == Main && return # Avoid segfaulting.
-    eval(sandbox, Expr(:toplevel, Expr(:using, fullname(mod)...)))
-end
-
 function evalblock(modname, block)
     result = nothing
     cursor = 1
