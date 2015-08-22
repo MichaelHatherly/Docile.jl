@@ -36,6 +36,15 @@ function genmarkdown(d, mime)
     d.markdown = Markdown.parse(takebuf_string(buf))
 end
 
+function Base.Docs.catdoc(docs :: LazyDoc...)
+    markdown = []
+    for each in docs
+        process!(each, File(), Root())
+        push!(markdown, genmarkdown(each, MIME"text/plain"()))
+    end
+    Base.Docs.catdoc(markdown...)
+end
+
 function Base.writemime(io :: IO, mime :: MIME"text/plain", d :: DOCS)
     d.file.paths == ("" => "") || println(io, "<a name='$(d.id)'></a>")
     writemime(io, mime, d.docs)
