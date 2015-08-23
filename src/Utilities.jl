@@ -63,8 +63,11 @@ function evalblock(modname, block)
     result
 end
 
-getobject(m, t) = eval(m, :(Docile.Utilities.@object($(parse(t)))))
-getdocs(m, t)   = eval(m, :(Base.@doc($(parse(t)))))
+getobject(m, s :: Str) = getobject(m, parse(s))
+getobject(m, x)        = eval(m, :(Docile.Utilities.@object($(x))))
+
+getdocs(m, s :: Str) = getdocs(m, parse(s))
+getdocs(m, x)        = eval(m, :(Base.@doc($(x))))
 
 function submodules(mod :: Module, out = Set())
     push!(out, mod)

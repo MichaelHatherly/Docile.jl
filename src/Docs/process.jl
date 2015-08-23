@@ -15,7 +15,7 @@ end
 
 function process!(block :: Tuple, file :: File, root :: Root)
     object = exec(block..., file)
-    push!(file.cached, object)
+    concat!(file.cached, object)
     process!(object, file, root)
     block
 end
@@ -23,7 +23,7 @@ end
 function process!(lazydoc :: LazyDoc, file :: File, root :: Root)
     for block in lazydoc.blocks
         object = exec(block..., file)
-        push!(lazydoc.cached, object)
+        concat!(lazydoc.cached, object)
         process!(object, file, root)
     end
     lazydoc

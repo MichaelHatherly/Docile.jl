@@ -57,14 +57,14 @@ type DOCS <: Directive
     file   :: File
     id     :: Int
 
-    function DOCS(text, file)
-        object = getobject(file.modname, text)
-        docs   = getdocs(file.modname, text)
+    function DOCS(expr, file)
+        object = getobject(file.modname, expr)
+        docs   = getdocs(file.modname, expr)
         process!(docs, file, file.root)
         refs = file.root.refs
         id   = file.root.count += 1
         haskey(refs, object) ?
-            error("Duplicate docstring '$(text)' in file '$(file.paths[1])'.") :
+            error("Duplicate docstring '$(expr)' in file '$(file.paths[1])'.") :
             refs[object] = (file.paths, id)
         new(
             object,
@@ -75,7 +75,15 @@ type DOCS <: Directive
     end
 end
 
-define(DOCS, :docs)
+define(:docs) do text, file
+    out = []
+    cursor = 1
+    while cursor < length(text)
+        expr, cursor = parse(text, cursor)
+        push!(out, DOCS(expr, file))
+    end
+    out
+end
 
 type TEXT <: Directive
     text :: ByteString

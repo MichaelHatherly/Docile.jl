@@ -56,7 +56,7 @@ end
 facts("Directives.") do
     source = "@{Base.@time}"
     name, text = Docile.Docs.parsebrackets(source)[1]
-    directive = Docile.Docs.exec(name, text, Docile.Docs.File())
+    directive = Docile.Docs.exec(name, text, Docile.Docs.File())[1]
     @fact directive.object --> Docile.Utilities.@object(Base.@time)
     @fact directive.docs --> @doc(Base.@time)
     @fact directive.id --> 1
