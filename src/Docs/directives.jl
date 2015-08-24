@@ -165,7 +165,7 @@ type REPL <: Directive
     function REPL(text, file)
         mod = Module()
         lines, results = [], []
-        for each in split(text, "\njulia> ")
+        for each in split(text, r"\n(julia)?> ")
             s = strip(each)
             isempty(s) && continue
             push!(lines, s)

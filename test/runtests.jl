@@ -83,7 +83,7 @@ facts("Directives.") do
     @{repl:
     julia> a = 1;
     julia> b = 2
-    julia> a + b
+    > a + b
     }
     """
     name, text = Docile.Docs.parsebrackets(source)[1]
