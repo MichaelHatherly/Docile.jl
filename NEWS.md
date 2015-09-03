@@ -1,3 +1,9 @@
+### v0.5.17
+
+* Fix for changes to ``FactCheck.jl``.
+* Move from Coveralls to Codecov for coverage.
+* Add OSX Travis testing.
+
 ### v0.5.16
 
 * Add support for documenting multiple functions with a single docstring using tuple syntax:
