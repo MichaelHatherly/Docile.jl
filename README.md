@@ -16,7 +16,7 @@ Any questions about using this package? Ask them in the Gitter linked below:
 
 **Package Status**
 
-[![Coverage Status][coveralls-img]][coveralls-url]
+[![Coverage Status][coverage-img]][coverage-url]
 [![Docile][pkgeval-img]][pkgeval-url]
 
 ## Overview
