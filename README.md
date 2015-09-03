@@ -79,8 +79,8 @@ Please file any issues or feature requests you might have through the GitHub
 [coveralls-img]: https://coveralls.io/repos/MichaelHatherly/Docile.jl/badge.svg?branch=master
 [coveralls-url]: https://coveralls.io/r/MichaelHatherly/Docile.jl?branch=master
 
-[pkgeval-img]: http://pkg.julialang.org/badges/Docile_release.svg
-[pkgeval-url]: http://pkg.julialang.org/?pkg=Docile&ver=release
+[pkgeval-img]: http://pkg.julialang.org/badges/Docile_0.3.svg
+[pkgeval-url]: http://pkg.julialang.org/?pkg=Docile&ver=0.3
 
 [issue-tracker]: https://github.com/MichaelHatherly/Docile.jl/issues
 

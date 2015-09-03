@@ -200,7 +200,7 @@ facts("Base") do
 
     context("Cache Base and it's submodules.") do
 
-        @fact Docile.Cache.getparsed(Base) --> anything
+        @fact isa(Docile.Cache.getparsed(Base), ObjectIdDict) --> true
 
     end
 

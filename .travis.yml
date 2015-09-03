@@ -1,6 +1,7 @@
 language: julia
 os:
     - linux
+    - osx
 julia:
     - release
     - nightly
@@ -11,4 +12,4 @@ script:
     - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
     - julia --check-bounds=yes -e 'Pkg.clone(pwd()); Pkg.build("Docile"); Pkg.test("Docile"; coverage=true)'
 after_success:
-    - julia -e 'if VERSION >= v"0.4-"; cd(Pkg.dir("Docile")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder()); end'
+    - julia -e 'if VERSION >= v"0.4-"; cd(Pkg.dir("Docile")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder()); end'
