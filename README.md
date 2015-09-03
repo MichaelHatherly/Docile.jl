@@ -76,8 +76,8 @@ Please file any issues or feature requests you might have through the GitHub
 [appveyor-img]: https://ci.appveyor.com/api/projects/status/ttlbaxp6pgknfru5/branch/master?svg=true
 [appveyor-url]: https://ci.appveyor.com/project/MichaelHatherly/docile-jl/branch/master
 
-[coveralls-img]: https://coveralls.io/repos/MichaelHatherly/Docile.jl/badge.svg?branch=master
-[coveralls-url]: https://coveralls.io/r/MichaelHatherly/Docile.jl?branch=master
+[coverage-img]: http://codecov.io/github/MichaelHatherly/Docile.jl/coverage.svg?branch=master
+[coverage-url]: http://codecov.io/github/MichaelHatherly/Docile.jl?branch=master
 
 [pkgeval-img]: http://pkg.julialang.org/badges/Docile_0.3.svg
 [pkgeval-url]: http://pkg.julialang.org/?pkg=Docile&ver=0.3
