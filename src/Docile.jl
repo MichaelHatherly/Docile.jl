@@ -1,3 +1,5 @@
+# __precompile__(true)
+
 """
 # Docile
 
@@ -13,10 +15,14 @@ $(Utilities.exportlist(Docile))
 module Docile
 
 include("Utilities.jl")
+import .Utilities: @include
 
-include(joinpath("Docs",    "Docs.jl"))
-include(joinpath("Testing", "Testing.jl"))
-include(joinpath("Build",   "Build.jl"))
+@include(
+    "Docs",
+    "Testing",
+    "Build",
+    "QueryMode"
+)
 
 # Public API.
 

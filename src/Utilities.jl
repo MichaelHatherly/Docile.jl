@@ -11,8 +11,23 @@ module Utilities
 
 using Base.Meta
 
-export Str, concat!, tryget, @with, evalblock, submodules, files, usemodule, getobject, getdocs, @object
+export
+    Str,
+    concat!,
+    tryget,
+    @with,
+    evalblock,
+    submodules,
+    files,
+    usemodule,
+    getobject,
+    getdocs,
+    @object,
+    @include
 
+macro include(dirs...)
+    Expr(:block, [:(include(joinpath($d, string($d, ".jl")))) for d in dirs]...)
+end
 
 typealias Str AbstractString
 
