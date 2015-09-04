@@ -72,16 +72,18 @@ end
 
 # Objects.
 
-getscore(x :: Object, mod, k :: Base.Callable, v) = k == x.object ? 1.0 : 0.0
+getscore(x :: Object, mod, k, v) = getscore(x, mod, k) + (x.object == mod ? 0.1 : 0.0)
 
-function getscore(x :: Object, mod, k :: Method, v)
+getscore(x :: Object, mod, k :: Base.Callable) = k == x.object ? 1.0 : 0.0
+
+function getscore(x :: Object, mod, k :: Method)
     isgeneric(x.object) || return 0.0
     x.object == getfield(k.func.code.module, k.func.code.name) ? 1.0 : 0.0
 end
 
-getscore(x :: Object, mod, k :: Binding, v) = x.symbol == k.var ? 1.0 : 0.0
+getscore(x :: Object, mod, k :: Binding) = x.symbol == k.var ? 1.0 : 0.0
 
-getscore(x :: Object, mod, k :: Module, v) =
+getscore(x :: Object, mod, k :: Module) =
     (mod == k && x.symbol == module_name(mod)) ? 1.0 : 0.0
 
 # No metadata is available for Markdown docs, requires Lazydocs, still to implement.
