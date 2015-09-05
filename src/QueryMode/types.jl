@@ -21,6 +21,9 @@ immutable Object <: DataTerm
     mod    :: Module
     symbol :: Symbol
     object :: Any
+
+    Object(mod, symbol, object)           = new(mod, symbol, object)
+    Object(mod, symbol, object :: Module) = new(object, symbol, object)
 end
 
 immutable Metadata <: DataTerm
@@ -34,16 +37,17 @@ immutable MatchAnyThing end
 abstract TypeTerm <: Term
 
 immutable ArgumentTypes <: TypeTerm
-    tuple :: Tuple
+    tuple
+    ArgumentTypes(x) = new(astuple(x))
 end
 
 immutable ReturnTypes <: TypeTerm
     tuple
-
-    ReturnTypes(x) = new(x)
-    ReturnTypes(t :: Tuple) = new(Tuple{t...})
+    ReturnTypes(x) = new(astuple(x))
 end
 
+astuple(x)          = x
+astuple(x :: Tuple) = Tuple{x...}
 
 abstract LogicTerm <: Term
 
