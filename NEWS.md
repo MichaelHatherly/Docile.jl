@@ -1,3 +1,7 @@
+### v0.5.18
+
+* Fix for changes to ``LineNumberNode``.
+
 ### v0.5.17
 
 * Fix for changes to ``FactCheck.jl``.
