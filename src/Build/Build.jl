@@ -14,5 +14,6 @@ using Base.Meta, ..Utilities
 import ..Docs: Root, process!
 
 include("makedocs.jl")
+include("mkdocs.jl")
 
 end

@@ -47,6 +47,7 @@ function makedocs(;
     build    = "build",
     clean    = false,
     external = EXTERNAL_FILES,
+    mkdocs = true
     )
     cd(Base.source_dir()) do
         # Clean out old files in build dir and find new ones in source dir.
@@ -74,6 +75,7 @@ function makedocs(;
             end
         end
     end
+    mkdocs && makemkdocs(build)
 end
 
 message(a, b, w) = println("Building: $(rpad(string("'", a, "'"), w + 2)) --> '$(b)'")
