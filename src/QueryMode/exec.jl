@@ -35,15 +35,31 @@ metadata(m) = isdefined(m, :__META__) ? m.__META__ : ObjectIdDict()
 
 Execute a `Query` object and return the `Result` containing docstrings found.
 """
-function exec(query :: Query)
-    rs = Results(query, [])
-    for m in Base.Docs.modules, (k, v) in metadata(m)
-        isa(k, ObjectIdDict) && continue
-        getdoc!(rs, m, k, v)
+function exec end
+
+# Cache the previous results for faster interaction when indexing queries.
+let __cache__ = Ref{Results}()
+    function exec(query :: Query)
+        if cached(__cache__, query)
+            __cache__.x = Results(query, __cache__.x.data)
+        else
+            rs = Results(query, [])
+            for m in Base.Docs.modules, (k, v) in metadata(m)
+                isa(k, ObjectIdDict) && continue
+                getdoc!(rs, m, k, v)
+            end
+            sort!(rs.data, by = first, rev = true) # Sort results by score.
+            __cache__.x = rs
+        end
+        __cache__.x
     end
-    sort!(rs.data, by = first, rev = true) # Sort results by score.
-    rs
 end
+
+cached(cache, query) =
+    isdefined(Main, :ans) &&
+    isdefined(cache, :x)  &&
+    Main.ans == cache.x   &&
+    cache.x.query.text == query.text
 
 function getdoc!(rs :: Results, m, k, v :: Union{FuncDoc, TypeDoc})
     getdoc!(rs, m, k, v.main)

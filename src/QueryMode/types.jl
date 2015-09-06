@@ -2,6 +2,7 @@
 abstract Term
 
 immutable Query
+    text  :: UTF8String
     term  :: Term
     index :: Int
 end

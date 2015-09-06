@@ -4,14 +4,17 @@ macro query_str(text) buildquery(text) end
 function buildquery(text :: Str)
     query, index = splitquery(text)
     index < 0 && error("Index must be positive.")
-    buildquery(parse(query), index)
+    buildquery(strip(query), parse(query), index)
 end
 
-buildquery(text :: Str, index :: Int) = :(Query(Text($(esc(text))), $(index)))
+buildquery(raw, text :: Str, index :: Int) =
+    :(Query($(raw), Text($(esc(text))), $(index)))
 
-buildquery(s :: Symbol, index :: Int) = :(Query(Object(which($(quot(s))), $(quot(s)), $(esc(s))), $(index)))
+buildquery(raw, s :: Symbol, index :: Int) =
+    :(Query($(raw), Object(which($(quot(s))), $(quot(s)), $(esc(s))), $(index)))
 
-buildquery(ex :: Expr, index :: Int) = :(Query($(build(ex)), $(index)))
+buildquery(raw, ex :: Expr, index :: Int) =
+    :(Query($(raw), $(build(ex)), $(index)))
 
 buildquery(others...) = error("Invalid query syntax.")
 
