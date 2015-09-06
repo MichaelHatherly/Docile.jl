@@ -62,7 +62,7 @@ function process!(output, moduledata, state, file, expr::Expr)
     end
     # Check for an aside or atdoc at the end of a file.
     if length(expr.args) >= 2
-        block = (expr.args[end-1], expr.args[end], LineNumberNode(0), nothing) # Dummy line node.
+        block = (expr.args[end-1], expr.args[end], linenumbernode(0), nothing) # Dummy line node.
         if is_atdoc(block)
             get_atdoc!(output, moduledata, state, file, block)
         elseif is_aside(block)

@@ -51,19 +51,13 @@ f_12{T}(::Type{typejoin()}, ::Type{T}) = ()
 f_13{T<:Union(Float32,Float64)}(::Type{T},i::Integer) = ()
 
 "f_14"
-f_14{T<:FloatingPoint}(f, a::T,b::T,c::T...;
-                       abstol=zero(T),
-                       reltol=sqrt(eps(T)),
-                       maxevals=10^7,
-                       order=7,
-                       norm=vecnorm
-                       ) = ()
+f_14{T<:FloatingPoint}(f, a::T,b::T,c::T...) = ()
 
 "f_15"
 f_15(b, z, m = length(b) + 1) = ()
 
 "f_16"
-f_16{T<:Integer}(::Type{T}, x::FloatingPoint; tol::Real = eps(x)) = ()
+f_16{T<:Integer}(::Type{T}, x::FloatingPoint) = ()
 
 "f_17"
 f_17(io::IO, itr::AbstractArray, op, delim, cl, delim_one, compact = false) = ()

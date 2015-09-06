@@ -197,6 +197,12 @@ isline(::LineNumberNode) = true
 isline(x::Expr)          = isexpr(x, :line)
 isline(::Any)            = false
 
+if VERSION < v"0.4-dev+7034"
+    linenumbernode(f, n) = LineNumberNode(n)
+else
+    linenumbernode(n) = LineNumberNode(symbol(""), n)
+end
+
 isquote(::QuoteNode) = true
 isquote(::Any)       = false
 
