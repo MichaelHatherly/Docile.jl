@@ -20,7 +20,7 @@ export register!
 
 Add a docsystem hook to be run whenever a docstring is found in the current module.
 
-```jl
+```julia
 using Docile
 
 register!(Hooks.directives)

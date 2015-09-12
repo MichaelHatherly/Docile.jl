@@ -10,6 +10,8 @@ using Base.Meta
 export Str
 """
     Str
+
+Shorthand for `AbstractString`.
 """
 typealias Str AbstractString
 

@@ -44,8 +44,6 @@ cross-references and anchors.
 type Node
     chunks :: Vector{Chunk}
     modref :: Module
-
-    Node(chunks) = new(chunks, current_module())
 end
 
 """
@@ -54,7 +52,7 @@ end
 Constructor that converts a string into a `Node` object by extacting all `Chunks` from the
 given string `str`.
 """
-Node(str :: Str) = Node(map(Chunk, Parser.parsedocs(str)))
+Node(str :: Str, mod = current_module()) = Node(map(Chunk, Parser.parsedocs(str)), mod)
 
 """
     exprnode(str)
@@ -88,6 +86,7 @@ and the output mimetype the the files will be written as.
 type Root
     files   :: Vector{File}
     refs    :: ObjectIdDict
+    root    :: UTF8String
     mime    :: MIME
 end
 
@@ -97,9 +96,9 @@ end
 Constructor that takes a vector of `(source, destination)` tuples representing files and
 builds `File` objects to represent them.
 """
-function Root(mapping, mime)
+function Root(mapping, root, mime)
     files = [File(a, b) for (a, b) in mapping]
-    Root(files, ObjectIdDict(), mime)
+    Root(files, ObjectIdDict(), root, mime)
 end
 
 # Tree expansion.
@@ -130,7 +129,11 @@ function expand!(root :: Root; limit = 5)
     for _ = 1:limit
         expand!(exec, root)
         done, sizes = checksizes(root, sizes)
-        done && break
+        if done
+            expand!(exec, root)
+            done, sizes = checksizes(root, sizes)
+            done && break
+        end
     end
     root
 end
@@ -172,7 +175,7 @@ end
 
 User-extensible directive system hook. Adds handling of user-defined directives.
 
-```jl
+```julia
 define(:custom) do root, file, node, chunk
     # ...
     chunk
@@ -185,63 +188,62 @@ vector of `Chunk`s.
 define
 
 """
-# Directives
+### Directive Syntax
 
-*Syntax:*
-
-    @<name>{...}
+    @esc{@<name>{...}}
 
 Where `<name>` contains only letters and `...` may contain any text. When no `<name` is
 provided the default directive, `:docs` is used.
 
 *Available directives:*
 
-    @{...} or @docs{...}
+    @esc{@{...}} or @esc{@docs{...}}
 
 The `:docs` directive replaces it's content with the docstrings of the objects in `...`.
-Multiple objects may appear within a single `@{...}` and their docstrings are spliced back
+Multiple objects may appear within a single `@esc{@{...}}` and their docstrings are spliced back
 in order.
 
-    @esc{...}
+    @esc{@esc{...}}
 
 Allows for writing a directive within a directive so that the inner one is not parsed and
 expanded. Useful when writing documentation that mentions directives.
 
 `:esc` is used to store all text found between directives in a file or docstring internally.
 
-    @module{...}
+    @esc{@module{...}}
 
 Change the current module in which directives are evaluated, where the default is `Main`.
+The module relative to `Main` and does not depend on the current module.
 
-    @ref{...}
+    @esc{@ref{...}}
 
 Cross-reference link to a docstring. Uses the same syntax as `:docs`, but only a single
 object may appear in each `:ref`. If a `:ref` does not find a `:anchor` during expansion an
 error is thrown.
 
-    @anchor{...}
+    @esc{@anchor{...}}
 
 Related to `:ref`. `:anchor`s are the targets that `:ref` looks for during documentation
 expansion. `:anchor`s must each refer to unique objects. An error is thrown when multiple
 `:anchor`s correspond to the same object.
 
-    @break{}
+    @esc{@break{}}
 
 Adds a paragraph break in the final output.
 
-    @code{...}
+    @esc{@code{...}}
 
 Run Julia code and display the final result. All code is run in a fresh `Module` to avoid
 interference between different `:code` directives.
 
-    @repl{...}
+    @esc{@repl{...}}
 
 Simulate a Julia REPL environment. Each complete expression is presented with a `julia>`
 before and it's result afterwards in the final output. ending an expression with `;` will
 suppress the output.
 
 """
-abstract DIRECTIVES # Mock type of documentation perposes.
+abstract DIRECTIVES # Mock type of documentation purposes.
 
 ## Definitions.
 
@@ -251,7 +253,8 @@ define(:esc) do root, file, node, chunk
 end
 
 define(:module) do root, file, node, chunk
-    result = getmodule(node.modref, chunk.text)
+    # Changing module is *always* done relative to `Main`.
+    result = getmodule(Main, chunk.text)
     isnull(result) ? chunk : (node.modref = get(result); chunk)
 end
 
@@ -259,7 +262,7 @@ define(:ref) do root, file, node, chunk
     result = getobject(node.modref, chunk.text)
     if !isnull(result) && haskey(root.refs, get(result))
         object = get(result)
-        dest   = root.refs[object]
+        dest   = relative_path(root.root, root.refs[object], file.output)
         Chunk(
             chunk.name,
             "[`$(chunk.text)`]($dest#$object)",
@@ -268,6 +271,11 @@ define(:ref) do root, file, node, chunk
     else
         chunk
     end
+end
+
+function relative_path(base, source, dest)
+    p = relpath(source, dest)
+    p == "." ? "" : normpath(base, p)
 end
 
 define(:anchor) do root, file, node, chunk
@@ -280,7 +288,7 @@ define(:anchor) do root, file, node, chunk
             Chunk(:break, "", true),
             Chunk(
                 chunk.name,
-                "<a href='$(chunk.text)'></a>",
+                "<a name=\"$object\"></a>",
                 true
             ),
             Chunk(:break, "", true)
@@ -351,13 +359,13 @@ end
 Returns all documentation for an expression `expr` evaluated in module `mod` as a vector of
 `Node`s.
 """
-getdocs(mod, expr) = getdocs(eval(mod, :(@doc $expr)))
+getdocs(mod, expr) = getdocs(mod, eval(mod, :(@doc $expr)))
 
 # Auto convert standard docs to directive docs.
-getdocs(md :: Markdown.MD) = getdocs(Node(stringmime("text/markdown", md)))
+getdocs(mod, md :: Markdown.MD) = [Node(stringmime("text/markdown", md), mod)]
 
-getdocs(node :: Node)    = [node]
-getdocs(nodes :: Vector) = nodes
+getdocs(mod, node :: Node)    = [node]
+getdocs(mod, nodes :: Vector) = nodes
 
 """
     extractdocs(node, doc, str)
