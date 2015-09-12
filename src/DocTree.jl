@@ -242,6 +242,7 @@ Simulate a Julia REPL environment. Each complete expression is presented with a 
 before and it's result afterwards in the final output. ending an expression with `;` will
 suppress the output.
 
+See also: @module{Docile.DocTree}@ref{define}@module{Main}.
 """
 abstract DIRECTIVES # Mock type of documentation purposes.
 
