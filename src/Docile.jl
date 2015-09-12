@@ -1,6 +1,8 @@
 """
 $(moduleheader())
 
+Documentation extensions for Julia.
+
 $(exports())
 """
 module Docile

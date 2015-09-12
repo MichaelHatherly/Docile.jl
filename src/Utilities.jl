@@ -13,25 +13,19 @@ export Str
 """
 typealias Str AbstractString
 
-export @modules
-"""
-    @modules(mods...)
-"""
-macro modules(mods...)
-    mods = map(string, mods)
-    expressions = [:(include(joinpath($x, "$($x).jl"))) for x in mods]
-    Expr(:block, expressions...)
-end
-
 export tryget
 """
     tryget(mod, field, default)
+
+Returns the value bound to `field` in module `mod` or `default` if not found.
 """
 tryget(mod, field, default) = isdefined(mod, field) ? getfield(mod, field) : default
 
 export exports
 """
     exports()
+
+Markdown formatted string containg a list of all exported symbols in a module.
 """
 function exports(mod = current_module())
     symbols = filter(x -> x != module_name(mod), names(current_module()))
@@ -46,12 +40,16 @@ end
 export moduleheader
 """
     moduleheader()
+
+Returns a string containing a markdown formatted `Module` docstring header.
 """
 moduleheader() = "    $(current_module()) :: Module"
 
 export @get
 """
     @get(where, what, default)
+
+Do `default` if `what` is not defined in `where` otherwise get `what` from `where`.
 """
 macro get(where, what, default)
     esc(:(isdefined($where, $what) ? getfield($where, $what) : $default))
@@ -60,12 +58,16 @@ end
 export @S_str
 """
     @S_str(text)
+
+Shorthand syntax for defining symbols that are not valid identifiers.
 """
 macro S_str(text) quot(symbol(text)) end
 
 export submodules
 """
     submodules(mod)
+
+Returns a set of all submodules of `Module` `mod`.
 """
 function submodules(mod :: Module, out = Set())
     push!(out, mod)
@@ -84,6 +86,8 @@ validmodule(a, b) = false
 export files
 """
     files(cond, root)
+
+Returns a set of all files from `root` that match `cond`.
 """
 function files(cond, root, out = Set(); recursive = true)
     for f in readdir(root)
@@ -97,6 +101,8 @@ end
 export evalblock
 """
     evalblock(modname, block)
+
+Evaluate the string `block` within the module `modname` and return the final value.
 """
 function evalblock(modname, block)
     result = nothing
@@ -109,6 +115,8 @@ end
 export parseblock
 """
     parseblock(block)
+
+Returns a vector of all complete expressions and their original substrings found in `block`.
 """
 function parseblock(block)
     result = []
@@ -143,7 +151,9 @@ end
 
 export getobject
 """
-    getobject(mod, expr)
+    getobject(mod, text)
+
+Try to get the object found in `text` within module `mod`. Returns a `Nullable` if it fails.
 """
 function getobject(mod, text)
     try
@@ -156,6 +166,8 @@ end
 export getmodule
 """
     getmodule(mod, text)
+
+Try to get the `Module` object in `text`. Returns a `Nullable{Module}` if it fails.
 """
 function getmodule(mod, text)
     try
@@ -168,6 +180,8 @@ end
 export concat!
 """
     concat!(xs, x)
+
+Append or push depending on the object being added to a vector. For flattening nested lists.
 """
 function concat! end
 
@@ -177,6 +191,8 @@ concat!(xs, ys :: Vector) = append!(xs, ys)
 export msg
 """
     msg(text, cond)
+
+Conditionally display a message.
 """
 msg(text, cond) = (cond && info(text); nothing)
 

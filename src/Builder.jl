@@ -1,6 +1,8 @@
 """
 $(moduleheader())
 
+Convert from abstract documentation tree defined by `Docile.DocTree` to different formats.
+
 $(exports())
 """
 module Builder
@@ -9,10 +11,21 @@ using ..Utilities
 
 import ..DocTree
 
+"""
+    EXTERNAL_FILES
+
+List of files that, if found in `source`, are written to a preset destination rather that
+the `build` directory.
+"""
 const EXTERNAL_FILES = Dict(
     "README.md" => joinpath("..", "README.md"),
 )
 
+"""
+    FORMATS
+
+Valid output formats.
+"""
 const FORMATS = Dict(
     :markdown => ("md", MIME"text/markdown"()),
     :html     => ("html", MIME"text/html"()),
@@ -108,6 +121,11 @@ end
 
 import ..DocTree: Root, File, Node, Chunk
 
+"""
+    writefile(root)
+
+Output a documentation tree to file.
+"""
 function writefile(root :: Root)
     for file in root.files
         writefile(root, file)
