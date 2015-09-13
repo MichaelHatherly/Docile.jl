@@ -114,6 +114,26 @@ export doc!sig
 Generate and store the automatic header string for a documented expression in the
 docstring-local variable `doc!sig`. It can be interpolated into the docstring as with any
 normal variable.
+
+```julia
+using Docile
+register!(Hooks.doc!sig)
+
+"
+    \$doc!sig
+
+...
+"
+f(x, y) = x + y
+```
+
+will produce a docstring containing
+
+```
+    f(x,y)
+
+...
+```
 """
 doc!sig(str, def) = false, buildsig(str, macroexpand(def)), def
 
@@ -144,6 +164,26 @@ export doc!args
 
 Capture all documented method arguments and store in the docstring-local variable
 `doc!args`, which can be spliced into the docstring.
+
+```julia
+using Docile
+register!(Hooks.doc!args)
+
+"
+\$doc!args
+"
+f("...", x) = x
+```
+
+will produce a docstring containing
+
+```
+**Arguments:**
+
+`x`:
+
+...
+```
 """
 doc!args(str, def) = (false, buildargs(str, macroexpand(def))...)
 
@@ -181,6 +221,26 @@ export doc!kwargs
 
 Capture all documented method keywords and store in the docstring-local variable
 `doc!kwargs`, which can be spliced into the docstring.
+
+```julia
+using Docile
+register!(Hooks.doc!kwargs)
+
+"
+\$doc!kwargs
+"
+f(; "..." k = 1) = k
+```
+
+will produce a docstring containing
+
+```
+**Keywords:**
+
+`k=1`:
+
+...
+```
 """
 doc!kwargs(str, def) = (false, buildkwargs(str, macroexpand(def))...)
 

@@ -68,7 +68,7 @@ folder by default. This can be disabled by setting ``external = Dict()``.
 Import ``Docile`` and the modules that should be documented. Then call ``makedocs`` with any
 additional settings that are needed.
 
-```jl
+```julia
 using Docile, MyModule
 makedocs()                   # Without customisations.
 makedocs(source = "../docs") # With source folder ``docs``.

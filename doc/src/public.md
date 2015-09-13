@@ -11,6 +11,9 @@
 - @ref{Hooks.track}
 - @ref{Hooks.@__doc__}
 - @ref{Hooks.__doc__}
+- @ref{Hooks.doc!sig}
+- @ref{Hooks.doc!args}
+- @ref{Hooks.doc!kwargs}
 - @ref{Hooks.directives}
 
 ## Building Documentation
@@ -30,13 +33,32 @@
 
 @module{Hooks}
 
+@{register!}
+
+### Debugging
+
+@{track}
+
+### Documenting Macro-generated Code
+
 @{
-    register!
-    track
-    @__doc__
     __doc__
-    directives
+    @__doc__
 }
+
+### Implicit Docstring Variables
+
+@{
+    doc!sig
+    doc!args
+    doc!kwargs
+}
+
+### Directives
+
+@{directives}
+
+#### Directive Syntax Guide
 
 @module{Main}
 

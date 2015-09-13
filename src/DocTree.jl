@@ -190,7 +190,6 @@ vector of `Chunk`s.
 define
 
 """
-### Directive Syntax
 
     @esc{@<name>{...}}
 

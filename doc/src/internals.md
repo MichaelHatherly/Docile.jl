@@ -1,5 +1,4 @@
-# `DocTree`
-
+# Internals
 
 ## Index
 
