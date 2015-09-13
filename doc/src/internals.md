@@ -37,6 +37,16 @@
 - @ref{concat!}
 - @ref{msg}
 
+**Parser**
+
+@module{Docile.Parser}
+
+- @ref{parsedocs}
+- @ref{getname}
+- @ref{getbracket}
+- @ref{trypeek}
+- @ref{trywrite!}
+
 ## Details
 
 ### `Docile.DocTree`
@@ -77,4 +87,16 @@
     getmodule
     concat!
     msg
+}
+
+### `Docile.Parser`
+
+@module{Docile.Parser}
+
+@{
+    parsedocs
+    getname
+    getbracket
+    trypeek
+    trywrite!
 }
