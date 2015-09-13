@@ -7,7 +7,7 @@ module Hooks
 
 import ..DocTree
 
-using ..Utilities
+using ..Utilities, Base.Meta
 
 const HOOKS = S"#Docile.Hooks.HOOKS#"
 
@@ -105,5 +105,127 @@ export directives
 Enable directive syntax in docstrings.
 """
 directives(str, def) = false, DocTree.exprnode(str), def
+
+
+export doc!sig
+"""
+    doc!sig(str, def)
+
+Generate and store the automatic header string for a documented expression in the
+docstring-local variable `doc!sig`. It can be interpolated into the docstring as with any
+normal variable.
+"""
+doc!sig(str, def) = false, buildsig(str, macroexpand(def)), def
+
+buildsig(str, def) = buildsig(Head(def), str, def)
+
+buildsig(:: H"const", str, def)              = sigexpr(str, quot(def.args[1].args[1]))
+buildsig(:: H"function, =", str, def)        = sigexpr(str, quot(def.args[1]))
+buildsig(:: H"type", str, def)               = sigexpr(str, quot(def.args[2]))
+buildsig(:: H"abstract, bitstype", str, def) = sigexpr(str, quot(def))
+
+# Fallback method.
+buildsig(:: Head, str, def) = str
+
+function sigexpr(str, sig)
+    quote
+        let doc!sig = string(" "^4, $sig)
+            $(markdown(str))
+        end
+    end
+end
+
+
+export doc!args
+"""
+    doc!args(str, def)
+
+Capture all documented method arguments and store in the docstring-local variable
+`doc!args`, which can be spliced into the docstring.
+"""
+doc!args(str, def) = (false, buildargs(str, macroexpand(def))...)
+
+buildargs(str, def) = buildargs(Head(def), str, def)
+
+function buildargs(:: H"function, =", str, def)
+    isexpr(def.args[1], :call) || return str, def
+    out = extract_argdocs!(def.args[1])
+    str =
+        quote
+            let doc!args = $(args2str)("Arguments", $(out))
+                $(markdown(str))
+            end
+        end
+    str, def
+end
+buildargs(:: Head, str, def) = str, def
+
+function extract_argdocs!(ex :: Expr, out = [])
+    args, out = Any[ex.args[1]], []
+    for (n, a) in enumerate(ex.args[2:end])
+        if isa(a, Str) || isexpr(a, :string)
+            length(ex.args) > n && push!(out, ex.args[n + 2] => a)
+        else
+            push!(args, a)
+        end
+    end
+    ex.args = args
+    out
+end
+
+export doc!keywords
+"""
+    doc!kwargs(str, def)
+
+Capture all documented method keywords and store in the docstring-local variable
+`doc!kwargs`, which can be spliced into the docstring.
+"""
+doc!kwargs(str, def) = (false, buildkwargs(str, macroexpand(def))...)
+
+buildkwargs(str, def) = buildkwargs(Head(def), str, def)
+
+function buildkwargs(:: H"function, =", str, def)
+    isexpr(def.args[1], :call) || return str, def
+    out = extract_kwargdocs!(def.args[1])
+    str =
+        quote
+            let doc!kwargs = $(args2str)("Keywords", $(out))
+                $(markdown(str))
+            end
+        end
+    str, def
+end
+buildkwargs(:: Head, str, def) = str, def
+
+function extract_kwargdocs!(ex :: Expr, out = [])
+    if length(ex.args) > 1 && isexpr(ex.args[2], :parameters)
+        ex = ex.args[2]
+        params, out = [], []
+        for (n, a) in enumerate(ex.args)
+            if isa(a, Str) || isexpr(a, :string)
+                length(ex.args) > n && push!(out, ex.args[n + 1] => a)
+            else
+                push!(params, a)
+            end
+        end
+        ex.args = params
+    end
+    out
+end
+
+markdown(s :: Str) = s
+markdown(x :: Expr) = isexpr(x, :string) ?
+    :(Markdown.doc_str($x, @__FILE__, current_module())) : x
+
+function args2str(title, dict)
+    out = IOBuffer()
+    println(out, "**$title:**", "\n")
+    for (k, v) in dict
+        println(out, "`", k, "`:", "\n")
+        println(out, v, "\n")
+    end
+    println(out)
+    takebuf_string(out)
+end
 
 end

@@ -13,14 +13,6 @@ using Base.Meta
 __init__() = initmode()
 
 
-immutable Head{s} end
-
-head(ex :: Expr) = Head{ex.head}()
-
-macro H_str(text)
-    Expr(:call, :Union, [Head{symbol(part)} for part in split(text, ", ")]...)
-end
-
 function nullmatch(reg::Regex, text::AbstractString)
     out = match(reg, text)
     out == nothing && return Nullable{RegexMatch}()
@@ -129,7 +121,7 @@ buildquery(others...) = error("Invalid query syntax.")
 
 build(text :: Str) = :(Text($(esc(text))))
 build(s :: Symbol) = :(Object(which($(quot(s))), $(quot(s)), $(esc(s))))
-build(ex :: Expr)  = build(head(ex), ex)
+build(ex :: Expr)  = build(Head(ex), ex)
 
 function build(:: H"call", ex :: Expr)
     func, args = ex.args[1], ex.args[2:end]

@@ -15,6 +15,32 @@ Shorthand for `AbstractString`.
 """
 typealias Str AbstractString
 
+export Head
+"""
+    Head
+
+Symbolic dispatch type.
+"""
+immutable Head{s} end
+
+"""
+    Head(ex)
+
+Create a `Head` object from an expression `ex`.
+"""
+Head(ex :: Expr) = Head{ex.head}()
+Head(other)      = Head{:__none__}()
+
+export @H_str
+"""
+    @H_str(text)
+
+Shorthand syntax for defining symbolic dispatch types.
+"""
+macro H_str(text)
+    Expr(:call, :Union, [Head{symbol(part)} for part in split(text, ", ")]...)
+end
+
 export tryget
 """
     tryget(mod, field, default)
