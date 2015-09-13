@@ -173,7 +173,7 @@ function extract_argdocs!(ex :: Expr, out = [])
     out
 end
 
-export doc!keywords
+export doc!kwargs
 """
     doc!kwargs(str, def)
 
