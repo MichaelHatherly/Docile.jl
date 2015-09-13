@@ -119,6 +119,8 @@ doc!sig(str, def) = false, buildsig(str, macroexpand(def)), def
 
 buildsig(str, def) = buildsig(Head(def), str, def)
 
+buildsig(str, def :: Symbol) = sigexpr(str, quot(def))
+
 buildsig(:: H"const", str, def)              = sigexpr(str, quot(def.args[1].args[1]))
 buildsig(:: H"function, =", str, def)        = sigexpr(str, quot(def.args[1]))
 buildsig(:: H"type", str, def)               = sigexpr(str, quot(def.args[2]))
@@ -129,7 +131,7 @@ buildsig(:: Head, str, def) = str
 
 function sigexpr(str, sig)
     quote
-        let doc!sig = string(" "^4, $sig)
+        let doc!sig = $sig
             $(markdown(str))
         end
     end
