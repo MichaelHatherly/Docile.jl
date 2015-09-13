@@ -16,9 +16,10 @@ hooks!(m) = @get m HOOKS eval(m, :(const $HOOKS = Function[]))
 
 export register!
 """
-    register!(def)
+    register!(defs...)
 
-Add a docsystem hook to be run whenever a docstring is found in the current module.
+Add docsystem hooks to be run whenever a docstring is found in the current module. Each hook
+will be run in the order in which they were registered.
 
 ```julia
 using Docile
@@ -26,7 +27,11 @@ using Docile
 register!(Hooks.directives)
 ```
 """
-register!(def :: Function) = push!(hooks!(current_module()), def)
+function register!(defs :: Function...)
+    for def in defs
+        push!(hooks!(current_module()), def)
+    end
+end
 
 function docm(str, def)
     for f in hooks(current_module())
