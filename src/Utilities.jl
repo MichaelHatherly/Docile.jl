@@ -151,6 +151,19 @@ macro object(ex)
     end
 end
 
+const __WARNINGS__ = Ref(false)
+
+warnings(state :: Bool) = __WARNINGS__.x = state
+warnings() = __WARNINGS__.x
+
+export with_warnings
+"""
+    with_warnings(func, state)
+
+Set package-level warnings display for the duration of the block.
+"""
+with_warnings(func, state :: Bool) = (warnings(state); func(); warnings(!state))
+
 export getobject
 """
     getobject(mod, text)
@@ -161,6 +174,7 @@ function getobject(mod, text)
     try
         Nullable{Any}(eval(mod, :(Main.Docile.Utilities.@object($(parse(text))))))
     catch
+        warnings() && warn("cannot find object $text in module $mod.")
         Nullable{Any}()
     end
 end
@@ -175,6 +189,7 @@ function getmodule(mod, text)
     try
         Nullable{Module}(eval(mod, parse(text)))
     catch
+        warnings() && warn("cannot find module $text")
         Nullable{Module}()
     end
 end

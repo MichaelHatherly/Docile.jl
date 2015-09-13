@@ -130,7 +130,9 @@ function expand!(root :: Root; limit = 5)
         expand!(exec, root)
         done, sizes = checksizes(root, sizes)
         if done
-            expand!(exec, root)
+            with_warnings(true) do
+                expand!(exec, root)
+            end
             done, sizes = checksizes(root, sizes)
             done && break
         end
