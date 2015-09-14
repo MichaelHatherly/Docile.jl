@@ -234,7 +234,7 @@ register!(Hooks.doc!kwargs)
 "
 \$doc!kwargs
 "
-f(; "..." k = 1) = k
+f(; "...", k = 1) = k
 ```
 
 will produce a docstring containing

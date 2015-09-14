@@ -9,6 +9,8 @@ using ..Utilities
 
 using Base.Meta
 
+import Base: ==
+
 
 __init__() = initmode()
 
@@ -38,6 +40,11 @@ immutable Query
     index :: Int
 end
 
+(==)(a :: Query, b :: Query) =
+    a.text  == b.text &&
+    a.term  == b.term &&
+    a.index == b.index
+
 
 abstract DataTerm <: Term
 
@@ -45,9 +52,13 @@ immutable Text <: DataTerm
     text :: UTF8String
 end
 
+(==)(a :: Text, b :: Text) = a.text == b.text
+
 immutable RegexTerm <: DataTerm
     regex :: Regex
 end
+
+(==)(a :: RegexTerm, b :: RegexTerm) = a.regex == b.regex
 
 immutable Object <: DataTerm
     mod    :: Module
@@ -58,9 +69,21 @@ immutable Object <: DataTerm
     Object(mod, symbol, object :: Module) = new(object, symbol, object)
 end
 
+(==)(a :: Object, b :: Object) =
+    a.mod == b.mod       &&
+    a.symbol == b.symbol &&
+    a.object == b.object
+
 immutable Metadata <: DataTerm
     data :: Dict{Symbol, Any}
     Metadata(args :: Vector) = new(Dict{Symbol, Any}(args))
+end
+
+function (==)(a :: Metadata, b :: Metadata)
+    for (x, y) in zip(a.data, b.data)
+        x == y || return false
+    end
+    true
 end
 
 immutable MatchAnyThing end

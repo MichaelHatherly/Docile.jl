@@ -56,7 +56,7 @@ export exports
 Markdown formatted string containg a list of all exported symbols in a module.
 """
 function exports(mod = current_module())
-    symbols = filter(x -> x != module_name(mod), names(current_module()))
+    symbols = filter(x -> x != module_name(mod), names(mod))
     isempty(symbols) ? "" :
     """
     **Exported Names:**

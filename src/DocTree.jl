@@ -11,6 +11,8 @@ using ..Utilities
 
 import ..Parser
 
+import Base: ==
+
 
 """
     Chunk
@@ -26,6 +28,8 @@ type Chunk
     text :: UTF8String
     done :: Bool
 end
+
+(==)(a :: Chunk, b :: Chunk) = a.name == b.name && a.text == b.text && a.done == b.done
 
 """
     Chunk(tuple)
@@ -45,6 +49,8 @@ type Node
     chunks :: Vector{Chunk}
     modref :: Module
 end
+
+(==)(a :: Node, b :: Node) = a.chunks == b.chunks && a.modref == b.modref
 
 """
     Node(str :: Str)
@@ -74,6 +80,8 @@ type File
     output :: UTF8String
 end
 
+(==)(a :: File, b :: File) = a.nodes == b.nodes && a.input == b.input && a.output == b.output
+
 File(input, output) = File([Node(readall(input))], input, output)
 
 
@@ -89,6 +97,12 @@ type Root
     root    :: UTF8String
     mime    :: MIME
 end
+
+(==)(a :: Root, b :: Root) =
+    a.files == b.files &&
+    a.refs  == b.refs  &&
+    a.root  == b.root  &&
+    a.mime  == b.mime
 
 """
     Root(mapping, mime)
@@ -178,7 +192,7 @@ end
 User-extensible directive system hook. Adds handling of user-defined directives.
 
 ```julia
-define(:custom) do root, file, node, chunk
+Docile.DocTree.define(:custom) do root, file, node, chunk
     # ...
     chunk
 end
