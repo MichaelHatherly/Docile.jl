@@ -76,7 +76,7 @@ macro example(f)
 end
 ```
 """
-macro __doc__(ex) esc(Expr(:block, __DOC__)) end
+macro __doc__(ex) esc(Expr(:block, __DOC__, ex)) end
 
 export __doc__
 """
@@ -94,7 +94,7 @@ function __doc__!(str, def :: Expr)
         found = true
     else
         for each in def.args
-            exit, str, def = __doc__!(str, each)
+            exit, str, each = __doc__!(str, each)
             found |= exit
         end
     end
