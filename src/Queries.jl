@@ -188,8 +188,10 @@ end
 Base.writemime(io :: IO, mime :: MIME"text/plain", r :: Results) =
     writemime(io, mime, results(r))
 
-Base.display(d :: REPL.REPLDisplay, r :: Results) =
-    Markdown.term(REPL.outstream(d.repl), results(r))
+Base.display(d :: REPL.REPLDisplay, r :: Results) = _show(d, results(r))
+
+_show(d, md :: Markdown.MD) = Markdown.term(REPL.outstream(d.repl), md)
+_show(d, other)             = display(d, other) # Dispatch to Docile.Builder.display def.
 
 
 metadata(m) = isdefined(m, :__META__) ? m.__META__ : ObjectIdDict()

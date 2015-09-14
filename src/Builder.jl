@@ -184,4 +184,25 @@ extension(file, ext) = string(splitext(file)[1], ".", ext)
 comment(:: MIME"text/markdown", str) = "<!-- $(str) -->"
 comment(:: MIME"text/html", str)     = "<!-- $(str) -->"
 
+# REPL output. Cache results, for now it seems to be performant enough though.
+
+Docs.catdoc(nodes :: Node...) = File(collect(nodes), "", "")
+
+function Base.display(r :: Base.REPL.REPLDisplay, file :: File)
+    buf = IOBuffer()
+    writemime(buf, MIME"text/plain"(), file)
+    display(r, Markdown.parse(takebuf_string(buf)))
+end
+
+Base.display(r :: Base.REPL.REPLDisplay, node :: Node) = display(r, File([node], "", ""))
+
+function Base.writemime(io :: IO, mime :: MIME"text/plain", file :: File)
+    # Build a mock document environment and expand the docstrings there.
+    root = Root([file], ObjectIdDict(), "", mime)
+    file = DocTree.expand!(root).files[1]
+    for node in file.nodes, chunk in node.chunks
+        exec(chunk.name, io, root, file, node, chunk)
+    end
+end
+
 end
