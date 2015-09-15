@@ -256,24 +256,27 @@ let b = Docile.Builder
         source_dir   = joinpath(makedocs_dir, "src")
         cp(doc_source, source_dir, remove_destination = true)
         b.makedocs(
-            source  = source_dir,
-            build   = build_dir,
-            clean   = true,
-            verbose = false,
+            source   = source_dir,
+            build    = build_dir,
+            clean    = true,
+            verbose  = false,
+            external = Dict(),
         )
         @fact isdir(build_dir) --> true
         @fact isfile(joinpath(build_dir, "SUMMARY.md")) --> true
+        @fact isfile(joinpath(build_dir, "README.md")) --> true
         @fact isfile(joinpath(build_dir, "public.md")) --> true
         @fact isfile(joinpath(build_dir, "internals.md")) --> true
         b.makedocs(
-            source  = source_dir,
-            build   = build_dir,
-            clean   = true,
-            verbose = false,
-            format  = :html
+            source   = source_dir,
+            build    = build_dir,
+            clean    = true,
+            verbose  = false,
+            format   = :html,
+            external = Dict(),
         )
         @fact isdir(build_dir) --> true
-        @fact isfile(joinpath(build_dir, "SUMMARY.html")) --> true
+        @fact isfile(joinpath(build_dir, "README.html")) --> true
         @fact isfile(joinpath(build_dir, "public.html")) --> true
         @fact isfile(joinpath(build_dir, "internals.html")) --> true
     end
