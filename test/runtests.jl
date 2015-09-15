@@ -196,7 +196,7 @@ let q = Docile.Queries
                         Not(Object(FactCheck, :context, context)))),
                     Object(FactCheck, symbol("@fact"), atfact)))
         end
-        map(exec, (
+        queries = (
             query"Docile",
             query"Docile.Utilities",
             query"Docile.Parser.parsedocs",
@@ -220,7 +220,8 @@ let q = Docile.Queries
             query"!@query_str() | (Any, Any)::(Int,) | facts(Int)::Int",
             query"Docile.Queries.@query_str() & Docile.Queries.build(AbstractString)",
             )
-        )
+        map(exec, queries)
+        map(q -> stringmime("text/plain", q), queries)
     end
 end
 
