@@ -1,5 +1,3 @@
-OS_NAME == :Windows && Pkg.add("FactCheck") # A hack for Appveyor.
-
 module Tests
 
 import Docile

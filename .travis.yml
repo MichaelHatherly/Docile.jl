@@ -1,3 +1,4 @@
+# Documentation: http://docs.travis-ci.com/user/languages/julia/
 language: julia
 os:
     - linux
@@ -7,8 +8,5 @@ julia:
 sudo: false
 notifications:
     email: false
-script:
-    - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-    - julia --check-bounds=yes -e 'Pkg.clone(pwd()); Pkg.build("Docile"); Pkg.test("Docile"; coverage=true)'
 after_success:
-    - julia -e 'if VERSION >= v"0.4-" && OS_NAME == :Linux; cd(Pkg.dir("Docile")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder()); end'
+    - julia -e 'include(Pkg.dir("Docile", "test", "coverage.jl"))'
