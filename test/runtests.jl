@@ -1,3 +1,6 @@
+
+using Docile # Needs to be available in `Main` for `makedocs` tests to work.
+
 module Tests
 
 import Docile
@@ -247,24 +250,32 @@ end
 
 let b = Docile.Builder
     facts("Builder") do
-        build_dir = joinpath(dirname(@__FILE__), "makedocs", "build-dir")
+        doc_source   = joinpath(dirname(@__FILE__), "..", "doc", "src")
+        makedocs_dir = joinpath(dirname(@__FILE__), "makedocs")
+        build_dir    = joinpath(makedocs_dir, "build")
+        source_dir   = joinpath(makedocs_dir, "src")
+        cp(doc_source, source_dir, remove_destination = true)
         b.makedocs(
-            source  = joinpath("makedocs", "source-dir"),
-            build   = joinpath("makedocs", "build-dir"),
+            source  = source_dir,
+            build   = build_dir,
             clean   = true,
             verbose = false,
         )
         @fact isdir(build_dir) --> true
-        @fact isfile(joinpath(build_dir, "main.md")) --> true
+        @fact isfile(joinpath(build_dir, "SUMMARY.md")) --> true
+        @fact isfile(joinpath(build_dir, "public.md")) --> true
+        @fact isfile(joinpath(build_dir, "internals.md")) --> true
         b.makedocs(
-            source  = joinpath("makedocs", "source-dir"),
-            build   = joinpath("makedocs", "build-dir"),
+            source  = source_dir,
+            build   = build_dir,
             clean   = true,
             verbose = false,
             format  = :html
         )
         @fact isdir(build_dir) --> true
-        @fact isfile(joinpath(build_dir, "main.html")) --> true
+        @fact isfile(joinpath(build_dir, "SUMMARY.html")) --> true
+        @fact isfile(joinpath(build_dir, "public.html")) --> true
+        @fact isfile(joinpath(build_dir, "internals.html")) --> true
     end
 end
 
