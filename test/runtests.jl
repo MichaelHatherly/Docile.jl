@@ -100,6 +100,21 @@ function test(
     )
 end
 
+"$doc!sig"
+const C = 1
+
+"$doc!sig"
+f(x) = x
+
+"$doc!sig"
+abstract A
+
+"$doc!sig"
+type T <: A end
+
+"$doc!sig"
+bitstype 8 B
+
 end
 
 let h = Docile.Hooks
@@ -125,6 +140,11 @@ let h = Docile.Hooks
         four
         \n\n
         """
+        @fact stringmime("text/plain", @doc(TestHooks.C)) --> "C"
+        @fact stringmime("text/plain", @doc(TestHooks.f)) --> "f(x)"
+        @fact stringmime("text/plain", @doc(TestHooks.A)) --> "abstract A"
+        @fact stringmime("text/plain", @doc(TestHooks.T)) --> "T <: A"
+        @fact stringmime("text/plain", @doc(TestHooks.B)) --> "bitstype 8 B"
     end
 end
 

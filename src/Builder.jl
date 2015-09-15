@@ -196,13 +196,19 @@ end
 
 Base.display(r :: Base.REPL.REPLDisplay, node :: Node) = display(r, File([node], "", ""))
 
-function Base.writemime(io :: IO, mime :: MIME"text/plain", file :: File)
-    # Build a mock document environment and expand the docstrings there.
-    root = Root([file], ObjectIdDict(), "", mime)
-    file = DocTree.expand!(root).files[1]
-    for node in file.nodes, chunk in node.chunks
+function Base.writemime(io :: IO, mime :: MIME"text/plain", root :: Root)
+    for file in root.files, node in file.nodes, chunk in node.chunks
         exec(chunk.name, io, root, file, node, chunk)
     end
 end
+
+Base.writemime(io :: IO, mime :: MIME"text/plain", file :: File) =
+    writemime(io, mime, mockroot(file, mime))
+
+Base.writemime(io :: IO, mime :: MIME"text/plain", node :: Node) =
+    writemime(io, mime, mockroot(node, mime))
+
+mockroot(file :: File, mime) = DocTree.expand!(Root([file], ObjectIdDict(), "", mime))
+mockroot(node :: Node, mime) = mockroot(File([node], "", ""), mime)
 
 end
