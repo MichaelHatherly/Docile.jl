@@ -1,6 +1,10 @@
 """
 $(moduleheader())
 
+Customised help system that provides a query DSL (domain specific language) for finding
+documentation in Julia. This module adds a mode to the REPL, called `query>`, that can be
+activated using `]`.
+
 $(exports())
 """
 module Queries
@@ -15,14 +19,18 @@ import Base: ==
 __init__() = initmode()
 
 
-function nullmatch(reg::Regex, text::AbstractString)
-    out = match(reg, text)
-    out == nothing && return Nullable{RegexMatch}()
-    Nullable{RegexMatch}(out)
-end
+"""
+    INTEGER_REGEX
 
+`Regex` pattern to match an integer at the end of a string.
+"""
 const INTEGER_REGEX = r"\s([-+]?\d+)$"
 
+"""
+    splitquery(text)
+
+Extract integer index from the end of a query string `text`.
+"""
 function splitquery{S <: AbstractString}(text::S)
     m = nullmatch(INTEGER_REGEX, text)
     isnull(m) && return (text, 0)
@@ -32,34 +40,72 @@ end
 
 # Query types.
 
+"""
+    Term
+
+Abstract type representing a node in a generated query tree.
+"""
 abstract Term
 
+"""
+    Query
+
+Type used to store a parsed query string.
+"""
 immutable Query
     text  :: UTF8String
     term  :: Term
     index :: Int
 end
 
-(==)(a :: Query, b :: Query) =
-    a.text  == b.text &&
-    a.term  == b.term &&
-    a.index == b.index
 
+"""
+    DataTerm
 
+A `Term` subtype used to match "data"-like qualities in documented objects such as plain
+text, regex, and objects.
+"""
 abstract DataTerm <: Term
 
+"""
+    Text
+
+Matches plain text within docstrings.
+
+    query> "foobar"
+
+"""
 immutable Text <: DataTerm
     text :: UTF8String
 end
 
 (==)(a :: Text, b :: Text) = a.text == b.text
 
+"""
+    RegexTerm
+
+Matches plain text in docstrings using a `Regex` object.
+
+    query> r"foobar\$"
+
+The regex must be non-empty, otherwise the `@r_str` object is search for instead.
+"""
 immutable RegexTerm <: DataTerm
     regex :: Regex
 end
 
 (==)(a :: RegexTerm, b :: RegexTerm) = a.regex == b.regex
 
+"""
+    Object
+
+Matches against an object or binding in a particular module `mod`.
+
+    query> foobar
+
+    query> Foo.@bar
+
+"""
 immutable Object <: DataTerm
     mod    :: Module
     symbol :: Symbol
@@ -74,6 +120,14 @@ end
     a.symbol == b.symbol &&
     a.object == b.object
 
+"""
+    Metadata
+
+Matches key/value pairs stored in a document object's metadata. Currently not implemented.
+
+    query> [author = "foo", category = "bar"]
+
+"""
 immutable Metadata <: DataTerm
     data :: Dict{Symbol, Any}
     Metadata(args :: Vector) = new(Dict{Symbol, Any}(args))
@@ -86,16 +140,48 @@ function (==)(a :: Metadata, b :: Metadata)
     true
 end
 
+"""
+    MatchAnyThing
+
+Special type used to match metadata keys without regard for their values.
+
+    query> [author, category]
+
+"""
 immutable MatchAnyThing end
 
 
+"""
+    TypeTerm
+
+Matching against type system information such as signatures and return types.
+"""
 abstract TypeTerm <: Term
 
+"""
+    ArgumentTypes
+
+Matches the signature of documented methods and type constructors.
+
+    query> (Int, Float64)
+
+    query> foobar(Int, Vector)
+
+"""
 immutable ArgumentTypes <: TypeTerm
     tuple
     ArgumentTypes(x) = new(astuple(x))
 end
 
+"""
+    ReturnTypes
+
+Matches againt an object's return type.
+
+    query> ::Int
+
+    query> ::(Int, Float64, Any)
+"""
 immutable ReturnTypes <: TypeTerm
     tuple
     ReturnTypes(x) = new(astuple(x))
@@ -104,18 +190,48 @@ end
 astuple(x)          = x
 astuple(x :: Tuple) = Tuple{x...}
 
+
+"""
+    LogicTerm
+
+Used for combining other terms using locial `AND`, `OR` and `NOT`.
+"""
 abstract LogicTerm <: Term
 
+"""
+    And
+
+Matches if both the left and right terms match.
+
+    query> foobar & "..."
+
+"""
 immutable And <: LogicTerm
     left  :: Term
     right :: Term
 end
 
+"""
+    Or
+
+Matches if either the left of right terms match.
+
+    query> foobar | "..."
+
+"""
 immutable Or <: LogicTerm
     left  :: Term
     right :: Term
 end
 
+"""
+    Not
+
+Matches when the negated term does not match.
+
+    query> !foobar
+
+"""
 immutable Not <: LogicTerm
     term :: Term
 end
@@ -123,6 +239,11 @@ end
 
 # Building query trees.
 
+"""
+    query""
+
+Construct a `Query` object from string. This is the main interface to the `Queries` module.
+"""
 macro query_str(text) buildquery(text) end
 
 function buildquery(text :: Str)
@@ -190,6 +311,11 @@ import Base.Docs: FuncDoc, TypeDoc, Binding
 import Base.Markdown: MD, List, Paragraph, Bold, Code
 import Base.REPL
 
+"""
+    Results
+
+Container type to hold the `Query` and it's search results.
+"""
 immutable Results
     query :: Query
     data  :: Vector
@@ -259,8 +385,8 @@ end
 
 getdoc!(rs :: Results, m, k, v) = getdoc!(rs, score(rs, m, k, v), m, k, v)
 
-getdoc!(rs :: Results, m, k, :: Nothing) = nothing
-getdoc!(others...)                       = nothing
+getdoc!(rs :: Results, m, k, :: Void) = nothing
+getdoc!(others...)                    = nothing
 
 getdoc!(rs, s, m, k, v) = (s > 0 && push!(rs.data, (s, m, k, v)); nothing)
 
@@ -275,6 +401,11 @@ singlesig(k, sig) = string(k, "(", join(sig.parameters, ", "), ")")
 
 # Query scoring.
 
+"""
+    score
+
+For given arguments `args` calculate a numerical score of how well the `Query` matches it.
+"""
 score(rs :: Results, args...) = score(rs.query.term, args...)
 
 # Text and Regex.

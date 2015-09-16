@@ -1,6 +1,8 @@
 """
 $(moduleheader())
 
+Docsystem hooks for modifying the behaviour of Julia's docstrings.
+
 $(exports())
 """
 module Hooks

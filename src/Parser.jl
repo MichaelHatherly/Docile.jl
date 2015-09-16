@@ -1,6 +1,8 @@
 """
 $(moduleheader())
 
+The directive syntax parser.
+
 $(exports())
 """
 module Parser

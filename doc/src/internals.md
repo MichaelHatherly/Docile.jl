@@ -2,6 +2,15 @@
 
 ## Index
 
+**Builder**
+
+@module{Docile.Builder}
+
+- @ref{Builder}
+- @ref{EXTERNAL_FILES}
+- @ref{FORMATS}
+- @ref{writefile}
+
 **DocTree**
 
 @module{Docile.DocTree}
@@ -16,6 +25,41 @@
 - @ref{define}
 - @ref{getdocs}
 - @ref{extractdocs}
+
+**Parser**
+
+@module{Docile.Parser}
+
+- @ref{parsedocs}
+- @ref{getname}
+- @ref{getbracket}
+- @ref{trypeek}
+- @ref{trywrite!}
+
+**Queries**
+
+@module{Docile.Queries}
+
+- @ref{INTEGER_REGEX}
+- @ref{splitquery}
+- @ref{Term}
+- @ref{Query}
+- @ref{Text}
+- @ref{RegexTerm}
+- @ref{Object}
+- @ref{Metadata}
+- @ref{MatchAnyThing}
+- @ref{TypeTerm}
+- @ref{ArgumentTypes}
+- @ref{ReturnTypes}
+- @ref{LogicTerm}
+- @ref{And}
+- @ref{Or}
+- @ref{Not}
+- @ref{@query_str}
+- @ref{Results}
+- @ref{exec}
+- @ref{score}
 
 **Utilities**
 
@@ -37,17 +81,18 @@
 - @ref{concat!}
 - @ref{msg}
 
-**Parser**
-
-@module{Docile.Parser}
-
-- @ref{parsedocs}
-- @ref{getname}
-- @ref{getbracket}
-- @ref{trypeek}
-- @ref{trywrite!}
-
 ## Details
+
+### `Docile.Builder`
+
+@module{Docile.Builder}
+
+@{
+    Builder
+    EXTERNAL_FILES
+    FORMATS
+    writefile
+}
 
 ### `Docile.DocTree`
 
@@ -67,11 +112,53 @@
     extractdocs
 }
 
+### `Docile.Parser`
+
+@module{Docile.Parser}
+
+@{
+    Parser
+    parsedocs
+    getname
+    getbracket
+    trypeek
+    trywrite!
+}
+
+### `Docile.Queries`
+
+@module{Docile.Queries}
+
+@{
+    Queries
+    INTEGER_REGEX
+    splitquery
+    Term
+    Query
+    Text
+    RegexTerm
+    Object
+    Metadata
+    MatchAnyThing
+    TypeTerm
+    ArgumentTypes
+    ReturnTypes
+    LogicTerm
+    And
+    Or
+    Not
+    @query_str
+    Results
+    exec
+    score
+}
+
 ### `Docile.Utilities`
 
 @module{Docile.Utilities}
 
 @{
+    Utilities
     Str
     tryget
     exports
@@ -87,16 +174,4 @@
     getmodule
     concat!
     msg
-}
-
-### `Docile.Parser`
-
-@module{Docile.Parser}
-
-@{
-    parsedocs
-    getname
-    getbracket
-    trypeek
-    trywrite!
 }

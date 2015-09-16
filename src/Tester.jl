@@ -1,6 +1,8 @@
 """
 $(moduleheader())
 
+Basic doctests for `julia` code blocks in docstrings.
+
 $(exports())
 """
 module Tester
@@ -29,9 +31,9 @@ end
 passed(rs) = filter(r -> r.status == Passed, rs.results)
 failed(rs) = filter(r -> r.status == Failed, rs.results)
 
-update!(rs :: Results, r :: Result)  = push!(rs.results, r)
-update!(rs :: Results, r :: Vector)  = for each in r update!(rs, each) end
-update!(rs :: Results, r :: Nothing) = nothing
+update!(rs :: Results, r :: Result) = push!(rs.results, r)
+update!(rs :: Results, r :: Vector) = for each in r update!(rs, each) end
+update!(rs :: Results, r :: Void)   = nothing
 
 """
     doctest(mod; submodules = true)

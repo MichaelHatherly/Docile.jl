@@ -4,17 +4,26 @@
 
 @module{Main}
 
+`Docile`
+
 - @ref{makedocs}
 - @ref{doctest}
 - @ref{details}
 - @ref{register!}
-- @ref{Hooks.track}
-- @ref{Hooks.@__doc__}
-- @ref{Hooks.__doc__}
-- @ref{Hooks.doc!sig}
-- @ref{Hooks.doc!args}
-- @ref{Hooks.doc!kwargs}
-- @ref{Hooks.directives}
+
+`Hooks`
+
+@module{Docile.Hooks}
+
+- @ref{track}
+- @ref{@__doc__}
+- @ref{__doc__}
+- @ref{doc!sig}
+- @ref{doc!args}
+- @ref{doc!kwargs}
+- @ref{directives}
+
+@module{Main}
 
 ## Building Documentation
 

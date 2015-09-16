@@ -233,14 +233,13 @@ let q = Docile.Queries
             query"[a = 1]",
             query"[category = :function]",
             query"(Any,)",
-            query"::Any",
-            query"(Any, Any)::(Int,)",
-            query"facts(Int)::Int",
+            query"norm(Any, Any)::(Int,)",
+            query"facts(Int)",
             query"Docile.Queries.build(AbstractString)",
             query"Docile & \"...\" | [a] & (Any,)",
-            query"Docile | \"\" & [a = 1] | ::Any",
+            query"Docile | \"\" & [a = 1] | (Int,Any)",
             query"Docile.Builder & [category = :function]",
-            query"!@query_str() | (Any, Any)::(Int,) | facts(Int)::Int",
+            query"!@query_str() | (Any, Any)::(Int,) | facts(Int)",
             query"Docile.Queries.@query_str() & Docile.Queries.build(AbstractString)",
             )
         map(exec, queries)

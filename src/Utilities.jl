@@ -1,6 +1,8 @@
 """
 $(moduleheader())
 
+Utility code shared between the other submodules of `Docile`.
+
 $(exports())
 """
 module Utilities
@@ -48,6 +50,19 @@ export tryget
 Returns the value bound to `field` in module `mod` or `default` if not found.
 """
 tryget(mod, field, default) = isdefined(mod, field) ? getfield(mod, field) : default
+
+export nullmatch
+"""
+    nullmatch(reg, text)
+
+Like `match`, but returns a `Nullable` object consistently instead of `nothing` when no
+match is found for the given `reg`.
+"""
+function nullmatch(reg::Regex, text::AbstractString)
+    out = match(reg, text)
+    out == nothing && return Nullable{RegexMatch}()
+    Nullable{RegexMatch}(out)
+end
 
 export exports
 """
