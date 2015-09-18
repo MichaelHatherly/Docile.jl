@@ -1,3 +1,7 @@
+### v0.5.19
+
+* Fix deprecation warnings.
+
 ### v0.5.18
 
 * Fix for changes to ``LineNumberNode``.
