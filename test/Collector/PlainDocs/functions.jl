@@ -30,7 +30,7 @@ f_5{T <: Integer}(a::T, b::Vector{T}, c::Complex{T}) = ()
 f_6(::Type{ASCIIString}, a::Array{Int8,1}) = ()
 
 "f_7"
-f_7(n::Union(Int64,Int64)) = ()
+f_7(n::@compat(Union{Int64,Int64})) = ()
 
 "f_8"
 f_8{T<:Integer}(n::T, k::T) = ()
@@ -39,7 +39,7 @@ f_8{T<:Integer}(n::T, k::T) = ()
 f_9{T<:Real}(::Complex{T}, x::Real) = ()
 
 "f_10"
-f_10{N}(dest::Array, src::Array, I::NTuple{N,Union(Int,AbstractVector)}...) = ()
+f_10{N}(dest::Array, src::Array, I::NTuple{N,@compat(Union{Int,AbstractVector})}...) = ()
 
 "f_11"
 f_11(V, indexes::NTuple, dims::Dims, linindex::UnitRange{Int}) = ()
@@ -48,16 +48,16 @@ f_11(V, indexes::NTuple, dims::Dims, linindex::UnitRange{Int}) = ()
 f_12{T}(::Type{typejoin()}, ::Type{T}) = ()
 
 "f_13"
-f_13{T<:Union(Float32,Float64)}(::Type{T},i::Integer) = ()
+f_13{T<:@compat(Union{Float32,Float64})}(::Type{T},i::Integer) = ()
 
 "f_14"
-f_14{T<:FloatingPoint}(f, a::T,b::T,c::T...) = ()
+f_14{T<:AbstractFloat}(f, a::T,b::T,c::T...) = ()
 
 "f_15"
 f_15(b, z, m = length(b) + 1) = ()
 
 "f_16"
-f_16{T<:Integer}(::Type{T}, x::FloatingPoint) = ()
+f_16{T<:Integer}(::Type{T}, x::AbstractFloat) = ()
 
 "f_17"
 f_17(io::IO, itr::AbstractArray, op, delim, cl, delim_one, compact = false) = ()
@@ -72,7 +72,7 @@ f_19{T,N,P,IV}(V::SubArray{T,N,P,IV}, m::Real) = ()
 f_20{T,N,P,IV}(V::SubArray{T,N,P,IV}, I::AbstractArray{Bool,N}) = ()
 
 "f_21"
-f_21{T,N,P,IV}(V::SubArray{T,N,P,IV}, v, I::Union(Real,AbstractVector)...) = ()
+f_21{T,N,P,IV}(V::SubArray{T,N,P,IV}, v, I::@compat(Union{Real,AbstractVector})...) = ()
 
 "f_22"
 f_22(::Type{Ptr{Int8}}, s::ByteString) = ()

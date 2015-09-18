@@ -80,7 +80,7 @@ end
 
 ## Metadata. ##
 
-getmeta(obj::Union(ModuleData, PackageData)) = obj.metadata
+getmeta(obj::@compat(Union{ModuleData, PackageData})) = obj.metadata
 
 function getmeta(cache::GlobalCache, m::Module)
     parse!(cache, m)

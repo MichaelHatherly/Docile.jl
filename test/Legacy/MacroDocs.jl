@@ -8,6 +8,8 @@ end
 
 import Docile: @doc, @docstrings, @doc_str, @doc_mstr, meta
 
+using Compat
+
 @docstrings(manual = ["../../docs/manual.md"])
 
 include(joinpath("MacroDocs", "macro-spec.jl"))

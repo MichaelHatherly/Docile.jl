@@ -8,8 +8,14 @@ export Head, @H_str, issymbol, isexpr, parsefile
 
 immutable Head{S} end
 
-macro H_str(text)
-    Expr(:(::), Expr(:call, :Union, [Head{symbol(part)} for part in split(text, ", ")]...))
+if VERSION < v"0.4.0-dev"
+    macro H_str(text)
+        Expr(:(::), Expr(:call, :Union, [Head{symbol(part)} for part in split(text, ", ")]...))
+    end
+else
+    macro H_str(text)
+        Expr(:(::), Expr(:curly, :Union, [Head{symbol(part)} for part in split(text, ", ")]...))
+    end
 end
 
 # File parsing and caching. #

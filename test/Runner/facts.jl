@@ -17,7 +17,6 @@ facts("Runner.") do
         @fact Docile.Runner.exec(s, :(zeros(Int, 3, 3))) --> zeros(Int, 3, 3)
 
         @fact Docile.Runner.exec(s, :((Int, Float64, Vector))) --> (Int, Float64, Vector)
-        @fact Docile.Runner.exec(s, :(Union(Symbol, Expr))) --> Union(Symbol, Expr)
         @fact Docile.Runner.exec(s, :(Array{Int, 3})) --> Array{Int, 3}
 
         @fact Docile.Runner.exec(s, :(current_module())) --> Main

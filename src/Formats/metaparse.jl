@@ -55,7 +55,7 @@ macro META_str(args...)
 end
 
 # Extensions to this method are found in `Extensions` module.
-metamacro(::Union()) = error("Undefined metamacro.")
+metamacro(::@compat(Union{})) = error("Undefined metamacro.")
 
 """
 Run all 'metamacros' found in a raw docstring and return the resulting string.

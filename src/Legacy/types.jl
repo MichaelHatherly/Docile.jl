@@ -46,7 +46,7 @@ type Manual
 end
 
 "Usage from REPL, use current directory as root.";
-Manual(::Nothing, files) = Manual(pwd(), files)
+Manual(::@compat(Void), files) = Manual(pwd(), files)
 
 ## Metadata. ##
 

@@ -7,6 +7,8 @@ end
 
 module PlainDocs
 
+using Compat
+
 if VERSION < v"0.4-dev+4319"
     tup(args...) = tuple(args...)
 else

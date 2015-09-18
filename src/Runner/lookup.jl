@@ -101,8 +101,10 @@ exec(H"...", state, expr) = Vararg{exec(state, expr.args[1])}
 exec(H"curly", state, expr) = exec(state, expr.args[1]){exec(state, expr.args[2:end])...}
 exec(H"call", state, expr)  = exec(state, expr.args[1])(exec(state, expr.args[2:end])...)
 
-exec(H"macrocall", state, expr) =
+function exec(H"macrocall", state, expr)
+    expr.args[1] == symbol("@doc_str") && return expr.args[end]
     exec(state, exec(state, expr.args[1])(exec(state, expr.args[2:end])...))
+end
 
 if VERSION < v"0.4-dev+5551"
     exec(H"triple_quoted_string", state, expr) =
