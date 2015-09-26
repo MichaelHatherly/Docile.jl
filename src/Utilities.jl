@@ -40,7 +40,7 @@ export @H_str
 Shorthand syntax for defining symbolic dispatch types.
 """
 macro H_str(text)
-    Expr(:call, :Union, [Head{symbol(part)} for part in split(text, ", ")]...)
+    Expr(:curly, :Union, [Head{symbol(part)} for part in split(text, ", ")]...)
 end
 
 export tryget
