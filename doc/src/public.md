@@ -10,6 +10,7 @@
 - @ref{doctest}
 - @ref{details}
 - @ref{register!}
+- @ref{@manual}
 
 `Hooks`
 
@@ -35,6 +36,10 @@
     doctest
     details
 }
+
+### Embedding External Documentation
+
+@{@manual}
 
 ## Documentation System Hooks
 

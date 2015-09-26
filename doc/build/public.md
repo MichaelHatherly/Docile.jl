@@ -10,6 +10,7 @@
   * [`doctest`](#Docile.Tester.doctest)
   * [`details`](#Docile.Tester.details)
   * [`register!`](#Docile.Hooks.register!)
+  * [`@manual`](#Docile.Manual.@manual)
 
 `Hooks`
 
@@ -94,6 +95,36 @@ Display details of a doctest. Information provided includes:
   * contents of the code block
 
 By default only the failed code blocks will be displayed when calling `details`. To see all the results pass the keyword argument `all = true`.
+
+### Embedding External Documentation
+
+<a name="Docile.Manual.@manual"></a>
+
+```
+@manual(dir)
+```
+
+Embed external markdown files in a module as docstrings.
+
+Usage:
+
+```
+@manual("../doc/manual")
+```
+
+will read all files and folders from `"../doc/manual"` recursively and store the contents of each file in a docstring matching the file's name.
+
+```
+query> MyModule.manual.introduction
+```
+
+for the contents from `"../doc/manual/introduction.md"`.
+
+```
+query> MyModule.manual
+```
+
+for the contents from `"../doc/manual/manual.md"`.
 
 ## Documentation System Hooks
 

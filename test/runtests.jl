@@ -22,6 +22,7 @@ let u = Docile.Utilities
         """
         **Exported Names:**
 
+        - `@manual`
         - `Hooks`
         - `details`
         - `doctest`
@@ -30,7 +31,7 @@ let u = Docile.Utilities
         """
         @fact u.submodules(Test) --> Set([Test])
         @fact u.submodules(Docile) --> Set([
-            Docile, Docile.Utilities, Docile.Builder, Docile.DocTree,
+            Docile, Docile.Utilities, Docile.Builder, Docile.DocTree, Docile.Manual,
             Docile.Hooks, Docile.Parser, Docile.Tester, Docile.Queries,
         ])
         @fact u.evalblock(Module(), "1 + 1") --> 2
