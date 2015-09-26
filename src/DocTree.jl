@@ -115,6 +115,13 @@ function Root(mapping, root, mime)
     Root(files, ObjectIdDict(), root, mime)
 end
 
+immutable Env
+    root  :: Root
+    file  :: File
+    node  :: Node
+    chunk :: Chunk
+end
+
 # Tree expansion.
 
 """
@@ -155,28 +162,15 @@ function expand!(root :: Root; limit = 5)
 end
 
 function expand!(f, root :: Root)
-    for file in root.files
-        expand!(f, root, file)
+    for file in root.files, node in file.nodes
+        chunks = []
+        for chunk in node.chunks
+            concat!(chunks, expand!(f, Env(root, file, node, chunk)))
+        end
+        node.chunks = chunks
     end
 end
-
-function expand!(f, root :: Root, file :: File)
-    for node in file.nodes
-        expand!(f, root, file, node)
-    end
-end
-
-function expand!(f, root :: Root, file :: File, node :: Node)
-    chunks = []
-    for chunk in node.chunks
-        concat!(chunks, expand!(f, root, file, node, chunk))
-    end
-    node.chunks = chunks
-end
-
-function expand!(f, root :: Root, file :: File, node :: Node, chunk :: Chunk)
-    chunk.done ? chunk : f(chunk.name, root, file, node, chunk)
-end
+expand!(f, env :: Env) = env.chunk.done ? env.chunk : f(env.chunk.name, env)
 
 # Directive cache.
 
@@ -263,29 +257,29 @@ abstract DIRECTIVES # Mock type of documentation purposes.
 
 ## Definitions.
 
-define(:esc) do root, file, node, chunk
-    chunk.done = true
-    chunk
+define(:esc) do env
+    env.chunk.done = true
+    env.chunk
 end
 
-define(:module) do root, file, node, chunk
+define(:module) do env
     # Changing module is *always* done relative to `Main`.
-    result = getmodule(Main, chunk.text)
-    isnull(result) ? chunk : (node.modref = get(result); chunk)
+    result = getmodule(Main, env.chunk.text)
+    isnull(result) ? env.chunk : (env.node.modref = get(result); env.chunk)
 end
 
-define(:ref) do root, file, node, chunk
-    result = getobject(node.modref, chunk.text)
-    if !isnull(result) && haskey(root.refs, get(result))
+define(:ref) do env
+    result = getobject(env.node.modref, env.chunk.text)
+    if !isnull(result) && haskey(env.root.refs, get(result))
         object = get(result)
-        dest   = relative_path(root.root, root.refs[object], file.output)
+        dest   = relative_path(env.root.root, env.root.refs[object], env.file.output)
         Chunk(
-            chunk.name,
-            "[`$(chunk.text)`]($dest#$object)",
+            env.chunk.name,
+            "[`$(env.chunk.text)`]($dest#$object)",
             true
         )
     else
-        chunk
+        env.chunk
     end
 end
 
@@ -294,52 +288,52 @@ function relative_path(base, source, dest)
     p == "." ? "" : normpath(base, p)
 end
 
-define(:anchor) do root, file, node, chunk
-    result = getobject(node.modref, chunk.text)
+define(:anchor) do env
+    result = getobject(env.node.modref, env.chunk.text)
     if !isnull(result)
         object = get(result)
-        haskey(root.refs, object) && error("multiple anchors for $object.")
-        root.refs[object] = file.output
+        haskey(env.root.refs, object) && error("multiple anchors for $object.")
+        env.root.refs[object] = env.file.output
         [
             Chunk(:break, "", true),
             Chunk(
-                chunk.name,
+                env.chunk.name,
                 "<a name=\"$object\"></a>",
                 true
             ),
             Chunk(:break, "", true)
         ]
     else
-        chunk
+        env.chunk
     end
 end
 
-define(:break) do root, file, node, chunk
-    chunk
+define(:break) do env
+    env.chunk
 end
 
-define(:code) do root, file, node, chunk
+define(:code) do env
     Chunk(
-        chunk.name,
+        env.chunk.name,
         """
         **Example:**
         ```julia
-        $(strip(chunk.text))
+        $(strip(env.chunk.text))
         ```
         *Output:*
         ```
-        $(stringmime("text/plain", evalblock(Module(), chunk.text)))
+        $(stringmime("text/plain", evalblock(Module(), env.chunk.text)))
         ```
         """,
         true
     )
 end
 
-define(:repl) do root, file, node, chunk
+define(:repl) do env
     m = Module()
     buf = IOBuffer()
     println(buf, "```")
-    for (expr, str) in parseblock(chunk.text)
+    for (expr, str) in parseblock(env.chunk.text)
         str = strip(str)
         print(buf, "julia> ")
         for (n, line) in enumerate(split(str, "\n"))
@@ -355,16 +349,16 @@ define(:repl) do root, file, node, chunk
     end
     println(buf, "```")
     Chunk(
-        chunk.name,
+        env.chunk.name,
         takebuf_string(buf),
         true
     )
 end
 
-define(:docs) do root, file, node, chunk
+define(:docs) do env
     chunks = []
-    for (expr, str) in parseblock(chunk.text), doc in getdocs(node.modref, expr)
-        concat!(chunks, extractdocs(node, doc, str))
+    for (expr, str) in parseblock(env.chunk.text), doc in getdocs(env.node.modref, expr)
+        concat!(chunks, extractdocs(env.node, doc, str))
     end
     chunks
 end
