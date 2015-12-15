@@ -19,7 +19,7 @@ function findmethods(state::State, ex::Expr, codesource)
         # Filter out methods defined in different files.
         file′ == file || continue
         # Calculate the line distance and update ``mset`` accordingly.
-        Δ′ = line′ - line
+        Δ′ = abs(line′ - line)
         if 0 ≤ Δ′ < Δ
             Δ = Δ′
             empty!(mset); push!(mset, m)

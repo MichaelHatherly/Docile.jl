@@ -1,3 +1,7 @@
+### v0.5.20
+
+* Fix Lexicon issue [#134](https://github.com/MichaelHatherly/Lexicon.jl/issues/134).
+
 ### v0.5.19
 
 * Fix deprecation warnings.

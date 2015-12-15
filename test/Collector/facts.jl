@@ -2,10 +2,12 @@
 include(joinpath(dirname(@__FILE__), "PlainDocs.jl"))
 include(joinpath(dirname(@__FILE__), "ExampleAside.jl"))
 include(joinpath(dirname(@__FILE__), "NoNewline.jl"))
+include(joinpath(dirname(@__FILE__), "Lexicon134.jl"))
 
 Docile.Cache.register_module(joinpath(dirname(@__FILE__), "PlainDocs.jl"))
 Docile.Cache.register_module(joinpath(dirname(@__FILE__), "ExampleAside.jl"))
 Docile.Cache.register_module(joinpath(dirname(@__FILE__), "NoNewline.jl"))
+Docile.Cache.register_module(joinpath(dirname(@__FILE__), "Lexicon134.jl"))
 
 import PlainDocs
 import ExampleAside
@@ -248,6 +250,13 @@ facts("Misc.") do
 
         obj = Docile.Cache.objects(NoNewline)[1]
         @fact Docile.Cache.getraw(NoNewline, obj) --> "f"
+
+    end
+
+    context("Lexicon Issue #134.") do
+
+        objs = Docile.Cache.objects(Lexicon134)
+        @fact length(objs) --> 2
 
     end
 
