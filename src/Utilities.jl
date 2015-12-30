@@ -96,8 +96,8 @@ message(msg::AbstractString) = print_with_color(:magenta, "Docile: ", msg, "\n")
 """
 Is the module where a function/method is defined the same as ``mod``?
 """
-samemodule(mod, def::Method)    = getfield(def.func.code, :module) == mod
-samemodule(mod, func::Function) = getfield(func.code, :module) == mod
+samemodule(mod, def::Method)    = lsdfield(def, :module) == mod
+samemodule(mod, func::Function) = lsdfield(func, :module) == mod
 samemodule(mod, other)          = false
 
 issymbol(::Symbol) = true
@@ -112,5 +112,19 @@ basepath() = abspath(joinpath(JULIA_HOME, "..", "share", "julia", "base"))
 Convert a path to absolute. Relative paths are guessed to be from Julia ``/base``.
 """
 expandpath(path) = normpath(isabspath(path) ? path : joinpath(basepath(), path))
+
+# Compat.
+
+if endswith(functionloc(isgeneric)[1], "deprecated.jl")
+    _isgeneric(x) = true
+else
+    _isgeneric(x) = isgeneric(x)
+end
+
+lsdfield(x :: Function, f)    = _isgeneric(x) ? lsdfield(methods(x), f) : lsdfield(x.code, f)
+lsdfield(x :: Method, f)      = lsdfield(x.func, f)
+lsdfield(x :: MethodTable, f) = lsdfield(x.defs, f)
+
+lsdfield(x :: LambdaStaticData, f) = getfield(x, f)
 
 end

@@ -12,6 +12,7 @@ import ..Legacy:
     Metadata,
     Page
 
+import ..Utilities: Utilities
 import ..Cache
 import ..Formats
 

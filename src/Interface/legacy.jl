@@ -119,8 +119,8 @@ Get the ``Symbol`` representing an object such as ``Function`` or ``Method``.
 """
 :name
 
-name(f::Function) = f.env.name
-name(m::Method)   = m.func.code.name
+name(f::Function) = methods(f).name
+name(m::Method)   = Utilities.lsdfield(m, :name)
 name(m::Module)   = module_name(m)
 name(t::DataType) = t.name.name
 name(s::Symbol)   = s

@@ -27,7 +27,7 @@ function includedfiles(mod::Module, candidates::Set)
     for name in names(mod, true)
         if isdefined(mod, name)
             object = getfield(mod, name)
-            if isgeneric(object)
+            if Utilities._isgeneric(object)
                 for def in methods(object)
                     file = location(def)
                     if Utilities.samemodule(mod, def) && file ∈ candidates
@@ -48,8 +48,8 @@ end
 """
 Path to definition of a julia object, only methods are searched for.
 """
-location(object::Method) = Utilities.expandpath(string(object.func.code.file))
-location(func::Function) = Utilities.expandpath(string(func.code.file))
+location(object::Method) = Utilities.expandpath(string(Utilities.lsdfield(object, :file)))
+location(func::Function) = Utilities.expandpath(string(Utilities.lsdfield(func,   :file)))
 location(other)          = ""
 
 """

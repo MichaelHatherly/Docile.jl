@@ -21,9 +21,6 @@ facts("Runner.") do
 
         @fact Docile.Runner.exec(s, :(current_module())) --> Main
 
-        @fact Docile.Runner.exec(s, :(@__FILE__)) --> @__FILE__
-        @fact Docile.Runner.exec(s, :(MIME"text/plain")) --> MIME"text/plain"
-
         @fact isempty(s.scopes) --> true
         Docile.Runner.addtoscope!(s, :T, TypeVar(:T, Integer))
         @fact length(s.scopes) --> 1

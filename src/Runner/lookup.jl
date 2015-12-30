@@ -33,7 +33,10 @@ end
 """
 Line number and file name pair for a method ``m``.
 """
-lineinfo(m::Method) = (m.func.code.line, Utilities.expandpath(string(m.func.code.file)))
+function lineinfo(m::Method)
+    file, line = Utilities.lsdfield(m, :file), Utilities.lsdfield(m, :line)
+    (line, Utilities.expandpath(string(file)))
+end
 
 """
 Find the ``Method`` objects referenced by ``(...)`` docstring syntax.
@@ -130,7 +133,7 @@ function exec(H"ref", state, expr)
     end
 end
 
-exec(state::State, args::Vector) = map(a -> exec(state, a), args)
+exec(state::State, args::Vector) = [exec(state, a) for a in args]
 
 function exec(state::State, q::Symbol)
     for scope in reverse(state.scopes)
