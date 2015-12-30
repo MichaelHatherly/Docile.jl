@@ -1,3 +1,7 @@
+### v0.5.21
+
+* Fix issues caused by `julia/jb/functions` branch changes.
+
 ### v0.5.20
 
 * Fix Lexicon issue [#134](https://github.com/MichaelHatherly/Lexicon.jl/issues/134).
