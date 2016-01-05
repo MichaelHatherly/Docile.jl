@@ -1,3 +1,7 @@
+### v0.5.22
+
+* Fix test errors on `0.5-dev` with `mostgeneral` and `name` methods.
+
 ### v0.5.21
 
 * Fix issues caused by `julia/jb/functions` branch changes.
