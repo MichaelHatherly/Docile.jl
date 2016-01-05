@@ -196,8 +196,17 @@ function allmethods(fname)
     for m in methods(fname)
         push!(out, m)
     end
-    for m in methods(mostgeneral(fname))
+
+    # In 0.5.0-dev+2007 `mostgeneral` fails when `fname == SharedArray`.
+    mg = fname
+    try
+        mg = mostgeneral(fname)
+    catch err
+        isa(err, TypeError) || rethrow(err)
+    end
+    for m in methods(mg)
         push!(out, m)
     end
+
     out
 end
