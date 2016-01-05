@@ -124,6 +124,7 @@ name(m::Method)   = Utilities.lsdfield(m, :name)
 name(m::Module)   = module_name(m)
 name(t::DataType) = t.name.name
 name(s::Symbol)   = s
+name(s::AbstractString) = s
 
 ## Entry. ##
 
