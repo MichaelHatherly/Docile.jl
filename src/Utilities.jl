@@ -115,13 +115,7 @@ expandpath(path) = normpath(isabspath(path) ? path : joinpath(basepath(), path))
 
 # Compat.
 
-if endswith(functionloc(isgeneric)[1], "deprecated.jl")
-    _isgeneric(x) = true
-else
-    _isgeneric(x) = isgeneric(x)
-end
-
-lsdfield(x :: Function, f)    = _isgeneric(x) ? lsdfield(methods(x), f) : lsdfield(x.code, f)
+lsdfield(x :: Function, f)    = isgeneric(x) ? lsdfield(methods(x), f) : lsdfield(x.code, f)
 lsdfield(x :: Method, f)      = lsdfield(x.func, f)
 lsdfield(x :: MethodTable, f) = lsdfield(x.defs, f)
 

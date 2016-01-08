@@ -27,7 +27,7 @@ function includedfiles(mod::Module, candidates::Set)
     for name in names(mod, true)
         if isdefined(mod, name)
             object = getfield(mod, name)
-            if Utilities._isgeneric(object)
+            if isgeneric(object)
                 for def in methods(object)
                     file = location(def)
                     if Utilities.samemodule(mod, def) && file ∈ candidates

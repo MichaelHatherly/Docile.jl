@@ -114,17 +114,17 @@ isexported(modname::Module, comment::Comment) = false
 
 macroname(ent) = symbol(string("@", metadata(ent)[:signature].args[1]))
 
-"""
-Get the ``Symbol`` representing an object such as ``Function`` or ``Method``.
-"""
-:name
-
 name(f::Function) = methods(f).name
 name(m::Method)   = Utilities.lsdfield(m, :name)
 name(m::Module)   = module_name(m)
 name(t::DataType) = t.name.name
 name(s::Symbol)   = s
 name(s::AbstractString) = s
+
+"""
+Get the ``Symbol`` representing an object such as ``Function`` or ``Method``.
+"""
+name
 
 ## Entry. ##
 
@@ -183,14 +183,14 @@ Get the parsed docstring for a ``Docs`` object ``d``.
 """
 parsed(d::Docs) = isdefined(d, :obj) ? d.obj : (d.obj = parsedocs(d);)
 
-"""
-Parsing hook for specifying how to parse raw docstrings into formatted text.
-"""
-:parsedocs
-
 parsedocs{ext}(d::Docs{ext}) = error("Unknown documentation format: $(ext)")
 
 parsedocs(d::Docs{:txt}) = data(d)
+
+"""
+Parsing hook for specifying how to parse raw docstrings into formatted text.
+"""
+parsedocs
 
 ## Deprecated. ##
 
