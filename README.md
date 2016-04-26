@@ -3,7 +3,7 @@
 > **Please Note**
 >
 > Documentation generation using Docile.jl and Lexicon.jl is being deprecated in Julia
-> 0.4 and above in favour of [Lapidary.jl](https://github.com/MichaelHatherly/Lapidary.jl).
+> 0.4 and above in favour of [Documenter.jl](https://github.com/MichaelHatherly/Documenter.jl).
 
 ---
 
