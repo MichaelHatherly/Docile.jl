@@ -79,7 +79,7 @@ facts("Interface.") do
         doc =  Docile.Interface.docs(ent)
 
         @fact isempty(Docile.Interface.data(doc)) --> false
-        @fact typeof(Docile.Interface.data(doc))  --> String
+        @fact isa(Docile.Interface.data(doc), String) --> true
 
         @fact Docile.Interface.format(doc) --> :md
 
