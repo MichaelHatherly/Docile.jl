@@ -26,7 +26,7 @@ facts("PlainDocs.") do
             Dict{Symbol, Any}(
                 :format  => :md,
                 :exports => Set([:PlainDocs]),
-                :manual  => UTF8String[],
+                :manual  => String[],
                 )
             )
 
@@ -225,7 +225,7 @@ if VERSION >= v"0.4-dev+4989"
             Dict{Symbol, Any}(
                 :format  => :md,
                 :exports => Set([:FunctionSyntax]),
-                :manual  => UTF8String[]
+                :manual  => String[]
                 )
             )
 

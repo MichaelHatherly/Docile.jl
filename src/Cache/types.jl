@@ -13,14 +13,14 @@ end
 
 type GlobalCache
     base     :: Bool
-    loaded   :: Set{UTF8String}
+    loaded   :: Set{String}
     parsed   :: Set{Module}
     packages :: Dict{Module, PackageData}
     modules  :: Dict{Module, ModuleData}
     docs     :: Dict{Module, DocsCache}
 
     GlobalCache(base = true) = new(
-        base, Set{UTF8String}(), Set{Module}(),
+        base, Set{String}(), Set{Module}(),
         Dict{Module, PackageData}(),
         Dict{Module, ModuleData}(),
         Dict{Module, DocsCache}()
@@ -35,11 +35,11 @@ end
 
 togglebase(cache::GlobalCache) = cache.base = !cache.base
 
-const registered_modules = Set{UTF8String}()
+const registered_modules = Set{String}()
 register_module(path) = push!(registered_modules, path)
 
 function find_loaded_packages()
-    paths = Set{UTF8String}()
+    paths = Set{String}()
     for sym in names(Main)
         mod = getfield(Main, sym)
         if isa(mod, Module)
@@ -51,7 +51,7 @@ function find_loaded_packages()
 end
 
 function update!(cache::GlobalCache)
-    diff   = Set{UTF8String}()
+    diff   = Set{String}()
     loaded = find_loaded_packages()
     # Do we want to include ``Base`` in the cache?
     cache.base && push!(loaded, Utilities.expandpath("sysimg.jl"))

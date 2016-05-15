@@ -19,7 +19,7 @@ facts("Interface.") do
         @fact typeof(Docile.Interface.modulename(meta)) --> Module
 
         @fact isempty(Docile.Interface.manual(meta)) --> true
-        @fact typeof(Docile.Interface.manual(meta))  --> Vector{UTF8String}
+        @fact typeof(Docile.Interface.manual(meta))  --> Vector{String}
 
         @fact isempty(Docile.Interface.entries(meta))                                    --> false
         @fact isempty(Docile.Interface.entries(Docile.Interface.metadata(Docile.Cache))) --> false
@@ -46,7 +46,7 @@ facts("Interface.") do
         @fact Docile.Interface.name(Docile)                  --> :Docile
         @fact Docile.Interface.name(Docile.Legacy.Metadata)  --> :Metadata
 
-        @fact Docile.Interface.files(meta)                --> Set{UTF8String}()
+        @fact Docile.Interface.files(meta)                --> Set{String}()
         @fact Docile.Interface.isloaded(meta)             --> true
         @fact Docile.Interface.isexported(Docile, Docile) --> true
 
@@ -79,7 +79,7 @@ facts("Interface.") do
         doc =  Docile.Interface.docs(ent)
 
         @fact isempty(Docile.Interface.data(doc)) --> false
-        @fact typeof(Docile.Interface.data(doc))  --> ASCIIString
+        @fact typeof(Docile.Interface.data(doc))  --> String
 
         @fact Docile.Interface.format(doc) --> :md
 

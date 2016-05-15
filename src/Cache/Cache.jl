@@ -4,7 +4,7 @@ module Cache
 
 export getraw, getparsed, getmeta, clear!, objects
 
-using Compat
+using Compat; import Compat.String
 
 import ..Utilities
 import ..Collector: Collector, PackageData, ModuleData

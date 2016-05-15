@@ -1,6 +1,6 @@
 module Legacy
 
-using Compat
+using Compat; import Compat.String
 
 import ..Utilities: isexpr
 import ..Collector

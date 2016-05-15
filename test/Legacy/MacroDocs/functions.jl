@@ -22,7 +22,7 @@ end
 f_5{T <: Integer}(a::T, b::Vector{T}, c::Complex{T}) = ()
 
 @doc "f_6" ->
-f_6(::Type{ASCIIString}, a::Array{Int8,1}) = ()
+f_6(::Type{String}, a::Array{Int8,1}) = ()
 
 @doc "f_7" ->
 f_7(n::@compat(Union{Int64,Int32})) = ()
@@ -76,12 +76,12 @@ f_20{T,N,P,IV}(V::SubArray{T,N,P,IV}, I::AbstractArray{Bool,N}) = ()
 f_21{T,N,P,IV}(V::SubArray{T,N,P,IV}, v, I::@compat(Union{Real,AbstractVector})...) = ()
 
 @doc "f_22" ->
-f_22(::Type{Ptr{Int8}}, s::ByteString) = ()
+f_22(::Type{Ptr{Int8}}, s::String) = ()
 
 @doc "f_23" ->
 f_23(T, matvecA::Function, matvecB::Function, solveSI::Function, n::Integer,
-     sym::Bool, cmplx::Bool, bmat::ASCIIString,
-     nev::Integer, ncv::Integer, which::ASCIIString,
+     sym::Bool, cmplx::Bool, bmat::String,
+     nev::Integer, ncv::Integer, which::String,
      tol::Real, maxiter::Integer, mode::Integer, v0::Vector) = ()
 
 @doc "f_24" ->

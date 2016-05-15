@@ -7,7 +7,7 @@ end
 
 module PlainDocs
 
-using Compat
+using Compat; import Compat.String
 
 if VERSION < v"0.4-dev+4319"
     tup(args...) = tuple(args...)

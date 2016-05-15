@@ -8,7 +8,7 @@ end
 
 import Docile: @doc, @docstrings, @doc_str, @doc_mstr, meta
 
-using Compat
+using Compat; import Compat.String
 
 @docstrings(manual = ["../../docs/manual.md"])
 

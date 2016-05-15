@@ -53,8 +53,8 @@ Manual(::@compat(Void), files) = Manual(pwd(), files)
 type Metadata
     modname :: Module
     entries :: ObjectIdDict
-    root    :: UTF8String
-    files   :: Set{UTF8String}
+    root    :: String
+    files   :: Set{String}
     data    :: Dict{Symbol, Any}
     loaded  :: Bool
 end
@@ -76,7 +76,7 @@ function Metadata(m::Module)
 
     # Add some default module metadata.
     format = get!(data, :format, :md)
-    manual = get!(data, :manual, UTF8String[])
+    manual = get!(data, :manual, String[])
 
     # Populate the `entries` field.
     for (obj, raw) in rawdocs
