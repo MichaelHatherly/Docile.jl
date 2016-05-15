@@ -1,6 +1,6 @@
 module Collector
 
-using Compat
+using Compat; import Compat.String
 
 import ..Utilities:
 

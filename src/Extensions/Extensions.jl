@@ -1,6 +1,6 @@
 module Extensions
 
-using Compat
+using Compat; import Compat.String
 
 """
 !!summary(Methods to extend how Docile handles parsing of docstrings.)

@@ -16,7 +16,7 @@ The term "aside" is taken from theater where it is defined as:
 """
 immutable Aside
     mod  :: Module
-    file :: UTF8String
+    file :: String
     line :: Int
 end
 
@@ -40,9 +40,9 @@ metadata may be stored in a `ModuleData` object.
 """
 type ModuleData
     modname  :: Module
-    rootfile :: UTF8String
-    files    :: Set{UTF8String}
-    parsed   :: Dict{UTF8String, Expr}
+    rootfile :: String
+    files    :: Set{String}
+    parsed   :: Dict{String, Expr}
     metadata :: Dict{Symbol, Any}
 end
 
@@ -71,7 +71,7 @@ the name of a submodule will be taken as that module's metadata and so must be a
 """
 type PackageData
     rootmodule :: Module
-    rootfile   :: UTF8String
+    rootfile   :: String
     modules    :: Dict{Module, ModuleData}
     metadata   :: Dict{Symbol, Any}
 
@@ -96,7 +96,7 @@ type PackageData
         mods   = submodules(mod)
         files  = [m => includedfiles(m, candidates) for m in mods]
 
-        roots = Dict{Module, UTF8String}()
+        roots = Dict{Module, String}()
         for m in mods
             # Check all the included files for a module expression.
             for file in files[m]

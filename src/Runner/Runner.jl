@@ -1,6 +1,6 @@
 module Runner
 
-using Compat
+using Compat; import Compat.String
 
 import ..Utilities: Utilities, Head, @H_str, issymbol, isexpr
 

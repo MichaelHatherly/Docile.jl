@@ -2,7 +2,7 @@ module Formats
 
 export Format, parsedocs
 
-using Compat
+using Compat; import Compat.String
 
 include("formatting.jl")
 include("metaparse.jl")

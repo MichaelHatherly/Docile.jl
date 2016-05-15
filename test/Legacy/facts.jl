@@ -16,7 +16,7 @@ facts("MacroSpec.") do
             Dict{Symbol, Any}(
                 :format  => :md,
                 :exports => Set([:MacroSpec]),
-                :manual  => UTF8String[]
+                :manual  => String[]
                 )
             )
 

@@ -23,7 +23,7 @@ Which source files are known to be included in a module.
 **Note:** files with only constants will not be detected.
 """
 function includedfiles(mod::Module, candidates::Set)
-    out = Set{UTF8String}()
+    out = Set{String}()
     for name in names(mod, true)
         if isdefined(mod, name)
             object = getfield(mod, name)
@@ -69,7 +69,7 @@ end
 isrootfile(mod::Symbol, other) = false
 
 function matching(pred::Function, root::AbstractString)
-    out = Set{UTF8String}()
+    out = Set{String}()
     for object in readdir(root)
         path = joinpath(root, object)
         pred(path)  && push!(out, path)

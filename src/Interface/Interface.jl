@@ -1,6 +1,6 @@
 module Interface
 
-using Compat
+using Compat; import Compat.String
 
 import ..Legacy:
 

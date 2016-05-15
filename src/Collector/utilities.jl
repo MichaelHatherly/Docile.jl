@@ -272,9 +272,9 @@ findmodule(other, mod) = Expr(:missing)
 """
 Return the `PackageData` objects associated with a set of files.
 """
-function findpackages(rootfiles::Set{UTF8String})
+function findpackages(rootfiles::Set{String})
     packages = Dict{Module, PackageData}()
-    parsed   = Dict{UTF8String, Expr}()
+    parsed   = Dict{String, Expr}()
     for root in rootfiles
         root    = normpath(root)
         files   = matching(f -> isfile(f) && endswith(f, ".jl"), dirname(root))
