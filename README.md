@@ -56,7 +56,6 @@ package please install the package [*Lexicon*][lexicon-url].
 
 ## Projects using Docile / Lexicon
 
-* [AverageShiftedHistograms.jl](https://github.com/joshday/AverageShiftedHistograms.jl) David Scott's Average Shifted Histogram density estimation.
 * [BDF.jl](https://github.com/sam81/BDF.jl) Module to read Biosemi BDF files with the Julia programming language.
 * [BrainWave.jl](https://github.com/sam81/BrainWave.jl) Julia functions to process electroencephalographic recordings.
 * [Diversity.jl](https://github.com/richardreeve/Diversity.jl) Julia package for diversity measurement.
